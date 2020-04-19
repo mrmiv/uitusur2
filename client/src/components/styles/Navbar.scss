@@ -1,0 +1,119 @@
+$dblue: #080F36;
+$blue: #111D5E;
+$purple: #98248F;
+$pink: #B21F66;
+$orange: #DE7128;
+$lorange: #EE9A2F;
+$lgray: #c8d6e5;
+
+#sider{
+    position: fixed;
+    height: 100%;
+    top: 0;
+    left: -250px;
+    max-width: 300px;
+    width: 250px;
+    max-height: 100vh;
+    transition: all 0.25s ease;
+    background: $blue;
+    z-index: 1100;
+    overflow-y: auto;
+    overflow-block: red;
+
+    .close_nav{
+        top: 15px;
+        position: relative;
+        left: 210px;
+        cursor: pointer;
+    }
+
+    &.open{
+        left: 0;
+    }
+
+    .menu{
+        margin-top: 50px;
+        font-weight: medium;
+
+        .link{
+            padding: 5px 10px 5px 15px;
+            display: list-item;
+            color: $lgray;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            align-items: center;
+            width: 100%;
+
+            &[aria-expanded="true"]{
+                span{
+                    transform: rotate(180deg);
+                }
+            }
+
+            &.login{
+                
+                color: gray
+            }
+
+            // this is for news and degrees
+            span{
+                width: auto;
+                height: inherit;
+                transition: all 0.25s ease;
+                margin-left: auto;
+
+                // border: 1px solid white;
+
+                img{
+                    width: 30px;
+                    height: 30px;
+                    padding: 2px;
+                }
+            }
+
+            &.active{
+                color: white;
+                &:before{
+                    content:" ";
+                    position: relative;
+                    height: 100%;
+                    left: -15px;
+                    border: 1.5px solid white;
+                }
+            }
+
+            &:hover{
+                color: white;
+            }
+        }
+
+        // this is for main link w// submenu
+        .collapse_links{
+            .open_sub{
+                width: auto;
+                height: inherit;
+                padding: 5px 10px 5px;
+                transition: transform 0.25s ease;
+                // border: 1px solid white;
+
+                &[aria-expanded="true"]{
+                    transform: rotate(180deg);
+                }
+
+                img{
+                    width: 30px;
+                    height: 30px;
+                    padding: 2px;
+                }
+            }
+        }
+
+        .submenu{
+
+            background: $dblue;
+            a{
+                display: list-item;
+            }
+        }
+    }
+}

@@ -1,0 +1,96 @@
+$dblue: #080F36;
+$lblue: #354ED1;
+$lgray: #c8d6e5;
+
+#footer{
+    background: $dblue;
+    width: 100%;
+    color:$lgray;
+    padding: 20px 0;
+    margin-top: 100px;
+    
+    .footer_nav{
+
+        ul.list_footer_nav{
+            list-style: none;
+
+            li.list-item{
+                font-family: "Inter";
+                padding: 0.25em 0;
+                font-size: 14px;
+                cursor: pointer;
+                a{
+                    color: $lgray;
+                    &:hover{
+                        text-decoration: none;
+                        color: white
+                    }
+                }
+
+                &.not_active{
+                    opacity: 60%;
+                    cursor: not-allowed;
+                    color: $lgray
+                }
+                &.sub{
+                    &:before{
+                        content: '-';
+                        padding-right: 1em;
+                        opacity: 75%;
+                    }
+                }
+            }
+        }
+    }
+
+    .footer_contacts{
+        .contacts{
+            p{
+                padding-bottom: 1em;
+                transition: all 0.2s ease;
+                span{
+                    a{
+                        text-decoration: none;
+                        color:$lgray;
+                    }
+                    opacity:60%;
+                    font-size: 12px;
+                    cursor: pointer;
+
+                    &:hover{
+                        opacity: 90%;
+                    }
+                }
+
+                i.email{
+                    text-decoration-line: underline;
+                    cursor: pointer;
+                    &:hover{
+                        color: $lblue
+                    }
+                }
+
+            }
+            .social{
+                svg{
+                    cursor: pointer;
+                    &:hover{
+                        color: $lblue
+                    }
+                }
+            }
+        }
+    }
+    .other_info{
+        width: 100%;
+        img{
+            cursor: pointer
+        }
+        p{
+            font-size: 12px;
+        }
+        hr{
+            border-color: $lgray;
+        }
+    }
+}

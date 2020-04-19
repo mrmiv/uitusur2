@@ -1,0 +1,219 @@
+@use 'default';
+
+h2{
+    font-size: 28px;
+}
+
+#title_main{
+    background: linear-gradient(default.$pink, default.$purple);
+}
+
+#degree{
+
+    margin-top: 100px;
+
+    .title_degree{
+        h2{
+            color: default.$dblue;
+        }
+        p{
+            padding-top: 10px;
+            text-align: justify;
+        }
+    }
+    .degree_cards{
+        margin-top: 20px;
+
+        .card_deg{
+            margin:8px;
+            padding: 10px 25px 10px 10px;
+            width: auto;
+            height: auto;
+            box-shadow: 0 5px 15px default.$shadow;
+            background-position: right;
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-clip: border-box;
+            transition: all 0.2s ease;
+
+            &:hover{
+                box-shadow: 0 8px 20px default.$shadow;
+                &:after{
+                    right: 25px;
+                }
+            }
+
+            &:after{
+                background: white;
+                border-radius: 50%;
+                text-align: center;
+                width: 25px;height: 25px;
+                position: absolute;
+                box-shadow: 0 2px 10px default.$shadow;
+                right: 30px;
+                bottom: 30px;
+                transition: all 0.3s ease;
+                content:"\0279C";
+                // opacity: 0;
+                // visibility: hidden;
+                margin-left: 10px;
+            }
+
+            [data-name="Мехатроника и робототехника"]{
+                color: default.$mint
+            }
+            [data-name="Инноватика"]{
+                color: default.$lblue
+            }
+            [data-name="Управление качеством"]{
+                color: default.$pink
+            }
+
+            h5{
+                font-size: 22px; 
+                font-weight: bold;
+            }
+            h6{
+                font-size: 18px;
+                color: black;
+                font-weight: bolder;
+                span{
+                    font-size: 14px;
+                    font-weight: 500;
+                }
+            }
+            p{
+                margin-top: 10px;
+                font-size: 14px;
+                span{
+                    font-size: 12px;
+                    color: gray
+                }
+                
+            }
+        }
+    }
+}
+
+#GPO_home{
+    margin-top: 80px;
+
+    .title_GPO{
+        h2{
+            color: default.$mint;
+        }
+        p{
+            margin-top: 15px;
+        }
+
+        a[data-toggle="collapse"]{
+            &:after{
+                content: "Показать полностью";
+                color: default.$mint;
+                font-weight: bolder;
+                cursor: pointer;
+            }
+
+            &[aria-expanded="true"]{
+                &:after{
+                    content: "Свернуть"
+                }
+            }
+        }
+
+        .more-link{
+            background: linear-gradient(default.$mint, default.$dmint);
+        }
+    }
+    .img_GPO{
+        width: 100%;
+        height: auto;
+    }
+}
+
+#clubs_home{
+    margin-top: 100px;
+    .title_clubs{
+        h2{
+            color: default.$orange;
+        }
+        p{margin-top: 15px;}
+        .more-link{
+            background: linear-gradient(default.$lorange, default.$orange);
+        }
+    }
+
+    .img_clubs{
+        width: 100%;
+        height: auto;
+        margin-top: 40px;
+        max-height: 320px;
+    }
+}
+
+#staffs_home{
+    margin-top: 100px;
+    .quote-staff{
+        width: 100%;
+        height: inherit;
+        border-radius: 15px;
+        padding: 20px;
+        margin: 10px;
+        box-shadow: 0 8px 20px default.$shadow;
+        transition: all 0.2s ease;
+
+        &:hover{
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px default.$shadow;
+        }
+
+        .quote-staff__info{
+
+            .quote-staff__info__img{
+                margin-right: 20px;
+                font-size: 80px;
+                width: auto;
+            }
+            p{
+                width: 100%;
+            }
+
+            .quote-staff__info__icon{
+                font-size: 24px;
+                opacity: 0.7
+            }
+        }
+
+        .quote-staff__quote{
+            margin-top: 10px;
+            text-align: justify;
+        }
+    }
+
+    .more-link{
+        background: linear-gradient(default.$pink, default.$purple);
+    }
+}
+
+#work_home{
+    margin-top: 80px;
+    .title__workhome{
+        h2{color: default.$lblue}
+        p{
+            a{color: default.$lblue; font-weight: medium;}
+        }
+        .more-link{
+            background: linear-gradient(default.$lblue, darkblue)
+        }
+    }
+    .img__workhome{
+        margin-top: 15px;
+        padding: 20px;
+        height: inherit;
+        width: inherit;
+        img{
+            height: auto;
+            width: 100%;
+        }
+    }
+}

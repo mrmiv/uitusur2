@@ -1,0 +1,30 @@
+$lgray: #c8d6e5;
+$blue: #111D5E;
+
+#AdminPanel{
+    position: fixed;
+    height: 100%;
+    max-width: 220px;
+    width: 220px;
+    max-height: 100vh;
+    background: $blue;
+    top: 0;
+    left: 0;
+    .admin__menu{
+        margin-top: 40px;
+
+        .admin__menu__item{
+            padding: 6px 10px;
+            justify-content: space-between;
+            a{
+                color:$lgray;
+                &:hover{
+                    color: white;
+                }
+                &.active{
+                    color:red
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,63 @@
+[
+    {
+        "id":1,
+        "num": "27.03.02",
+        "name": "Управление качеством",
+        "type": "Бакалавриат",
+        "time": "4 года",
+        "profile": "Управление качеством в информационных системах",
+        "link": "https://abiturient.tusur.ru/ru/napravleniya-podgotovki/ochnaya-forma-obucheniya/2020-27-03-02-upravlenie-kachestvom-fulltime",
+        "bg": "/svg/lines/lineUK.svg"
+    },
+    {
+        "id":2,
+        "num": "27.03.05",
+        "name": "Инноватика",
+        "type": "Бакалавриат",
+        "time": "4 года",
+        "profile": "Управление инновациями в электронной технике",
+        "link": "https://abiturient.tusur.ru/ru/napravleniya-podgotovki/ochnaya-forma-obucheniya/2020-27-03-05-innovatika-fulltime",
+        "bg": "/svg/lines/lineIN.svg"
+    },
+    {
+        "id":3,
+        "num": "15.03.06",
+        "name": "Мехатроника и робототехника",
+        "type": "Бакалавриат",
+        "time": "4 года",
+        "profile": "Проектирование роботов и систем управления",
+        "link": "https://abiturient.tusur.ru/ru/napravleniya-podgotovki/ochnaya-forma-obucheniya/2020-15-03-06-mehatronika-i-robototehnika-fulltime",
+        "bg": "/svg/lines/lineMX.svg"
+    },
+    {
+        "id":4,
+        "num": "27.04.02",
+        "name": "Управление качеством",
+        "type": "Магистратура",
+        "time": "2 года",
+        "profile": "Управление качеством промышленной продукции и услуг",
+        "link": "https://magistrant.tusur.ru/ru/magisterskie-programmy/ochnaya-forma-obucheniya/2020-27-04-02-upravlenie-kachestvom-fulltime#profile_1033",
+        "bg": "/svg/lines/lineUK_L.svg"
+    },
+    {
+        "id":5,
+        "num": "27.04.05",
+        "name": "Инноватика",
+        "type": "Магистратура",
+        "time": "2 года",
+        "profile": "Управление инновациями в электронной технике",
+        "link": "https://magistrant.tusur.ru/ru/magisterskie-programmy/ochnaya-forma-obucheniya/2020-27-04-05-innovatika-fulltime#profile_1028",
+        "bg": "/svg/lines/lineIN_L.svg"
+    },
+    
+    {
+        "id":6,
+        "num": "15.04.06",
+        "name": "Мехатроника и робототехника",
+        "type": "Магистратура",
+        "time": "2 года",
+        "profile": "Управление разработками робототехнических комплексов",
+        "link": "https://magistrant.tusur.ru/ru/magisterskie-programmy/ochnaya-forma-obucheniya/2020-15-04-06-mehatronika-i-robototehnika-fulltime#profile_1027",
+        "bg": "/svg/lines/lineMX_L.svg"
+    }
+]

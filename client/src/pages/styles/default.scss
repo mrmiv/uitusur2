@@ -1,0 +1,57 @@
+$dblue: #080F36;
+$blue: #111D5E;
+$lblue: #354ED1;
+$purple: #98248F;
+$pink: #B21F66;
+$orange: #DE7128;
+$lorange: #EE9A2F;
+$lgray: #c8d6e5;
+$mint: #1FB277;
+$dmint: #0F8455;
+$dark: rgb(49, 49, 49);
+$lgreen: #64D67D;
+$green: #30A150; 
+$llblue: #49CEE0;
+
+$shadow:#2a2a2a4b;
+
+#title_main{
+    margin: 10vh 0;
+    height: 80vh;
+    width: 100%;
+    .bg_th{
+        background-image: url('/svg/LOGO_BG.svg');
+        background-size: auto;
+        background-repeat: no-repeat;
+        background-position-y: 50%;
+    }
+    .title_text{
+        color: white;
+        p{
+            padding-top: 15px;
+            span{
+                font-weight: bolder;
+            }
+        }
+    }
+    .triple_helix{
+        text-align: center;
+        width: 100%;
+        height: 100%;
+        img{
+            width: 100%;
+            height: 100%;
+            max-width: 320px;
+            max-height: 320px;
+        }
+    }
+}
+
+img.arrow_down{
+    transform: translate(-50%,-50%);
+    left: 50%;
+    position: absolute;
+    top: 90%;
+    width: 50px;
+    height: 50px;
+}

@@ -1,0 +1,70 @@
+@import '~bootstrap';
+
+$dblue: #080F36;
+$blue: #111D5E;
+$purple: #98248F;
+$pink: #B21F66;
+$orange: #DE7128;
+$lorange: #EE9A2F;
+$lgray: #c8d6e5;
+
+#content{
+    margin-top: 60px;
+}
+
+#Login{
+    margin-top: 150px;
+    h2{
+        margin-bottom: 20px;
+    }
+}
+
+#LoadingScreen{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: radial-gradient($pink, $purple);
+    z-index: 1300;
+    opacity:1;
+    transition: all 0.5s linear;
+
+    .LoadingSpinner{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin: -25px 0 0 -25px;
+        width: 50px;
+        height: 50px;
+        border-top: 5px solid white;
+        border-right: 5px solid transparent;
+        border-radius: 50%;
+        animation: spinner 0.7s linear infinite;
+    }
+
+    @keyframes spinner {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+}
+
+#PageUpButton{
+    color: $orange;
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    opacity: 0;
+    font-size: 36px;
+    transition: 0.4s;
+    visibility: hidden;
+    &:hover{
+        transform: translateY(-3px);;
+    }
+    &.visible{
+        visibility: visible;
+        opacity: 1;
+    }
+}

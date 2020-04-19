@@ -1,0 +1,227 @@
+@use 'default';
+
+#title_main.about{
+    background: linear-gradient(default.$lblue, default.$blue)
+}
+
+#history_about{
+    margin-top: 80px;
+    .title_about_history{
+        h2{
+            color: default.$lblue;
+        }
+
+        p{
+            text-align: justify;
+        }
+
+        a[data-toggle="collapse"]{
+            &:after{
+                content: "Показать полностью";
+                color: default.$lblue;
+                font-weight: bolder;
+                cursor: pointer;
+            }
+
+            &[aria-expanded="true"]{
+                &:after{
+                    content: "Свернуть"
+                }
+            }
+        }
+    }
+    .img_about_history{
+        padding: 20px;
+        img{
+            width: inherit;
+        }
+    }
+}
+
+#disciplines{
+    
+    margin-top: 60px;
+    // background-image: url("/svg/lines/wave-left.svg");
+    // background-size: contain;
+    // background-repeat: no-repeat;
+
+    h2{
+        color: default.$orange;
+        margin-bottom: 20px;
+    }
+
+    .DispCard{
+        text-decoration: none;
+        color: black;
+        max-width: 400px;
+        width: auto;
+        max-height: 150px;
+        height: auto;
+        box-shadow: 0 5px 15px default.$shadow;
+        padding: 20px;
+        // padding-right: 40px;
+        margin: 15px auto 0;
+        border-radius: 5px;
+        transition: all 0.2s ease;
+
+        h5{
+            margin-bottom: 0;
+            span{
+                color: black;
+                opacity: 0.6;
+                font-size: 14px;
+                font-weight: normal;
+            }
+        }
+
+        p{
+            span{
+                // margin: 5px 0;
+                color: black;
+                font-weight: 500;
+            }
+        }
+        &:hover{
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px default.$shadow;
+        }
+    }
+}
+
+#feedback_inter{
+    margin-top: 80px;
+    h2{
+        color: default.$lblue;
+    }
+    .feedback__staff{
+        margin-top: 25px;
+        box-shadow: 0 5px 10px default.$shadow;
+        padding: 15px;
+        border-radius: 5px;
+
+        .feedback__staff__info{
+            .info__icon{
+                font-size: 80px;
+                color: default.$orange;
+                margin-right: 20px;
+            }
+            p.info__name{
+                
+            }
+        }
+        .feedback__staff__text{
+            text-align: justify;
+        }
+    }
+}
+
+#staff {
+    margin-top: 80px;
+    scroll-margin-top: 80px;
+
+    h2{
+        color: default.$purple;
+        margin-bottom: 30px;
+    }
+
+    .col_p{
+        padding: 3px;
+
+        .StaffCard{
+            padding: 7px;
+            box-shadow: 0 3px 8px default.$shadow;
+            border-radius: 5px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            color: default.$dark;
+    
+            &:hover{
+                transform: translateY(-3px);
+                box-shadow: 0 5px 12px default.$shadow;
+                p{color: black;}
+            }
+    
+            .staff__photo{
+                max-width: 30px;
+                min-width: 30px;
+                width: 100%;
+                height: 100%;
+                align-self: center;
+                transition: all 0.2s ease;
+                padding: 1px;
+                svg{
+                    text-align: center;
+                    vertical-align: middle;
+                    height: 100%;
+                    width: 100%;
+                    color: default.$orange
+                }
+            }
+            .staff__name{
+                p{
+                    padding-left: 10px;
+                    span{
+                        font-weight: bolder;
+                    }
+                }
+            }
+        }
+    }
+}
+
+#CMK{
+    margin-top: 80px;
+    margin-bottom: -100px;
+    scroll-margin-top: 80px;
+    
+    h2{
+        margin-bottom: 30px;
+    }
+    .docs_CMK{
+        justify-content: center;
+        box-shadow: 0 5px 10px default.$shadow;
+        border-radius: 5px;
+        padding: 15px 20px;
+        margin: 10px 0;
+        p{
+            span{
+                margin-left: 20px;
+            }
+        }
+    }
+    .img_CMK{
+        padding: 20px 20px 0 20px;
+        img{
+            padding: 40px 40px 0 40px;
+            width: inherit;
+            max-width: 400px;
+        }
+    }
+}
+
+.modal__staff{
+    height:100%;
+    
+    .modal__staff__info{
+        p{
+            padding-bottom: 10px;
+            table{
+                margin-top: 5px;
+                margin-bottom: 0;
+            }
+        }
+        a{
+            color: default.$lblue;
+            font-weight: 500;
+            &:hover{
+                text-decoration: default.$dblue;
+            }
+        }
+    }
+}
+
+@media screen and (max-width:564px){
+    .staff__photo{
+        display: none;
+    }
+}

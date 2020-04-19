@@ -1,0 +1,173 @@
+@use 'default';
+
+#title_main.student{
+    background: linear-gradient(default.$lorange, default.$orange);
+
+    .hash_list{
+        margin-top: 5px;
+        a{
+            padding: 2px 0;
+            color: white;
+            font-weight: 550;
+            display: list-item;
+            list-style: none;
+            cursor: pointer;
+            &:after{
+                transition: all 0.3s ease;
+                content:"\0279C";
+                opacity: 0.2;
+                margin-left: 10px;
+            }
+            &:hover{
+                &:after{
+                    content:"\0279C";
+                    opacity: 1;
+                    margin-left: 20px;
+                }
+            }
+        }
+    }
+}
+
+#studyplan{
+    scroll-margin-top: 100px;
+    
+    .choose_field{
+        height: auto;
+        button{
+            margin: 3px;
+            width: 140px;
+            background: linear-gradient(default.$pink, default.$purple);
+            &[name="Бакалавр"]{
+                background: linear-gradient(default.$lblue, darkblue);
+            }
+        }
+    }
+
+    .year_choose{
+        width: 100%;
+        text-align: right;
+        
+        img{
+            width: inherit;
+        }
+
+        .table_plan{
+            text-align: right;
+            
+            table{
+                text-align: center;
+                border-color: default.$lblue;
+                th{
+                    background: default.$lgray;
+                    
+                }
+                td{
+                    padding: 10px 5px;
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+}
+
+
+#curator{
+    margin-top: 60px;
+    scroll-margin-top: 80px;
+
+    h2{color: default.$lblue; margin-bottom: 15px;}
+
+    .curator_img{
+        width: 100%;
+        img{
+            width: inherit;
+        }
+    }
+
+    table.table{
+        background: white;
+        width: 100%;
+
+        td{
+            padding: 6px 8px;
+            a{
+
+                color: black;
+                &:hover{
+                    color: default.$lblue
+                }
+            }
+        }
+    }
+}
+
+#clubs{
+    margin-top: 80px;
+    scroll-margin-top: 100px;
+    h2{color: default.$orange}
+
+    .card_club{
+        margin: 10px;
+        border-radius: 10px;
+        box-shadow: 0 5px 10px default.$shadow;   
+        padding: 10px;
+        width: auto;
+        max-height: 290px;
+        transition: all 0.5s ease;
+
+        img.card_club__img{
+            // background: red;
+            border-radius: 10px;
+            width: 100%;
+            height: auto;
+            max-height: 100px;
+            margin: 10px 0;
+        }
+        
+        .card_club__body{
+            max-height: 50%;
+            p:after{
+                transition: all 0.5s ease;
+                content:"\0279C";
+                position: absolute;
+                right: 25px;
+                font-size: 14px;
+                color: default.$orange;
+            }
+        }
+
+        &:hover{
+            // transform: translateY(-3px);
+            box-shadow: 0 8px 15px default.$shadow;   
+            p:after{
+                right: 20px;
+            }
+        }
+    }
+}
+
+#work{
+    margin-top: 80px;
+    .work__title{
+        h2{
+            color: default.$dmint;
+        }
+        p{
+            a{color: default.$dmint; font-weight: bolder;}
+        }
+        .more-link{
+            color: white;
+            background: linear-gradient(default.$mint, default.$dmint );
+        }
+    }
+
+    .work__img{
+        width: 100%;
+        text-align: center;
+        img{
+            padding: 20px;
+            width: 100%;
+        }
+    }
+}

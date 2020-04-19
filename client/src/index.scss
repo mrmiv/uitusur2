@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css?family=Inter:400,500,600,700|Nunito:400,500,600&display=swap&subset=cyrillic');
+$Nunito: "Nunito"; // скругленый
+$Inter: "Inter"; // строгий
+$pink: #B21F66;
+$lgray: #c8d6e5;
+
+*{
+    padding: 0;
+    margin: 0;
+    font-family: "Inter";
+}
+
+h1,h2,h3,h4,h5,h6{
+    font-family: "Nunito";
+    font-weight: bolder !important;
+}
+
+p{
+    font-weight: normal;
+    font-size: 0.9em;
+    margin-bottom: 0 !important;
+}
+
+a, button{
+    color: black;
+    -moz-user-select: -moz-none;
+    -o-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    &.btn:focus{
+        outline: none;
+        box-shadow: none;
+    }
+    &:hover{
+        text-decoration: none !important;
+    }
+    p{
+        color: black;
+    }
+}
+
+.more-link{
+    font-family: 'Inter';
+    font-size: 0.9em;
+    font-weight: normal;
+    padding: 8px 20px;
+    color: white;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 10px;
+    border: none;
+    display: inline-block;
+    margin-top: 15px;
+    
+    &:hover{
+        text-decoration: none;
+        color:white
+    }
+
+    &:focus{
+        outline: none
+    }
+}
+
+
+.modal_window{
+    z-index: 1291;
+    max-width: 900px;
+    width: max-content;
+    width: fit-content;
+    width: 100%;
+    position: fixed;
+    background: white;
+    border-radius: 5px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    height: fit-content;
+    height: auto;
+    max-height: 85%;
+    padding: 20px;
+    overflow: auto;
+
+    .btn-close-modal{
+        padding: 0;
+        margin: 0;
+        background: none;
+        border: none;
+        outline: none;
+        box-shadow: none;
+        color: red;
+        font-size: 36px;
+        position: absolute;
+        right: 0px;
+        top: 0px;
+        transition: 300ms ease;
+    }
+}
