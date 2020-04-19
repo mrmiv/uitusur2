@@ -8,7 +8,7 @@ const app = express()
 // middleware
 app.use(express.json())
 app.use(fileUpload())
-app.use('api/uploads', express.static(path.join(__dirname,"uploads")))
+app.use('/uploads', express.static(path.join(__dirname,"uploads")))
 
 // route middlewares
 app.use('/api/auth', require('./routes/admin.route')) //авторизация, регистрация

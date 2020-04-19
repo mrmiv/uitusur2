@@ -18,7 +18,7 @@ export class BookView extends Component{
             {Book?
             <div className="row no-gutters align-content-center">
                 <div className="book__img col-lg-5 com-md-6 col-sm-6">
-                    <img src={`/${Book.image}`} alt={Book.title}/>
+                    <img src={`${document.location.href}/${Book.image}`} alt={Book.title}/>
                     <div className="w-100"/>
                     <a href="#">Читать</a>
                 </div>
@@ -36,7 +36,7 @@ export class BookView extends Component{
                     {Book.annotation}
                     <pre/>
                     <strong>Оглавление</strong><br/>
-                    <a href={`http://localhost:5000/${Book.doc}`} target="_blank" rel="noopener noreferrer"><><Icon icon={faFileAlt}/> {Book.title}</></a>
+                    <a href={`${document.location.href}/${Book.doc}`} target="_blank" rel="noopener noreferrer"><><Icon icon={faFileAlt}/> {Book.title}</></a>
                 </p>
                 </div>
             </div>
