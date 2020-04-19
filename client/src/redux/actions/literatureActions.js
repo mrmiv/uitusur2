@@ -13,7 +13,7 @@ import { returnInfo } from './infoActions';
 export const GetLiteraturePerPage = (page = 1, perPage = null, filter = null, sort = null) => dispatch => {
 
     // get /literature/?page=1&?perPage=12?category=all&?sort=asc
-    axios.get(`api/literature?page=${page}&perpage=${perPage || 12}&sort=${sort || 1}`)
+    axios.get(`/api/literature?page=${page}&perpage=${perPage || 12}&sort=${sort || 1}`)
         .then(res => {
             console.log(res.data);
             
@@ -37,7 +37,7 @@ export const GetCurrentBook = (id) => dispatch => {
     })
 
     // get /literature/book/id
-    axios.get(`api/literature/book/${id}`)
+    axios.get(`/api/literature/book/${id}`)
         .then(res => {
             dispatch({
                 type: GET_BOOK,
