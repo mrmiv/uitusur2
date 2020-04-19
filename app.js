@@ -11,9 +11,9 @@ app.use(fileUpload())
 app.use('api/uploads', express.static(path.join(__dirname,"uploads")))
 
 // route middlewares
-app.use('api/auth', require('./routes/admin.route')) //авторизация, регистрация
-app.use('api/literature', require('./routes/literature.route')) //Литература кафедры
-app.use('api/news', require('./routes/news.route')) //Новости
+app.use('/api/auth', require('./routes/admin.route')) //авторизация, регистрация
+app.use('/api/literature', require('./routes/literature.route')) //Литература кафедры
+app.use('/api/news', require('./routes/news.route')) //Новости
 // app.use('/orders', require('./routes/order.route')) //заказы
 // app.use('/user', require('./routes/user.route')) //пользовательские данные
 // app.use('/reserve', require('./routes/reserve.route')) //резерв
