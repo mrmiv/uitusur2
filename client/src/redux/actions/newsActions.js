@@ -13,7 +13,7 @@ import { returnInfo } from './infoActions';
 export const GetNewsList = (type, page = 1, perPage = null) => dispatch => {
 
     // get /literature/?page=1&?perPage=12?category=all&?sort=asc
-    axios.get(`/news/${type}?page=${page}&perpage=${perPage || 10}`)
+    axios.get(`api/news/${type}?page=${page}&perpage=${perPage || 10}`)
         .then(res => {
             // console.log(res.data);
             
@@ -37,7 +37,7 @@ export const ReadNews = (id) => dispatch => {
     })
 
     // get /literature/book/id
-    axios.get(`/news/read/${id}`)
+    axios.get(`api/news/read/${id}`)
         .then(res => {
             dispatch({
                 type: GET_NEWS,
