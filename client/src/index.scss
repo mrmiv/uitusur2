@@ -69,9 +69,10 @@ a, button{
 .modal_window{
     z-index: 1291;
     max-width: 900px;
+    width: -moz-max-content;
+    width: -webkit-max-content;
+    width: -o-max-content;
     width: max-content;
-    width: fit-content;
-    width: 100%;
     position: fixed;
     background: white;
     border-radius: 5px;

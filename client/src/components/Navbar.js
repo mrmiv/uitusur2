@@ -150,10 +150,15 @@ function AdminMenu(){
     return(
         <div className="menu">
             <Link onClick={()=>{store.dispatch(logout())}}>Выйти</Link>
-            <Link className="link" to="/" exact>На главную</Link> 
             <div className="d-flex">
                 <NavLink className="link" to="/admin/literature">Литература</NavLink>
                 <NavLink  to="/admin/literature/add" exact>
+                    <Icon icon={faPlusCircle} size="lg"/>
+                </NavLink>
+            </div>
+            <div className="d-flex">
+                <NavLink className="link" to="/admin/staff">Сотрудники</NavLink>
+                <NavLink  to="/admin/staff/add" exact>
                     <Icon icon={faPlusCircle} size="lg"/>
                 </NavLink>
             </div>

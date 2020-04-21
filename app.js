@@ -14,7 +14,7 @@ app.use('/uploads', express.static(path.join(__dirname,"uploads")))
 app.use('/api/auth', require('./routes/admin.route')) //авторизация, регистрация
 app.use('/api/literature', require('./routes/literature.route')) //Литература кафедры
 app.use('/api/news', require('./routes/news.route')) //Новости
-// app.use('/orders', require('./routes/order.route')) //заказы
+app.use('/api/staff', require('./routes/staff.route')) //сотрудники
 // app.use('/user', require('./routes/user.route')) //пользовательские данные
 // app.use('/reserve', require('./routes/reserve.route')) //резерв
 // app.use('/category', require('./routes/category.route')) //категория

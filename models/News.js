@@ -47,7 +47,7 @@ const NewsSchema = new Schema({
                 validator: function(path){
                     return /^(https?:\/\/)?([\w\.]+)\.([a-z]{2,6}\.?)(\/[\w\.]*)*\/?$/.test(path)
                 },
-                message: props => `${props.value} - Поле path содержит недопустимые символы`
+                message: props => `${props.value} - Поле сайт содержит недопустимые символы`
             }
         },
         // Место проведения

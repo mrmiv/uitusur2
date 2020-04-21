@@ -170,14 +170,16 @@ export class LiteratureForm extends Component{
                         <textarea onChange={this.changeInput} type="text" className="form-control" 
                         name="annotation" id="annotationInput" placeholder="..." value={this.state.annotation}/>
                     </div>
-                    <div className="col form-group">
-                        <label HtmlFor="keywordsInput">Ссылка на книгу</label>
+                    <div className="form-group">
+                        <label HtmlFor="keywordsInput">Ключевые слова</label>
                         <input onChange={this.changeInput} type="text" className="form-control" 
                         name="keywords" id="keywordsInput" placeholder="Введите ключевые слова через пробел без запятых" value={this.state.keywords}/>
-                    </div>
-                    <button className="btn btn-success" type="submit"
-                        disabled={this.state.loading}>Добавить книгу</button>                        
+                    </div>                    
                 </form>
+                <div className="w-100 mt-2 text-right">
+                    <button className="btn btn-success mr-0" type="submit" onClink={this.submitForm}
+                    disabled={this.state.loading}>Добавить книгу</button>
+                </div>
                 </div>
             </div>
         )

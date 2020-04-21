@@ -4,6 +4,7 @@ import {FontAwesomeIcon as Icon} from '@fortawesome/react-fontawesome'
 import {faVk, faYoutube, faFacebookF} from '@fortawesome/free-brands-svg-icons'
 import {Link} from 'react-router-dom'
 import { HashLink } from 'react-router-hash-link'
+import { faQuestionCircle, faCogs } from '@fortawesome/free-solid-svg-icons'
 
 export default class Footer extends Component {
 
@@ -99,20 +100,16 @@ export default class Footer extends Component {
                   <br/>
                   Выходные: суббота, воскресенье
                 </p>
-                <div className="d-flex social justify-content-end mt-2 ">
-                  <Icon icon={faVk} size="lg" pull="right" className="ml-4"/>
-                  <Icon icon={faFacebookF} size="lg" pull="right" className="ml-4"/>
-                  <Icon icon={faYoutube} size="lg" pull="right" className="ml-4"/>
-                </div>
+                <span className="cogs-info"><i><Icon icon={faCogs} size="md" type="button" /></i></span>
               </div>
             </div>
-            <div className="other_info text-center">
+            <div className="other_info">
               <hr/>
-              <div className="d-flex justify-content-between">
+              <div className="d-flex justify-content-between align-items-center">
                 <a target="_blank" rel="noopener noreferrer" href={'http://tusur.ru'}>
                   <img src="/svg/TUSUR.svg" alt="ТУСУР"/>
                   </a>
-                <p>Система менеджмента качества сертифицирована по международному стандарту ISO 9001:2015</p>
+                <p className="text-right pl-2">Система менеджмента качества сертифицирована по международному стандарту ISO 9001:2015</p>
               </div>
             </div>
           </div>

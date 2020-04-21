@@ -23,13 +23,13 @@ const AdminSchema = new Schema({
 
     password:{
         type: String,
-        required: [true, 'Поле пароль - обязательное'],
+        required: [true, 'Поле пароль является обязательным'],
         minlength: [8, 'Слишком короткий пароль'],
         validate: {
             validator: function(password) {
                 return /(?=.*[0-9])(?=.*[!@#$%^&_*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&_*]{8,}/g.test(password)
             },
-            message: `Пароль должен состоять из 8 символов`
+            message: `Проверьте правильность введенных данных`
         }
     },
 

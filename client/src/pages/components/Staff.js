@@ -6,30 +6,15 @@ import { faLink } from '@fortawesome/free-solid-svg-icons';
 
 export class StaffPage extends Component{
 
-    state = {
-        isLoading: this.props.CurrentStaff.isLoading,
-        CurrentStaff: this.props.CurrentStaff.CurrentStaff
-    }
-
     componentDidMount(){
         // load staff, update title
         this.props.GetStaff(this.props.id)
+        const {CurrentStaff} = this.props.CurrentStaff
+        document.title = CurrentStaff.lastname +' '+ CurrentStaff.firstname[0]+'. '+ CurrentStaff.secondname[0]+'. - Кафедра управления инновациями'
     }
-
-    componentDidUpdate(prevProps){
-        const {CurrentStaff} = this.props
-        
-        if(CurrentStaff !== prevProps.CurrentStaff){
-            this.setState({CurrentStaff:CurrentStaff.CurrentStaff, isLoading:CurrentStaff.isLoading})
-        }
-        if(this.state.CurrentStaff){
-            document.title = `${this.state.CurrentStaff.lastName +' '+  this.state.CurrentStaff.firstName} - Сотрудники кафедры`
-        }
-    }
-
+    
     render(){
-        const {CurrentStaff, isLoading} = this.state
-        // console.log(CurrentStaff);
+        const {CurrentStaff, isLoading} = this.props.CurrentStaff
         
         return(
             !isLoading 
@@ -37,7 +22,7 @@ export class StaffPage extends Component{
             <div className="modal__staff">
                 {CurrentStaff &&
                 <div className="modal__staff__info">
-                <h4>{CurrentStaff.lastName +' '+ CurrentStaff.firstName}</h4>
+                <h4>{CurrentStaff.lastname +' '+ CurrentStaff.firstname+' '+ CurrentStaff.secondname}</h4>
                 {CurrentStaff.post && <p>
                     <strong>
                     Должность: 

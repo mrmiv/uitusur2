@@ -59,6 +59,8 @@ export class Student extends Component{
             this.setState({keyword: ''})
         }
 
+        keyword.trim()
+
         if (keyword!=='' && !exists){
             this.setState({keywords: [...keywords, keyword], keyword: '' })
         }

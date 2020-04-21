@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import store from '../store'
 import {connect} from 'react-redux'
 import {GetStaffList} from '../redux/actions/staffActions'
 import {useLocation, useParams, Link} from 'react-router-dom'
@@ -7,7 +6,6 @@ import {useLocation, useParams, Link} from 'react-router-dom'
 import { FontAwesomeIcon as Icon} from '@fortawesome/react-fontawesome'
 import {faFileAlt, faIdBadge} from '@fortawesome/free-solid-svg-icons'
 
-import './styles/default.scss'
 import './styles/About.scss'
 import Fade from 'react-reveal/Fade'
 
@@ -24,7 +22,6 @@ import CMK_img from './img/QUALITY_CHECK.svg';
 export class About extends Component{
 
     state = {
-        StaffList: this.props.StaffList.StaffList,
         FeedbackList: this.props.FeedbackList.FeedbackList,
         CMKList: this.props.CMKList.CMKList,
         RPDList: this.props.RPDList.RPDList
@@ -37,12 +34,10 @@ export class About extends Component{
     }
 
     componentDidUpdate(prevProps){
-        const {StaffList, FeedbackList, CMKList, RPDList} = this.props
+        const {FeedbackList, CMKList, RPDList} = this.props
         // console.log(this.props);
         
-        if(StaffList !== prevProps.StaffList){
-            this.setState({StaffList: StaffList.StaffList})            
-        } else if(FeedbackList !== prevProps.FeedbackList){
+        if(FeedbackList !== prevProps.FeedbackList){
             this.setState({FeedbackList: FeedbackList.FeedbackList})            
         } else if(CMKList !== prevProps.CMKList){
             this.setState({CMKList: CMKList.CMKList})            
@@ -52,13 +47,14 @@ export class About extends Component{
     }
 
     componentWillUnmount(){
-        store.dispatch(closeNavbar())
+        this.props.closeNavbar()
     }
 
 //РЕНДЕР
     render(){
-        const {StaffList, RPDList, CMKList, FeedbackList} = this.state
+        const {RPDList, CMKList, FeedbackList} = this.state
         // console.log(this.state);
+        const {StaffList} = this.props
         
         return( 
             <>
@@ -105,11 +101,13 @@ export class About extends Component{
             <div className="container-md container-fluid">
                 <h2>Сотрудники кафедры</h2>
                 <div className="row no-gutters">
-                    {StaffList && StaffList.map(staffuser => <Staff 
-                        key={staffuser.id}
-                        index={staffuser.id}
-                        firstName={staffuser.firstName}
-                        lastName={staffuser.lastName}
+                    {StaffList && StaffList.map((staffuser,index) => <Staff 
+                        key={staffuser._id}
+                        id={staffuser._id}
+                        index={staffuser.index}
+                        firstname={staffuser.firstname}
+                        lastname={staffuser.lastname}
+                        secondname={staffuser.secondname}
                         />)}
                 </div>
             </div>
@@ -188,7 +186,7 @@ export class About extends Component{
 }
 
 const mapStateToProps = state => ({
-    StaffList: state.api.staff.StaffList,
+    StaffList: state.api.staff.StaffList.StaffList,
     FeedbackList: state.api.feedback,
     CMKList: state.api.cmk,
     RPDList: state.api.rpd
@@ -196,8 +194,10 @@ const mapStateToProps = state => ({
   
 export default connect(
     mapStateToProps,
-    { GetStaffList, GetDataAbout }
+    { GetStaffList, GetDataAbout, closeNavbar }
 )(About)
+
+
 
 export function StaffView(){
     let { id } = useParams()
@@ -287,21 +287,21 @@ const CMK = () => {
 }
 
 // СОТРУДНИК КАФЕДРЫ
-function Staff ({index, firstName, lastName}){
+function Staff ({index,id, firstname, lastname, secondname}){
 
     let location = useLocation()
 
     return (
     <div className="col_p col-md-4 col-lg-3 col-6">
         <Link className="StaffCard d-flex" to={{
-            pathname: `/staff/${index}`,
+            pathname: `/staff/${id}`,
             state: {background: location}
         }}>
             <div className="staff__photo"><Icon icon={faIdBadge}/></div>
             <div className="staff__name align-self-center">
                 <p>
-                    <span>{lastName}</span> <br/>
-                    {firstName}
+                    <span>{lastname}</span> <br/>
+                    {firstname + " " + secondname}
                 </p>
             </div>
         </Link>

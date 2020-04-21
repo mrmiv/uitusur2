@@ -40,6 +40,7 @@ export class AdminLiterature extends Component{
                             <th scope="col">Заголовок</th>
                             <th scope="col">Авторы</th>
                             <th scope="col">Категория</th>
+                            {/* style={{width="50px"}} */}
                         </tr>
                     </thead>
                     <tbody>

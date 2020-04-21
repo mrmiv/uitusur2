@@ -1,8 +1,7 @@
 import {
     GET_STAFF_LIST,
     CURRENT_STAFF_LOADING,
-    GET_CURRENT_STAFF,
-    STAFF_LIST_LOADING
+    GET_CURRENT_STAFF
 } from '../../actions/types';
 import { combineReducers } from 'redux';
 
@@ -16,7 +15,7 @@ const CurrentStaffState = {
 }
 
 export default combineReducers({
-    StaffList:StaffListReducer,
+    StaffList: StaffListReducer,
     CurrentStaff: CurrentStaffReducer
 })
 

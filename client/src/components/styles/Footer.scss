@@ -45,6 +45,7 @@ $lgray: #c8d6e5;
 
     .footer_contacts{
         .contacts{
+
             p{
                 padding-bottom: 1em;
                 transition: all 0.2s ease;
@@ -71,14 +72,6 @@ $lgray: #c8d6e5;
                 }
 
             }
-            .social{
-                svg{
-                    cursor: pointer;
-                    &:hover{
-                        color: $lblue
-                    }
-                }
-            }
         }
     }
     .other_info{
@@ -91,6 +84,29 @@ $lgray: #c8d6e5;
         }
         hr{
             border-color: $lgray;
+        }
+    }
+
+    .cogs-info{
+        display: block;
+        i{
+            &:hover{
+                &::before{
+                    visibility: visible;
+                    opacity: 1;
+                }
+            }
+            &::before{
+                transition: 0.3s ease;
+                visibility: hidden;
+                opacity: 0;
+                position: absolute;
+                right: 2rem;
+                display: flex;
+                font-size: 0.7em;
+                content:"Сайт был разработан в рамках проекта ГПО УИ-2006 в 2020 году. Разработчик: Марков Илья";
+                padding: 4px;
+            }
         }
     }
 }
