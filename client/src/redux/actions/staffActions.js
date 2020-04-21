@@ -14,7 +14,7 @@ export const GetStaffList = () => dispatch => {
 
     axios.get('/api/staff')
         .then(res => {
-            console.log(res.data)
+            // console.log(res.data)
             dispatch({
             type: GET_STAFF_LIST,
             payload: {StaffList: res.data}

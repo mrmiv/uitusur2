@@ -45,6 +45,8 @@ export class EditStaff extends Component{
         // console.log(CurrentStaff.firstname, prevProps.Staff.CurrentStaff.firstname);
         
         if (CurrentStaff !== prevProps.Staff.CurrentStaff) {
+            console.log(CurrentStaff + " updated");
+            
             this.setState({ 
                 firstname: CurrentStaff.firstname,
                 lastname: CurrentStaff.lastname,

@@ -42,7 +42,7 @@ function CurrentStaffReducer(state=CurrentStaffState, action){
                 isLoading: true
             }
         case GET_CURRENT_STAFF:
-            console.log(action.payload.CurrentStaff);
+            // console.log(action.payload.CurrentStaff);
             
             return{
                 ...state,
