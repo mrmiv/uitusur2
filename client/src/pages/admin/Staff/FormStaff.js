@@ -2,15 +2,17 @@ import React, {Component} from 'react'
 import { closeNavbar } from '../../../redux/actions/navbarActions'
 import { connect } from 'react-redux'
 import {clearInfo} from '../../../redux/actions/infoActions'
-import {postStaff} from '../../../redux/actions/staffActions'
+import {postStaff, patchStaff, GetStaff} from '../../../redux/actions/staffActions'
 import {FontAwesomeIcon as Icon} from '@fortawesome/react-fontawesome'
 import { faArrowAltCircleLeft, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
-import { Link } from 'react-router-dom'
+import { Link, Prompt, withRouter } from 'react-router-dom'
 
 
 export class StaffForm extends Component{
 
     state={
+        id: null,
+
         firstname: '',
         lastname: '',
         secondname: '',
@@ -22,8 +24,9 @@ export class StaffForm extends Component{
 
         week:'',
         time:'',
-        place:''
-
+        place:'',
+        
+        blocked: false
         // msg: null,
         // loading: false
     }
@@ -34,11 +37,46 @@ export class StaffForm extends Component{
 
     componentDidMount(){
         document.title = this.props.title
+        const id = this.props.match.params.id
+        if(id){
+            this.props.GetStaff(id)
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        const id = this.props.match.params.id
+
+        if(id){
+
+            if(id !== prevState.id){
+                this.setState({id})
+            }
+            const {CurrentStaff} = this.props.Staff
+            // console.log(CurrentStaff.firstname, prevProps.Staff.CurrentStaff.firstname);
+            
+            if (CurrentStaff !== prevProps.Staff.CurrentStaff) {
+                // console.log(CurrentStaff + " updated");
+                
+                this.setState({ 
+                    firstname: CurrentStaff.firstname,
+                    lastname: CurrentStaff.lastname,
+                    secondname: CurrentStaff.secondname,
+                    post: CurrentStaff.post,
+                    degree: CurrentStaff.degree,
+                    path: CurrentStaff.path,
+                    rank: CurrentStaff.rank,
+                    worktime: CurrentStaff.worktime,
+                });
+            }
+        }
     }
 
     changeInput = e =>{
         const field = e.target.name
         this.setState({[field]: e.target.value})
+        if (!this.state.blocked){
+            this.setState({blocked:true})
+        }
     }
 
     addWorktime = () => {
@@ -76,6 +114,7 @@ export class StaffForm extends Component{
     submitForm = e => {
         e.preventDefault()
         this.props.clearInfo()
+        const id = this.state.id
 
         const {firstname,
         secondname,
@@ -97,13 +136,24 @@ export class StaffForm extends Component{
 
         // console.log(Staff);
 
-        this.props.postStaff(Staff)
+        if(id){
+            this.props.patchStaff(id,Staff)
+        } else {
+            this.props.postStaff(Staff)
+        }
+
     }
 
     render(){
 
         return(
             <div className="container-md container-fluid">
+                <Prompt
+                    when={this.state.blocked}
+                    message={() =>
+                    `Вы действительно хотите покинуть эту страницу?`
+                    }
+                />
                 <div className="row no-gutters justify-content-between">
                 <Link to="/admin/staff"><Icon icon={faArrowAltCircleLeft} size="lg"/> Назад</Link>
                 <form className="w-100 mt-3" onSubmit={this.submitForm}>
@@ -183,7 +233,7 @@ export class StaffForm extends Component{
                     </div>}
                     <div className="w-100 mt-2 text-right">
                         <button className="btn btn-success mr-0" type="submit"
-                        disabled={this.state.loading}>Добавить Сотрудника</button>
+                        disabled={this.state.loading}>{this.state.id? "Обновить сотрудника" :"Добавить сотрудника"}</button>
                     </div>                 
                 </form>
                 </div>
@@ -193,13 +243,14 @@ export class StaffForm extends Component{
 } 
 
 const mapStateToProps = state => ({
+    Staff: state.api.staff.CurrentStaff,
     info: state.info
 })
   
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
-    { postStaff, closeNavbar, clearInfo }
-)(StaffForm)
+    { postStaff, closeNavbar, clearInfo, patchStaff, GetStaff }
+)(StaffForm))
 
 function WorktimeForm({week, time, place}){
     return(

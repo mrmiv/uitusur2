@@ -6,7 +6,7 @@ const NewsSchema = new Schema({
     // Дата создания новости
     created_at:{
         type: Date,
-        default: Date.now()
+        required: true
     },
 
     // Заголовок
@@ -49,19 +49,19 @@ const NewsSchema = new Schema({
                 },
                 message: props => `${props.value} - Поле сайт содержит недопустимые символы`
             }
-        },
+        }, //conf
         // Место проведения
-        city:{type: String},
+        city:{type: String},//grants, conf
         // Дедлайн
-        deadline:{type: Date},
+        deadline:{type: Date},//all
         // Для кого
-        users:{type:String},
+        users:{type:String},//all
 
         // Период действия гранта или сроки результатов конференции
-        period:{type:String},
+        period:{type:String},//grants, conference
 
         // Сумма гранта
-        grant:{type:String},
+        grant:{type:String},//grants
 
     // Вложения
     docs:{type:[String]}

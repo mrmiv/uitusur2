@@ -4,7 +4,6 @@ import { LoadingScreen } from '../../../components/LoadingScreen'
 
 const AdminStaff =lazy(()=>import('./AdminStaff'))
 const FormStaff =lazy(()=>import('./FormStaff'))
-const EditStaff =lazy(()=>import('./EditStaff'))
 
 export default function AdminLiteratureRoutes(){
 
@@ -14,11 +13,11 @@ export default function AdminLiteratureRoutes(){
                 <AdminStaff title="Сотрудники кафедры - Кафедра управления инновациями"/>
                 {/* <Home title="Кафедра управления инновациями"/> */}
             </>))}/>
-            <Route path="/admin/staff/edit/:id" exact component={(()=>(<>
-                <EditStaff/>
+            <Route path="/admin/staff/form/:id" exact component={(()=>(<>
+                <FormStaff title="Редактировать сотрудника - Кафедра управления инновациями"/>
                 {/* <Home title="Кафедра управления инновациями"/> */}
             </>))}/>
-            <Route path="/admin/staff/add" exact component={(()=>(<>
+            <Route path="/admin/staff/form" exact component={(()=>(<>
                 <FormStaff title="Добавить сотрудника - Кафедра управления инновациями"/>
                 {/* <Home title="Кафедра управления инновациями"/> */}
             </>))}/>

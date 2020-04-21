@@ -145,7 +145,7 @@ export class About extends Component{
                 <div className="container-md container-fluid">
                     <h2 className="text-center">Отзывы выпускников</h2>
                     <div className="row no-gutters">
-                        {/* {console.log(typeof(feedback))} */}
+                    {/* {console.log(typeof(feedback))} */}
                     {FeedbackList && FeedbackList.map(res => {
                             return <div className="col-12" key={res.id}>
                                 <FeedbackStaff 
@@ -267,8 +267,9 @@ const FeedbackStaff = (props) => {
                     </p>
                 </div>
             </div>
-            <p className="feedback__staff__text col-md-9">
-                {props.text}
+            {/* добавить атрибут open из state,  и переключать динамически */}
+            <p className="feedback__staff__text col-md-9"> 
+                {props.text.length<200? props.text : props.text.split(0, 200)}
             </p>
         </div>
     )

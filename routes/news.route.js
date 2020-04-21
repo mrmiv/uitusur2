@@ -99,6 +99,7 @@ router.post('/', async (req, res) => {
             users,
             period,
             grant,
+            created_at: Date.now()
             // docs: `uploads/news/${doc.name}`
         })
     

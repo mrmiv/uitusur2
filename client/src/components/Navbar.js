@@ -151,6 +151,12 @@ function AdminMenu(){
         <div className="menu">
             <Link to='/' onClick={()=>{store.dispatch(logout())}}>Выйти</Link>
             <div className="d-flex">
+                <NavLink className="link" to="/admin/news">Новости</NavLink>
+                <NavLink  to="/admin/news/form" exact>
+                    <Icon icon={faPlusCircle} size="lg"/>
+                </NavLink>
+            </div>
+            <div className="d-flex">
                 <NavLink className="link" to="/admin/literature">Литература</NavLink>
                 <NavLink  to="/admin/literature/add" exact>
                     <Icon icon={faPlusCircle} size="lg"/>
@@ -158,7 +164,7 @@ function AdminMenu(){
             </div>
             <div className="d-flex">
                 <NavLink className="link" to="/admin/staff">Сотрудники</NavLink>
-                <NavLink  to="/admin/staff/add" exact>
+                <NavLink  to="/admin/staff/form" exact>
                     <Icon icon={faPlusCircle} size="lg"/>
                 </NavLink>
             </div>

@@ -36,10 +36,10 @@ export class AdminStaff extends Component{
             <div className="container-md container-fluid">
                 <div className="row no-gutters justify-content-between">
                 <h2>Сотрудники кафедры</h2>
-                <Link to="/admin/staff/add">Добавить сотрудника <Icon icon={faPlusCircle}/></Link>
+                <Link to="/admin/staff/form">Добавить сотрудника <Icon icon={faPlusCircle}/></Link>
                 <div className="w-100"/>
-                <table class="table table-hover table-sm-responsive">
-                    <thead class="thead-dark">
+                <table className="table table-hover table-sm-responsive">
+                    <thead className="thead-dark">
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">ФИО</th>
@@ -54,7 +54,7 @@ export class AdminStaff extends Component{
                                 return(
                                     <tr key={index}>
                                         <th scope="row">{index}</th>
-                                        <td name="name"><Link to={`/admin/staff/edit/${item._id}`}>{item.lastname +' '+ item.firstname[0] +'. '+ item.secondname[0]+'.'}</Link></td>
+                                        <td name="name"><Link to={`/admin/staff/form/${item._id}`}>{item.lastname +' '+ item.firstname[0] +'. '+ item.secondname[0]+'.'}</Link></td>
                                         <td name="post">{item.post}</td>
                                         <td name="degree">{item.degree}</td>
                                         <td name="del">
