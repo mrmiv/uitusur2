@@ -5,6 +5,7 @@ const mongoose = require('mongoose')
 const fileUpload = require('express-fileupload');
 const app = express()
 
+// mongodb+srv://dbAdminUser:PX5nNgCp1t5onwwS@uitusurcluster-dyclv.mongodb.net/test?retryWrites=true&w=majority
 // middleware
 app.use(express.json())
 app.use(fileUpload())
