@@ -12,14 +12,14 @@ export class EditStaff extends Component{
 
     state={
         
-        firstname: this.props.Staff.CurrentStaff.firstname || '',
-        lastname: this.props.Staff.CurrentStaff.lastname || '',
-        secondname: this.props.Staff.CurrentStaff.secondname || '',
-        post: this.props.Staff.CurrentStaff.post || '',
-        degree: this.props.Staff.CurrentStaff.degree || '',
-        rank: this.props.Staff.CurrentStaff.rank || '',
-        path: this.props.Staff.CurrentStaff.path || '',
-        worktime: this.props.Staff.CurrentStaff.worktime || [],
+        firstname: '',
+        lastname:'',
+        secondname: '',
+        post: '',
+        degree: '',
+        rank: '',
+        path: '',
+        worktime: [],
 
         week:'',
         time:'',
