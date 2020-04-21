@@ -5,7 +5,7 @@ import {clearInfo} from '../../../redux/actions/infoActions'
 import {postLiterature} from '../../../redux/actions/literatureActions'
 import {FontAwesomeIcon as Icon} from '@fortawesome/react-fontawesome'
 import { faPlusCircle, faArrowAltCircleLeft, faBell } from '@fortawesome/free-solid-svg-icons'
-import { Link, Prompt } from 'react-router-dom'
+import { Link, Prompt, withRouter } from 'react-router-dom'
 
 
 export class EditLiterature extends Component{
@@ -32,24 +32,25 @@ export class EditLiterature extends Component{
 
     componentDidMount(){
         document.title = this.props.title
+        this.props.GetStaff(this.props.match.params.id)
     }
 
     componentDidUpdate(prevProps) {
 
-        const {LiteratureList} = this.props.Literature
+        const {Book} = this.props.Book
         // console.log(CurrentStaff.firstname, prevProps.Staff.CurrentStaff.firstname);
         
-        if (LiteratureList !== prevProps.Literature.LiteratureList) {
+        if (Book !== prevProps.Book.Book) {
             this.setState({ 
-                title: LiteratureList.title,
-                description: LiteratureList.description,
-                annotation: LiteratureList.annotation,
-                category: LiteratureList.category,
-                author: LiteratureList.author,
-                image: LiteratureList.image,
-                path: LiteratureList.path,
-                doc: LiteratureList.doc,
-                keywords: LiteratureList.keywords
+                title: Book.title,
+                description: Book.description,
+                annotation: Book.annotation,
+                category: Book.category,
+                author: Book.author,
+                image: Book.image,
+                path: Book.path,
+                doc: Book.doc,
+                keywords: Book.keywords
             });
         }
     }
@@ -183,10 +184,10 @@ const mapStateToProps = state => ({
     info: state.info
 })
   
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
     { 
         // postLiterature, 
         closeNavbar, 
         clearInfo }
-)(EditLiterature)
+)(EditLiterature))
