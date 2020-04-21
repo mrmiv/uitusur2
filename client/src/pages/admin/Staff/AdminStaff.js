@@ -26,7 +26,6 @@ export class AdminStaff extends Component{
     delStaff=(id)=>{
         this.props.delStaff(id)
         this.props.GetStaffList()
-
     }
 
     render(){

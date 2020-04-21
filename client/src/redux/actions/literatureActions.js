@@ -111,3 +111,28 @@ export const postLiterature = ({
         })
     })
 }
+
+export const delLiterature = (id) => dispatch => {
+
+    dispatch({
+        type: LOADING_REQ
+    })
+
+    const config={
+        headers:{"token": sessionStorage.getItem("token")}
+    }
+
+    // debugger
+    axios.delete(`/api/literature/book/${id}`,config)
+        .then(res => {
+            dispatch(returnInfo(res.data.message, res.status, 'REQ_SUCCESS'))
+            dispatch({
+                type: REQ_SUCCESS
+            })})
+        .catch(err => {
+            dispatch(returnInfo(err.response.data, err.response.status, 'REQ_FAIL'))
+            dispatch({
+                type: REQ_FAIL
+        })
+    })
+}

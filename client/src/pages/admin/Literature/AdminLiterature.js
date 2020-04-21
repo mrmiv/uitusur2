@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
 import { closeNavbar } from '../../../redux/actions/navbarActions'
-import { GetLiteraturePerPage } from '../../../redux/actions/literatureActions'
+import { GetLiteraturePerPage, delLiterature } from '../../../redux/actions/literatureActions'
 import { connect } from 'react-redux'
 import {FontAwesomeIcon as Icon} from '@fortawesome/react-fontawesome'
-import { faPlusCircle } from '@fortawesome/free-solid-svg-icons'
+import { faPlusCircle, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
 
 
@@ -20,6 +20,12 @@ export class AdminLiterature extends Component{
 
     componentDidMount(){
         document.title = this.props.title
+        this.props.GetLiteraturePerPage(this.state.page, this.state.perPage)
+    }
+
+    
+    delLiterature=(id)=>{
+        this.props.delLiterature(id)
         this.props.GetLiteraturePerPage(this.state.page, this.state.perPage)
     }
 
@@ -40,6 +46,7 @@ export class AdminLiterature extends Component{
                             <th scope="col">Заголовок</th>
                             <th scope="col">Авторы</th>
                             <th scope="col">Категория</th>
+                            <th scope="col" style={{width:"50px", textAlign: "center"}}><Icon icon={faTrashAlt}/></th>
                             {/* style={{width="50px"}} */}
                         </tr>
                     </thead>
@@ -52,6 +59,9 @@ export class AdminLiterature extends Component{
                                         <td name="title">{item.title}</td>
                                         <td name="author">{item.author}</td>
                                         <td name="category">{item.category}</td>
+                                        <td name="del">
+                                            <button type="button" className="btn" onClick={()=>this.delLiterature(item._id)}><Icon icon={faTrashAlt}/></button>
+                                        </td>
                                     </tr>
                                 )
                             })
@@ -70,5 +80,5 @@ const mapStateToProps = state => ({
   
 export default connect(
     mapStateToProps,
-    { closeNavbar, GetLiteraturePerPage}
+    { closeNavbar, GetLiteraturePerPage, delLiterature}
 )(AdminLiterature)

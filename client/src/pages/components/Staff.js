@@ -9,8 +9,7 @@ export class StaffPage extends Component{
     componentDidMount(){
         // load staff, update title
         this.props.GetStaff(this.props.id)
-        const {CurrentStaff} = this.props.CurrentStaff
-        document.title = CurrentStaff.lastname +' '+ CurrentStaff.firstname[0]+'. '+ CurrentStaff.secondname[0]+'. - Кафедра управления инновациями'
+        document.title = "Сотрудники кафедры - Кафедра управления инновациями" 
     }
     
     render(){

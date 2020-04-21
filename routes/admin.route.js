@@ -11,8 +11,8 @@ const router = Router()
 
 router.get('/',auth, async (req, res) => {
     try {
-
-      const user = await User.findOne({email: req.user})
+      
+      const user = await Admin.findOne({email: req.user})
 
       if (!user) throw Error({message: 'no auth'})
       

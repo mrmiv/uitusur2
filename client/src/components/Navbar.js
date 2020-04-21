@@ -149,7 +149,7 @@ function NavMenu(){
 function AdminMenu(){
     return(
         <div className="menu">
-            <Link onClick={()=>{store.dispatch(logout())}}>Выйти</Link>
+            <Link to='/' onClick={()=>{store.dispatch(logout())}}>Выйти</Link>
             <div className="d-flex">
                 <NavLink className="link" to="/admin/literature">Литература</NavLink>
                 <NavLink  to="/admin/literature/add" exact>
