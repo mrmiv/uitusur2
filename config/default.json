@@ -1,6 +1,6 @@
 {
     "port":5000,
     "secretKey":"PX5nNgCp1t5onwwSPX5nNgCp1t5onwwS", 
-    "mongoUri":"mongodb+srv://dbAdminUser:PX5nNgCp1t5onwwS@uitusurcluster-dyclv.mongodb.net/test?retryWrites=true&w=majority",
+    "mongoUri":"mongodb://localhost:27017/uitusur",
     "root":"https://localhost:5000"
 }
