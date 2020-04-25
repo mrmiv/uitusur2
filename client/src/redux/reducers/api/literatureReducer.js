@@ -10,6 +10,7 @@ import { combineReducers } from 'redux';
 
 const LiteratureState = {
     totalPage: 1,
+    categoryFields: [],
     LiteratureList: [],
     isLoading: false
 }
@@ -35,9 +36,9 @@ function LiteratureReducer(state=LiteratureState, action){
         case GET_LITERATURE: 
             // console.log(state)
             return{
-                ...state,
                 totalPage: action.payload.totalPage,
                 LiteratureList: action.payload.LiteratureList,
+                categoryFields: action.payload.categoryFields,
                 isLoading: false
             }
         default:

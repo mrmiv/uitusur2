@@ -2,15 +2,18 @@ import React, {Component} from 'react'
 import { closeNavbar } from '../../../redux/actions/navbarActions'
 import { connect } from 'react-redux'
 import {clearInfo} from '../../../redux/actions/infoActions'
-import {postLiterature} from '../../../redux/actions/literatureActions'
+import {postLiterature, GetCurrentBook} from '../../../redux/actions/literatureActions'
 import {FontAwesomeIcon as Icon} from '@fortawesome/react-fontawesome'
 import { faPlusCircle, faArrowAltCircleLeft, faBell } from '@fortawesome/free-solid-svg-icons'
-import { Link } from 'react-router-dom'
+import { Link, Prompt, withRouter } from 'react-router-dom'
 
 
 export class LiteratureForm extends Component{
 
     state={
+
+        id: null,
+
         title: '',
         description: '',
         annotation: '',
@@ -19,7 +22,9 @@ export class LiteratureForm extends Component{
         image: null,
         path: '',
         doc: null,
-        keywords:''
+        keywords:'',
+
+        blocked: false
 
         // msg: null,
         // loading: false
@@ -31,33 +36,44 @@ export class LiteratureForm extends Component{
 
     componentDidMount(){
         document.title = this.props.title
+        const id = this.props.match.params.id
+        if(id){
+            this.props.GetCurrentBook(id)
+        }
     }
 
-    // componentDidUpdate(prevProps){
-    //     const {info, loading} = this.props
-    //     // debugger;
-    //     if(info !== prevProps.info || loading !==  prevProps.loading){
+    componentDidUpdate(prevProps, prevState) {
+        const id = this.props.match.params.id
 
-    //         // check for login error
-    //         if(info.id === "REQ_FAIL" || "REQ_SUCCESS"){
-    //             this.setState({
-    //                 msg: info.msg,
-    //                 loading: loading
-    //             })
-    //             } else {
-    //             this.setState({
-    //                 msg:null,
-    //                 loading: loading
-    //             })
-    //         }
-    //     }
-    // }
+        if(id){
+
+            if(id !== prevState.id){
+                this.setState({id})
+            }
+            const {Book} = this.props.Book
+            
+            if (Book !== prevProps.Book.Book) {
+                this.setState({ 
+                    title: Book.title,
+                    description: Book.description,
+                    annotation: Book.annotation,
+                    category: Book.category,
+                    image: Book.image,
+                    doc: Book.doc,
+                    author: Book.author,
+                    path: Book.path,
+                    keywords: Book.keywords.join(' '),
+                });
+            }
+        }
+    }
 
     changeInput = e =>{
-
         const field = e.target.name
-
         this.setState({[field]: e.target.value})
+        if(!this.state.blocked){
+            this.setState({blocked: true})
+        }
     }
 
     handeFile = e =>{
@@ -99,24 +115,14 @@ export class LiteratureForm extends Component{
 
         return(
             <div className="container-md container-fluid">
+                <Prompt
+                    when={this.state.blocked}
+                    message={() =>
+                    `Вы действительно хотите покинуть эту страницу?`
+                    }
+                />
                 <div className="row no-gutters justify-content-between">
                 <Link to="/admin/literature"><Icon icon={faArrowAltCircleLeft} size="lg"/> Назад</Link>
-                {/* {this.state.msg && 
-                    <div aria-live="polite" aria-atomic="true" styles={{position: 'relative', minHeight: "200px"}}>
-                    <div className="toast" styles={{position: 'fixed', top: 80, right: 20}}>
-                    <div className="toast-header">
-                        <Icon icon={faBell} size="lg" className="rounded mr-2"/>
-                        <strong className="mr-auto">Уведомление</strong>
-                        <button type="button" className="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div className="toast-body">
-                        {this.state.msg}
-                    </div>
-                </div>
-              </div>
-              } */}
                 <form className="w-100 mt-3" onSubmit={this.submitForm}>
                     <div className="form-row">
                         <div className="col form-group">
@@ -133,19 +139,17 @@ export class LiteratureForm extends Component{
                     <div className="form-row mt-2">
                         <div className="col form-group">
                             <label HtmlFor="categoryInput">Категория</label>
-                            <select onChange={this.changeInput} class="form-control" 
-                            name="category" id="categoryInput" value={this.state.category}>
-                                <option selected>Выберите категорию</option>
-                                <option >Психология</option>
-                                <option >Стихи</option>
-                                <option >Менеджмент</option>
-                            </select>
+                            <input onChange={this.changeInput} className="form-control" 
+                            name="category" id="categoryInput" placeholder="Менеджмент" value={this.state.category}/>
                         </div>
                         <div className="col form-group">
                             <label HtmlFor="imageFileInput">Обложка</label>
-                            <input type="file" onChange={this.handeFile}
+                            {!this.state.id?
+                             <input type="file" onChange={this.handeFile}
                             accept="image/jpeg, image/jpg, image/png" 
                             name="image" className="form-control-file" id="imageFileInput"/>
+                            : <input type="text" disabled value={this.state.image}
+                            name="image" className="form-control" id="imageFileInput"/>}
                         </div>
                     </div>
                     <div className="form-row mt-2">
@@ -156,8 +160,11 @@ export class LiteratureForm extends Component{
                         </div>
                         <div className="col form-group">
                             <label HtmlFor="docFileInput">Оглавление</label>
+                            {!this.state.id? 
                             <input type="file" onChange={this.handeFile} accept="application/pdf" 
                             name="doc" className="form-control-file" id="docFileInput"/>
+                            :<input type="text" disabled value={this.state.doc}
+                            name="doc" className="form-control" id="docFileInput"/>}
                         </div>
                     </div>
                     <div className="form-group">
@@ -174,12 +181,13 @@ export class LiteratureForm extends Component{
                         <label HtmlFor="keywordsInput">Ключевые слова</label>
                         <input onChange={this.changeInput} type="text" className="form-control" 
                         name="keywords" id="keywordsInput" placeholder="Введите ключевые слова через пробел без запятых" value={this.state.keywords}/>
-                    </div>                    
+                    </div>        
+                    <div className="w-100 mt-2 text-right">
+                        <button className="btn btn-success mr-0" type="submit" onClick={this.submitForm}
+                        disabled={this.state.loading}>Добавить книгу</button>
+                    </div>            
                 </form>
-                <div className="w-100 mt-2 text-right">
-                    <button className="btn btn-success mr-0" type="submit" onClink={this.submitForm}
-                    disabled={this.state.loading}>Добавить книгу</button>
-                </div>
+                
                 </div>
             </div>
         )
@@ -187,11 +195,11 @@ export class LiteratureForm extends Component{
 } 
 
 const mapStateToProps = state => ({
-    Literature: state.api.literature.literature,
+    Book: state.api.literature.book,
     info: state.info
 })
   
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
-    { postLiterature, closeNavbar, clearInfo }
-)(LiteratureForm)
+    { postLiterature, closeNavbar, clearInfo, GetCurrentBook}
+)(LiteratureForm))

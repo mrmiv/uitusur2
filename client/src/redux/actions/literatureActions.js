@@ -12,8 +12,11 @@ import { returnInfo } from './infoActions';
 
 export const GetLiteraturePerPage = (page = 1, perPage = null, filter = null, sort = null) => dispatch => {
 
+    let query = `/api/literature?page=${page}&perpage=${perPage || 12}&sort=${sort || 1}${filter!==null? `&filter=${filter}`:''}`
+    console.log(query);
+    
     // get /literature/?page=1&?perPage=12?category=all&?sort=asc
-    axios.get(`/api/literature?page=${page}&perpage=${perPage || 12}&sort=${sort || 1}`)
+    axios.get(query)
         .then(res => {
             console.log(res.data);
             
@@ -21,7 +24,8 @@ export const GetLiteraturePerPage = (page = 1, perPage = null, filter = null, so
                 type: GET_LITERATURE,
                 payload: {
                     LiteratureList: res.data.data,
-                    totalPage: res.data.pages
+                    totalPage: res.data.pages,
+                    categoryFields: res.data.fields
                 }
             })
             return res.data})
@@ -75,9 +79,9 @@ export const postLiterature = ({
     const formdata = new FormData()
 
     formdata.append('image', image)
-    formdata.append('doc', doc)
+    if(doc){formdata.append('doc', doc)}
     formdata.append('title', title)
-    formdata.append('category', category)
+    formdata.append('category', category.toLowerCase())
     formdata.append('description', description)
     formdata.append('annotation', annotation)
     formdata.append('author', author)
@@ -85,18 +89,16 @@ export const postLiterature = ({
     let keywords_arr = keywords.split(' ')
 
     keywords_arr.forEach(item => {
-        // console.log(item, keywords_arr.indexOf(item));
          // keywords[:index] = keyword
-        formdata.append(`keywords[${keywords_arr.indexOf(item)}]`, item)
+        formdata.append(`keywords`, item)
     })
        
     // get /literature/book/id
     axios({
-        url: 'api/literature',
+        url: '/api/literature',
         method: 'POST',
         headers,
         data: formdata
-
     })
     .then(res => {
         dispatch(returnInfo(res.data.message, res.status, 'REQ_SUCCESS'))
@@ -112,7 +114,7 @@ export const postLiterature = ({
     })
 }
 
-export const delLiterature = (id) => dispatch => {
+export const delLiterature = (id, page) => dispatch => {
 
     dispatch({
         type: LOADING_REQ
@@ -128,7 +130,9 @@ export const delLiterature = (id) => dispatch => {
             dispatch(returnInfo(res.data.message, res.status, 'REQ_SUCCESS'))
             dispatch({
                 type: REQ_SUCCESS
-            })})
+            })
+            dispatch(GetLiteraturePerPage(page))
+        })
         .catch(err => {
             dispatch(returnInfo(err.response.data, err.response.status, 'REQ_FAIL'))
             dispatch({

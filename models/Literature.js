@@ -30,7 +30,7 @@ const LiteratureSchema = new Schema({
         required: [true, 'Поле авторы является обязательным'],
         validate:{
             validator: function (author) {
-                return /^[а-яА-ЯёЁa-zA-Z0-9(\s)]+$/.test(author) // добавить тире и запятую
+                return /^[а-яА-ЯёЁa-zA-Z0-9(\s)(\-)(\.)]+$/.test(author) // добавить тире и запятую
             },
             message: props => `${props.value} - Поле авторы содержит недопустимые символы`
         }
@@ -40,6 +40,7 @@ const LiteratureSchema = new Schema({
     category:{
         type: String,
         required: true,
+        lowercase: true,
         validate:{
             validator: function (name) {
                 return /^[а-яА-ЯёЁa-zA-Z0-9(\s)]+$/.test(name) //

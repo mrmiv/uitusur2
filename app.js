@@ -9,8 +9,7 @@ const app = express()
 // middleware
 app.use(express.json())
 app.use(fileUpload())
-app.use('/uploads', express.static(path.join(__dirname,"uploads")))
-
+// app.use('/uploads', express.static(`${__dirname}/uploads`))
 // route middlewares
 app.use('/api/auth', require('./routes/admin.route')) //авторизация, регистрация
 app.use('/api/literature', require('./routes/literature.route')) //Литература кафедры
@@ -23,6 +22,7 @@ app.use('/api/staff', require('./routes/staff.route')) //сотрудники
 
 if(process.env.NODE_ENV==='production'){
     app.use('/', express.static(path.join(__dirname, "client", "build")))
+    app.use('/uploads', express.static(path.join(__dirname, "client", "build", "uploads")))
 
     app.get('*', (req, res)=>{
         res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))

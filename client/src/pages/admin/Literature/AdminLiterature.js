@@ -23,10 +23,8 @@ export class AdminLiterature extends Component{
         this.props.GetLiteraturePerPage(this.state.page, this.state.perPage)
     }
 
-    
     delLiterature=(id)=>{
-        this.props.delLiterature(id)
-        this.props.GetLiteraturePerPage(this.state.page, this.state.perPage)
+        this.props.delLiterature(id, this.state.page)
     }
 
     render(){
@@ -53,17 +51,17 @@ export class AdminLiterature extends Component{
                     <tbody>
                         {!isLoading && LiteratureList?
                             LiteratureList.map((item, index)=>{
-                                return(
-                                    <tr key={index}>
-                                        <th scope="row">{index}</th>
-                                        <td name="title">{item.title}</td>
-                                        <td name="author">{item.author}</td>
-                                        <td name="category">{item.category}</td>
-                                        <td name="del">
-                                            <button type="button" className="btn" onClick={()=>this.delLiterature(item._id)}><Icon icon={faTrashAlt}/></button>
-                                        </td>
-                                    </tr>
-                                )
+                            return(
+                                <tr key={index}>
+                                    <th scope="row">{index}</th>
+                                    <td name="title"><Link to={`/admin/literature/edit/${item._id}`}>{item.title}</Link></td>
+                                    <td name="author">{item.author}</td>
+                                    <td name="category">{item.category}</td>
+                                    <td name="del">
+                                        <button type="button" className="btn" onClick={()=>this.delLiterature(item._id)}><Icon icon={faTrashAlt}/></button>
+                                    </td>
+                                </tr>
+                            )
                             })
                         : <p>loading</p>}
                     </tbody>

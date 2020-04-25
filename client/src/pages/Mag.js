@@ -7,7 +7,7 @@ import Fade from 'react-reveal/Fade'
 import './styles/Student_BM.scss'
 
 import {FontAwesomeIcon as Icon} from '@fortawesome/react-fontawesome'
-import { faUniversity, faLightbulb, faGraduationCap, faMicroscope } from '@fortawesome/free-solid-svg-icons'
+import { faUniversity, faGraduationCap, faMicroscope } from '@fortawesome/free-solid-svg-icons'
 
 import lawyer_img from './img/lawyer.svg';
 import practic_img from './img/team_meeting.svg';

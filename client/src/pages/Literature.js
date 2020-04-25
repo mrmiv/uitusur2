@@ -11,19 +11,19 @@ import { useLocation, Link, useParams, NavLink } from 'react-router-dom'
 import BookView from './components/Book'
 import {Modal} from '../components/Modal'
 
-export class Student extends Component{
+export class Literature extends Component{
 
     state={
-        page: this.props.Literature.page,
+        page: 1,
         perPage: 12,
         totalPage: this.props.Literature.totalPage,
 
         sort: 1,
         category: null,
         keywords: [],
+        isLoading: false,
 
         keyword: '',
-
     }
 
     componentDidMount(){
@@ -35,19 +35,43 @@ export class Student extends Component{
         store.dispatch(closeNavbar())
     }
 
+    componentDidUpdate(prevProps, prevState){
+        const {category, sort, page} = this.state
+        
+        if(category !== prevState.category || sort !==prevState.sort || page !== prevState.page){
+            this.props.GetLiteraturePerPage(page, 12,category,sort)
+        }
+
+    }
+
     Paginate(page){
         window.scrollTo(0, 0);
-        this.props.GetLiteraturePerPage(page)
+        this.setState(page)
+        // this.props.GetLiteraturePerPage(page)
     }
 
     ChangeInput=e=>{
-        this.setState({ [e.target.name] : e.target.value })
+
+        const {keywords} = this.state
+        let query = {}
+
+        if (e.target.name === "category" && keywords!==[]){
+            query={category: e.target.value, keywords: []}
+        } else {
+            query = {[e.target.name]: e.target.value}
+        }
+
+        this.setState(query)
     }
 
     addKeyword(e){
         e.preventDefault()
-        const {keywords, keyword} = this.state
+        const {keywords, keyword, category} = this.state
         let exists;
+
+        if(category){
+            this.setState({category: null})
+        }
 
         keywords.forEach(word => {
             if(word===keyword){
@@ -69,8 +93,7 @@ export class Student extends Component{
     deleteKeyword(name){
         const {keywords} = this.state
 
-        console.log(name);
-        
+        // console.log(name);
 
         this.setState({
             keywords: keywords.filter(el => el !== name)
@@ -79,7 +102,7 @@ export class Student extends Component{
 
     render(){
         const {Literature} = this.props
-        const {LiteratureList, isLoading} = Literature
+        const {LiteratureList, isLoading, categoryFields} = Literature
 
         const {keywords} = this.state
         return(
@@ -88,11 +111,19 @@ export class Student extends Component{
                     <div className="row no-gutters literature__nav">
                         <div  className="col-6 col-sm-3">
                             <label htmlFor="Sort">Сортировка</label>
-                            <input id="Sort" disabled placeholder="По названию (От А до Я)" name="sort" type="text"/>
+                            <select name="sort" id="Sort" onChange={this.ChangeInput}>
+                                <option selected value={1}>По названию (А...Я)</option>
+                                <option value={-1}>По названию (Я...А)</option>
+                            </select>
                         </div>
                         <div  className="col-6 col-sm-3">
                             <label htmlFor="Filter">Категория</label>
-                            <input id="Filter" disabled placeholder="Все" name="filter" type="text"/>
+                            <select id="Filter" onChange={this.ChangeInput} name="category">
+                                {this.state.category===null && <option selected>Выберите категорию</option> }
+                                {categoryFields && categoryFields.map((item,index)=>{
+                                    return (<option key={index} value={item}>{item[0].toUpperCase()+item.substr(1)}</option>)
+                                })}
+                            </select>
                         </div>
                         <div  className="col-12 col-sm-6">
                             <label htmlFor="Keywords">Ключевые слова</label>
@@ -156,7 +187,7 @@ const mapStateToProps = state => ({
 export default connect(
     mapStateToProps,
     { GetLiteraturePerPage }
-)(Student)
+)(Literature)
 
 const Book = ({title, author, image, category, id}) =>{
     

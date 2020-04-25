@@ -3,12 +3,17 @@ import {connect} from 'react-redux'
 import {GetCurrentBook} from '../../redux/actions/literatureActions'
 import { FontAwesomeIcon as Icon} from '@fortawesome/react-fontawesome'
 import { faFileAlt } from '@fortawesome/free-solid-svg-icons'
+import Axios from 'axios'
 
 export class BookView extends Component{
 
     componentDidMount(){
         this.props.GetCurrentBook(this.props.id)
     }
+
+    // getdoc(docpath){
+    //     Axios.get(`/api/literature/${docpath}`).then(res=>console.log(res.data))
+    // }
 
     render(){
         const {Book, isLoading} = this.props.CurrentBook
@@ -18,9 +23,9 @@ export class BookView extends Component{
             {Book?
             <div className="row no-gutters align-content-center">
                 <div className="book__img col-lg-5 com-md-6 col-sm-6">
-                    <img src={`${document.location.href}/${Book.image}`} alt={Book.title}/>
+                    <img src={`${Book.image}`} alt={Book.title}/>
                     <div className="w-100"/>
-                    <a href="#">Читать</a>
+                    {Book.path && <a href="#">Читать</a>}
                 </div>
                 <div className="book__info col-lg-7 col-md-6 col-sm-6">
                 <h4>{Book.title}</h4>
@@ -35,8 +40,12 @@ export class BookView extends Component{
                     <strong>Аннотация</strong><br/>
                     {Book.annotation}
                     <pre/>
-                    <strong>Оглавление</strong><br/>
-                    <a href={`${document.location.href}/${Book.doc}`} target="_blank" rel="noopener noreferrer"><><Icon icon={faFileAlt}/> {Book.title}</></a>
+                    {Book.doc && <>
+                        <strong>Оглавление</strong><br/>
+                        <a href={`${Book.doc}`} target="_blank" rel="noopener noreferrer">
+                            <Icon icon={faFileAlt}/> {Book.title}
+                        </a>
+                    </>}
                 </p>
                 </div>
             </div>

@@ -13,26 +13,44 @@ router.get('/', async (req, res) => {
     const perpage = Number(req.query.perpage) || 12
     const sort = Number(req.query.sort) || 1 // 1=asc, 2=desc
     const category = req.query.filter || null
+    const keywords = req.query.keywords || null
+    console.log(keywords);
     // console.log(page, perpage, sort, category);
-    
+    let query = {}
     try {
-        await Literature.find(category?{category}:null)
+
+        if(category){
+            query ={category}
+        } else if (keywords){
+            query = {keywords: {$in:{ keywords }}}
+        }
+
+        await Literature.find(query)
             .select(['title', 'author', 'category', 'image'])
             .sort([['title',sort], ['author',1], ['category',1]])
             .skip((page-1)*perpage)
             .limit(perpage)
             .then(async data => {
-
                 if (data.length===0){
                     return res.status(404).json({message: "Такой страницы не существует"})
                 }
                 const pages = Math.ceil(await Literature.find(category?{category}:null).countDocuments()/perpage)
+
+                let fields = []
+                const arrayoffields = await Literature.find().select('category')
+                for(let f of arrayoffields){
+                    if(!fields.includes(f.category.toLowerCase())){
+                        fields.push(f.category.toLowerCase())
+                    }
+                }
+
                 res.json({
                     data,
-                    pages
+                    pages,
+                    fields
             })}
             )
-            .catch(err => res.status(400).json({message: err.mesage}))
+            .catch(err => res.status(400).json({message: err.message}))
 
     } catch (error) {
         res.status(500).json({message:error.message})
@@ -78,42 +96,24 @@ router.post('/', async (req, res) => {
             category, 
             description, 
             annotation,  
-            image: `uploads/literature/images/${image.name}`, 
+            image: `/uploads/literature/images/${image.name}`, 
             keywords,
-            doc: `uploads/literature/${doc.name}`
+            doc: `/uploads/literature/${doc.name}`
         })
-
-        try{
-            await Book.validate({image, doc}, ['image', 'doc'])
-        } catch( error){
-            error instanceof Error.ValidationError
-            return res.status(400).json({
-                message: error.message
-            })
-        }
 
         const exists = await Literature.findOne({ title }) || await Literature.findOne({ doc: Book.doc }) || await Literature.findOne({ image: Book.image })
 
         if (exists){
             return res.status(400).json({message: "Книга уже существует"})
         }
-
-        try{
-            await Book.validate({title, author, category, keywords}, ['title', 'author', 'category', 'keywords'])
-        } catch( error){
-            error instanceof Error.ValidationError
-            return res.status(400).json({
-                message: error.message
-            })
-        }
     
         // Use the mv() method to place the file somewhere on your server
-        doc.mv(`uploads/literature/${doc.name}`, function(err){
+        doc.mv(`client/public/uploads/literature/${doc.name}`, function(err){
             if (err){
                 return res.status(500).json("Ошибка при прикреплении документа: "+ err);
             }
         })
-        image.mv(`uploads/literature/images/${image.name}`, function(err){
+        image.mv(`client/public/uploads/literature/images/${image.name}`, function(err){
             if (err){
                 return res.status(500).json("Ошибка при прикреплении изображения: "+ err);
             }
@@ -156,13 +156,13 @@ router.delete('/book/:id', async (req, res) => {
 
         try {
             // delete doc
-            fs.unlink(`${doc}`, (err) => {
+            fs.unlink(`client/public${doc}`, (err) => {
                 if (err) {
                   console.error("Оглавление не было удалено"+ err)
                 }
             })
             // delete image
-            fs.unlink(`${image}`, (err) => {
+            fs.unlink(`client/public${image}`, (err) => {
                 if (err) {
                     console.error("Изображение не было удалено"+ err)
                 }
