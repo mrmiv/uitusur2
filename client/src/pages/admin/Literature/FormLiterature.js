@@ -6,7 +6,7 @@ import {postLiterature, GetCurrentBook} from '../../../redux/actions/literatureA
 import {FontAwesomeIcon as Icon} from '@fortawesome/react-fontawesome'
 import { faPlusCircle, faArrowAltCircleLeft, faBell } from '@fortawesome/free-solid-svg-icons'
 import { Link, Prompt, withRouter } from 'react-router-dom'
-import cyrillicToTranslit from 'cyrillic-to-translit-js'
+// import cyrillicToTranslit from 'cyrillic-to-translit-js'
 
 export class LiteratureForm extends Component{
 
@@ -84,10 +84,10 @@ export class LiteratureForm extends Component{
 
     handeFile = e =>{
         let file = e.target.files[0]
-        Object.defineProperty(file, 'name', {
-            writable: true,
-            value: cyrillicToTranslit().transform(file["name"],"-")
-          });
+        // Object.defineProperty(file, 'name', {
+        //     writable: true,
+        //     value: cyrillicToTranslit().transform(file["name"],"-")
+        //   });
         this.setState({[e.target.name]: file})
     }
 
