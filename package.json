@@ -31,7 +31,7 @@
     "client:install": "npm install --prefix client",
     "client:build": "npm run build --prefix client",
     "dev": "cross-env NODE_ENV=development concurrently \"npm run server\" \"npm run client\"",
-    "heroku-postbuild": "cd client && yarn install --only=dev && yarn install && yarn run build",
+    "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build",
     "test": "test"
   },
   "keywords": [
