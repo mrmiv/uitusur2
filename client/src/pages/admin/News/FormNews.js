@@ -177,17 +177,17 @@ export class NewsForm extends Component{
                             name="city" id="city-input" placeholder="Томск" value={this.state.city}/>
                         </div>
                         <div className="col form-group">
-                            <label htmlFor="period-input">{type == 2? "Период действия" : "Сроки проведения"}</label>
+                            <label htmlFor="period-input">{type === 2? "Период действия" : "Сроки проведения"}</label>
                             <input onChange={this.changeInput} type="text" className="form-control" 
                             name="period" id="period-input" placeholder="дд.мм.ггг / Весенний семестр" value={this.state.period}/>
                         </div>
-                        {type == 2 && 
+                        {type === 2 && 
                         <div className="col form-group">
                             <label htmlFor="grant-input">Сумма стипендии/гранта (₽)</label>
                             <input onChange={this.changeInput} type="text" className="form-control" 
                             name="grant" id="grant-input" placeholder="5000 ₽" value={this.state.grant}/>
                         </div> }
-                        {type == 3 && 
+                        {type === 3 && 
                         <div className="col form-group">
                             <label htmlFor="site-input">Сайт конференции</label>
                             <input onChange={this.changeInput} type="text" className="form-control" 
@@ -207,9 +207,7 @@ export class NewsForm extends Component{
                             'insertdatetime table paste code help wordcount'
                           ],
                           toolbar:
-                            'undo redo | formatselect | bold italic backcolor | \
-                            alignleft aligncenter alignright alignjustify | \
-                            bullist numlist outdent indent | removeformat | help'
+                            "undo redo | formatselect | bold italic backcolor |alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help"
                         }}
                         onEditorChange={this.changeBody}
                         id="body-input" placeholder="Иван Иванов вступил в профсоюз ТУСУРа"/>

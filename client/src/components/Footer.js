@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import './styles/Footer.scss'
 import {FontAwesomeIcon as Icon} from '@fortawesome/react-fontawesome'
-import {faVk, faYoutube, faFacebookF} from '@fortawesome/free-brands-svg-icons'
 import {Link} from 'react-router-dom'
 import { HashLink } from 'react-router-hash-link'
 import { faQuestionCircle, faCogs } from '@fortawesome/free-solid-svg-icons'
