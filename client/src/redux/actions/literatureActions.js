@@ -63,8 +63,8 @@ export const postLiterature = ({
     image,
     doc,
     author,
-    keywords
-    // path,
+    keywords,
+    path,
 }) => dispatch => {
 
     dispatch({
@@ -85,6 +85,7 @@ export const postLiterature = ({
     formdata.append('description', description)
     formdata.append('annotation', annotation)
     formdata.append('author', author)
+    formdata.append('path', path)
 
     let keywords_arr = keywords.split(' ')
 

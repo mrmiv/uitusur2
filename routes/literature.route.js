@@ -80,7 +80,8 @@ router.post('/', async (req, res) => {
         category, 
         description, 
         annotation,
-        keywords
+        keywords,
+        path
     } = req.body
 
     if(!req.files){
@@ -96,6 +97,7 @@ router.post('/', async (req, res) => {
             category, 
             description, 
             annotation,  
+            path,
             image: `/uploads/literature/images/${image.name}`, 
             keywords,
             doc: `/uploads/literature/${doc.name}`

@@ -79,7 +79,7 @@ const LiteratureSchema = new Schema({
         unique: true,
         validate:{
             validator: function(path){
-                return /^(https?:\/\/)?([\w\.]+)\.([a-z]{2,6}\.?)(\/[\w\.]*)*\/?$/.test(path)
+                return /^((https|http)?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/.test(path)
             },
             message: props => `${props.value} - Поле path содержит недопустимые символы`
         }
