@@ -99,11 +99,14 @@ router.post('/', async (req, res) => {
             annotation,  
             path,
             image: `/uploads/literature/images/${image.name}`, 
-            keywords,
-            doc: `/uploads/literature/${doc.name}`
+            keywords
         })
 
-        const exists = await Literature.findOne({ title }) || await Literature.findOne({ doc: Book.doc }) || await Literature.findOne({ image: Book.image })
+        if(doc){
+            Book.doc = `/uploads/literature/${doc.name}`
+        }
+
+        const exists = await Literature.findOne({ title }) || await Literature.findOne({ image: Book.image })
 
         if (exists){
             return res.status(400).json({message: "Книга уже существует"})

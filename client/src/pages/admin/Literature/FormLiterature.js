@@ -127,25 +127,25 @@ export class LiteratureForm extends Component{
                     <div className="form-row">
                         <div className="col form-group">
                             <label HtmlFor="titleInput">Название</label>
-                            <input onChange={this.changeInput} type="text" className="form-control" 
+                            <input onChange={this.changeInput} required type="text" className="form-control" 
                             name="title" id="titleInput" placeholder="Основы управленческой деятельности" value={this.state.title}/>
                         </div>
                         <div className="col form-group">
                             <label HtmlFor="authorInput">Авторы</label>
-                            <input onChange={this.changeInput} type="text" className="form-control" 
+                            <input onChange={this.changeInput} required type="text" className="form-control" 
                             name="author" id="authorInput" placeholder="Пушкин А.С., Чехов А.П." value={this.state.author}/>
                         </div>
                     </div>
                     <div className="form-row mt-2">
                         <div className="col form-group">
                             <label HtmlFor="categoryInput">Категория</label>
-                            <input onChange={this.changeInput} className="form-control" 
+                            <input onChange={this.changeInput} required className="form-control" 
                             name="category" id="categoryInput" placeholder="Менеджмент" value={this.state.category}/>
                         </div>
                         <div className="col form-group">
                             <label HtmlFor="imageFileInput">Обложка</label>
                             {!this.state.id?
-                             <input type="file" onChange={this.handeFile}
+                             <input type="file" required onChange={this.handeFile}
                             accept="image/jpeg, image/jpg, image/png" 
                             name="image" className="form-control-file" id="imageFileInput"/>
                             : <input type="text" disabled value={this.state.image}
@@ -169,17 +169,17 @@ export class LiteratureForm extends Component{
                     </div>
                     <div className="form-group">
                         <label HtmlFor="descriptionInput">Библиографическое описание</label>
-                        <textarea onChange={this.changeInput} type="text" className="form-control" 
+                        <textarea onChange={this.changeInput} required type="text" className="form-control" 
                         name="description" id="descriptionInput" placeholder="..." value={this.state.description}/>
                     </div>
                     <div className="form-group">
                         <label HtmlFor="annotationInput">Аннотация</label>
-                        <textarea onChange={this.changeInput} type="text" className="form-control" 
+                        <textarea onChange={this.changeInput} required type="text" className="form-control" 
                         name="annotation" id="annotationInput" placeholder="..." value={this.state.annotation}/>
                     </div>
                     <div className="form-group">
                         <label HtmlFor="keywordsInput">Ключевые слова</label>
-                        <input onChange={this.changeInput} type="text" className="form-control" 
+                        <input onChange={this.changeInput} required type="text" className="form-control" 
                         name="keywords" id="keywordsInput" placeholder="Введите ключевые слова через пробел без запятых" value={this.state.keywords}/>
                     </div>        
                     <div className="w-100 mt-2 text-right">
