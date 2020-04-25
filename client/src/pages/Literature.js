@@ -5,6 +5,7 @@ import { closeNavbar } from '../redux/actions/navbarActions'
 import { GetLiteraturePerPage } from '../redux/actions/literatureActions'
 import {FontAwesomeIcon as Icon} from '@fortawesome/react-fontawesome'
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
+import Pagination from "react-js-pagination";
 
 import "./styles/Literature.scss"
 import { useLocation, Link, useParams, NavLink } from 'react-router-dom'
@@ -16,7 +17,7 @@ export class Literature extends Component{
     state={
         page: 1,
         perPage: 12,
-        totalPage: this.props.Literature.totalPage,
+        total: this.props.Literature.total,
 
         sort: 1,
         category: null,
@@ -46,8 +47,10 @@ export class Literature extends Component{
 
     Paginate(page){
         window.scrollTo(0, 0);
-        this.setState(page)
-        // this.props.GetLiteraturePerPage(page)
+        console.log(page);
+        
+        this.setState({page})
+        this.props.GetLiteraturePerPage(page)
     }
 
     ChangeInput=e=>{
@@ -69,31 +72,17 @@ export class Literature extends Component{
         const {keywords, keyword, category} = this.state
         let exists;
 
-        if(category){
-            this.setState({category: null})
-        }
-
+        if(category){this.setState({category: null})}
         keywords.forEach(word => {
-            if(word===keyword){
-                exists=true
-            }
+            if(word===keyword){exists=true}
         })
-
-        if (keywords.length>5){
-            this.setState({keyword: ''})
-        }
-
+        if (keywords.length>5){this.setState({keyword: ''})}
         keyword.trim()
-
-        if (keyword!=='' && !exists){
-            this.setState({keywords: [...keywords, keyword], keyword: '' })
-        }
+        if (keyword!=='' && !exists){this.setState({keywords: [...keywords, keyword], keyword: '' })}
     }
 
     deleteKeyword(name){
         const {keywords} = this.state
-
-        // console.log(name);
 
         this.setState({
             keywords: keywords.filter(el => el !== name)
@@ -104,7 +93,7 @@ export class Literature extends Component{
         const {Literature} = this.props
         const {LiteratureList, isLoading, categoryFields} = Literature
 
-        const {keywords} = this.state
+        const {keywords, page, perPage, total} = this.state
         return(
             <div id="literature">
                 <div className="container-lg container-fluid">
@@ -163,16 +152,18 @@ export class Literature extends Component{
                         :<div style={{width: "100%", height: "100%"}}> Loading...
                             </div>}
                     </div>
-                    <div className="literature__pagination d-inline">
-                        {/* {!isLoading?
-                            navPages.map(link => {
-                            return <NavLink 
-                                aria-current="page"
-                                to={`/literature/${link}`}
-                                className="more-link"
-                                >{link}</NavLink >
-                            })
-                        :null} */}
+                    <div className="pagination">
+                        {(!isLoading && LiteratureList) &&
+                            <Pagination
+                            activePage={page}
+                            itemsCountPerPage={perPage}
+                            totalItemsCount={total}
+                            pageRangeDisplayed={7}
+                            itemClass="more-link"
+                            hideFirstLastPages
+                            hideDisabled
+                            onChange={this.Paginate.bind(this)} //this.Paginate.bind(this)
+                          />}
                     </div>
                 </div>
             </div>

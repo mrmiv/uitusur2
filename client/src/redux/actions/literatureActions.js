@@ -24,7 +24,7 @@ export const GetLiteraturePerPage = (page = 1, perPage = null, filter = null, so
                 type: GET_LITERATURE,
                 payload: {
                     LiteratureList: res.data.data,
-                    totalPage: res.data.pages,
+                    total: res.data.total,
                     categoryFields: res.data.fields
                 }
             })

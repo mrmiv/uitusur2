@@ -5,13 +5,15 @@ import { connect } from 'react-redux'
 import {FontAwesomeIcon as Icon} from '@fortawesome/react-fontawesome'
 import { faPlusCircle, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
+import Pagination from 'react-js-pagination'
 
 
 export class AdminLiterature extends Component{
 
     state={
         page: 1,
-        perPage: 12
+        perPage: 20,
+        total: this.props.Literature.total
     }
 
     componentWillUnmount(){
@@ -23,6 +25,13 @@ export class AdminLiterature extends Component{
         this.props.GetLiteraturePerPage(this.state.page, this.state.perPage)
     }
 
+    Paginate(page){
+        window.scrollTo(0, 0);
+        
+        this.setState({page})
+        this.props.GetLiteraturePerPage(page,this.state.perPage)
+    }
+
     delLiterature=(id)=>{
         this.props.delLiterature(id, this.state.page)
     }
@@ -30,7 +39,7 @@ export class AdminLiterature extends Component{
     render(){
         const {Literature} = this.props
         const {LiteratureList, isLoading} = Literature
-
+        const {page, perPage, total} = this.state
         return(
             <div className="container-md container-fluid">
                 <div className="row no-gutters justify-content-between">
@@ -66,6 +75,18 @@ export class AdminLiterature extends Component{
                         : <p>loading</p>}
                     </tbody>
                     </table>
+                    <div className="pagination">
+                        <Pagination
+                            activePage={page}
+                            itemsCountPerPage={perPage}
+                            totalItemsCount={total}
+                            pageRangeDisplayed={7}
+                            itemClass="more-link"
+                            hideFirstLastPages
+                            hideDisabled
+                            onChange={this.Paginate.bind(this)} //this.Paginate.bind(this)
+                        />
+                    </div>
                 </div>
             </div>
         )

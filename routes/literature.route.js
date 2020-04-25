@@ -34,7 +34,7 @@ router.get('/', async (req, res) => {
                 if (data.length===0){
                     return res.status(404).json({message: "Такой страницы не существует"})
                 }
-                const pages = Math.ceil(await Literature.find(category?{category}:null).countDocuments()/perpage)
+                const total = await Literature.find(category?{category}:null).countDocuments()
 
                 let fields = []
                 const arrayoffields = await Literature.find().select('category')
@@ -46,7 +46,7 @@ router.get('/', async (req, res) => {
 
                 res.json({
                     data,
-                    pages,
+                    total,
                     fields
             })}
             )

@@ -55,25 +55,9 @@
                     font-weight: 500;
                 }
                 strong{
-                    color: black
+                    color: black;
                 }
-                color: gray
-            }
-        }
-    }
-    .literature__pagination{
-        .more-link{
-            margin-right: 5px;
-            padding: 3px;
-            width: 35px;
-            height: 35px;
-            color: default.$lblue;
-            font-weight: bolder;
-            border: 2px solid default.$lblue;
-            &.active{
-                background: linear-gradient(default.$lblue, darkblue);
-                color: white;
-                border: none;
+                color: gray;
             }
         }
     }
