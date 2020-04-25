@@ -8,7 +8,7 @@ import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import Pagination from "react-js-pagination";
 
 import "./styles/Literature.scss"
-import { useLocation, Link, useParams, NavLink } from 'react-router-dom'
+import { useLocation, Link, useParams } from 'react-router-dom'
 import BookView from './components/Book'
 import {Modal} from '../components/Modal'
 
@@ -16,7 +16,7 @@ export class Literature extends Component{
 
     state={
         page: 1,
-        perPage: 12,
+        perPage: 6,
         total: this.props.Literature.total,
 
         sort: 1,
