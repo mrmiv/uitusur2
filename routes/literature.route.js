@@ -84,8 +84,12 @@ router.post('/', async (req, res) => {
         path
     } = req.body
 
+    if(!title){return res.status(400).json({message:"Поле заголовок является обязательным"})}
+    if(!author){return res.status(400).json({message:"Поле авторы является обязательным"})}
+    if(!category){return res.status(400).json({message:"Поле категория является обязательным"})}
+
     if(!req.files){
-        return res.status(400).json("Вы не прикрепили файл")
+        return res.status(400).json({message: "Вы не прикрепили файл"})
     }
 
     try {
@@ -116,21 +120,20 @@ router.post('/', async (req, res) => {
             // Use the mv() method to place the file somewhere on your server
             doc.mv(`uploads/literature/${doc.name}`, function(err){
                 if (err){
-                    return res.status(500).json("Ошибка при прикреплении документа: "+ err);
+                    return res.status(500).json({message: "Ошибка при прикреплении документа: "+ err});
                 }
             })
         }
 
         image.mv(`uploads/literature/images/${image.name}`, function(err){
             if (err){
-                return res.status(500).json("Ошибка при прикреплении изображения: "+ err);
+                return res.status(500).json({messagee: "Ошибка при прикреплении изображения: "+ err});
             }
         })
         // console.log(`files ${doc.name}, ${image.name} uploaded`);
         // console.log(Book);
 
         try{
-
             await Book.save()
             .then(() => res.status(201).json({message:"Книга успешно добавлена"}) )
             .catch(err => res.status(400).json({message: err.message}))

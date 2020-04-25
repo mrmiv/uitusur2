@@ -5,7 +5,7 @@ import {GET_INFO, CLEAR_INFO} from '../actions/types';
 export const returnInfo =(msg, status, id=null) => {
     return {
         type: GET_INFO,
-        payload: {msg, status, id}
+        payload: {msg: msg, status, id}
     }
 }
 

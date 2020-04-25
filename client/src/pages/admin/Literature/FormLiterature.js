@@ -24,10 +24,10 @@ export class LiteratureForm extends Component{
         doc: null,
         keywords:'',
 
-        blocked: false
+        blocked: false,
 
-        // msg: null,
-        // loading: false
+        msg: null,
+        isLoading: false
     }
 
     componentWillUnmount(){
@@ -44,7 +44,7 @@ export class LiteratureForm extends Component{
 
     componentDidUpdate(prevProps, prevState) {
         const id = this.props.match.params.id
-
+        const {msg} = this.props.info
         if(id){
 
             if(id !== prevState.id){
@@ -65,6 +65,12 @@ export class LiteratureForm extends Component{
                     keywords: Book.keywords.join(' '),
                 });
             }
+        }
+        if (msg !== prevProps.info.msg){
+            console.log(msg);
+            this.setState({msg})
+        } else if (this.props.Book.isLoading !== prevProps.Book.isLoading){
+            this.setState({isLoading: this.props.Book.isLoading})
         }
     }
 
@@ -112,7 +118,9 @@ export class LiteratureForm extends Component{
     }
 
     render(){
-
+        const {msg, isLoading}=this.state
+        console.log(msg, isLoading);
+        
         return(
             <div className="container-md container-fluid">
                 <Prompt
@@ -121,6 +129,17 @@ export class LiteratureForm extends Component{
                     `Вы действительно хотите покинуть эту страницу?`
                     }
                 />
+                {msg ? 
+                <div className={`alert 
+                ${this.props.info.id === "REQ_FAIL"? 'alert-danger': null}
+                ${this.props.info.id === "REQ_SUCCESS" ? 'alert-success': null} alert-dismissible fade show`} role="alert">
+                    {this.props.info.id === "REQ_FAIL" && <strong>Ошибка! </strong> }
+                    {this.props.info.id === "REQ_SUCCESS" && <strong>Успех! </strong>}
+                    {msg.message}.
+                <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div> : null}
                 <div className="row no-gutters justify-content-between">
                 <Link to="/admin/literature"><Icon icon={faArrowAltCircleLeft} size="lg"/> Назад</Link>
                 <form className="w-100 mt-3" onSubmit={this.submitForm}>
@@ -184,7 +203,7 @@ export class LiteratureForm extends Component{
                     </div>        
                     <div className="w-100 mt-2 text-right">
                         <button className="btn btn-success mr-0" type="submit" onClick={this.submitForm}
-                        disabled={this.state.loading}>Добавить книгу</button>
+                        disabled={isLoading}>Добавить книгу</button>
                     </div>            
                 </form>
                 
