@@ -18,8 +18,8 @@ $lgray: #c8d6e5;
                 font-family: "Inter";
                 padding: 0.25em 0;
                 font-size: 14px;
-                cursor: pointer;
                 a{
+                    cursor: pointer;
                     color: $lgray;
                     &:hover{
                         text-decoration: none;
@@ -27,17 +27,10 @@ $lgray: #c8d6e5;
                     }
                 }
 
-                &.not_active{
-                    opacity: 60%;
-                    cursor: not-allowed;
-                    color: $lgray
-                }
-                &.sub{
-                    &:before{
-                        content: '-';
-                        padding-right: 1em;
-                        opacity: 75%;
-                    }
+                &.main.not_active{
+                    opacity: 0.5;
+                    color: $lgray;
+                    a{cursor: not-allowed;}
                 }
             }
         }

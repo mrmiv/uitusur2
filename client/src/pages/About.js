@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, useState} from 'react'
 import {connect} from 'react-redux'
 import {GetStaffList} from '../redux/actions/staffActions'
 import {useLocation, useParams, Link} from 'react-router-dom'
@@ -251,6 +251,7 @@ const DispCard = (props) => {
 
 // ОТЗЫВ
 const FeedbackStaff = (props) => {
+    const [Expand, setExpand] = useState(props.text.length<180);
     return (
         <div className="row no-gutters feedback__staff align-items-center">
             <div className="col-md-3">
@@ -269,7 +270,9 @@ const FeedbackStaff = (props) => {
             </div>
             {/* добавить атрибут open из state,  и переключать динамически */}
             <p className="feedback__staff__text col-md-9"> 
-                {props.text.length<200? props.text : props.text.split(0, 200)}
+                {Expand? props.text : props.text.substr(0, 180)+"..."}
+                <br/>
+                <strong><a onClick={()=>setExpand(!Expand)}>{Expand? "Свернуть" : "Показать полностью"}</a></strong>
             </p>
         </div>
     )
@@ -288,7 +291,7 @@ const CMK = () => {
 }
 
 // СОТРУДНИК КАФЕДРЫ
-function Staff ({index,id, firstname, lastname, secondname}){
+function Staff ({id, firstname, lastname, secondname}){
 
     let location = useLocation()
 

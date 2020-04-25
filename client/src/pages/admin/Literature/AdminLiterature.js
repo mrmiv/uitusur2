@@ -62,7 +62,7 @@ export class AdminLiterature extends Component{
                             LiteratureList.map((item, index)=>{
                             return(
                                 <tr key={index}>
-                                    <th scope="row">{index}</th>
+                                    <th scope="row">{index+1}</th>
                                     <td name="title"><Link to={`/admin/literature/edit/${item._id}`}>{item.title}</Link></td>
                                     <td name="author">{item.author}</td>
                                     <td name="category">{item.category}</td>

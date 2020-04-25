@@ -105,15 +105,15 @@ export class LiteratureForm extends Component{
             doc,
             keywords} = this.state
 
-        const Book = {title,
-            description,
-            annotation,
-            category,
-            author,
+        const Book = {title: title.trim(),
+            description: description.trim(),
+            annotation: annotation.trim(),
+            category: category.trim(),
+            author: author.trim(),
             image,
-            path,
+            path: path.trim(),
             doc,
-            keywords
+            keywords: keywords.trim()
         }
 
         // console.log(Book);

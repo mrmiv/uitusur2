@@ -18,7 +18,7 @@ const LiteratureSchema = new Schema({
         unique: true,
         validate:{
             validator: function (title) {
-                return /^[а-яА-ЯёЁa-zA-Z0-9(\s)]+$/.test(title) // добавить тире
+                return /^[а-яА-ЯёЁa-zA-Z0-9(\s)(\*.,:\-_?\(\)\"\'\!\#;)]+$/.test(title) // добавить тире
             },
             message: props => `${props.value} - Поле заголовок содержит недопустимые символы`
         }
@@ -30,7 +30,7 @@ const LiteratureSchema = new Schema({
         required: [true, 'Поле авторы является обязательным'],
         validate:{
             validator: function (author) {
-                return /^[а-яА-ЯёЁa-zA-Z0-9(\s)(\-)(\.)]+$/.test(author) // добавить тире и запятую
+                return /^[а-яА-ЯёЁa-zA-Z0-9(\s)(\-)(\.)(\,)]+$/.test(author) // добавить тире и запятую
             },
             message: props => `${props.value} - Поле авторы содержит недопустимые символы`
         }
@@ -43,7 +43,7 @@ const LiteratureSchema = new Schema({
         lowercase: true,
         validate:{
             validator: function (name) {
-                return /^[а-яА-ЯёЁa-zA-Z0-9(\s)]+$/.test(name) //
+                return /^[а-яА-ЯёЁa-zA-Z0-9(\s)(\*)]+$/.test(name) //
             },
             message: props => `${props.value} - Поле категория содержит недопустимые символы`
         }
