@@ -54,7 +54,7 @@ export class Literature extends Component{
 
         const {keywords} = this.state
         let query = {}
-
+        
         if (e.target.name === "category" && keywords!==[]){
             query={category: e.target.value, keywords: []}
         } else {
@@ -119,7 +119,7 @@ export class Literature extends Component{
                         <div  className="col-6 col-sm-3">
                             <label htmlFor="Filter">Категория</label>
                             <select id="Filter" onChange={this.ChangeInput} name="category">
-                                {this.state.category===null && <option selected>Выберите категорию</option> }
+                                <option selected value={''}>Выберите категорию</option>
                                 {categoryFields && categoryFields.map((item,index)=>{
                                     return (<option key={index} value={item}>{item[0].toUpperCase()+item.substr(1)}</option>)
                                 })}

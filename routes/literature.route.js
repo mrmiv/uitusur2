@@ -96,15 +96,14 @@ router.post('/', async (req, res) => {
             author, 
             category, 
             description, 
-            annotation,  
-            path,
+            annotation,
             image: `/uploads/literature/images/${image.name}`, 
             keywords
         })
 
-        if(doc){
-            Book.doc = `/uploads/literature/${doc.name}`
-        }
+        if(path){
+            Book.path = path
+        }    
 
         const exists = await Literature.findOne({ title }) || await Literature.findOne({ image: Book.image })
 
@@ -112,12 +111,16 @@ router.post('/', async (req, res) => {
             return res.status(400).json({message: "Книга уже существует"})
         }
     
-        // Use the mv() method to place the file somewhere on your server
-        doc.mv(`uploads/literature/${doc.name}`, function(err){
-            if (err){
-                return res.status(500).json("Ошибка при прикреплении документа: "+ err);
-            }
-        })
+        if(doc){
+            Book.doc = `/uploads/literature/${doc.name}`
+            // Use the mv() method to place the file somewhere on your server
+            doc.mv(`uploads/literature/${doc.name}`, function(err){
+                if (err){
+                    return res.status(500).json("Ошибка при прикреплении документа: "+ err);
+                }
+            })
+        }
+
         image.mv(`uploads/literature/images/${image.name}`, function(err){
             if (err){
                 return res.status(500).json("Ошибка при прикреплении изображения: "+ err);

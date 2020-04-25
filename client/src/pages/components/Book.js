@@ -41,7 +41,7 @@ export class BookView extends Component{
                 <div className="book__img col-lg-5 com-md-6 col-sm-6">
                     <img src={`${Book.image}`} alt={Book.title}/>
                     <div className="w-100"/>
-                    {Book.path && <a href="#">Читать</a>}
+                    {Book.path && <a href={Book.path} target="_blank" rel="noopener noreferrer">Читать</a>}
                 </div>
                 <div className="book__info col-lg-7 col-md-6 col-sm-6">
                 <h4>{Book.title}</h4>
