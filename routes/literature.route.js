@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
     const sort = Number(req.query.sort) || 1 // 1=asc, 2=desc
     const category = req.query.filter || null
     const keywords = req.query.keywords || null
-    console.log(keywords);
+    // console.log(keywords);
     // console.log(page, perpage, sort, category);
     let query = {}
     try {
@@ -108,12 +108,12 @@ router.post('/', async (req, res) => {
         }
     
         // Use the mv() method to place the file somewhere on your server
-        doc.mv(`client/public/uploads/literature/${doc.name}`, function(err){
+        doc.mv(`uploads/literature/${doc.name}`, function(err){
             if (err){
                 return res.status(500).json("Ошибка при прикреплении документа: "+ err);
             }
         })
-        image.mv(`client/public/uploads/literature/images/${image.name}`, function(err){
+        image.mv(`uploads/literature/images/${image.name}`, function(err){
             if (err){
                 return res.status(500).json("Ошибка при прикреплении изображения: "+ err);
             }
@@ -156,13 +156,13 @@ router.delete('/book/:id', async (req, res) => {
 
         try {
             // delete doc
-            fs.unlink(`client/public${doc}`, (err) => {
+            fs.unlink(`${doc.substr(1)}`, (err) => {
                 if (err) {
                   console.error("Оглавление не было удалено"+ err)
                 }
             })
             // delete image
-            fs.unlink(`client/public${image}`, (err) => {
+            fs.unlink(`${image.substr(1)}`, (err) => {
                 if (err) {
                     console.error("Изображение не было удалено"+ err)
                 }

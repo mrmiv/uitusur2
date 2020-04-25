@@ -200,7 +200,7 @@ const Book = ({title, author, image, category, id}) =>{
                 state: {background: location}
             }}>
                 <div className="literature__bookInList">
-                    <img src={`/${image}`} alt={title}/>
+                    <img src={`${image}`} alt={title}/>
                     <p>
                         <span>{category}</span>
                         <br/>
