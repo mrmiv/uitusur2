@@ -36,7 +36,7 @@ router.get('/:type', async (req, res) => {
                 
                 res.json({data, pages})
             })
-            .catch(err => res.status(400).json({message: err.mesage}))
+            .catch(err => res.status(400).json({message: err.message}))
 
     } catch (error) {
         res.status(500).json({message:error.message})

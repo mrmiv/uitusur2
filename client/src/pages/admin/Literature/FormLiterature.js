@@ -6,7 +6,7 @@ import {postLiterature, GetCurrentBook} from '../../../redux/actions/literatureA
 import {FontAwesomeIcon as Icon} from '@fortawesome/react-fontawesome'
 import { faPlusCircle, faArrowAltCircleLeft, faBell } from '@fortawesome/free-solid-svg-icons'
 import { Link, Prompt, withRouter } from 'react-router-dom'
-
+import cyrillicToTranslit from 'cyrillic-to-translit-js'
 
 export class LiteratureForm extends Component{
 
@@ -83,14 +83,19 @@ export class LiteratureForm extends Component{
     }
 
     handeFile = e =>{
-        this.setState({[e.target.name]: e.target.files[0]})
+        let file = e.target.files[0]
+        Object.defineProperty(file, 'name', {
+            writable: true,
+            value: cyrillicToTranslit().transform(file["name"],"-")
+          });
+        this.setState({[e.target.name]: file})
     }
 
     submitForm=e=>{
         e.preventDefault()
         this.props.clearInfo()
 
-        const {title,
+        let {title,
             description,
             annotation,
             category,
@@ -99,8 +104,7 @@ export class LiteratureForm extends Component{
             path,
             doc,
             keywords} = this.state
-        
-        //   login user
+
         const Book = {title,
             description,
             annotation,
@@ -113,13 +117,11 @@ export class LiteratureForm extends Component{
         }
 
         // console.log(Book);
-
         this.props.postLiterature(Book)
     }
 
     render(){
         const {msg, isLoading}=this.state
-        console.log(msg, isLoading);
         
         return(
             <div className="container-md container-fluid">

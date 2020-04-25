@@ -1,7 +1,7 @@
 const {Router} = require('express')
 const router = Router()
 const fs = require('fs')
-// const authStaff = require('../middleware/middleware.auth.Staff')
+const auth = require('../middleware/middleware.auth')
 
 const Literature = require('../models/Literature')
 
@@ -72,7 +72,7 @@ router.get('/book/:id', async (req, res) => {
 })
 
 // Literature/
-router.post('/', async (req, res) => {
+router.post('/',auth, async (req, res) => {
 
     const {
         title, 
@@ -88,12 +88,12 @@ router.post('/', async (req, res) => {
     if(!author){return res.status(400).json({message:"Поле авторы является обязательным"})}
     if(!category){return res.status(400).json({message:"Поле категория является обязательным"})}
 
-    if(!req.files){
-        return res.status(400).json({message: "Вы не прикрепили файл"})
-    }
-
     try {
         const {doc, image} = req.files
+
+        if(!image){
+            return res.status(400).json({message: "Вы не прикрепили изображение"})
+        }
 
         const Book = new Literature({
             title, 
@@ -127,7 +127,7 @@ router.post('/', async (req, res) => {
 
         image.mv(`uploads/literature/images/${image.name}`, function(err){
             if (err){
-                return res.status(500).json({messagee: "Ошибка при прикреплении изображения: "+ err});
+                return res.status(500).json({message: "Ошибка при прикреплении изображения: "+ err});
             }
         })
         // console.log(`files ${doc.name}, ${image.name} uploaded`);
@@ -151,7 +151,7 @@ router.post('/', async (req, res) => {
 })
 
 // Literature/book/:id
-router.delete('/book/:id', async (req, res) => {
+router.delete('/book/:id',auth, async (req, res) => {
 
     const id = req.params.id
     
@@ -191,7 +191,7 @@ router.delete('/book/:id', async (req, res) => {
     }
 })
 
-router.patch('/book/:id', async (req, res) => {
+router.patch('/book/:id',auth, async (req, res) => {
 
     const id = req.params.id
     

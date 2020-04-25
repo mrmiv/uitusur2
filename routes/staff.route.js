@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
             .select(['firstname', 'lastname', 'secondname','post','degree'])
             .sort([['lastname',1], ['firstname',1], ['secondname',1]])
             .then(data => res.json(data))
-            .catch(err => res.status(400).json({message: err.mesage}))
+            .catch(err => res.status(400).json({message: err.message}))
 
     } catch (error) {
         res.status(500).json({message:error.message})

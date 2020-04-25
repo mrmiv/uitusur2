@@ -15,6 +15,7 @@ app.use('/api/auth', require('./routes/admin.route')) //авторизация, 
 app.use('/api/literature', require('./routes/literature.route')) //Литература кафедры
 app.use('/api/news', require('./routes/news.route')) //Новости
 app.use('/api/staff', require('./routes/staff.route')) //сотрудники
+app.use('/api/clubs', require('./routes/club.route')) //сотрудники
 // app.use('/user', require('./routes/user.route')) //пользовательские данные
 // app.use('/reserve', require('./routes/reserve.route')) //резерв
 // app.use('/category', require('./routes/category.route')) //категория
@@ -22,7 +23,6 @@ app.use('/api/staff', require('./routes/staff.route')) //сотрудники
 
 if(process.env.NODE_ENV==='production'){
     app.use('/', express.static(path.join(__dirname, "client", "build")))
-    app.use('/uploads', express.static(path.join(__dirname, "uploads")))
 
     app.get('*', (req, res)=>{
         res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
