@@ -14,7 +14,7 @@ export default function AdminRoutes(){
             <AdminHome title="Администратор - Кафедра управления инновациями"/>
         ))}/>
         <AdminLiteratureRoutes/>
-        <AdminStaffRoutes/>
+        <AdminStaffRoutes/> 
         <AdminNewsRoutes/>
         </>
     )
