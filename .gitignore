@@ -5,5 +5,5 @@ package-lock.json
 *.orig
 .idea/
 .vscode/
-/uploads/
-/uploads/literature
+/uploads/*
+!/uploads/literature

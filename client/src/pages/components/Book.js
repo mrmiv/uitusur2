@@ -61,7 +61,8 @@ export class BookView extends Component{
                         <a onClick={()=>this.getdoc(Book.doc)} style={{cursor:"pointer"}} target="_blank" rel="noopener noreferrer">
                             <Icon icon={faFileAlt}/> {Book.title}
                         </a>
-                        <a href={Book.doc} style={{cursor:"pointer"}} target="_blank" rel="noopener noreferrer">
+                        <br/>
+                        <a href={Book.doc} target="_blank" rel="noopener noreferrer">
                             <Icon icon={faFileAlt}/> {Book.title}
                         </a>
                     </>}
