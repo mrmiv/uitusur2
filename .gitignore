@@ -7,3 +7,5 @@ package-lock.json
 .vscode/
 /uploads/*
 !/uploads/literature
+/uploads/literature/image/*
+!/uploads/literature/image/
