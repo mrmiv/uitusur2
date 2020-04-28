@@ -1,29 +1,29 @@
 import {
-    GET_LITERATURE,
-    BOOK_LOADING,
-    GET_BOOK,
     REQ_FAIL,
     REQ_SUCCESS,
+    GET_DOCUMENTS_LIST,
+    DOC_LOADING,
+    GET_DOC,
     LOADING_REQ,
-    LOADING_LITERATURE
+    DOCS_LOADING
 } from "../../actions/types"
 import { combineReducers } from 'redux';
 
-const LiteratureState = {
-    total: 1,
-    categoryFields: [],
-    LiteratureList: [],
+const DocumentsState = {
+    docslist: [],
+    categories: [],
+    subcategories: [],
     isLoading: false
 }
 
-const BookState = {
-    Book:{},
+const DocState = {
+    Doc:{},
     isLoading: false
 }
 
-function LiteratureReducer(state=LiteratureState, action){
+function DocumentsReducer(state=DocumentsState, action){
     switch (action.type) {
-        case LOADING_LITERATURE:
+        case DOCS_LOADING:
         case LOADING_REQ:
             return{
                 ...state,
@@ -35,12 +35,13 @@ function LiteratureReducer(state=LiteratureState, action){
                 ...state,
                 isLoading: false
             }
-        case GET_LITERATURE: 
+        case GET_DOCUMENTS_LIST: 
             // console.log(state)
             return{
-                total: action.payload.total,
-                LiteratureList: action.payload.LiteratureList,
-                categoryFields: action.payload.categoryFields,
+                ...state,
+                docslist: action.payload.docslist,
+                categories: action.payload.categories,
+                subcategories: action.payload.subcategories,
                 isLoading: false
             }
         default:
@@ -48,17 +49,17 @@ function LiteratureReducer(state=LiteratureState, action){
     }
 }
 
-function BookReducer(state=BookState, action){
+function DocReducer(state=DocState, action){
     switch (action.type) {
-        case BOOK_LOADING:
+        case DOC_LOADING:
             return{
                 ...state,
                 isLoading: true
             }
-        case GET_BOOK:
+        case GET_DOC:
             return{
                 ...state,
-                Book: action.payload.Book,
+                Doc: action.payload.Doc,
                 isLoading: false
             }
         default:
@@ -67,6 +68,6 @@ function BookReducer(state=BookState, action){
 }
 
 export default combineReducers({
-    literature: LiteratureReducer,
-    book: BookReducer
+    docslist: DocumentsReducer,
+    doc: DocReducer
 })

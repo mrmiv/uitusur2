@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, Fragment} from 'react'
 import './styles/Home.scss'
 import './styles/default.scss'
 import Fade from 'react-reveal/Fade'
@@ -47,7 +47,7 @@ export class Home extends Component{
         
 // СТРАНИЦА
         return(
-            <>
+            <Fragment>
 {/* ЗАГОЛОВОК */}
             <Fade>
             <section id="title_main">
@@ -216,7 +216,7 @@ export class Home extends Component{
                 </div>
             </section>
             </Fade>
-            </>
+            </Fragment>
         )
     }
 }

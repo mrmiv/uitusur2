@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 
 import {connect} from 'react-redux'
-import { Link } from 'react-router-dom'
 
 import './styles/News.scss'
 
@@ -47,6 +46,7 @@ export class NewsList extends Component{
                         {newslist && newslist.slice(0,4).map((news, index)=>{
                             return (<div key={index} className="col-md-3 col-sm-6 col-6">
                             <LastNews 
+                            id={news._id}
                             title={news.title}
                             body={news.body}
                             datetime={news.created_at}/>
@@ -64,6 +64,7 @@ export class NewsList extends Component{
                             return (<div key={index} className="w-100">
                             <NewsInList 
                             pin={news.pin}
+                            id={news._id}
                             title={news.title}
                             body={news.body}
                             city={news.city}

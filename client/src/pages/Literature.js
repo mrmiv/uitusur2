@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, Fragment} from 'react'
 import {connect} from 'react-redux'
 import store from '../store'
 import { closeNavbar } from '../redux/actions/navbarActions'
@@ -16,7 +16,7 @@ export class Literature extends Component{
 
     state={
         page: 1,
-        perPage: 6,
+        perPage: 12,
         total: this.props.Literature.total,
 
         sort: 1,
@@ -29,7 +29,7 @@ export class Literature extends Component{
 
     componentDidMount(){
         document.title = this.props.title
-        this.props.GetLiteraturePerPage(this.state.page, this.state.perPage)
+        this.props.GetLiteraturePerPage(this.state.page, this.state.perPage, this.state.category, this.state.sort)
     }
 
     componentWillUnmount(){
@@ -38,19 +38,21 @@ export class Literature extends Component{
 
     componentDidUpdate(prevProps, prevState){
         const {category, sort, page} = this.state
-        
+        const {isLoading} = this.props.Literature
         if(category !== prevState.category || sort !==prevState.sort || page !== prevState.page){
-            this.props.GetLiteraturePerPage(page, 12,category,sort)
+            this.props.GetLiteraturePerPage(page, this.state.perPage, category, sort)
+        } else if (isLoading !== prevProps.Literature.isLoading){
+            console.log(prevProps.Literature.isLoading);
+            this.setState({isLoading: isLoading})
         }
-
     }
 
     Paginate(page){
         window.scrollTo(0, 0);
-        console.log(page);
-        
+        // console.log(page);
+        const {perPage, category, sort} = this.state
         this.setState({page})
-        this.props.GetLiteraturePerPage(page)
+        this.props.GetLiteraturePerPage(page, perPage, category, sort)
     }
 
     ChangeInput=e=>{
@@ -91,9 +93,10 @@ export class Literature extends Component{
 
     render(){
         const {Literature} = this.props
-        const {LiteratureList, isLoading, categoryFields} = Literature
+        const {LiteratureList, categoryFields} = Literature
 
-        const {keywords, page, perPage, total} = this.state
+        const {keywords, page, perPage, total, isLoading} = this.state
+        
         return(
             <div id="literature">
                 <div className="container-lg container-fluid">
@@ -135,36 +138,36 @@ export class Literature extends Component{
                             })}
                         </div>
                         }
+                    {!isLoading? 
+                    <Fragment>
                     <div className="row no-gutters literature__content">
-                        {!isLoading?
-                        LiteratureList.map((book, index) => {
-                            return(
-                                <Book key={index}
-                                    index={index} 
-                                    id={book._id}
-                                    title={book.title}
-                                    author={book.author}
-                                    image={book.image}
-                                    category={book.category}
-                                />
-                            )
-                        })    
-                        :<div style={{width: "100%", height: "100%"}}> Loading...
-                            </div>}
+                    {LiteratureList.map((book, index) => {
+                        return(
+                            <Book key={index}
+                                index={index} 
+                                id={book._id}
+                                title={book.title}
+                                author={book.author}
+                                image={book.image}
+                                category={book.category}
+                            />
+                        )
+                    })}
                     </div>
                     <div className="pagination">
-                        {(!isLoading && LiteratureList) &&
+                        {LiteratureList &&
                             <Pagination
                             activePage={page}
                             itemsCountPerPage={perPage}
                             totalItemsCount={total}
-                            pageRangeDisplayed={7}
+                            pageRangeDisplayed={5}
                             itemClass="more-link"
                             hideFirstLastPages
                             hideDisabled
                             onChange={this.Paginate.bind(this)} //this.Paginate.bind(this)
                           />}
                     </div>
+                    </Fragment> : "Загрузка"}
                 </div>
             </div>
         )
@@ -191,7 +194,7 @@ const Book = ({title, author, image, category, id}) =>{
                 state: {background: location}
             }}>
                 <div className="literature__bookInList">
-                    <img src={`${image}`} alt={title}/>
+                    <div className="literature-list-image" style={{background: `url(${image}) no-repeat`}}/>
                     <p>
                         <span>{category}</span>
                         <br/>

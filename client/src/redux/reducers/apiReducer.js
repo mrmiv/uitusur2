@@ -5,6 +5,7 @@ import { DegreeReducer, QuoteReducer } from './data/HomeReducer'
 import { StudyPlanReducer, CuratorsReducer, ClubsReducer } from './data/StudentReducer'
 import LiteratureReducer from './api/literatureReducer'
 import newsReducer from './api/newsReducer'
+import docsReducer from './api/docsReducer'
 
 export default combineReducers({
     staff: staffReducer, // Сотрудники
@@ -18,5 +19,5 @@ export default combineReducers({
     clubs: ClubsReducer,    // Внеучебная деятельность
     literature: LiteratureReducer, // Литература кафедры + книга
     news: newsReducer, // Новости по типу + новость
-
+    docs: docsReducer, // Регламентирующие документы + один док
 })

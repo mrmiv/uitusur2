@@ -24,11 +24,12 @@ const Quiz = lazy(()=> import('../pages/Quiz') )
 const Literature = lazy(()=> import('../pages/Literature') )
 const StudentBach = lazy(()=> import('../pages/Bach') )
 const StudentMag = lazy(()=> import('../pages/Mag') )
-const Login = lazy(()=> import('../pages/Login') )
-const AdminRoutes = lazy(()=> import('../routes/AdminRoutes') )
-
 const News = lazy(()=> import('../pages/News') )
+const Docs = lazy(()=> import('../pages/Docs') )
+const Login = lazy(()=> import('../pages/Login') )
+const FullNews = lazy(()=> import('../pages/components/FullNews') )
 
+const AdminRoutes = lazy(()=> import('../routes/AdminRoutes') )
 
 const Developing = lazy(()=> import('../components/Dev') )
 const PageNotFound = lazy(()=> import('../components/PageNotFound') )
@@ -90,11 +91,15 @@ function HomeRoutes({auth}){
                 </>))}/>
                 <Route path="/conferences" exact component={(()=>(<>
                     <ScrollToTop/>
-                    <News type={2} title="Конференции"/>
+                    <News type={3} title="Конференции"/>
                 </>))}/>
                 <Route path="/grants" exact component={(()=>(<>
                     <ScrollToTop/>
-                    <News type={3} title="Стипендии и гранты"/>
+                    <News type={2} title="Стипендии и гранты"/>
+                </>))}/>
+                <Route path="/news/:id" exact component={((props)=>(<>
+                    <ScrollToTop/>
+                    <FullNews id={props.match.params.id}/>
                 </>))}/>
 {/* Обучающемуся */}
                 <Route path="/student" exact component={(()=>(<>
@@ -115,7 +120,7 @@ function HomeRoutes({auth}){
                 </>))}/>
                 <Route path="/docs" exact component={(()=>(<>
                     <ScrollToTop/>
-                    <Developing/>
+                    <Docs title="Регламентирующие документы - Кафедра управления инновациями"/>
                 </>))}/>
 {/* Литература кафедры */}
                 <Route path="/literature" component={(()=>(<>

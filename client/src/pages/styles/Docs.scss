@@ -1,0 +1,36 @@
+@use 'default';
+
+#title_main.documents{
+    background: linear-gradient(default.$mint,default.$dmint);
+}
+
+#documents_list{
+    h2{color: default.$lblue}
+    h4{color: default.$dmint}
+    a.document-link{
+        padding: 8px 15px;
+        margin: 5px 5px 0 0;
+        color: #222;
+        transition: all 0.3s ease;
+        border-radius: 3px;
+        background: whitesmoke;
+        small{
+            opacity: 0.75;
+        }
+        &:after{
+            transition: all 0.3s ease;
+            content:"\0279C";
+            margin-left: 20px;
+        }
+        &:hover{
+            &:after{
+                margin-left: 30px;
+                color: default.$lblue;
+            }
+            box-shadow: 0 2px 5px default.$shadow;
+        }
+        &:active{
+            background: default.$lgray;
+        }
+    }
+}

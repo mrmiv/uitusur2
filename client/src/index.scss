@@ -1,23 +1,24 @@
-@import url('https://fonts.googleapis.com/css?family=Inter:400,500,600,700|Nunito:400,500,600&display=swap&subset=cyrillic');
-$Nunito: "Nunito"; // скругленый
-$Inter: "Inter"; // строгий
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;0,700;1,200&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
+// font-family: 'Inter', sans-serif;
+// font-family: 'Nunito', sans-serif;
+// font-family: 'Fira Sans', sans-serif;
 $pink: #B21F66;
 $lgray: #c8d6e5;
 
 *{
     padding: 0;
     margin: 0;
-    font-family: "Inter";
 }
 
 h1,h2,h3,h4,h5,h6{
-    font-family: "Nunito";
+    font-family: "Nunito", sans-serif;
     font-weight: bolder !important;
 }
 
-p{
-    font-weight: normal;
-    font-size: 0.9em;
+p,a,span,button{
+    font-family: 'Fira Sans', sans-serif;
+    font-size: 0.95em;
     margin-bottom: 0 !important;
 }
 
@@ -41,8 +42,6 @@ a, button{
 }
 
 .more-link{
-    font-family: 'Inter';
-    font-size: 0.9em;
     font-weight: normal;
     padding: 8px 20px;
     color: white;
@@ -68,7 +67,7 @@ a, button{
 
 .modal_window{
     z-index: 1291;
-    max-width: 900px;
+    max-width: 80%;
     width: -moz-max-content;
     width: -webkit-max-content;
     width: -o-max-content;

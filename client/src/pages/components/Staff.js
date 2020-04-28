@@ -40,7 +40,7 @@ export class StaffPage extends Component{
                     </strong>
                     {' ' + CurrentStaff.rank}
                 </p>}
-                    {CurrentStaff.worktime &&
+                    {CurrentStaff.worktime.length!==0 &&
                     <p>
                     <strong>
                     Время консультаций: 

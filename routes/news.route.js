@@ -5,7 +5,7 @@ const fs = require('fs')
 
 const News = require('../models/News')
 
-// /literature
+// /news
 router.get('/:type', async (req, res) => {
 
     // const {page, perpage} = req.params
@@ -85,14 +85,12 @@ router.post('/', async (req, res) => {
     if(!type){return res.status(400).json("Поле тип является обязательным")}
 
     try {
-        // const {docs} = req.files
-        // console.log(docs);
-
+        
         const news = new News({
             title, 
             body, 
-            type, 
-            pin, 
+            type: parseInt(type), 
+            pin: pin === "true", 
             site,
             city,
             deadline,
@@ -100,20 +98,32 @@ router.post('/', async (req, res) => {
             period,
             grant,
             created_at: Date.now()
-            // docs: `uploads/news/${doc.name}`
         })
-    
-        // Use the mv() method to place the file somewhere on your server
-        // docs.mv(`uploads/news/${doc.name}`, function(err){
-        //     if (err){
-        //         return res.status(500).json("Ошибка при прикреплении документа: "+ err);
+
+        // console.log(news);
+
+        // const doc = req.files
+        // console.log(req.files[0] + " docs -1 ");
+        // console.log(req.body + " body");
+
+        // if (doc){
+        //     let docs = []
+        //     for (let i = 0; i < doc.length; i++) {
+        //         const el = doc[i];
+        //         console.log(el)
+        //         el.mv(`uploads/news/${el.name}`, function(err){
+        //             if (err){
+        //                 return res.status(500).json(`Ошибка при прикреплении документа ${el.name}: `+ err);
+        //             } else {
+        //                 console.log(el.name + " uploaded");
+        //                 docs.push(`/uploads/news/${el.name}`)
+        //             }
+        //         })
         //     }
-        // })
-        // console.log(`files ${doc.name}, ${image.name} uploaded`);
-        // console.log(Book);
+        //     news.docs = docs
+        // }
 
         try{
-
             await news.save()
             .then(() => res.status(201).json({message:"Новость создана"}) )
             .catch(err => res.status(400).json({message: err.message}))

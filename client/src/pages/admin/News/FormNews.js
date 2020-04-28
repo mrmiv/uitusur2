@@ -3,10 +3,11 @@ import { closeNavbar } from '../../../redux/actions/navbarActions'
 import { connect } from 'react-redux'
 import { Editor } from '@tinymce/tinymce-react';
 import {clearInfo} from '../../../redux/actions/infoActions'
-import {ReadNews} from '../../../redux/actions/newsActions'
+import {ReadNews, postNews} from '../../../redux/actions/newsActions'
 import {FontAwesomeIcon as Icon} from '@fortawesome/react-fontawesome'
 import { faArrowAltCircleLeft, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { Link, Prompt, withRouter } from 'react-router-dom'
+import CyrillicToTranslit from 'cyrillic-to-translit-js';
 
 export class NewsForm extends Component{
 
@@ -22,6 +23,7 @@ export class NewsForm extends Component{
         users: '',
         period: '',
         grant: '',
+        // doc: null,
 
         pin: false,
         send_to_email: false,
@@ -57,14 +59,14 @@ export class NewsForm extends Component{
                 this.setState({ 
                     title: News.title,
                     body: News.body,
-                    type: News.type,
+                    type: String(News.type),
                     site: News.site,
                     city: News.city,
-                    deadline: News.deadline,
+                    deadline: new Date(News.deadline),
                     users: News.users,
                     grant: News.grant,
-                    pin:News.pin,
-                    period:News.period
+                    pin: News.pin,
+                    period: News.period
                 });
             }
         }
@@ -82,6 +84,24 @@ export class NewsForm extends Component{
             this.setState({blocked:true})
         }
     }
+
+    changeCheckbox = e =>{
+        const field = e.target.name        
+        this.setState({[field]: e.target.checked})
+    }
+
+    // handeFile = e =>{
+    //     let files = e.target.files
+    //     for (let i = 0; i<files.length; i++){
+    //         console.log(files[i]);
+    //         Object.defineProperty(files[i], 'name', {
+    //             writable: true,
+    //             value: CyrillicToTranslit().transform(files[i]["name"],"-")
+    //         });
+    //     }
+    //     this.setState({doc: files})
+    // }
+
     changeBody = body => {
         this.setState({body})
         if (!this.state.blocked){
@@ -94,36 +114,58 @@ export class NewsForm extends Component{
         this.props.clearInfo()
         const id = this.state.id
 
-        // const {firstname,
-        // secondname,
-        // lastname,
-        // post,
-        // degree,
-        // path,
-        // rank,
-        // worktime} = this.state
+        const {
+            title,
+            body,
+            type,
+            site,
+            city,
+            deadline,
+            users,
+            period,
+            grant,
+            // doc,
 
-        // const Staff = {firstname:firstname.trim(),
-        //     secondname:secondname.trim(),
-        //     lastname:lastname.trim(),
-        //     post: post.trim(),
-        //     degree:degree.trim(),
-        //     rank:rank.trim(),
-        //     path:path.trim(),
-        //     worktime}
+            pin,
+            send_to_email
+        } = this.state
 
+        let fields = {
+            title, body, pin, send_to_email, type
+        }
+
+        // console.log("this is docs",doc);
+        
+        if(users){fields.users=users}
+        if(deadline){fields.deadline=deadline}
+        // if(doc){fields.doc=doc}
+
+        if (type === "2"){
+            // стипендии и гранты
+            fields.city = city
+            fields.grant = grant
+            fields.period = period
+        } else if (type ==="3"){
+            // конференции
+            fields.city = city
+            fields.site = site
+            fields.period = period
+        }
+
+        // console.log(fields);
+        const News = fields
         // console.log(Staff);
 
-        // if(id){
-        //     this.props.patchStaff(id,Staff)
-        // } else {
-        //     this.props.postStaff(Staff)
-        // }
+        if(id){
+            console.log(fields);
+            // this.props.patchStaff(id,Staff)
+        } else {
+            this.props.postNews(News)
+        }
     }
 
-    render(){
-        const {type} = this.state
-
+    render(){        
+        const {type} = this.state        
         return(
             <div className="container-md container-fluid">
                 <Prompt
@@ -148,28 +190,29 @@ export class NewsForm extends Component{
                         </div>
                         <div className="col form-group">
                             <label htmlFor="type-input">Категория</label>
-                            <select onChange={this.changeInput} type="text" className="form-control" 
+                            <select onChange={this.changeInput} type="text" value={this.state.type} className="form-control" 
                             name="type" id="type-input">
-                                {!type && <option selected>Выберите категорию...</option> }
-                                <option name="Объявления кафедры" value={1}>Объявления кафедры</option>
-                                <option name="Стипендии и гранты" value={2}>Стипендии и гранты</option>
-                                <option name="Конференции" value={3}>Конференции</option>
+                                {!type && <option defaultValue>Выберите категорию...</option> }
+                                <option name="Объявления кафедры" value={"1"}>Объявления кафедры</option>
+                                <option name="Стипендии и гранты" value={"2"}>Стипендии и гранты</option>
+                                <option name="Конференции" value={"3"}>Конференции</option>
                             </select>
                         </div>
                     </div>
-                    <div className="form-row">
-                        <div className="col form-group">
+                    {/* <div className="form-row"> */}
+                        <div className="form-group">
                             <label htmlFor="deadline-input">Крайний срок</label>
                             <input onChange={this.changeInput} type="date" className="form-control" 
-                            name="deadline" id="deadline-input" placeholder="21.02.2020 12:31" value={this.state.deadline}/>
+                            name="deadline" id="deadline-input" placeholder="21.02.2020 12:31" 
+                            value={this.state.deadline}/>
                         </div>
-                        <div className="col form-group">
+                        {/*<div className="col form-group">
                             <label htmlFor="doc-input">Вложения</label>
-                            <input onChange={this.changeInput} type="file" multiple className="form-control-file" 
-                            name="doc" id="doc-input" value={this.state.doc}/>
-                        </div>
-                    </div>
-                    {type && type!==1 &&
+                            <input type="file" onChange={this.handeFile} multiple className="form-control-file" 
+                            name="doc" id="doc-input" />
+                        </div> */}
+                    {/* </div> */}
+                    {type && type!=="1" &&
                     <div className="form-row">
                         <div className="col form-group">
                             <label htmlFor="city-input">Место проведения</label>
@@ -177,17 +220,17 @@ export class NewsForm extends Component{
                             name="city" id="city-input" placeholder="Томск" value={this.state.city}/>
                         </div>
                         <div className="col form-group">
-                            <label htmlFor="period-input">{type === 2? "Период действия" : "Сроки проведения"}</label>
+                            <label htmlFor="period-input">{type === "2"? "Период действия" : "Сроки проведения"}</label>
                             <input onChange={this.changeInput} type="text" className="form-control" 
-                            name="period" id="period-input" placeholder="дд.мм.ггг / Весенний семестр" value={this.state.period}/>
+                            name="period" id="period-input" placeholder="дд.мм.гг / Весенний семестр" value={this.state.period}/>
                         </div>
-                        {type === 2 && 
+                        {type === "2" && 
                         <div className="col form-group">
                             <label htmlFor="grant-input">Сумма стипендии/гранта (₽)</label>
                             <input onChange={this.changeInput} type="text" className="form-control" 
                             name="grant" id="grant-input" placeholder="5000 ₽" value={this.state.grant}/>
                         </div> }
-                        {type === 3 && 
+                        {type === "3" && 
                         <div className="col form-group">
                             <label htmlFor="site-input">Сайт конференции</label>
                             <input onChange={this.changeInput} type="text" className="form-control" 
@@ -212,8 +255,20 @@ export class NewsForm extends Component{
                         onEditorChange={this.changeBody}
                         id="body-input" placeholder="Иван Иванов вступил в профсоюз ТУСУРа"/>
                     </div>
-                    <div className="w-100 mt-2 text-right">
-                        <button className="btn btn-success mr-0" type="submit"
+                    <div className="w-100 mt-2 d-flex justify-content-between align-items-bottom">
+                    <div>
+                    <div className="form-group form-check">
+                        <input type="checkbox" className="form-check-input"  id="sendemail" 
+                        checked={this.state.send_to_email} name="send_to_email" onChange={this.changeCheckbox}/>
+                        <label className="form-check-label" htmlFor="sendemail">Уведомить по почте</label>
+                    </div>
+                    <div className="form-group form-check">
+                        <input type="checkbox" className="form-check-input"  id="pin" 
+                        checked={this.state.pin} name="pin" onChange={this.changeCheckbox}/>
+                        <label className="form-check-label" htmlFor="pin">Закрепить новость</label>
+                    </div>
+                    </div>
+                        <button className="btn btn-success mr-0 h-50" type="submit"
                         disabled={this.state.loading}>{this.state.id? "Обновить новость" :"Добавить новость"}</button>
                     </div>      
                 </form>
@@ -230,5 +285,5 @@ const mapStateToProps = state => ({
   
 export default withRouter(connect(
     mapStateToProps,
-    { closeNavbar, clearInfo, ReadNews }
+    { closeNavbar, clearInfo, ReadNews, postNews}
 )(NewsForm))

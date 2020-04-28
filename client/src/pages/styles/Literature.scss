@@ -43,13 +43,17 @@
             padding: 10px;
             box-shadow: 0 3px 10px default.$shadow;
             border-radius: 10px;
-            img{
-                border-radius: 10px;
-                max-width: 100%;
-                height: auto;
-                max-height: 200px;
+            .literature-list-image{
+                background-size: cover !important;
+                background-position: center center !important;
+                border-radius: 5px;
+                height: 190px;
             }
             p{
+                -moz-hyphens: auto;
+                -webkit-hyphens: auto;
+                -ms-hyphens: auto;
+                hyphens: auto;
                 span{
                     color: default.$lblue;
                     font-weight: 500;

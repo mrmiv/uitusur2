@@ -1,6 +1,7 @@
 import { 
     GET_LITERATURE, 
     BOOK_LOADING, 
+    LOADING_LITERATURE,
     GET_BOOK, 
     LOADING_REQ, 
     REQ_SUCCESS,
@@ -12,14 +13,17 @@ import { returnInfo } from './infoActions';
 
 export const GetLiteraturePerPage = (page = 1, perPage = null, filter = null, sort = null) => dispatch => {
 
+    dispatch({
+        type: LOADING_LITERATURE
+    })
+
     let query = `/api/literature?page=${page}&perpage=${perPage || 12}&sort=${sort || 1}${filter!==null? `&filter=${filter}`:''}`
-    console.log(query);
-    
+    // console.log(query);
+
     // get /literature/?page=1&?perPage=12?category=all&?sort=asc
     axios.get(query)
         .then(res => {
-            console.log(res.data);
-            
+            // console.log(res.data);
             dispatch({
                 type: GET_LITERATURE,
                 payload: {

@@ -51,63 +51,69 @@ export const ReadNews = (id) => dispatch => {
     })
 }
 
-// export const postLiterature = ({
-//     title,
-//     category,
-//     description,
-//     annotation,
-//     image,
-//     doc,
-//     author,
-//     keywords
-//     // path,
-// }) => dispatch => {
+export const postNews = ({
+    title,
+    site,
+    type,
+    deadline,
+    body,
+    city,
+    users,
+    // doc,
+    period,
+    grant,
+    pin,
+    send_to_email,
+}) => dispatch => {
 
-//     dispatch({
-//         type: LOADING_REQ
-//     })
+    dispatch({
+        type: LOADING_REQ
+    })
     
-//     const headers={
-//         "Content-type" : "multipart/form-data",
-//         "token": sessionStorage.getItem("token")
-//     }
+    const headers={
+        "Content-type" : "multipart/form-data",
+        "token": sessionStorage.getItem("token")
+    }
+    
+    const formdata = new FormData()
 
-//     const formdata = new FormData()
+    formdata.append('title', title)
+    formdata.append('body', body)
+    formdata.append('type', type)
 
-//     formdata.append('image', image)
-//     formdata.append('doc', doc)
-//     formdata.append('title', title)
-//     formdata.append('category', category)
-//     formdata.append('description', description)
-//     formdata.append('annotation', annotation)
-//     formdata.append('author', author)
+    if(site){formdata.append('site', site)}
+    if(deadline){formdata.append('deadline', deadline)}
+    if(city){formdata.append('city', city)}
+    if(users){formdata.append('users', users)}
+    if(period){formdata.append('period', period)}
+    if(grant){formdata.append('grant', grant)}
+    formdata.append('pin', pin)
+    formdata.append('send_to_email', send_to_email)
 
-//     let keywords_arr = keywords.split(' ')
-
-//     keywords_arr.forEach(item => {
-//         // console.log(item, keywords_arr.indexOf(item));
-//          // keywords[:index] = keyword
-//         formdata.append(`keywords[${keywords_arr.indexOf(item)}]`, item)
-//     })
-       
-//     // get /literature/book/id
-//     axios({
-//         url: '/literature',
-//         method: 'POST',
-//         headers,
-//         data: formdata
-
-//     })
-//     .then(res => {
-//         dispatch(returnInfo(res.data.message, res.status, 'REQ_SUCCESS'))
-//         dispatch({
-//             type: REQ_SUCCESS
-//         })
-//     })
-//     .catch(err => {
-//         dispatch(returnInfo(err.response.data, err.response.status, 'REQ_FAIL'))
-//         dispatch({
-//             type: REQ_FAIL
-//         })
-//     })
-// }
+    // if (doc){
+    //     for (let i = 0; i<doc.length; i++){
+    //         console.log(doc[i] + "ЭТО I ФАЙЛ");
+    //         formdata.append('doc[]',doc[i])
+    //     }
+    // }
+    
+    // get /literature/book/id
+    axios({
+        url: '/api/news',
+        method: 'POST',
+        headers,
+        data: formdata
+    })
+    .then(res => {
+        dispatch(returnInfo(res.data.message, res.status, 'REQ_SUCCESS'))
+        dispatch({
+            type: REQ_SUCCESS
+        })
+    })
+    .catch(err => {
+        dispatch(returnInfo(err.response.data, err.response.status, 'REQ_FAIL'))
+        dispatch({
+            type: REQ_FAIL
+        })
+    })
+}

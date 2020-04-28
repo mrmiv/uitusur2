@@ -59,7 +59,7 @@ function OneNewsReducer(state=OneNewsState, action){
                 isLoading: false
             }
         default:
-            return state
+            return {...state, isLoading: false}
     }
 }
 

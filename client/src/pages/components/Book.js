@@ -1,9 +1,9 @@
-import React, {Component} from 'react'
+import React, {Component, Fragment} from 'react'
 import {connect} from 'react-redux'
 import {GetCurrentBook} from '../../redux/actions/literatureActions'
 import { FontAwesomeIcon as Icon} from '@fortawesome/react-fontawesome'
 import { faFileAlt } from '@fortawesome/free-solid-svg-icons'
-import Axios from 'axios'
+// import Axios from 'axios'
 
 export class BookView extends Component{
 
@@ -11,25 +11,25 @@ export class BookView extends Component{
         this.props.GetCurrentBook(this.props.id)
     }
 
-    getdoc=docpath=>{
-        Axios(`${docpath}`, {
-            method: 'GET',
-            responseType: 'blob' //Force to receive data in a Blob Format
-        })
-        .then(response => {
-        //Create a Blob from the PDF Stream
-            const file = new Blob(
-              [response.data], 
-              {type: 'application/pdf'});
-        //Build a URL from the file
-            const fileURL = URL.createObjectURL(file);
-        //Open the URL on new Window
-            window.open(fileURL);
-        })
-        .catch(error => {
-            console.log(error);
-        });
-    }
+    // getdoc=docpath=>{
+    //     Axios(`${docpath}`, {
+    //         method: 'GET',
+    //         responseType: 'blob' //Force to receive data in a Blob Format
+    //     })
+    //     .then(response => {
+    //     //Create a Blob from the PDF Stream
+    //         const file = new Blob(
+    //           [response.data], 
+    //           {type: 'application/pdf'});
+    //     //Build a URL from the file
+    //         const fileURL = URL.createObjectURL(file);
+    //     //Open the URL on new Window
+    //         window.open(fileURL);
+    //     })
+    //     .catch(error => {
+    //         console.log(error);
+    //     });
+    // }
 
     render(){
         const {Book, isLoading} = this.props.CurrentBook
@@ -56,16 +56,12 @@ export class BookView extends Component{
                     <strong>Аннотация</strong><br/>
                     {Book.annotation}
                     <pre/>
-                    {Book.doc && <>
+                    {Book.doc && <Fragment>
                         <strong>Оглавление</strong><br/>
-                        <a onClick={()=>this.getdoc(Book.doc)} style={{cursor:"pointer"}} target="_blank" rel="noopener noreferrer">
-                            <Icon icon={faFileAlt}/> {Book.title}
-                        </a>
-                        <br/>
                         <a href={Book.doc} target="_blank" rel="noopener noreferrer">
-                            <Icon icon={faFileAlt}/> {Book.title}
+                            <Icon size="lg" icon={faFileAlt}/> {Book.title}
                         </a>
-                    </>}
+                    </Fragment>}
                 </p>
                 </div>
             </div>

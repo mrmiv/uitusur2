@@ -11,9 +11,7 @@ export class AdminNews extends Component{
 
     state={
         type: 1,
-
         NewsList: [],
-
         page: 1,
         perPage: 12
     }

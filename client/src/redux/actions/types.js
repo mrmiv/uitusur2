@@ -23,6 +23,7 @@ export const CURRENT_STAFF_LOADING = "CURRENT_STAFF_LOADING"
 
 // Литература кафедры
 export const GET_LITERATURE = "GET_LITERATURE"
+export const LOADING_LITERATURE = "LOADING_LITERATURE"
 export const BOOK_LOADING = "BOOK_LOADING"
 export const GET_BOOK = "GET_BOOK"
 
@@ -31,6 +32,14 @@ export const GET_NEWSLIST = "GET_NEWSLIST"
 export const NEWS_LOADING = "NEWS_LOADING" 
 export const GET_NEWS = "GET_NEWS" 
 
+// Регламентирующие документы
+export const GET_DOCUMENTS_LIST = "GET_DOCUMENTS_LIST" 
+export const DOC_LOADING = "DOC_LOADING"
+export const DOCS_LOADING = "DOCS_LOADING" 
+
+export const GET_DOC = "GET_DOC" 
+
+// Запросы
 export const LOADING_REQ = "LOADING_REQ"
 export const REQ_SUCCESS = "REQ_SUCCESS"
 export const REQ_FAIL = "REQ_FAIL"

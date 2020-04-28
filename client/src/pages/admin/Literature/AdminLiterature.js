@@ -13,6 +13,7 @@ export class AdminLiterature extends Component{
     state={
         page: 1,
         perPage: 20,
+        category: null,
         total: this.props.Literature.total
     }
 

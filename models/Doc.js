@@ -3,17 +3,31 @@ const {Schema, model} = require('mongoose')
 
 const DocSchema = new Schema({
 
-    name: {
+    title: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        validate:{
+            validator: function (name) {
+                return /^[а-яА-ЯёЁa-zA-Z0-9(\s)(\*.,:\-_?\(\)"'!#;)]+$/.test(name)
+            },
+            message: props => `${props.value} - Поле заголовок содержит недопустимые символы`
+        }
     },
 
-    category:{
+// категория 
+    category: {
         type: String,
-        required: true,
+        lowercase: true,
+        required:true,
+        trim: true,
     },
-
+// подкатегория 
+    subcategory: {
+        type: String,
+        lowercase: true,
+        trim: true
+    },
 // document
     document: {
         type: String
@@ -22,8 +36,8 @@ const DocSchema = new Schema({
     path: {
         type: String
     },
-
-    data: {
+// дата утверждения
+    date: {
         type: Date
     }
 
