@@ -24,6 +24,7 @@ function NewsReducer(state=NewsState, action){
         case LOADING_REQ:
             return{
                 ...state,
+                NewsList: [],
                 isLoading: true
             }
         case REQ_FAIL:

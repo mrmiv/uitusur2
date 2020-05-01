@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import { closeNavbar } from '../../../redux/actions/navbarActions'
-import { GetNewsList } from '../../../redux/actions/newsActions'
+import { clearInfo } from '../../../redux/actions/infoActions'
+import { GetNewsList ,delNews} from '../../../redux/actions/newsActions'
+import {toDate} from '../../components/NewsList'
 import { connect } from 'react-redux'
 import {FontAwesomeIcon as Icon} from '@fortawesome/react-fontawesome'
 import { faPlusCircle, faTrashAlt, faMapPin } from '@fortawesome/free-solid-svg-icons'
@@ -11,9 +13,10 @@ export class AdminNews extends Component{
 
     state={
         type: 1,
-        NewsList: [],
         page: 1,
-        perPage: 12
+        perPage: 12,
+
+        msg: null
     }
 
     componentWillUnmount(){
@@ -25,32 +28,45 @@ export class AdminNews extends Component{
         this.props.GetNewsList(1)
     }
 
-    componentDidUpdate(prevProps) {
-
-        const {NewsList} = this.props.news
+    componentDidUpdate(prevProps, prevState) {
+        const {msg} = this.props.info
         
-        if (NewsList !== prevProps.news.NewsList) {
-            this.setState({ NewsList });
+        if (msg !== prevProps.info.msg){
+            this.setState({msg})
         }
     }
 
-    // delStaff=(id)=>{
-    //     this.props.delStaff(id)
-    //     this.props.GetStaffList()
-    // }
+    delNews=id=>{
+        this.props.delNews(id)
+        this.props.GetNewsList(this.state.type)
+    }
 
     setNewsType = e => {
+        this.props.clearInfo()
         const type = e.target.value
-        
         this.setState({type})
         this.props.GetNewsList(type)
     }
 
     render(){
-        const {NewsList} = this.state
+        const {msg} = this.state
+        const {news} = this.props
+        
+        const {NewsList, isLoading} = news
         
         return(
             <div className="container-md container-fluid">
+                {msg ? 
+                <div className={`alert 
+                ${this.props.info.id === "REQ_FAIL"? 'alert-danger': null}
+                ${this.props.info.id === "REQ_SUCCESS" ? 'alert-success': null} alert-dismissible fade show`} role="alert">
+                    {this.props.info.id === "REQ_FAIL" && <strong>Ошибка! </strong> }
+                    {this.props.info.id === "REQ_SUCCESS" && <strong>Успех! </strong>}
+                    {msg.message}.
+                <button type="button" className="close" data-dismiss="alert" onClick={()=>this.props.clearInfo()} aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div> : null}
                 <div className="row no-gutters justify-content-between">
                 <h2>Новости кафедры</h2>
                 <select onChange={this.setNewsType}>
@@ -72,13 +88,19 @@ export class AdminNews extends Component{
                         </tr>
                     </thead>
                     <tbody>
-                        {NewsList?
+                        {NewsList && !isLoading?
                             NewsList.map((item, index)=>{
-                                return(<NewsRow key={index} 
-                                    index={index}
-                                    title={item.title} 
-                                    datetime={item.created_at} 
-                                    id={item._id}/>)
+                                return(<tr>
+                                    <th scope="row">{index}</th>
+                                    <td name="title"><Link to={`/admin/news/form/${item._id}`}>{item.title}</Link></td>
+                                    <td name="date">{toDate(item.created_at, true) }</td>
+                                    <td name="pin">
+                                        <button type="button" className="btn"><Icon icon={faMapPin}/></button>
+                                    </td>
+                                    <td name="del">
+                                        <button type="button" className="btn" onClick={()=>this.delNews(item._id, this.state.type)}><Icon icon={faTrashAlt}/></button>
+                                    </td>
+                                </tr>)
                             })
                         : <p>loading</p>}
                     </tbody>
@@ -96,34 +118,5 @@ const mapStateToProps = state => ({
   
 export default withRouter(connect(
     mapStateToProps,
-    { closeNavbar, GetNewsList}
+    { closeNavbar, clearInfo, GetNewsList, delNews}
 )(AdminNews))
-
-function NewsRow({index, id, title, datetime}) {
-
-    const date = new Date(datetime)
-
-    const day = date.getDate()
-    let month = date.getMonth()
-    if (month<10){month = "0"+month}
-    const year = date.getFullYear()
-    const hour = date.getHours()
-    const minute = date.getMinutes()
-
-    const created_at = day+'.'+month+'.'+year+' '+hour+':'+minute
-
-    return(
-        <tr>
-            <th scope="row">{index}</th>
-            <td name="title"><Link to={`/admin/news/form/${id}`}>{title}</Link></td>
-            <td name="date">{created_at}</td>
-            <td name="pin">
-                <button type="button" className="btn"><Icon icon={faMapPin}/></button>
-            </td>
-            <td name="del">
-                <button type="button" className="btn"><Icon icon={faTrashAlt}/></button>
-            </td>
-        </tr>
-    )
-    
-}

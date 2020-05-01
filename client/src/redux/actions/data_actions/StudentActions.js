@@ -1,9 +1,9 @@
 import {GET_STUDYPLAN,
-        GET_CURATORS,
-        GET_CLUBS
+        GET_CURATORS
 } from './types'
 
 import axios from 'axios'
+import { LOADING_REQ, REQ_FAIL, REQ_SUCCESS } from '../types'
 
 export const GetDataStudent = () => dispatch => {
 
@@ -14,19 +14,6 @@ export const GetDataStudent = () => dispatch => {
             dispatch({
                 type: GET_CURATORS,
                 payload: {CuratorList: res.data}
-            })
-            return res.data})
-        .catch(err => {
-            console.error(err);
-    })
-
-    axios.get('/json/clubs.json')
-        .then(res => {
-            // console.log("ACTION", res.data[id]);
-            
-            dispatch({
-                type: GET_CLUBS,
-                payload: {ClubsList: res.data}
             })
             return res.data})
         .catch(err => {

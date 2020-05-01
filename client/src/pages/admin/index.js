@@ -28,6 +28,11 @@ export class AdminHome extends Component{
                 path: 'literature',
                 name: 'Литература',
                 icon: <Icon icon={booksIcon}/>
+            },
+            {
+                path: 'clubs',
+                name: 'Внеучебная деятельность',
+                icon: <Icon icon={booksIcon}/>
             }
         ]
     }

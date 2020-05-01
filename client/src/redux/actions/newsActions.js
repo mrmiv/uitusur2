@@ -26,7 +26,10 @@ export const GetNewsList = (type, page = 1, perPage = null) => dispatch => {
             })
             return res.data})
         .catch(err => {
-            console.error(err);
+            dispatch(returnInfo(err.response.data, err.response.status, 'REQ_FAIL'))
+            dispatch({
+                type: REQ_FAIL
+            })
     })
 }
 
@@ -47,7 +50,10 @@ export const ReadNews = (id) => dispatch => {
             })
             return res.data})
         .catch(err => {
-            console.error(err);
+            dispatch(returnInfo(err.response.data, err.response.status, 'REQ_FAIL'))
+            dispatch({
+                type: REQ_FAIL
+            })
     })
 }
 
@@ -104,6 +110,33 @@ export const postNews = ({
         headers,
         data: formdata
     })
+    .then(res => {
+        dispatch(returnInfo(res.data.message, res.status, 'REQ_SUCCESS'))
+        dispatch({
+            type: REQ_SUCCESS
+        })
+    })
+    .catch(err => {
+        dispatch(returnInfo(err.response.data, err.response.status, 'REQ_FAIL'))
+        dispatch({
+            type: REQ_FAIL
+        })
+    })
+}
+
+export const delNews = (id) => dispatch => {
+
+    dispatch({
+        type: LOADING_REQ
+    })
+    
+    const config = {
+        headers:{
+            "token": sessionStorage.getItem("token")
+        }
+    }
+
+    axios.delete(`/api/news/read/${id}`, config)
     .then(res => {
         dispatch(returnInfo(res.data.message, res.status, 'REQ_SUCCESS'))
         dispatch({

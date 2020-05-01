@@ -1,21 +1,15 @@
 import React, {Component} from 'react'
 import { closeNavbar } from '../../../redux/actions/navbarActions'
 import { clearInfo } from '../../../redux/actions/infoActions'
-import { GetLiteraturePerPage, delLiterature } from '../../../redux/actions/literatureActions'
+import { getClubs, delClub } from '../../../redux/actions/data_actions/clubsAction'
 import { connect } from 'react-redux'
 import {FontAwesomeIcon as Icon} from '@fortawesome/react-fontawesome'
 import { faPlusCircle, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
-import Pagination from 'react-js-pagination'
 
-export class AdminLiterature extends Component{
+export class AdminClubs extends Component{
 
     state={
-        page: 1,
-        perPage: 20,
-        category: null,
-        total: this.props.Literature.total,
-
         msg: null
     }
 
@@ -26,7 +20,7 @@ export class AdminLiterature extends Component{
     componentDidMount(){
         this.props.clearInfo()
         document.title = this.props.title
-        this.props.GetLiteraturePerPage(this.state.page, this.state.perPage)
+        this.props.getClubs()
     }
 
     componentDidUpdate(prevProps){
@@ -36,23 +30,15 @@ export class AdminLiterature extends Component{
         }
     }
 
-    Paginate(page){
-        this.props.clearInfo()
-        window.scrollTo(0, 0);
-        this.setState({page})
-        this.props.GetLiteraturePerPage(page,this.state.perPage)
-    }
-
-    delLiterature=(id)=>{
+    delClub=(id)=>{
         window.scrollTo(0,0)
         this.props.clearInfo()
-        this.props.delLiterature(id, this.state.page)
+        this.props.delClub(id)
     }
 
     render(){
-        const {Literature} = this.props
-        const {LiteratureList, isLoading} = Literature
-        const {page, perPage, total, msg} = this.state
+        const {Clubs} = this.props
+        const {msg} = this.state
         return(
             <div className="container-md container-fluid">
                 {msg ? 
@@ -67,31 +53,29 @@ export class AdminLiterature extends Component{
                 </button>
                 </div> : null}
                 <div className="row no-gutters justify-content-between">
-                <h2>Литература кафедры</h2>
-                <Link to="/admin/literature/add">Добавить книгу <Icon icon={faPlusCircle}/></Link>
+                <h2>Внеучебная деятельность</h2>
+                <Link to="/admin/clubs/add">Добавить клуб<Icon icon={faPlusCircle}/></Link>
                 <div className="w-100"/>
                 <table class="table table-hover">
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Заголовок</th>
-                            <th scope="col">Авторы</th>
-                            <th scope="col">Категория</th>
+                            <th scope="col">Название</th>
+                            <th scope="col">Руководитель</th>
                             <th scope="col" style={{width:"50px", textAlign: "center"}}><Icon icon={faTrashAlt}/></th>
                             {/* style={{width="50px"}} */}
                         </tr>
                     </thead>
                     <tbody>
-                        {!isLoading && LiteratureList?
-                            LiteratureList.map((item, index)=>{
+                        {Clubs ?
+                            Clubs.map((item, index)=>{
                             return(
                                 <tr key={index}>
                                     <th scope="row">{index+1}</th>
-                                    <td name="title"><Link to={`/admin/literature/edit/${item._id}`}>{item.title}</Link></td>
-                                    <td name="author">{item.author}</td>
-                                    <td name="category">{item.category}</td>
+                                    <td name="title"><Link to={`/admin/clubs/edit/${item._id}`}>{item.name}</Link></td>
+                                    <td name="author">{item.leader}</td>
                                     <td name="del">
-                                        <button type="button" className="btn" onClick={()=>this.delLiterature(item._id)}><Icon icon={faTrashAlt}/></button>
+                                        <button type="button" className="btn" onClick={()=>this.delClub(item._id)}><Icon icon={faTrashAlt}/></button>
                                     </td>
                                 </tr>
                             )
@@ -99,18 +83,6 @@ export class AdminLiterature extends Component{
                         : <p>loading</p>}
                     </tbody>
                     </table>
-                    <div className="pagination">
-                        <Pagination
-                            activePage={page}
-                            itemsCountPerPage={perPage}
-                            totalItemsCount={total}
-                            pageRangeDisplayed={7}
-                            itemClass="more-link"
-                            hideFirstLastPages
-                            hideDisabled
-                            onChange={this.Paginate.bind(this)} //this.Paginate.bind(this)
-                        />
-                    </div>
                 </div>
             </div>
         )
@@ -118,11 +90,11 @@ export class AdminLiterature extends Component{
 } 
 
 const mapStateToProps = state => ({
-    Literature: state.api.literature.literature,
+    Clubs: state.api.clubs.ClubsList,
     info: state.info
 })
   
 export default connect(
     mapStateToProps,
-    { closeNavbar, GetLiteraturePerPage, delLiterature, clearInfo}
-)(AdminLiterature)
+    { closeNavbar, clearInfo, getClubs, delClub}
+)(AdminClubs)

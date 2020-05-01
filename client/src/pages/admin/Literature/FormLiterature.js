@@ -94,6 +94,7 @@ export class LiteratureForm extends Component{
     submitForm=e=>{
         e.preventDefault()
         this.props.clearInfo()
+        window.scrollTo(0, 0)
 
         let {title,
             description,

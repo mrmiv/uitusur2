@@ -28,9 +28,9 @@ export class NewsForm extends Component{
         pin: false,
         send_to_email: false,
         
-        blocked: false
-        // msg: null,
-        // loading: false
+        blocked: false,
+        msg: null,
+        isLoading: false
     }
 
     componentWillUnmount(){
@@ -47,7 +47,7 @@ export class NewsForm extends Component{
 
     componentDidUpdate(prevProps, prevState) {
         const id = this.props.match.params.id
-
+        const {msg} = this.props.info
         if(id){
 
             if(id !== prevState.id){
@@ -69,6 +69,10 @@ export class NewsForm extends Component{
                     period: News.period
                 });
             }
+        }
+        if (msg !== prevProps.info.msg){
+            // console.log(msg);
+            this.setState({msg})
         }
     }
 
@@ -112,6 +116,7 @@ export class NewsForm extends Component{
     submitForm = e => {
         e.preventDefault()
         this.props.clearInfo()
+        window.scrollTo(0, 0)
         const id = this.state.id
 
         const {
@@ -165,7 +170,7 @@ export class NewsForm extends Component{
     }
 
     render(){        
-        const {type} = this.state        
+        const {type, msg, isLoading} = this.state        
         return(
             <div className="container-md container-fluid">
                 <Prompt
@@ -174,6 +179,17 @@ export class NewsForm extends Component{
                     `Вы действительно хотите покинуть эту страницу?`
                     }
                 />
+                {msg ? 
+                <div className={`alert 
+                ${this.props.info.id === "REQ_FAIL"? 'alert-danger': null}
+                ${this.props.info.id === "REQ_SUCCESS" ? 'alert-success': null} alert-dismissible fade show`} role="alert">
+                    {this.props.info.id === "REQ_FAIL" && <strong>Ошибка! </strong> }
+                    {this.props.info.id === "REQ_SUCCESS" && <strong>Успех! </strong>}
+                    {msg.message}.
+                <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div> : null}
                 <div className="row no-gutters justify-content-between">
                 <Link to="/admin/news"><Icon icon={faArrowAltCircleLeft} size="lg"/> Назад</Link>
                 <form className="w-100 mt-3" onSubmit={this.submitForm}>
@@ -250,7 +266,7 @@ export class NewsForm extends Component{
                             'insertdatetime table paste code help wordcount'
                           ],
                           toolbar:
-                            "undo redo | formatselect | bold italic backcolor |alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help"
+                            "undo redo | formatselect | bold italic backcolor |alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | table insertfile image link media mediaembed pageembed | preview help"
                         }}
                         onEditorChange={this.changeBody}
                         id="body-input" placeholder="Иван Иванов вступил в профсоюз ТУСУРа"/>
@@ -269,7 +285,7 @@ export class NewsForm extends Component{
                     </div>
                     </div>
                         <button className="btn btn-success mr-0 h-50" type="submit"
-                        disabled={this.state.loading}>{this.state.id? "Обновить новость" :"Добавить новость"}</button>
+                        disabled={isLoading}>{this.state.id? "Обновить новость" :"Добавить новость"}</button>
                     </div>      
                 </form>
                 </div>

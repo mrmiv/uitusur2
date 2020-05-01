@@ -36,10 +36,6 @@ const PageNotFound = lazy(()=> import('../components/PageNotFound') )
 
 export class Routes extends Component {
 
-    componentDidMount(){
-        this.props.loaduser()
-    }
-
     render(){
         return(
             <>
@@ -183,12 +179,9 @@ export const PageUpButton = () => {
     }
 
     return( 
-        <Icon 
-        type="button" 
-        id="PageUpButton" 
-        className={visible? 'visible' : ''}
-        icon={faArrowCircleUp} 
-        onClick={()=>{window.scrollTo({top:0, behavior:'smooth'})}}
-        />
+        <button type="button" 
+        id="PageUpButton"
+        className={`btn ${visible? 'visible' : ''}`}
+        onClick={()=>{window.scrollTo({top:0, behavior:'smooth'})}}>&#129045;</button>
     )
 }

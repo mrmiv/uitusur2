@@ -1,7 +1,7 @@
 import {GET_INFO, CLEAR_INFO} from '../actions/types';
 
 const initialState = {
-    msg:{},
+    msg:null,
     status: null,
     id: null
 }
@@ -16,7 +16,7 @@ export default function(state=initialState, action){
             }
         case CLEAR_INFO:
             return{
-                msg: {},
+                msg: null,
                 status: null,
                 id: null
             }

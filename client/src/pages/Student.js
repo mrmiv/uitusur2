@@ -12,6 +12,7 @@ import Fade from 'react-reveal/Fade'
 // import {Modal} from '../components/Modal'
 import { closeNavbar } from '../redux/actions/navbarActions'
 import { GetDataStudent, GetStudyPlan } from '../redux/actions/data_actions/StudentActions'
+import { getClubs } from '../redux/actions/data_actions/clubsAction'
 
 // import images
 import student_img from './img/student2.svg';
@@ -23,7 +24,6 @@ export class Student extends Component{
 
     state={
         CuratorList: this.props.Curators.CuratorList,
-        ClubsList: this.props.Clubs.ClubsList,
         StudyPlan: null
     }
 
@@ -34,14 +34,13 @@ export class Student extends Component{
     componentDidMount(){
         document.title = this.props.title
         this.props.GetDataStudent()
+        this.props.getClubs()
     }
 
     componentDidUpdate(prevProps){
-        const {Clubs, Curators, StudyPlan} = this.props
+        const {Curators, StudyPlan} = this.props
 
-        if (Clubs !== prevProps.Clubs){
-            this.setState({ClubsList: Clubs.ClubsList})
-        } else if (Curators !== prevProps.Curators){
+        if (Curators !== prevProps.Curators){
             this.setState({CuratorList: Curators.CuratorList})
         } else if (StudyPlan !== prevProps.StudyPlan){
             this.setState({StudyPlan: StudyPlan.StudyPlan})
@@ -66,8 +65,8 @@ export class Student extends Component{
     }
 
     render(){
-        const {StudyPlan, CuratorList, ClubsList} = this.state
-
+        const {StudyPlan, CuratorList} = this.state
+        const {ClubsList} = this.props
         return(
             <>
 {/* ЗАГОЛОВОК */}
@@ -98,54 +97,45 @@ export class Student extends Component{
                 <Fade>
                     <section id="studyplan">
                         <div className="container-md container-fluid">
-                            <div className="row no-gutters justify-content-between">
-                                <div className="col-md-5 col-sm-12">
-                                    <div className="row no-gutters">
-                                    <div className="col-md-12 col-sm-5">
-                                        <h2>Учебный график на 2019 - 2020 учебный год</h2>
-                                        <p><strong>Выбери свой курс ниже</strong></p>
-                                    </div>
-                                    <div className="col-md-12 col-sm-7">
-                                    <div className="choose_field mt-2">
-                                            <button type="button" name="Бакалавр"  className="more-link" onClick={()=>this.onChooseYear('b',1)}>Бак. - 1</button>
-                                            <button type="button" name="Бакалавр"  className="more-link" onClick={()=>this.onChooseYear('b',2)}>Бак. - 2</button>
-                                            <button type="button" name="Бакалавр"  className="more-link" onClick={()=>this.onChooseYear('b',3)}>Бак. - 3</button>
-                                            <button type="button" name="Бакалавр"  className="more-link" onClick={()=>this.onChooseYear('b',4)}>Бак. - 4</button>
-                                            <button type="button" name="Магистрант"  className="more-link" onClick={()=>this.onChooseYear('m',1)}>Маг. - 1</button>
-                                            <button type="button" name="Магистрант"  className="more-link" onClick={()=>this.onChooseYear('m',2)}>Маг. - 2</button>
-                                    </div>
-                                    </div>
-                                    </div>
+                            <div className="text-center">
+                            <h2>Учебный график на 2019 - 2020 учебный год</h2>
+                            <div className="choose_field mt-2">
+                                <button type="button" name="Бакалавр"  className="more-link" onClick={()=>this.onChooseYear('b',1)}>Бак. - 1</button>
+                                <button type="button" name="Бакалавр"  className="more-link" onClick={()=>this.onChooseYear('b',2)}>Бак. - 2</button>
+                                <button type="button" name="Бакалавр"  className="more-link" onClick={()=>this.onChooseYear('b',3)}>Бак. - 3</button>
+                                <button type="button" name="Бакалавр"  className="more-link" onClick={()=>this.onChooseYear('b',4)}>Бак. - 4</button>
+                                <button type="button" name="Магистрант"  className="more-link" onClick={()=>this.onChooseYear('m',1)}>Маг. - 1</button>
+                                <button type="button" name="Магистрант"  className="more-link" onClick={()=>this.onChooseYear('m',2)}>Маг. - 2</button>
+                            </div>
+                            </div>
+                            <div className="year_choose w-75 text-center">
+                                {!StudyPlan?
+                                    <img src={dashboard_img} alt="Учебный план" />
+                                :
+                                <div className="table_plan table-responsive mt-3">
+                                    {/* <button type="button" className="btn btn-danger" onClick={()=>this.onBack()}>&times;</button> */}
+                                    <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                        {StudyPlan.fields.map((field, index) => {
+                                            return(<th key={index} scope="col">{field}</th>)
+                                        })}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {StudyPlan.data.map((data, index) => {
+                                            return(<tr key={index}>
+                                                <td>{data.group}</td>
+                                                {data.exam? <td>{data.exam}</td>:null}
+                                                {data.practic? <td> {data.practic.type} <br/> {data.practic.period} </td> :null}
+                                                {data.GIA? <td>{data.GIA}</td>:null}
+                                                <td>{data.weekend}</td>
+                                            </tr>)
+                                        })}
+                                    </tbody>
+                                    </table>
                                 </div>
-                                <div className="year_choose col-md-7" style={{width: "100%"}}>
-                                    {!StudyPlan?
-                                        <img src={dashboard_img} alt="Учебный план"/>
-                                    :
-                                    <div className="table_plan table-responsive">
-                                        {/* <button type="button" className="btn btn-danger" onClick={()=>this.onBack()}>&times;</button> */}
-                                        <table class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                            {StudyPlan.fields.map((field, index) => {
-                                                return(<th key={index} scope="col">{field}</th>)
-                                            })}
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {StudyPlan.data.map((data, index) => {
-                                                return(<tr key={index}>
-                                                    <td>{data.group}</td>
-                                                    {data.exam? <td>{data.exam}</td>:null}
-                                                    {data.practic? <td> {data.practic.type} <br/> {data.practic.period} </td> :null}
-                                                    {data.GIA? <td>{data.GIA}</td>:null}
-                                                    <td>{data.weekend}</td>
-                                                </tr>)
-                                            })}
-                                        </tbody>
-                                        </table>
-                                    </div>
-                                    }
-                                </div>
+                                }
                             </div>
                         </div>
                     </section>
@@ -168,9 +158,11 @@ export class Student extends Component{
                                         выпускников «АИСТ» и «Выпускник», организации и участии
                                         в проектах «Лучшие выпускники вузов Томска», «Бал выпускников-отличников вузов Томска».
                                     </p>
-                                    <a className="more-link">Как составить резюме</a>
+                                    <a className="more-link" href="https://tomsk.hh.ru/article/311410" 
+                                    target="_blank" rel="norefferer noopener">Как составить резюме</a>
                                     <br/>
-                                    <a className="more-link" style={{top:"35px"}}>Секреты успешного собеседования</a>
+                                    <a className="more-link" href="https://hr-portal.ru/article/10-sekretov-uspeshnogo-sobesedovaniya" 
+                                    target="_blank" rel="norefferer noopener" style={{top:"35px"}}>Секреты успешного собеседования</a>
                                 </div>
                                 <div className="work__img col-sm-6 col-md-5">
                                     <img src={career_img} alt="Трудоустройство"/>
@@ -212,15 +204,14 @@ export class Student extends Component{
                                 <h2> Внеучебная деятельность</h2>
                                 <div className="w-100"/>
                                 {ClubsList && ClubsList.map(club => {
-                                    return(<div className="col-md-3 col-sm-6">
+                                    return(<div className="col-lg-2 col-md-3 col-sm-6">
                                         <a href={club.path} 
                                         target={"_blank"}
                                         rel="noopener noreferrer">
                                             <Club 
                                             key={club.id}
-                                            name={club.name} 
-                                            leader={club.leader}
-                                            photo={club.photo}/>
+                                            name={club.name}
+                                            image={club.image}/>
                                         </a>
                                     </div>)})}
                             </div>
@@ -235,21 +226,21 @@ export class Student extends Component{
 
 const mapStateToProps = state => ({
     Curators: state.api.curators,
-    Clubs: state.api.clubs,
+    ClubsList: state.api.clubs.ClubsList,
     StudyPlan: state.api.studyplan
 })
   
 export default connect(
     mapStateToProps,
-    { GetDataStudent, GetStudyPlan }
+    { GetDataStudent, GetStudyPlan, getClubs }
 )(Student)
 
-const Club = ({name, photo, leader}) =>{
+const Club = ({name, image}) =>{
     return(
         <div className="card_club">
-            <img src={photo} class="card_club__img" alt={name}/>
+            <img src={image} class="card_club__img" alt={name}/>
             <div className="card_club__body">
-                <p><strong>{name}</strong><br/>Руководитель: {leader}</p>
+                <p><strong>{name}</strong></p>
             </div>
         </div>
     )

@@ -9,8 +9,8 @@ router.get('/', async (req, res) => {
     
     try {
         await Club.find()
-            .sort([['name',1], ['leader',1]])
-            .then(data => res.json(data))
+            .sort([['name',1]])
+            .then(data => { res.json(data)})
             .catch(err => res.status(400).json({message: err.message}))
 
     } catch (error) {
@@ -42,7 +42,6 @@ router.post('/',auth, async (req, res) => {
 
     const {
         name,
-        leader,
         path
     } = req.body
 
@@ -50,20 +49,19 @@ router.post('/',auth, async (req, res) => {
 
         const club = new Club({
             name,
-            leader,
             path
         })
 
         try{
             await club.validate(
-                {name,  leader,  path}, 
-                ['name', 'leader','path'])
+                {name, path}, 
+                ['name','path'])
         } catch( error){
             // error instanceof Error.ValidationError
             return res.status(400).json({message: error.message})
         }
         // console.log(club);
-        const exists = await Club.findOne({name, leader})
+        const exists = await Club.findOne({name})
 
         if (exists){
             return res.status(400).json({message: "Клуб уже существует"})
@@ -113,7 +111,7 @@ router.delete('/:id',auth, async (req, res) => {
         }
 
         await club.delete()
-            .then(()=> res.status(201).json({message: "Клуб удален"}))
+            .then(()=> res.json({message: "Клуб удален"}))
 
     } catch (error) {
         res.status(500).json({message:error.message})
@@ -134,7 +132,6 @@ router.patch('/:id',auth, async (req, res) => {
 
         // console.log(body, body.rank);
         club.name = body.name
-        club.leader = body.leader
         club.path = body.path
 
         await club.save()

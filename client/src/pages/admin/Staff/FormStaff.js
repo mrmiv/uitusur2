@@ -26,9 +26,8 @@ export class StaffForm extends Component{
         time:'',
         place:'',
         
-        blocked: false
-        // msg: null,
-        // loading: false
+        blocked: false,
+        msg: null
     }
 
     componentWillUnmount(){
@@ -45,7 +44,8 @@ export class StaffForm extends Component{
 
     componentDidUpdate(prevProps, prevState) {
         const id = this.props.match.params.id
-
+        const {msg} = this.props.info
+        
         if(id){
 
             if(id !== prevState.id){
@@ -68,6 +68,9 @@ export class StaffForm extends Component{
                     worktime: CurrentStaff.worktime,
                 });
             }
+        }
+        if (msg !== prevProps.info.msg){
+            this.setState({msg})
         }
     }
 
@@ -113,6 +116,7 @@ export class StaffForm extends Component{
 
     submitForm = e => {
         e.preventDefault()
+        window.scrollTo(0,0)
         this.props.clearInfo()
         const id = this.state.id
 
@@ -145,7 +149,8 @@ export class StaffForm extends Component{
     }
 
     render(){
-
+        const {msg} = this.state
+        const {isLoading} = this.props
         return(
             <div className="container-md container-fluid">
                 <Prompt
@@ -154,6 +159,17 @@ export class StaffForm extends Component{
                     `Вы действительно хотите покинуть эту страницу?`
                     }
                 />
+                {msg ? 
+                <div className={`alert 
+                ${this.props.info.id === "REQ_FAIL"? 'alert-danger': null}
+                ${this.props.info.id === "REQ_SUCCESS" ? 'alert-success': null} alert-dismissible fade show`} role="alert">
+                    {this.props.info.id === "REQ_FAIL" && <strong>Ошибка! </strong> }
+                    {this.props.info.id === "REQ_SUCCESS" && <strong>Успех! </strong>}
+                    {msg.message}.
+                <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div> : null}
                 <div className="row no-gutters justify-content-between">
                 <Link to="/admin/staff"><Icon icon={faArrowAltCircleLeft} size="lg"/> Назад</Link>
                 <form className="w-100 mt-3" onSubmit={this.submitForm}>

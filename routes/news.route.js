@@ -1,4 +1,5 @@
 const {Router} = require('express')
+const nodemailer = require("nodemailer");
 const router = Router()
 const fs = require('fs')
 // const authStaff = require('../middleware/middleware.auth.Staff')
@@ -80,9 +81,9 @@ router.post('/', async (req, res) => {
     } = req.body
 
 
-    if(!title){return res.status(400).json("Поле заголовок является обязательным")}
-    if(!body){return res.status(400).json("Поле сообщение является обязательным")}
-    if(!type){return res.status(400).json("Поле тип является обязательным")}
+    if(!title){return res.status(400).json({message:"Поле заголовок является обязательным"})}
+    if(!body){return res.status(400).json({message:"Поле сообщение является обязательным"})}
+    if(!type){return res.status(400).json({message:"Поле тип является обязательным"})}
 
     try {
         
@@ -99,6 +100,35 @@ router.post('/', async (req, res) => {
             grant,
             created_at: Date.now()
         })
+
+        let transporter = nodemailer.createTransport({
+            host: "smtp.mail.ru",
+            port: 465 ,
+            secure: true, // true for 465, false for other ports
+            auth: {
+              user: 'uitusur@mail.ru', // email
+              pass: 'S_etuOtaYT33' // password
+            },
+            tls:{
+                rejeceUnauthorized: false 
+            }
+          });
+        
+          // send mail with defined transport object
+          let info = await transporter.sendMail({
+            from: '"Кафедра управления инновациями" <foo@uitusur.ru>', // sender address
+            to: "markov2345.99@gmail.com", // list of receivers
+            subject: "Новость", // Subject line
+            text: "Hello world", // plain text body
+            html: "<b>Hello world</b>" // html body
+          }, (error, info)=>{
+              if (error){
+                  return console.log(error)
+              }
+              console.log("Message sent: %s", info.messageId);
+              console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+            
+          });
 
         // console.log(news);
 
@@ -153,9 +183,9 @@ router.delete('/read/:id', async (req, res) => {
             return res.status(404).json({message: "Новости с введенным id не существует"})
         }
 
-        if (news.docs){
-            console.log(news.docs);
-        }
+        // if (news.docs){
+        //     console.log(news.docs);
+        // }
 
         // try {
         //     // delete doc
@@ -170,7 +200,7 @@ router.delete('/read/:id', async (req, res) => {
         // }
 
         await news.delete()
-            .then(()=> res.status(201).json({message: "Новость удалена"}))
+            .then(()=> res.json({message: "Новость удалена"}))
 
     } catch (error) {
         res.status(500).json({message:error.message})

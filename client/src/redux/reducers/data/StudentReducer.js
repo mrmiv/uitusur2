@@ -1,8 +1,10 @@
 import {
     GET_STUDYPLAN,
     GET_CURATORS,
-    GET_CLUBS
+    GET_CLUBS,
+    GET_CLUB
 } from '../../actions/data_actions/types'
+import { LOADING_REQ } from '../../actions/types'
 
 const StudyPlanState = {
     StudyPlan: {}
@@ -13,7 +15,9 @@ const CuratorsState = {
 }
 
 const ClubsState = {
-    ClubsList: []
+    ClubsList: [],
+    Club: null,
+    isLoading: false
 }
 
 export function StudyPlanReducer(state=StudyPlanState, action){
@@ -42,12 +46,24 @@ export function CuratorsReducer(state=CuratorsState, action){
 
 export function ClubsReducer(state=ClubsState, action){
     switch (action.type) {
+        case LOADING_REQ:
+            return{
+                ...state,
+                isLoading: true
+            }
         case GET_CLUBS:
             return{
                 ...state,
-                ClubsList: action.payload.ClubsList
+                ClubsList: action.payload.ClubsList,
+                isLoading: false
+            }
+        case GET_CLUB:
+            return{
+                ...state,
+                Club: action.payload.Club,
+                isLoading: false
             }
         default:
-            return state;
+            return {...state, isLoading:false};
     }
 }
