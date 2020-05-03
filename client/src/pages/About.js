@@ -16,7 +16,7 @@ import {GetDataAbout} from '../redux/actions/data_actions/AboutActions'
 
 // import images
 import interprice_img from './img/ENTERPRICES.svg';
-import history_img from'./img/HISTORY_PHOTO.svg';
+import history_img from'./img/HISTORY_PHOTO.jpg';
 import CMK_img from './img/QUALITY_CHECK.svg';
 
 export class About extends Component{

@@ -61,7 +61,6 @@ export class AdminClubs extends Component{
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Название</th>
-                            <th scope="col">Руководитель</th>
                             <th scope="col" style={{width:"50px", textAlign: "center"}}><Icon icon={faTrashAlt}/></th>
                             {/* style={{width="50px"}} */}
                         </tr>
@@ -73,7 +72,6 @@ export class AdminClubs extends Component{
                                 <tr key={index}>
                                     <th scope="row">{index+1}</th>
                                     <td name="title"><Link to={`/admin/clubs/edit/${item._id}`}>{item.name}</Link></td>
-                                    <td name="author">{item.leader}</td>
                                     <td name="del">
                                         <button type="button" className="btn" onClick={()=>this.delClub(item._id)}><Icon icon={faTrashAlt}/></button>
                                     </td>

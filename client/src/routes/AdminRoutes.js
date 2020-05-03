@@ -1,24 +1,26 @@
-import React, {lazy} from 'react'
+import React, { lazy, Fragment } from 'react'
 import { Route } from 'react-router-dom'
 
-const AdminLiteratureRoutes =lazy(()=>import('../pages/admin/Literature'))
-const AdminStaffRoutes =lazy(()=>import('../pages/admin/Staff'))
-const AdminNewsRoutes =lazy(()=>import('../pages/admin/News'))
-const AdminClubsRoutes =lazy(()=>import('../pages/admin/Clubs'))
-const AdminHome =lazy(()=>import('../pages/admin'))
+const AdminLiteratureRoutes = lazy(() => import('../pages/admin/Literature'))
+const AdminStaffRoutes = lazy(() => import('../pages/admin/Staff'))
+const AdminNewsRoutes = lazy(() => import('../pages/admin/News'))
+const AdminClubsRoutes = lazy(() => import('../pages/admin/Clubs'))
+const AdminSPRoutes = lazy(() => import('../pages/admin/StudyPlan'))
+const AdminHome = lazy(() => import('../pages/admin'))
 
-export default function AdminRoutes(){
+export default function AdminRoutes() {
 
-    return(
-        <>
-        <Route path="/admin" exact component={(()=>(
-            <AdminHome title="Администратор - Кафедра управления инновациями"/>
-        ))}/>
-        <AdminLiteratureRoutes/>
-        <AdminStaffRoutes/> 
-        <AdminNewsRoutes/>
-        <AdminClubsRoutes/>
-        </>
+    return (
+        <Fragment>
+            <Route path="/admin" exact component={(() => (
+                <AdminHome title="Администратор - Кафедра управления инновациями" />
+            ))} />
+            <AdminLiteratureRoutes />
+            <AdminStaffRoutes />
+            <AdminNewsRoutes />
+            <AdminClubsRoutes />
+            <AdminSPRoutes />
+        </Fragment>
     )
-} 
+}
 

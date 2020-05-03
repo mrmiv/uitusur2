@@ -19,7 +19,7 @@ app.use('/api/news', require('./routes/news.route')) //Новости
 app.use('/api/staff', require('./routes/staff.route')) //сотрудники
 app.use('/api/docs', require('./routes/docs.route')) //сотрудники
 app.use('/api/clubs', require('./routes/club.route')) //внеучебная деятельность
-// app.use('/user', require('./routes/user.route')) //пользовательские данные
+app.use('/api/studyplan', require('./routes/studyplan.route')) //учебный план
 // app.use('/reserve', require('./routes/reserve.route')) //резерв
 // app.use('/category', require('./routes/category.route')) //категория
 // app.use('/build', require('./routes/build.route')) //корпус

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { useHistory } from 'react-router-dom'
 
 
@@ -11,7 +11,7 @@ export const Modal = ({children}) => {
   }
 
   return (
-    <>
+    <Fragment>
       <div
         id="modal"
         onClick={back}
@@ -27,8 +27,10 @@ export const Modal = ({children}) => {
       >
       </div>
       <div className="modal_window">
+      <div id="close-modal-btn" role='button' onClick={back}><span >&times;</span></div>
+
       {children}
       </div>
-      </>
+      </Fragment>
     )
 }

@@ -6,10 +6,13 @@ export const GET_QUOTE = "GET_QUOTE"
 export const GET_RPD = "GET_RPD"
 export const GET_FEEDBACK = "GET_FEEDBACK"
 export const GET_CMK = "GET_CMK"
+export const GET_CURATORS = "GET_CURATORS"
 
 // Обучающимс
 export const GET_STUDYPLAN = "GET_STUDYPLAN"
-export const GET_CURATORS = "GET_CURATORS"
+export const GET_ONE_STUDYPLAN = "GET_ONE_STUDYPLAN"
+export const GET_COURSE_STUDYPLAN = "GET_COURSE_STUDYPLAN"
+
 
 // Внеучебная деятельность
 export const GET_CLUBS = "GET_CLUBS"

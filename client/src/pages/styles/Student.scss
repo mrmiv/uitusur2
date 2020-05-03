@@ -107,17 +107,19 @@
     h2{color: default.$orange}
 
     .card_club{
-        margin: 10px;
+        margin: 5px;
         border-radius: 5px;
-        box-shadow: 0 5px 10px default.$shadow;   
+        box-shadow: 0 5px 10px rgba(42,42,42,.29);
         padding: 5px;
-        width: 100%;
-        max-width: 170px;
+        /* width: 100%; */
+        /* max-width: 140px; */
         height: 170px;
-        transition: all 0.5s ease;
+        transition: all .5s ease;
 
         img.card_club__img{
-            // background: red;
+            display: block;
+            margin: 0 auto;
+            text-align: center;
             border-radius: 5px;
             width: auto;
             max-width: 100%;
@@ -125,8 +127,8 @@
             max-height: 120px;
         }
         
-        .card_club__body{
-            max-height: 50%;
+        p.card_club__body{
+            text-align: center;
         }
 
         &:hover{

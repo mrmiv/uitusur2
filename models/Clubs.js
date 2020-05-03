@@ -10,7 +10,7 @@ const ClubSchema = new Schema({
         required: [true, "Поле название является обязательный"],
         validate:{
             validator: function (name) {
-                return /^[а-яА-ЯёЁa-zA-Z0-9(\s)(\-)(\.)]+$/.test(name) // добавить тире
+                return /^[а-яА-ЯёЁa-zA-Z0-9(\s)(\-\."!№_:?,)]+$/.test(name) // добавить тире
             },
             message: props => `${props.value} - Поле название содержит недопустимые символы`
         }
@@ -33,7 +33,7 @@ const ClubSchema = new Schema({
         type: String,
         validate:{
             validator: function(path){
-                return /^((https|http)?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/.test(path)
+                return /^((https|http)?:\/\/)?([\da-z\.-]+)\.([a-z\.-\_@]{2,6})([\/\w \.-]*)*\/?$/.test(path)
             },
             message: props => `${props.value} - Поле ссылка содержит недопустимые символы`
         }

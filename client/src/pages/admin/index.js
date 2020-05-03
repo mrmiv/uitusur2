@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import { closeNavbar } from '../../redux/actions/navbarActions'
 import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
@@ -7,80 +7,86 @@ import './AdminIndex.scss'
 
 import { Icon } from '@iconify/react'
 import userTie from '@iconify/icons-fa-solid/user-tie'
+import fanIcon from '@iconify/icons-fa-solid/fan';
 import newspaperIcon from '@iconify/icons-emojione-v1/newspaper'
 import booksIcon from '@iconify/icons-fxemoji/books'
 
-export class AdminHome extends Component{
+export class AdminHome extends Component {
 
-    state={
+    state = {
         navigation: [
             {
                 path: 'news',
                 name: 'Новости',
-                icon: <Icon icon={newspaperIcon}/>
+                icon: <Icon icon={newspaperIcon} />
             },
             {
                 path: 'staff',
                 name: 'Сотрудники',
-                icon: <Icon icon={userTie}/>
+                icon: <Icon icon={userTie} />
             },
             {
                 path: 'literature',
                 name: 'Литература',
-                icon: <Icon icon={booksIcon}/>
+                icon: <Icon icon={booksIcon} />
             },
             {
                 path: 'clubs',
-                name: 'Внеучебная деятельность',
-                icon: <Icon icon={booksIcon}/>
+                name: 'Клубы',
+                icon: <Icon color={"orange"} icon={fanIcon} />
+            },
+            {
+                path: 'studyplan',
+                name: 'Учебный план',
+                icon: <Icon color={"blue"} icon={fanIcon} />
             }
         ]
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         this.props.closeNavbar()
     }
 
-    componentDidMount(){
+    componentDidMount() {
         document.title = this.props.title
     }
 
-    render(){
-        const {navigation} = this.state
-        
-        return(
+    render() {
+        const { navigation } = this.state
+
+        return (
             <div className="container-md container-fluid">
                 <h2>Панель администратора</h2>
                 <div className="row no-gutters">
-                {navigation.map((item,index)=>{
-                    return(<NavCard key={index} 
-                        path={item.path} 
-                        icon={item.icon}
-                        name={item.name}/>)
-                })}
+                    {navigation.map((item, index) => {
+                        return (<NavCard key={index}
+                            path={item.path}
+                            icon={item.icon}
+                            name={item.name} />)
+                    })}
                 </div>
             </div>
         )
     }
 }
-  
+
 export default withRouter(connect(
     null,
-    { closeNavbar}
+    { closeNavbar }
 )(AdminHome))
 
-function NavCard({path, icon, name}) {
+function NavCard({ path, icon, name }) {
 
-    return(
+    return (
         <div className="col-xl-2 col-md-3 col-sm-4 col-6 mt-2">
-        <Link className="link-boxfor-navcard" to={`/admin/${path}`}>
-            <div className="nav-admin-card">
-                <span className="icon-nav-card" >{icon}</span>
-                <br/>
-                <u>{name}</u>
-            </div>
-        </Link>
+            <Link className="link-boxfor-navcard" to={`/admin/${path}`}>
+                <div className="nav-admin-card">
+                    <span className="icon-nav-card" >{icon}</span>
+                    <br />
+                    <u>{name}</u>
+                </div>
+            </Link>
         </div>
     )
-    
+
 }
