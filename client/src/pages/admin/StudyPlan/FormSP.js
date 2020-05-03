@@ -220,13 +220,13 @@ export class SPForm extends Component {
                                 <label htmlFor="weekend_from-input">С</label>
                                 <input onChange={this.changeInput} type="date" className="form-control"
                                     name="weekend_from" id="weekend_from-input"
-                                    placeholder={this.toStrDate(this.state.weekend_from)} value={new Date(this.state.weekend_from)} />
+                                    placeholder={this.toStrDate(this.state.weekend_from)} value={this.state.weekend_from} />
                             </div>
                             <div className="col form-group">
                                 <label htmlFor="weekend_to-input">По</label>
                                 <input onChange={this.changeInput} type="date" className="form-control"
                                     name="weekend_to" id="weekend_to-input"
-                                    placeholder={this.toStrDate(this.state.weekend_to)} value={new Date(this.state.weekend_to)} />
+                                    placeholder={this.toStrDate(this.state.weekend_to)} value={this.state.weekend_to} />
                             </div>
                         </div>
 
