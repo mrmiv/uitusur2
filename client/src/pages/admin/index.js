@@ -10,11 +10,17 @@ import userTie from '@iconify/icons-fa-solid/user-tie'
 import fanIcon from '@iconify/icons-fa-solid/fan';
 import newspaperIcon from '@iconify/icons-emojione-v1/newspaper'
 import booksIcon from '@iconify/icons-fxemoji/books'
-
+import clipboardList from '@iconify/icons-fa-solid/clipboard-list';
+import documentwithtextIcon from '@iconify/icons-fxemoji/documentwithtext';
 export class AdminHome extends Component {
 
     state = {
         navigation: [
+            {
+                path: 'param',
+                name: 'Заголовки',
+                icon: <Icon icon={documentwithtextIcon} />
+            },
             {
                 path: 'news',
                 name: 'Новости',
@@ -38,7 +44,7 @@ export class AdminHome extends Component {
             {
                 path: 'studyplan',
                 name: 'Учебный план',
-                icon: <Icon color={"blue"} icon={fanIcon} />
+                icon: <Icon color={"green"} icon={clipboardList} />
             }
         ]
     }
@@ -57,6 +63,7 @@ export class AdminHome extends Component {
         return (
             <div className="container-md container-fluid">
                 <h2>Панель администратора</h2>
+                <a role="button" className="btn btn-info" href="https://metrika.yandex.ru/dashboard?id=62465179" target="blank" rel="norefferer noopener">Статистика</a>
                 <div className="row no-gutters">
                     {navigation.map((item, index) => {
                         return (<NavCard key={index}

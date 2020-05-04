@@ -20,28 +20,30 @@ app.use('/api/staff', require('./routes/staff.route')) //сотрудники
 app.use('/api/docs', require('./routes/docs.route')) //сотрудники
 app.use('/api/clubs', require('./routes/club.route')) //внеучебная деятельность
 app.use('/api/studyplan', require('./routes/studyplan.route')) //учебный план
+app.use('/api/param', require('./routes/param.route')) //тексты на страницах
 // app.use('/reserve', require('./routes/reserve.route')) //резерв
 // app.use('/category', require('./routes/category.route')) //категория
 // app.use('/build', require('./routes/build.route')) //корпус
 
-if(process.env.NODE_ENV==='production'){
+if (process.env.NODE_ENV === 'production') {
     app.use('/', express.static(path.join(__dirname, "client", "build")))
 
-    app.get('*', (req, res)=>{
+    app.get('*', (req, res) => {
         res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
     })
 }
 
 const PORT = process.env.PORT || 5000
 
-async function start (){
+async function start() {
     try {
-        await mongoose.connect(process.env.MongoURI || config.get('mongoUri'),{
-            useNewUrlParser:    true,
+        await mongoose.connect(process.env.MongoURI || config.get('mongoUri'), {
+            useNewUrlParser: true,
             useUnifiedTopology: true,
-            useCreateIndex:     true,
-            useFindAndModify:   false
-        },()=>{console.log("База данных успешно подключена");
+            useCreateIndex: true,
+            useFindAndModify: false
+        }, () => {
+            console.log("База данных успешно подключена");
         })
 
         app.listen(PORT, () => console.log(`Сервер запущен на порте: ${PORT} ...`));

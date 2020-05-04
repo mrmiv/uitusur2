@@ -107,19 +107,9 @@ export class SPForm extends Component {
         }
     }
 
-    toStrDate = (sdate) => {
-        let date = new Date(sdate).toString()
-        date = date.substring(0, 4) + '-' +
-            date.substring(4, 6) + '-' +
-            date.substring(6, 8)
-        return date
-    }
-
     render() {
         const { msg } = this.state
         const { isLoading } = this.props
-        console.log(this.state);
-
         return (
             <div className="container-md container-fluid">
                 <Prompt
@@ -166,13 +156,13 @@ export class SPForm extends Component {
                                 <label htmlFor="exam_from-input">С</label>
                                 <input onChange={this.changeInput} type="date" className="form-control"
                                     name="exam_from" id="exam_from-input"
-                                    placeholder={this.toStrDate(this.state.exam_from)} value={this.state.exam_from} />
+                                    placeholder={this.state.exam_from} value={this.state.exam_from} />
                             </div>
                             <div className="col form-group">
                                 <label htmlFor="exam_to-input">По</label>
                                 <input onChange={this.changeInput} type="date" className="form-control"
                                     name="exam_to" id="exam_to-input"
-                                    placeholder={this.toStrDate(this.state.exam_to)} value={this.state.exam_to} />
+                                    placeholder={this.state.exam_to} value={this.state.exam_to} />
                             </div>
                         </div>
 
@@ -188,13 +178,13 @@ export class SPForm extends Component {
                                 <label htmlFor="practic_from-input">С</label>
                                 <input onChange={this.changeInput} type="date" className="form-control"
                                     name="practic_from" id="practic_from-input"
-                                    placeholder={this.toStrDate(this.state.practic_from)} value={this.state.practic_from} />
+                                    placeholder={this.state.practic_from} value={this.state.practic_from} />
                             </div>
                             <div className="col form-group">
                                 <label htmlFor="practic_to-input">По</label>
                                 <input onChange={this.changeInput} type="date" className="form-control"
                                     name="practic_to" id="practic_to-input"
-                                    value={this.state.practic_to} placeholder={this.toStrDate(this.state.practic_to)} />
+                                    value={this.state.practic_to} placeholder={this.state.practic_to} />
                             </div>
                         </div>
 
@@ -204,13 +194,13 @@ export class SPForm extends Component {
                                 <label htmlFor="gia_from-input">С</label>
                                 <input onChange={this.changeInput} type="date" className="form-control"
                                     name="gia_from" id="gia_from-input"
-                                    value={this.state.gia_from} placeholder={this.toStrDate(this.state.gia_from)} />
+                                    value={this.state.gia_from} placeholder={this.state.gia_from} />
                             </div>
                             <div className="col form-group">
                                 <label htmlFor="gia_to-input">По</label>
                                 <input onChange={this.changeInput} type="date"
                                     className="form-control" name="gia_to" id="gia_to-input"
-                                    value={this.state.gia_to} placeholder={this.toStrDate(this.state.gia_to)} />
+                                    value={this.state.gia_to} placeholder={this.state.gia_to} />
                             </div>
                         </div>
 
@@ -220,13 +210,13 @@ export class SPForm extends Component {
                                 <label htmlFor="weekend_from-input">С</label>
                                 <input onChange={this.changeInput} type="date" className="form-control"
                                     name="weekend_from" id="weekend_from-input"
-                                    placeholder={this.toStrDate(this.state.weekend_from)} value={this.state.weekend_from} />
+                                    placeholder={this.state.weekend_from} value={this.state.weekend_from} />
                             </div>
                             <div className="col form-group">
                                 <label htmlFor="weekend_to-input">По</label>
                                 <input onChange={this.changeInput} type="date" className="form-control"
                                     name="weekend_to" id="weekend_to-input"
-                                    placeholder={this.toStrDate(this.state.weekend_to)} value={this.state.weekend_to} />
+                                    placeholder={this.state.weekend_to} value={this.state.weekend_to} />
                             </div>
                         </div>
 

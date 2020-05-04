@@ -1,0 +1,30 @@
+@use 'default.scss';
+
+#title_main.degree_bach{
+  background: linear-gradient(lightblue,white);
+}
+
+.text-rules_degree{
+  h2{margin-bottom: 10px;}
+  ul{
+    list-style: none;
+    li{
+      &:before{
+        content: "—";
+        position: relative;
+        left: -5px;
+      }
+    }
+
+  }
+  .more-link{
+    background: linear-gradient(default.$llblue, default.$lblue);
+    text-align: left;
+  }
+}
+
+@media screen and (max-width: 992px){
+  #title_main.degree_bach{
+    height: auto;
+  }
+}

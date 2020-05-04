@@ -9,9 +9,7 @@ h2{
 }
 
 #degree{
-
     margin-top: 100px;
-
     .title_degree{
         h2{
             color: default.$dblue;
@@ -21,75 +19,58 @@ h2{
             text-align: justify;
         }
     }
-    .degree_cards{
-        margin-top: 20px;
+}
 
-        .card_deg{
-            margin:8px;
-            padding: 10px 25px 10px 10px;
-            width: auto;
-            height: auto;
-            box-shadow: 0 5px 15px default.$shadow;
-            background-position: right;
-            background-repeat: no-repeat;
-            background-size: contain;
-            background-clip: border-box;
-            transition: all 0.2s ease;
+.degree_cards{
+    margin-top: 20px;
 
-            &:hover{
-                box-shadow: 0 8px 20px default.$shadow;
-                &:after{
-                    right: 25px;
-                }
-            }
+    .card_deg{
+        margin:8px;
+        padding: 10px 25px 10px 10px;
+        width: auto;
+        height: auto;
+        box-shadow: 0 5px 15px default.$shadow;
+        background-position: right;
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-clip: border-box;
+        transition: all 0.2s ease;
+        background-color: #fff;
+        &:hover{
+            box-shadow: 0 8px 20px default.$shadow;
+            transform: translateY(-3px);
+        }
 
-            &:after{
-                background: white;
-                border-radius: 50%;
-                text-align: center;
-                width: 25px;height: 25px;
-                position: absolute;
-                box-shadow: 0 2px 10px default.$shadow;
-                right: 30px;
-                bottom: 30px;
-                transition: all 0.3s ease;
-                content:"\0279C";
-                // opacity: 0;
-                // visibility: hidden;
-                margin-left: 10px;
-            }
+        [data-name="Мехатроника и робототехника"]{
+            color: default.$mint
+        }
+        [data-name="Инноватика"]{
+            color: default.$lblue
+        }
+        [data-name="Управление качеством"]{
+            color: default.$pink
+        }
 
-            [data-name="Мехатроника и робототехника"]{
-                color: default.$mint
+        h5{
+            font-size: 22px; 
+            font-weight: bold;
+        }
+        h6{
+            font-size: 18px;
+            color: black;
+            font-weight: bolder;
+            span{
+                font-size: 14px;
+                font-weight: 500;
             }
-            [data-name="Инноватика"]{
-                color: default.$lblue
+        }
+        p{
+            margin-top: 10px;
+            span{
+                font-size: 12px;
+                color: gray
             }
-            [data-name="Управление качеством"]{
-                color: default.$pink
-            }
-
-            h5{
-                font-size: 22px; 
-                font-weight: bold;
-            }
-            h6{
-                font-size: 18px;
-                color: black;
-                font-weight: bolder;
-                span{
-                    font-size: 14px;
-                    font-weight: 500;
-                }
-            }
-            p{
-                margin-top: 10px;
-                span{
-                    font-size: 12px;
-                    color: gray
-                }
-                
-            }
+            
         }
     }
 }

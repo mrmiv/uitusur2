@@ -2,6 +2,7 @@ import React, { lazy, Fragment } from 'react'
 import { Route } from 'react-router-dom'
 
 const AdminLiteratureRoutes = lazy(() => import('../pages/admin/Literature'))
+const AdminParamRoutes = lazy(() => import('../pages/admin/Param/'))
 const AdminStaffRoutes = lazy(() => import('../pages/admin/Staff'))
 const AdminNewsRoutes = lazy(() => import('../pages/admin/News'))
 const AdminClubsRoutes = lazy(() => import('../pages/admin/Clubs'))
@@ -20,6 +21,7 @@ export default function AdminRoutes() {
             <AdminNewsRoutes />
             <AdminClubsRoutes />
             <AdminSPRoutes />
+            <AdminParamRoutes />
         </Fragment>
     )
 }

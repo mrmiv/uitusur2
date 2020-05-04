@@ -88,7 +88,6 @@ export class Student extends Component {
                             <div className="row no-gutters align-items-center" style={{ height: "inherit" }}>
                                 <div className="col-md-5 offset-md-1 text-center title_text">
                                     <h1 className="title">Обучающимся</h1>
-                                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ratione, aliquam nostrum sit in libero molestias consequatur odio accusamus repudiandae deleniti! Natus, iusto dignissimos minima ducimus soluta labore aliquam, incidunt quidem dolor explicabo harum aut eaque? Libero, quasi aliquam! Totam, provident?</p>
                                     <div className="hash_list">
                                         <a onClick={() => this.scrollTo('studyplan')} className="link"><Icon icon={faHashtag} />  Учебный график</a>
                                         <a onClick={() => this.scrollTo('work')} className="link"> <Icon icon={faHashtag} />  Трудоустройство</a>
@@ -115,7 +114,6 @@ export class Student extends Component {
                                     {sp_btns.map(btn => {
                                         return (<button type="button" className="more-link" onClick={() => this.onChooseYear(btn.course)}>{btn.name}</button>)
                                     })}
-
                                 </div>
                             </div>
                             <div className="year_choose w-75 text-center">
@@ -194,10 +192,10 @@ export class Student extends Component {
                                         в проектах «Лучшие выпускники вузов Томска», «Бал выпускников-отличников вузов Томска».
                                     </p>
                                     <a className="more-link" href="https://tomsk.hh.ru/article/311410"
-                                        target="_blank" rel="norefferer noopener">Как составить резюме</a>
+                                        target="_blank" rel="noopener noreferrer">Как составить резюме</a>
                                     <br />
                                     <a className="more-link" href="https://hr-portal.ru/article/10-sekretov-uspeshnogo-sobesedovaniya"
-                                        target="_blank" rel="norefferer noopener" style={{ top: "35px" }}>Секреты успешного собеседования</a>
+                                        target="_blank" rel="noopener noreferrer" style={{ top: "35px" }}>Секреты успешного собеседования</a>
                                 </div>
                                 <div className="work__img col-sm-6 col-md-5">
                                     <img src={career_img} alt="Трудоустройство" />

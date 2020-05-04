@@ -116,29 +116,17 @@ export const patchSP = (id, { course, group, exam_from, exam_to, weekend_from, w
   };
 
   const data = {};
-  if (course) {
-    data.course = course
-  } else if (exam_from) {
-    data.exam_from = exam_from
-  } else if (exam_to) {
-    data.exam_to = exam_to
-  } else if (weekend_from) {
-    data.exam_to = exam_to
-  } else if (weekend_to) {
-    data.weekend_to = weekend_to
-  } else if (practic_from) {
-    data.practic_from = practic_from
-  } else if (practic_type) {
-    data.practic_type = practic_type
-  } else if (practic_to) {
-    data.practic_to = practic_to
-  } else if (gia_to) {
-    data.gia_to = gia_to
-  } else if (gia_from) {
-    data.gia_from = gia_from
-  } else if (group) {
-    data.group = group
-  }
+  if (course) { data.course = course }
+  if (exam_from) { data.exam_from = exam_from }
+  if (exam_to) { data.exam_to = exam_to }
+  if (weekend_from) { data.exam_to = exam_to }
+  if (weekend_to) { data.weekend_to = weekend_to }
+  if (practic_from) { data.practic_from = practic_from }
+  if (practic_type) { data.practic_type = practic_type }
+  if (practic_to) { data.practic_to = practic_to }
+  if (gia_to) { data.gia_to = gia_to }
+  if (gia_from) { data.gia_from = gia_from }
+  if (group) { data.group = group }
 
   axios.patch(`/api/studyplan/${id}`, data, config)
     .then((res) => {

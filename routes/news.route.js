@@ -31,8 +31,8 @@ router.get("/:type", async (req, res) => {
 				"users",
 			])
 			.sort([
-				["created_at", 1],
 				["pin", 1],
+				["created_at", -1],
 				["title", 1],
 			])
 			.skip((page - 1) * perpage)

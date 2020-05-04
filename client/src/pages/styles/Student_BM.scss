@@ -27,7 +27,7 @@
                     color: default.$green;
                 }
             }
-            &[name="НИР"]{
+            &[name="НИР"],&[name="ГПО"]{
                 .btn-scroll-student{
                     color: default.$lorange;
                 }
