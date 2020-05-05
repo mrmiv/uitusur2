@@ -1,14 +1,14 @@
 // Сотрудники кафедры
-const {Schema, model} = require('mongoose')
+const { Schema, model } = require('mongoose')
 
 const StaffSchema = new Schema({
 
-// Фамилия
-    lastname:{
+    // Фамилия
+    lastname: {
         type: String,
         required: [true, "Поле фамилия является обязательный"],
         minlength: [2, "Минимальная длина фамилии - 2 символа"],
-        validate:{
+        validate: {
             validator: function (name) {
                 return /^[а-яА-ЯёЁa-zA-Z0-9(\-)]+$/.test(name) // добавить тире
             },
@@ -16,12 +16,12 @@ const StaffSchema = new Schema({
         }
     },
 
-// Имя
-    firstname:{
+    // Имя
+    firstname: {
         type: String,
         required: [true, "Поле имя является обязательным"],
         minlength: [2, "Минимальная длина имени - 2 символа"],
-        validate:{
+        validate: {
             validator: function (name) {
                 return /^[а-яА-ЯёЁa-zA-Z0-9(\-)]+$/.test(name) // добавить тире
             },
@@ -29,11 +29,11 @@ const StaffSchema = new Schema({
         }
     },
 
-// Отчество
-    secondname:{
+    // Отчество
+    secondname: {
         type: String,
         minlength: [2, "Минимальная длина отчества - 4 символа"],
-        validate:{
+        validate: {
             validator: function (name) {
                 return /^[а-яА-ЯёЁa-zA-Z0-9(\-)]+$/.test(name) // добавить тире
             },
@@ -41,49 +41,31 @@ const StaffSchema = new Schema({
         }
     },
 
-// должность
-    post:{
+    // должность
+    post: {
         type: String,
-        required: true,
-        validate:{
-            validator: function (name) {
-                return /^[а-яА-ЯёЁa-zA-Z0-9(\s)(\-)]+$/.test(name) // добавить тире
-            },
-            message: props => `${props.value} - Поле должность содержит недопустимые символы`
-        }
+        required: true
     },
-// Уч.степень
+    // Уч.степень
     degree: {
-        type: String,
-        validate:{
-            validator: function (name) {
-                return /^[а-яА-ЯёЁa-zA-Z0-9(\s)(\-)(\.)]+$/.test(name) // добавить тире
-            },
-            message: props => `${props.value} - Поле ученая степень содержит недопустимые символы`
-        }
+        type: String
     },
-// Справочник
+    // Справочник
     path: {
         type: String,
-        validate:{
-            validator: function(path){
+        validate: {
+            validator: function (path) {
                 return /^((https|http)?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/.test(path)
             },
             message: props => `${props.value} - Поле сайт содержит недопустимые символы`
         }
     },
-// Уч.звание
-    rank:{
-        type: String,
-        validate:{
-            validator: function (name) {
-                return /^[а-яА-ЯёЁa-zA-Z0-9(\s)(\-)]+$/.test(name) // добавить тире
-            },
-            message: props => `${props.value} - Поле ученое звание содержит недопустимые символы`
-        }
+    // Уч.звание
+    rank: {
+        type: String
     },
 
-// Время консультаций
+    // Время консультаций
     worktime: [{
         require: false,
         index: false,
@@ -95,7 +77,7 @@ const StaffSchema = new Schema({
             type: String,
             maxLength: 32,
             require: true,
-            validate:{
+            validate: {
                 validator: function (time) {
                     return /^[0-9(\s)(\-|–)(\:)]+$/.test(time) // добавить тире
                 },
@@ -111,6 +93,6 @@ const StaffSchema = new Schema({
 
 
 
-}, {autoIndex:false, versionKey: false})
+}, { autoIndex: false, versionKey: false })
 
 module.exports = model('Staff', StaffSchema)

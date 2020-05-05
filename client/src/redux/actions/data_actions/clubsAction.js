@@ -52,7 +52,7 @@ export const delClub = (id) => (dispatch) => {
 	axios
 		.delete(`/api/clubs/${id}`, config)
 		.then((res) => {
-			dispatch(returnInfo(res.data.message, res.status, "REQ_SUCCESS"));
+			dispatch(returnInfo(res.data, res.status, "REQ_SUCCESS"));
 			dispatch({
 				type: REQ_SUCCESS,
 			});
@@ -110,7 +110,7 @@ export const postClub = ({ name, path, image }) => (dispatch) => {
 		data: formdata,
 	})
 		.then((res) => {
-			dispatch(returnInfo(res.data.message, res.status, "REQ_SUCCESS"));
+			dispatch(returnInfo(res.data, res.status, "REQ_SUCCESS"));
 			dispatch({
 				type: REQ_SUCCESS,
 			});
@@ -148,7 +148,7 @@ export const patchClub = (id, { name, path }) => (dispatch) => {
 		data: data,
 	})
 		.then((res) => {
-			dispatch(returnInfo(res.data.message, res.status, "REQ_SUCCESS"));
+			dispatch(returnInfo(res.data, res.status, "REQ_SUCCESS"));
 			dispatch({
 				type: REQ_SUCCESS,
 			});

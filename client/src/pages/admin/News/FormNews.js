@@ -3,7 +3,7 @@ import { closeNavbar } from "../../../redux/actions/navbarActions";
 import { connect } from "react-redux";
 import { Editor } from "@tinymce/tinymce-react";
 import { clearInfo } from "../../../redux/actions/infoActions";
-import { ReadNews, postNews } from "../../../redux/actions/newsActions";
+import { ReadNews, postNews, patchNews } from "../../../redux/actions/newsActions";
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faArrowAltCircleLeft } from "@fortawesome/free-solid-svg-icons";
 import { Link, Prompt, withRouter } from "react-router-dom";
@@ -170,8 +170,8 @@ export class NewsForm extends Component {
 		// console.log(Staff);
 
 		if (id) {
-			console.log(fields);
-			// this.props.patchStaff(id,Staff)
+			// console.log(fields);
+			this.props.patchNews(id, News)
 		} else {
 			this.props.postNews(News);
 		}
@@ -190,8 +190,8 @@ export class NewsForm extends Component {
 						className={`alert 
                 ${this.props.info.id === "REQ_FAIL" ? "alert-danger" : null}
                 ${
-									this.props.info.id === "REQ_SUCCESS" ? "alert-success" : null
-								} alert-dismissible fade show`}
+							this.props.info.id === "REQ_SUCCESS" ? "alert-success" : null
+							} alert-dismissible fade show`}
 						role="alert"
 					>
 						{this.props.info.id === "REQ_FAIL" && <strong>Ошибка! </strong>}
@@ -265,11 +265,11 @@ export class NewsForm extends Component {
 								<label htmlFor="deadline-input">Крайний срок</label>
 								<input
 									onChange={this.changeInput}
-									type="date"
+									type="text"
 									className="form-control"
 									name="deadline"
 									id="deadline-input"
-									placeholder="21.02.2020 12:31"
+									placeholder="mm-dd-yyyy"
 									value={this.state.deadline}
 								/>
 							</div>
@@ -415,7 +415,7 @@ const mapStateToProps = (state) => ({
 });
 
 export default withRouter(
-	connect(mapStateToProps, { closeNavbar, clearInfo, ReadNews, postNews })(
+	connect(mapStateToProps, { closeNavbar, clearInfo, ReadNews, postNews, patchNews })(
 		NewsForm
 	)
 );

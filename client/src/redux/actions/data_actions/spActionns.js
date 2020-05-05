@@ -45,7 +45,7 @@ export const delSP = id => (dispatch) => {
 
   axios.delete(`/api/studyplan/${id}`, config)
     .then((res) => {
-      dispatch(returnInfo(res.data.message, res.status, "REQ_SUCCESS"));
+      dispatch(returnInfo(res.data, res.status, "REQ_SUCCESS"));
       dispatch({
         type: REQ_SUCCESS,
       });
@@ -91,7 +91,7 @@ export const postSP = ({ course, group, exam_from, exam_to, weekend_from, weeken
   // get /literature/book/id
   axios.post("/api/studyplan", data, config)
     .then((res) => {
-      dispatch(returnInfo(res.data.message, res.status, "REQ_SUCCESS"));
+      dispatch(returnInfo(res.data, res.status, "REQ_SUCCESS"));
       dispatch({
         type: REQ_SUCCESS,
       });
@@ -130,7 +130,7 @@ export const patchSP = (id, { course, group, exam_from, exam_to, weekend_from, w
 
   axios.patch(`/api/studyplan/${id}`, data, config)
     .then((res) => {
-      dispatch(returnInfo(res.data.message, res.status, "REQ_SUCCESS"));
+      dispatch(returnInfo(res.data, res.status, "REQ_SUCCESS"));
       dispatch({
         type: REQ_SUCCESS,
       });

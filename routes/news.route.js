@@ -146,29 +146,27 @@ router.post("/", async (req, res) => {
 			}
 		);
 
-		console.log(news);
+		// const doc = req.files;
+		// console.log(req.files.doc, req.files[0]);
 
-		const doc = req.files;
-		console.log(req.files.doc, req.files[0]);
-
-		if (doc) {
-			let docs = [];
-			for (let i = 0; i < doc.length; i++) {
-				const el = doc[i];
-				console.log(el);
-				el.mv(`uploads/news/${el.name}`, function (err) {
-					if (err) {
-						return res
-							.status(500)
-							.json(`Ошибка при прикреплении документа ${el.name}: ` + err);
-					} else {
-						console.log(el.name + " uploaded");
-						docs.push(`/uploads/news/${el.name}`);
-					}
-				});
-			}
-			news.docs = docs;
-		}
+		// if (doc) {
+		// 	let docs = [];
+		// 	for (let i = 0; i < doc.length; i++) {
+		// 		const el = doc[i];
+		// 		console.log(el);
+		// 		el.mv(`uploads/news/${el.name}`, function (err) {
+		// 			if (err) {
+		// 				return res
+		// 					.status(500)
+		// 					.json(`Ошибка при прикреплении документа ${el.name}: ` + err);
+		// 			} else {
+		// 				console.log(el.name + " uploaded");
+		// 				docs.push(`/uploads/news/${el.name}`);
+		// 			}
+		// 		});
+		// 	}
+		// 	news.docs = docs;
+		// }
 
 		try {
 			await news
@@ -224,15 +222,39 @@ router.delete("/read/:id", async (req, res) => {
 
 router.patch("/read/:id", async (req, res) => {
 	const id = req.params.id;
+	const { title,
+		site,
+		type,
+		deadline,
+		body,
+		city,
+		users,
+		period,
+		grant,
+		pin } = req.body
 
 	try {
-		const news = await News.findById(id);
 
-		if (!news) {
-			return res
-				.status(404)
-				.json({ message: "Книга с таким id не существует" });
-		}
+		const news = await News.findById(id, (err) => {
+			if (err) {
+				throw new Error(err.message)
+			}
+		});
+
+		if (title) { news.title = title }
+		if (body) { news.body = body }
+
+		if (deadline) { news.deadline = deadline }
+		if (type) { news.type = type }
+		if (site) { news.site = site }
+		if (city) { news.city = city }
+		if (users) { news.users = users }
+		if (period) { news.period = period }
+		if (grant) { news.grant = grant }
+		if (pin) { news.pin = pin }
+
+		await news.save()
+			.then(() => res.json({ message: "Новость обновлена" }))
 
 		// try {
 		//     // delete doc
@@ -252,9 +274,6 @@ router.patch("/read/:id", async (req, res) => {
 		//     console.error(err)
 		// }
 
-		await news
-			.delete()
-			.then(() => res.status(201).json({ message: "Книга удалена" }));
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}

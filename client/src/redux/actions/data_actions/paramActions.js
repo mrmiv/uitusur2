@@ -91,7 +91,7 @@ export const delParam = id => dispatch => {
 
   axios.delete(`/api/param/${id}`, config)
     .then((res) => {
-      dispatch(returnInfo(res.data.message, res.status, "REQ_SUCCESS"));
+      dispatch(returnInfo(res.data, res.status, "REQ_SUCCESS"));
       dispatch({
         type: REQ_SUCCESS,
       });
@@ -120,7 +120,7 @@ export const postParam = ({ title, page, text }) => dispatch => {
 
   axios.post(`/api/param`, data, config)
     .then((res) => {
-      dispatch(returnInfo(res.data.message, res.status, "REQ_SUCCESS"));
+      dispatch(returnInfo(res.data, res.status, "REQ_SUCCESS"));
       dispatch({
         type: REQ_SUCCESS,
       });
@@ -149,7 +149,7 @@ export const patchParam = (id, { title, page, text }) => dispatch => {
 
   axios.patch(`/api/param/${id}`, data, config)
     .then((res) => {
-      dispatch(returnInfo(res.data.message, res.status, "REQ_SUCCESS"));
+      dispatch(returnInfo(res.data, res.status, "REQ_SUCCESS"));
       dispatch({
         type: REQ_SUCCESS,
       });
