@@ -66,16 +66,14 @@ $lgray: #c8d6e5;
 }
 
 #PageUpButton{
-    color: $orange;
     position: fixed;
-    right: 24px;
-    bottom: 24px;
+    right: 15px;
+    bottom: 15px;
     opacity: 0;
-    font-size: 36px;
-    transition: 0.4s;
+    transition: 0.25s ease;
     visibility: hidden;
     &:hover{
-        transform: translateY(-3px);;
+        transform: translateY(-5px);;
     }
     &.visible{
         visibility: visible;

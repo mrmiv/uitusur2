@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const nodemailer = require("nodemailer");
+const mailer = require("../middleware/middleware.mail");
 const router = Router();
 const fs = require("fs");
 // const authStaff = require('../middleware/middleware.auth.Staff')
@@ -113,60 +113,42 @@ router.post("/", async (req, res) => {
 			period,
 			grant,
 			created_at: Date.now(),
+			docs: []
 		});
 
-		let transporter = nodemailer.createTransport({
-			host: "smtp.mail.ru",
-			port: 465,
-			secure: true, // true for 465, false for other ports
-			auth: {
-				user: "uitusur@mail.ru", // email
-				pass: "S_etuOtaYT33", // password
-			},
-			tls: {
-				rejeceUnauthorized: false,
-			},
-		});
+		// console.log(send_to_email);
 
-		// send mail with defined transport object
-		let info = await transporter.sendMail(
-			{
-				from: '"Кафедра управления инновациями" <foo@uitusur.ru>', // sender address
-				to: "markov2345.99@gmail.com", // list of receivers
-				subject: "Новость", // Subject line
-				text: "Hello world", // plain text body
-				html: "<b>Hello world</b>", // html body
-			},
-			(error, info) => {
-				if (error) {
-					return console.log(error);
-				}
-				console.log("Message sent: %s", info.messageId);
-				console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+		if (send_to_email === "true") {
+			const message = {
+				to: 'markov2345.99@gmail.com',
+				subject: title,
+				html: `${body}
+				
+				Не нужно отвечать на данное сообщение.
+				<br/>
+				Кафедра управления инновациями`
 			}
-		);
 
-		// const doc = req.files;
-		// console.log(req.files.doc, req.files[0]);
+			await mailer(message)
+		}
 
-		// if (doc) {
-		// 	let docs = [];
-		// 	for (let i = 0; i < doc.length; i++) {
-		// 		const el = doc[i];
-		// 		console.log(el);
-		// 		el.mv(`uploads/news/${el.name}`, function (err) {
-		// 			if (err) {
-		// 				return res
-		// 					.status(500)
-		// 					.json(`Ошибка при прикреплении документа ${el.name}: ` + err);
-		// 			} else {
-		// 				console.log(el.name + " uploaded");
-		// 				docs.push(`/uploads/news/${el.name}`);
-		// 			}
-		// 		});
-		// 	}
-		// 	news.docs = docs;
-		// }
+		const { doc } = req.files;
+
+		if (doc.length !== 0) {
+			for (let i = 0; i < doc.length; i++) {
+				const el = doc[i];
+				// console.log(el);
+				el.mv(`uploads/news/${news._id}_${el.name}`, function (err) {
+					if (err) {
+						return res
+							.status(500)
+							.json(`Ошибка при прикреплении документа ${el.name}: ` + err);
+					}
+					// console.log(el.name + " uploaded");
+				});
+				news.docs.push(`/uploads/news/${news._id}_${el.name}`);
+			}
+		}
 
 		try {
 			await news

@@ -192,6 +192,8 @@ export const PageUpButton = () => {
         <button type="button"
             id="PageUpButton"
             className={`btn ${visible ? 'visible' : ''}`}
-            onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }) }}>&#129045;</button>
+            onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }) }}>
+            <img src="/svg/up.svg" alt="Наверх" />
+        </button>
     )
 }

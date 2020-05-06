@@ -79,4 +79,16 @@
     .text__news{
         margin-top: 20px;
     }
+    .docs__news{
+        margin-top: 2.5em;
+        a{
+            display: block;
+            color: black;
+            text-decoration: underline;
+            padding: 3px 0;
+            &:hover{
+                font-weight: 500;
+            }
+        }
+    }
 }

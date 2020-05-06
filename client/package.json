@@ -9,6 +9,7 @@
     "@fortawesome/react-fontawesome": "^0.1.8",
     "@iconify/icons-emojione-v1": "^1.0.7",
     "@iconify/icons-fa-solid": "^1.0.10",
+    "@iconify/icons-ion": "^1.0.12",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",

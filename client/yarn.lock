@@ -981,6 +981,11 @@
   resolved "https://registry.yarnpkg.com/@iconify/icons-fa-solid/-/icons-fa-solid-1.0.10.tgz#b88387bb7cf1422198816efda2a191558685de2f"
   integrity sha512-brToelU5UL/9edUgdBcRPwaxGtU5CyyE8HaWXN9oToTaz3sC3eZETKuUrjN+TtuMBKVPFVNruiVX6ff4JNrYrw==
 
+"@iconify/icons-ion@^1.0.12":
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/@iconify/icons-ion/-/icons-ion-1.0.12.tgz#5ccba4ad6b3ed1c7eb0467ab2888829e1547da02"
+  integrity sha512-l+Xxqf5c3oaCISb33IEysg20AwH+NiSF6QvH9Q28fMESGkE9sj9jjskbd49e6SlcqhG4ruNWiraGB305W5Tm2w==
+
 "@jest/console@^24.7.1", "@jest/console@^24.9.0":
   version "24.9.0"
   resolved "https://registry.yarnpkg.com/@jest/console/-/console-24.9.0.tgz#79b1bc06fb74a8cfb01cbdedf945584b1b9707f0"

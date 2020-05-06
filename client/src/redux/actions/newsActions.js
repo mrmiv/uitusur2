@@ -174,6 +174,7 @@ export const patchNews = (id, {
 	deadline,
 	body,
 	city,
+	doc,
 	users,
 	period,
 	grant,
@@ -214,13 +215,9 @@ export const patchNews = (id, {
 	}
 	formdata.append("pin", pin);
 
-
-	// if (doc) {
-	// 	for (let i = 0; i < doc.length; i++) {
-	// 		// console.log(doc[i] + "ЭТО I ФАЙЛ");
-	// 		formdata.append("doc", doc[i]);
-	// 	}
-	// }
+	if (doc) {
+		formdata.append("doc", doc);
+	}
 
 	// get /literature/book/id
 	axios({

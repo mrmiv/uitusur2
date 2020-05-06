@@ -1,71 +1,72 @@
 // Объявления кафедры
-const {Schema, model} = require('mongoose')
+const { Schema, model } = require('mongoose')
 
 const NewsSchema = new Schema({
 
     // Дата создания новости
-    created_at:{
+    created_at: {
         type: Date,
         required: true
     },
 
     // Заголовок
-    title:{
+    title: {
         type: String,
         minlength: 1,
         required: [true, 'Поле заголовок является обязательным!'],
-        unique: true
-    }, 
+        unique: true,
+        trim: true
+    },
 
     // Авторы
-    body:{
+    body: {
         type: String,
         minlength: 1,
         required: true
     },
 
-    pin:{
+    pin: {
         type: Boolean,
         default: false
     },
 
     // Тип
-    type:{
+    type: {
         type: Number,
         required: true,
-        enum: [1,2,3] 
+        enum: [1, 2, 3]
         // 1 - Объявления кафедры
         // 2 - Стипендии и гранты
         // 3 - Конференции
     },
 
     // свойства
-        // Сайт
-        site:{
-            type: String,
-            validate:{
-                validator: function(path){
-                    return/^((https|http)?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/.test(path)
-                },
-                message: props => `${props.value} - Поле сайт содержит недопустимые символы`
-            }
-        }, //conf
-        // Место проведения
-        city:{type: String},//grants, conf
-        // Дедлайн
-        deadline:{type: Date},//all
-        // Для кого
-        users:{type:String},//all
+    // Сайт
+    site: {
+        type: String,
+        validate: {
+            validator: function (path) {
+                return /^((https|http)?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/.test(path)
+            },
+            message: props => `${props.value} - Поле сайт содержит недопустимые символы`
+        }
+    }, //conf
+    // Место проведения
+    city: { type: String, trim: true },//grants, conf
+    // Дедлайн
+    deadline: { type: Date, trim: true },//all
+    // Для кого
+    users: { type: String, trim: true },//all
 
-        // Период действия гранта или сроки результатов конференции
-        period:{type:String},//grants, conference
+    // Период действия гранта или сроки результатов конференции
+    period: { type: String, trim: true },//grants, conference
 
-        // Сумма гранта
-        grant:{type:String},//grants
+    // Сумма гранта
+    grant: { type: String, trim: true },//grants
 
     // Вложения
-    docs:{type:[String]}
+    docs: { type: [String] }
 
-}, {autoIndex:false, versionKey: false})
+}, { autoIndex: false, versionKey: false })
 
 module.exports = model('News', NewsSchema)
