@@ -120,7 +120,7 @@ router.post("/", async (req, res) => {
 
 		if (send_to_email === "true") {
 			const message = {
-				to: 'markov2345.99@gmail.com',
+				to: 'marina.khaldeeva@mail.ru',
 				subject: title,
 				html: `${body}
 				
