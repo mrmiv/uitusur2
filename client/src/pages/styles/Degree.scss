@@ -4,24 +4,35 @@
   background: linear-gradient(lightblue,white);
 }
 
-.text-rules_degree{
-  h2{margin-bottom: 10px;}
-  ul{
-    list-style: none;
-    li{
-      &:before{
-        content: "—";
-        position: relative;
-        left: -5px;
+#rules_degree{
+  .text-rules_degree{
+    h2{margin-bottom: 10px;}
+    ul{
+      list-style: none;
+      li{
+        &:before{
+          content: "—";
+          position: relative;
+          left: -5px;
+        }
       }
+    
     }
-
+    .more-link{
+      background: linear-gradient(default.$llblue, default.$lblue);
+      text-align: left;
+    }
   }
-  .more-link{
-    background: linear-gradient(default.$llblue, default.$lblue);
-    text-align: left;
+  .rules_degree_image{
+    padding: 10px;text-align: right;
+    max-width: 100%;
   }
 }
+
+#testing_degree{
+  margin-top: 100px;
+}
+
 
 @media screen and (max-width: 992px){
   #title_main.degree_bach{

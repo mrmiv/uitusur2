@@ -10,7 +10,7 @@ import { connect } from 'react-redux'
 import { CardDegree } from './Home'
 import './styles/Degree.scss'
 
-import step1_img from './img/step_1.svg';
+import files_and_folder from './img/files_and_folder.svg';
 import step2_img from './img/step_2.svg';
 import step3_img from './img/step_3.svg';
 
@@ -18,7 +18,8 @@ export class DegreeBach extends Component {
 
   state = {
     Degree: [],
-    param_podacha_docs: null
+    param_podacha_docs: null,
+    param_testing_degree: null
   }
 
   componentDidMount() {
@@ -28,13 +29,14 @@ export class DegreeBach extends Component {
     }
 
     if (this.props.params_list) {
-      this.setState({
-        param_podacha_docs: this.props.params_list.find(item => {
-          return item.page === "Абитуриенту" && item.title === "Правила приема и подачи документов"
+      if (!this.state.param_podacha_docs) {
+        this.setState({
+          param_podacha_docs: this.props.params_list.find(item => {
+            return item.page === "Абитуриенту" && item.title === "Правила приема и подачи документов"
+          })
         })
-      })
+      }
     }
-
   }
 
   componentDidUpdate(prevProps) {
@@ -60,7 +62,7 @@ export class DegreeBach extends Component {
   }
 
   render() {
-    const { Degree, param_podacha_docs } = this.state
+    const { Degree, param_podacha_docs, param_testing_degree } = this.state
     return (
       <Fragment>
         {/* ЗАГОЛОВОК */}
@@ -93,15 +95,25 @@ export class DegreeBach extends Component {
         {param_podacha_docs && <Fade>
           <section id="rules_degree">
             <div className="container-md container-fluid">
-              <div className="row no-gutters">
+              <div className="row no-gutters align-items-center">
                 <div className="col-md-6">
                   <div className="text-rules_degree" dangerouslySetInnerHTML={{ __html: param_podacha_docs.text }} />
                 </div>
-                <div className="col-md-6">image here</div>
+                <div className="col-md-6">
+                  <img src={files_and_folder} className="rules_degree_image" alt="Правила приема и подачи документов" />
+                </div>
               </div>
             </div>
           </section>
         </Fade>}
+        {param_testing_degree &&
+          <Fade>
+            <section id="testing_degree">
+              <div className="container-md container-fluid">
+                <div className="text-testing_degree" dangerouslySetInnerHTML={{ __html: param_testing_degree.text }} />
+              </div>
+            </section>
+          </Fade>}
       </Fragment>
     )
   }

@@ -1,12 +1,9 @@
 import {
-    GET_STUDYPLAN,
-    GET_CURATORS,
-    GET_COURSE_STUDYPLAN,
-    GET_CLUBS,
-    GET_CLUB,
-    GET_ONE_STUDYPLAN
+    GET_COURSE_STUDYPLAN, GET_ONE_STUDYPLAN, GET_STUDYPLAN,
+    GET_CURATORS, GET_CURATOR,
+    GET_CLUBS, GET_CLUB,
 } from '../../actions/data_actions/types'
-import { LOADING_REQ, REQ_FAIL, REQ_SUCCESS } from '../../actions/types'
+import { LOADING_REQ } from '../../actions/types'
 
 const StudyPlanState = {
     StudyPlans: [],
@@ -16,7 +13,9 @@ const StudyPlanState = {
 }
 
 const CuratorsState = {
-    CuratorList: []
+    CuratorList: [],
+    isLoading: false,
+    Curator: null
 }
 
 const ClubsState = {
@@ -57,13 +56,25 @@ export function StudyPlanReducer(state = StudyPlanState, action) {
 
 export function CuratorsReducer(state = CuratorsState, action) {
     switch (action.type) {
+        case LOADING_REQ:
+            return {
+                ...state,
+                isLoading: true
+            }
         case GET_CURATORS:
             return {
                 ...state,
-                CuratorList: action.payload.CuratorList
+                CuratorList: action.payload.CuratorList,
+                isLoading: false
+            }
+        case GET_CURATOR:
+            return {
+                ...state,
+                Curator: action.payload.Curator,
+                isLoading: false
             }
         default:
-            return state;
+            return { ...state, isLoading: false };
     }
 }
 

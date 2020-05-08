@@ -12,7 +12,10 @@ import { faUsers } from '@fortawesome/free-solid-svg-icons'
 import pushpinIcon from '@iconify/icons-fxemoji/pushpin'
 import alarmClock from '@iconify/icons-flat-color-icons/alarm-clock';
 import documentAttach from '@iconify/icons-ion/document-attach';
-
+import cityscapeIcon from '@iconify/icons-twemoji/cityscape';
+import trophyIcon from '@iconify/icons-twemoji/trophy';
+import linksymbolIcon from '@iconify/icons-fxemoji/linksymbol';
+import spiralCalendar from '@iconify/icons-twemoji/spiral-calendar';
 
 export class FullNews extends Component {
 
@@ -59,16 +62,16 @@ export class FullNews extends Component {
                                         icon={<Icon icon={alarmClock} />} name={News.type === 1 ? "Крайний срок" : "Крайний срок подачи документов"} text={toDate(News.deadline)} />}
                                     {/* место проведения */}
                                     {News.city && <NewsProps
-                                        icon={<Icon icon={alarmClock} />} name={"Место проведения"} text={News.city} />}
+                                        icon={<Icon icon={cityscapeIcon} />} name={"Место проведения"} text={News.city} />}
                                     {/* период действия или сроки результатов */}
                                     {News.period && <NewsProps
-                                        icon={<Icon icon={alarmClock} />} name={"Период действия"} text={News.period} />}
+                                        icon={<Icon icon={spiralCalendar} />} name={"Период действия"} text={News.period} />}
                                     {/* размер гранта */}
                                     {News.grant && <NewsProps
-                                        icon={<Icon icon={alarmClock} />} name={"Размер стипендии/гранта"} text={News.grant} />}
+                                        icon={<Icon icon={trophyIcon} />} name={"Размер стипендии/гранта"} text={News.grant} />}
                                     {/* сайт */}
                                     {News.site && <NewsProps
-                                        icon={<Icon icon={alarmClock} />} text={News.site} name={"Сайт"} link />}
+                                        icon={<Icon icon={linksymbolIcon} />} text={News.site} name={"Сайт"} link />}
                                 </div>
                                 <div className="text__news" dangerouslySetInnerHTML={{ __html: News.body }} />
                                 {News.docs.length !== 0 && <div className="docs__news"><strong>Вложения:</strong><br />

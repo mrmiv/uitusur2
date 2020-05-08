@@ -43,16 +43,15 @@ function NavMenu() {
         <div className="menu" id="accordion_navbar">
             <NavLink to="/" className="link" exact>Главная</NavLink>
             {/* НОВОСТИ */}
-            <div className="collapse_links d-flex justify-content-between">
-                <span className="link d-flex disabled" disabled>Новости</span>
-                <a className="open_sub"
-                    data-toggle="collapse"
-                    data-target="#submenu_news"
-                    href="#submenu_news"
-                    role="button"
-                    aria-expanded="false"
-                    aria-controls="submenu_news"> <img src="/svg/arrowDown.svg" alt="Открыть подменю" /> </a>
-            </div>
+            <a className="link d-flex"
+                data-toggle="collapse"
+                data-target="#submenu_news"
+                href="#submenu_news"
+                role="button"
+                aria-expanded="false"
+                aria-controls="submenu_news">
+                Новости <span> <img src="/svg/arrowDown.svg" alt="Открыть подменю" /> </span>
+            </a>
             <div className="submenu collapse" id="submenu_news" data-parent="#accordion_navbar">
                 <NavLink className="link" to="/announcements">Объявления кафедры</NavLink>
                 <NavLink className="link" to="/grants">Стипендии и гранты</NavLink>

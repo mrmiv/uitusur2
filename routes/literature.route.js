@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
     const sort = Number(req.query.sort) || 1 // 1=asc, 2=desc
     const category = req.query.filter || null
     const keywords = req.query.keywords || null
-    // console.log(keywords);
+    console.log(keywords);
     // console.log(page, perpage, sort, category);
     let query = {}
     try {
@@ -34,7 +34,7 @@ router.get('/', async (req, res) => {
                 if (data.length === 0) {
                     return res.status(404).json({ message: "Такой страницы не существует" })
                 }
-                const total = await Literature.find(category ? { category } : null).countDocuments()
+                const total = await Literature.find(query).countDocuments()
 
                 let fields = []
                 const arrayoffields = await Literature.find().select('category')

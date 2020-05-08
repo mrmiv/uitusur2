@@ -11,7 +11,7 @@ import { toDate } from './components/NewsList'
 import Fade from 'react-reveal/Fade'
 // import {Modal} from '../components/Modal'
 import { closeNavbar } from '../redux/actions/navbarActions'
-import { GetDataStudent } from '../redux/actions/data_actions/StudentActions'
+import { GetAllCurators } from '../redux/actions/data_actions/curatorActions'
 import { getClubs } from '../redux/actions/data_actions/clubsAction'
 import { getCourseSP, getSP } from '../redux/actions/data_actions/spActionns'
 
@@ -24,7 +24,6 @@ import career_img from './img/CAREER.svg';
 export class Student extends Component {
 
     state = {
-        CuratorList: this.props.Curators.CuratorList,
         StudyPlan: null
     }
 
@@ -35,16 +34,14 @@ export class Student extends Component {
     componentDidMount() {
         document.title = this.props.title
         this.props.getSP()
-        this.props.GetDataStudent()
+        this.props.GetAllCurators()
         this.props.getClubs()
     }
 
     componentDidUpdate(prevProps) {
-        const { Curators, StudyPlan } = this.props
+        const { StudyPlan } = this.props
 
-        if (Curators !== prevProps.Curators) {
-            this.setState({ CuratorList: Curators.CuratorList })
-        } else if (StudyPlan !== prevProps.StudyPlan) {
+        if (StudyPlan !== prevProps.StudyPlan) {
             this.setState({ StudyPlan: StudyPlan })
         }
     }
@@ -67,8 +64,8 @@ export class Student extends Component {
     }
 
     render() {
-        const { StudyPlan, CuratorList } = this.state
-        const { ClubsList } = this.props
+        const { StudyPlan } = this.state
+        const { ClubsList, Curators } = this.props
 
         const sp_btns = [
             { name: "Бак. - 1", course: 1 },
@@ -222,7 +219,7 @@ export class Student extends Component {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {CuratorList && CuratorList.map(curator => { return (<Curator curator={curator} />) })}
+                                        {Curators && Curators.map(curator => { return (<Curator curator={curator} />) })}
                                     </tbody>
                                 </table>
                             </div>
@@ -259,14 +256,14 @@ export class Student extends Component {
 }
 
 const mapStateToProps = state => ({
-    Curators: state.api.curators,
+    Curators: state.api.curators.CuratorList,
     ClubsList: state.api.clubs.ClubsList,
     StudyPlan: state.api.studyplan.courseSP
 })
 
 export default connect(
     mapStateToProps,
-    { GetDataStudent, getCourseSP, getClubs, getSP }
+    { GetAllCurators, getCourseSP, getClubs, getSP }
 )(Student)
 
 const Club = ({ name, image }) => {
@@ -286,9 +283,10 @@ function Curator({ curator }) {
         <tr>
             <td>{curator.group}</td>
             <td><Link to={{
-                pathname: curator.path,
+                pathname: `/staff/${curator.staff_id}`,
                 state: { background: location }
-            }}> <Icon style={{ color: "#354ED1", marginRight: "5px" }} icon={faHashtag} />  {curator.curator}</Link></td>
+            }}> <Icon style={{ color: "#354ED1", marginRight: "5px" }} icon={faHashtag} />
+                {curator.lastname + " " + curator.firstname[0] + ". " + curator.secondname[0] + "."}</Link></td>
         </tr>
     )
 }

@@ -21,7 +21,7 @@ app.use('/api/docs', require('./routes/docs.route')) //сотрудники
 app.use('/api/clubs', require('./routes/club.route')) //внеучебная деятельность
 app.use('/api/studyplan', require('./routes/studyplan.route')) //учебный план
 app.use('/api/param', require('./routes/param.route')) //тексты на страницах
-// app.use('/reserve', require('./routes/reserve.route')) //резерв
+app.use('/api/curator', require('./routes/curators.route')) //кураторы
 // app.use('/category', require('./routes/category.route')) //категория
 // app.use('/build', require('./routes/build.route')) //корпус
 

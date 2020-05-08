@@ -9,7 +9,8 @@ import {
 import { combineReducers } from 'redux';
 
 const StaffListState = {
-    StaffList: []
+    StaffList: [],
+    isLoading: false
 }
 
 const CurrentStaffState = {
@@ -22,43 +23,48 @@ export default combineReducers({
     CurrentStaff: CurrentStaffReducer
 })
 
-function StaffListReducer(state=StaffListState, action){
-    switch(action.type){
+function StaffListReducer(state = StaffListState, action) {
+    switch (action.type) {
+        case LOADING_REQ:
+            return {
+                ...state,
+                isLoading: true
+            }
         case GET_STAFF_LIST:
             // console.log(action.payload.StaffList)
-            return{
+            return {
                 ...state,
                 StaffList: action.payload.StaffList,
                 isLoading: false
             }
         default:
-            return state
+            return { ...state, isLoading: false }
     }
 }
 
-function CurrentStaffReducer(state=CurrentStaffState, action){
+function CurrentStaffReducer(state = CurrentStaffState, action) {
     // CURRENT STAFF
-    switch(action.type){
+    switch (action.type) {
         case LOADING_REQ:
         case CURRENT_STAFF_LOADING:
-            return{
+            return {
                 ...state,
                 isLoading: true
             }
         case REQ_FAIL:
         case REQ_SUCCESS:
-            return{
+            return {
                 ...state,
                 isLoading: false
             }
         case GET_CURRENT_STAFF:
             // console.log(action.payload.CurrentStaff);
-            return{
+            return {
                 ...state,
                 CurrentStaff: action.payload.CurrentStaff,
                 isLoading: false
             }
-        default: 
-            return state
+        default:
+            return { ...state, isLoading: false }
     }
 }

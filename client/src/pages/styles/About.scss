@@ -88,6 +88,19 @@
     }
 }
 
+#trophy_about{
+    margin-top: 80px;
+    h2{color: default.$purple}
+    .text_trophy{
+        margin-top: 10px;
+        .more-link{
+            margin-top: 10px;
+            background: linear-gradient(default.$pink, default.$purple);
+        }
+    }
+    img{width: 100%;}
+}
+
 #feedback_inter{
     margin-top: 80px;
     h2{
@@ -177,17 +190,29 @@
     h2{
         margin-bottom: 30px;
     }
-    .docs_CMK{
+    .CMK-docs{
         justify-content: center;
-        box-shadow: 0 5px 10px default.$shadow;
-        border-radius: 5px;
-        padding: 15px 20px;
-        margin: 10px 0;
         p{
-            span{
-                margin-left: 20px;
+            display: block;
+            padding: 10px 0;
+            .cmk_link{
+                &:before{
+                    content: url('https://api.iconify.design/emojione-v1:document-with-text.svg?height=16');
+                    vertical-align: middle;
+                    margin-right: 10px;
+                }
+                color: black;
+                box-shadow: 0 2px 5px #2a2a2a4b;
+                border-radius: 5px;
+                padding: 5px;
+                transition: 0.3s;
+                &:hover{
+                    box-shadow: 0 4px 8px #2a2a2a4b;
+                    background: whitesmoke;
+                }
             }
         }
+        
     }
     .img_CMK{
         padding: 20px 20px 0 20px;

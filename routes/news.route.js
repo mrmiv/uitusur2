@@ -31,7 +31,7 @@ router.get("/:type", async (req, res) => {
 				"users",
 			])
 			.sort([
-				["pin", 1],
+				["pin", -1],
 				["created_at", -1],
 				["title", 1],
 			])
@@ -132,9 +132,9 @@ router.post("/", async (req, res) => {
 			await mailer(message)
 		}
 
-		const { doc } = req.files;
+		if (req.files) {
+			const { doc } = req.files;
 
-		if (doc.length !== 0) {
 			for (let i = 0; i < doc.length; i++) {
 				const el = doc[i];
 				// console.log(el);

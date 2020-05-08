@@ -45,6 +45,11 @@ export class AdminHome extends Component {
                 path: 'studyplan',
                 name: 'Учебный план',
                 icon: <Icon color={"green"} icon={clipboardList} />
+            },
+            {
+                path: 'curator',
+                name: 'Кураторы',
+                icon: <Icon color={"yellow"} icon={userTie} />
             }
         ]
     }

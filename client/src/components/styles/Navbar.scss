@@ -50,11 +50,6 @@ $lgray: #c8d6e5;
                 }
             }
 
-            &.login{
-                
-                color: gray
-            }
-
             // this is for news and degrees
             span{
                 width: auto;
@@ -78,6 +73,7 @@ $lgray: #c8d6e5;
                     position: relative;
                     height: 100%;
                     left: -15px;
+                    background: white;
                     border: 1.5px solid white;
                 }
             }

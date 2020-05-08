@@ -1,8 +1,10 @@
 @use 'default';
+$lightblue: rgb(216, 238, 245);
 
 #title_main.news{
     background: default.$lgray;
 
+    h1{text-align: center;}
     h1, h4{
         color: default.$dblue
     }
@@ -16,9 +18,10 @@
         .last-one-news{
             background: white;
             box-shadow: 0 3px 5px default.$shadow;
-            padding: 10px;
+            padding: 5px 10px;
             border-radius: 5px;
-            margin:8px;
+            margin:8px 0;
+            transition: 0.25s ease;
             h6{
                 padding: 0;
                 margin: 0;
@@ -26,12 +29,20 @@
             small{
                 opacity: 0.85;
             }
+            &:hover{
+                transform: translateX(5px);
+                background: $lightblue
+            }
         }
     }
 }
 
 #news{
     .one-news{
+        transition: 0.25s ease;
+        &:hover{
+            background:$lightblue;
+        }
         *{color:black}
         background: whitesmoke;
         padding: 10px 15px;
