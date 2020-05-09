@@ -27,25 +27,24 @@ export class DegreeBach extends Component {
     if (this.state.Degree.length === 0) {
       this.props.GetDegreeList()
     }
-
-    if (this.props.params_list) {
-      if (!this.state.param_podacha_docs) {
-        this.setState({
-          param_podacha_docs: this.props.params_list.find(item => {
-            return item.page === "Абитуриенту" && item.title === "Правила приема и подачи документов"
-          })
-        })
-      }
-    }
   }
 
   componentDidUpdate(prevProps) {
-    const { Degree } = this.props
+    const { Degree, params_list } = this.props
 
     if (Degree !== prevProps.Degree) {
       this.setState({ Degree: Degree.filter(item => item.type === "Бакалавриат") })
     }
 
+    const param_podacha_docs = params_list.find(item => {
+      return item.page === "Абитуриенту" && item.title === "Правила приема и подачи документов"
+    })
+
+    if (params_list.length !== 0) {
+      if (param_podacha_docs && !this.state.param_podacha_docs) {
+        this.setState({ param_podacha_docs })
+      }
+    }
   }
 
   componentWillUnmount() {

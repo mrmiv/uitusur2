@@ -17,27 +17,27 @@ const DocumentsState = {
 }
 
 const DocState = {
-    Doc:{},
+    document: {},
     isLoading: false
 }
 
-function DocumentsReducer(state=DocumentsState, action){
+function DocumentsReducer(state = DocumentsState, action) {
     switch (action.type) {
         case DOCS_LOADING:
         case LOADING_REQ:
-            return{
+            return {
                 ...state,
                 isLoading: true
             }
         case REQ_FAIL:
         case REQ_SUCCESS:
-            return{
+            return {
                 ...state,
                 isLoading: false
             }
-        case GET_DOCUMENTS_LIST: 
+        case GET_DOCUMENTS_LIST:
             // console.log(state)
-            return{
+            return {
                 ...state,
                 docslist: action.payload.docslist,
                 categories: action.payload.categories,
@@ -45,25 +45,25 @@ function DocumentsReducer(state=DocumentsState, action){
                 isLoading: false
             }
         default:
-            return state
+            return { ...state, isLoading: false }
     }
 }
 
-function DocReducer(state=DocState, action){
+function DocReducer(state = DocState, action) {
     switch (action.type) {
         case DOC_LOADING:
-            return{
+            return {
                 ...state,
                 isLoading: true
             }
         case GET_DOC:
-            return{
+            return {
                 ...state,
-                Doc: action.payload.Doc,
+                document: action.payload.document,
                 isLoading: false
             }
         default:
-            return state
+            return { ...state, isLoading: false }
     }
 }
 

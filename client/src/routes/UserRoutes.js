@@ -1,4 +1,4 @@
-import React, { Component, useEffect, Suspense, lazy, useState } from 'react'
+import React, { Component, useEffect, Suspense, lazy, useState, Fragment } from 'react'
 import { Route, Switch, useLocation, Redirect } from 'react-router-dom'
 
 import { LoadingScreen } from '../components/LoadingScreen'
@@ -44,14 +44,14 @@ export class Routes extends Component {
 
     render() {
         return (
-            <>
+            <Fragment>
                 <Navbar />
                 <Header />
                 <Suspense fallback={<LoadingScreen />}>
                     <HomeRoutes auth={this.props.isAuthenticated} />
                     <Footer />
                 </Suspense>
-            </>
+            </Fragment>
         )
     }
 }
@@ -68,68 +68,68 @@ export default connect(
 function HomeRoutes({ auth }) {
 
     const location = useLocation()
-    let background = location.state && location.state.background
+    let background = location.state && location.state.backgroundz
 
     return (
         <div id="content">
             <Switch location={background || location}>
-                <Route path="/" exact component={(() => (<>
+                <Route path="/" exact component={(() => (<Fragment>
                     <ScrollToTop />
                     <Home title="Кафедра управления инновациями" />
-                </>))} />
+                </Fragment>))} />
                 {/* О Кафедре */}
-                <Route path="/about" exact component={(() => (<>
+                <Route path="/about" exact component={(() => (<Fragment>
                     {!background && <ScrollToTop />}
                     <About title="О кафедре - Кафедра управления инновациями" />
-                </>))} />
-                <Route path="/staff/:id" exact component={(() => (<>
+                </Fragment>))} />
+                <Route path="/staff/:id" exact component={(() => (<Fragment>
                     <ScrollToTop />
                     <StaffView />
-                </>))} />
+                </Fragment>))} />
                 {/* Новости */}
-                <Route path="/announcements" exact component={(() => (<>
+                <Route path="/announcements" exact component={(() => (<Fragment>
                     <ScrollToTop />
                     <News type={1} title="Объявления кафедры" />
-                </>))} />
-                <Route path="/conferences" exact component={(() => (<>
+                </Fragment>))} />
+                <Route path="/conferences" exact component={(() => (<Fragment>
                     <ScrollToTop />
                     <News type={3} title="Конференции" />
-                </>))} />
-                <Route path="/grants" exact component={(() => (<>
+                </Fragment>))} />
+                <Route path="/grants" exact component={(() => (<Fragment>
                     <ScrollToTop />
                     <News type={2} title="Стипендии и гранты" />
-                </>))} />
-                <Route path="/news/:id" exact component={((props) => (<>
+                </Fragment>))} />
+                <Route path="/news/:id" exact component={((props) => (<Fragment>
                     <ScrollToTop />
                     <FullNews id={props.match.params.id} />
-                </>))} />
+                </Fragment>))} />
                 {/* Обучающемуся */}
-                <Route path="/student" exact component={(() => (<>
+                <Route path="/student" exact component={(() => (<Fragment>
                     <ScrollToTop />
                     <Student title="Обучающимся - Кафедра управления инновациями" />
-                </>))} />
-                <Route path="/student/bach" exact component={(() => (<>
+                </Fragment>))} />
+                <Route path="/student/bach" exact component={(() => (<Fragment>
                     <ScrollToTop />
                     <StudentBach title="Бакалавру - Кафедра управления инновациями" />
-                </>))} />
-                <Route path="/student/mag" exact component={(() => (<>
+                </Fragment>))} />
+                <Route path="/student/mag" exact component={(() => (<Fragment>
                     <ScrollToTop />
                     <StudentMag title="Магистранту - Кафедра управления инновациями" />
-                </>))} />
-                <Route path="/degree/bach" exact component={(() => (<>
+                </Fragment>))} />
+                <Route path="/degree/bach" exact component={(() => (<Fragment>
                     <ScrollToTop />
                     <DegreeBach title="Абитуриенту - Кафедра управления инновациями" />
-                </>))} />
-                <Route path="/degree/mag" exact component={(() => (<>
+                </Fragment>))} />
+                <Route path="/degree/mag" exact component={(() => (<Fragment>
                     <ScrollToTop />
                     <Developing />
-                </>))} />
-                <Route path="/docs" exact component={(() => (<>
+                </Fragment>))} />
+                <Route path="/docs" exact component={(() => (<Fragment>
                     <ScrollToTop />
                     <Docs title="Регламентирующие документы - Кафедра управления инновациями" />
-                </>))} />
+                </Fragment>))} />
                 {/* Литература кафедры */}
-                <Route path="/literature" component={(() => (<>
+                <Route path="/literature" component={(() => (<Fragment>
                     {!background && <ScrollToTop />}
                     <Route exact path="/literature">
                         <Redirect to="/literature/1" />
@@ -137,28 +137,28 @@ function HomeRoutes({ auth }) {
                     <Route exact path="/literature/:page">
                         <Literature title="Литература кафедры - Кафедра управления инновациями" />
                     </Route>
-                </>))} />
-                <Route exact path="/book/:id" component={() => (<>
+                </Fragment>))} />
+                <Route exact path="/book/:id" component={() => (<Fragment>
                     <ScrollToTop />
                     <BookPage />
-                </>)} />
-                <Route path="/quiz" exact component={(() => (<>
+                </Fragment>)} />
+                <Route path="/quiz" exact component={(() => (<Fragment>
                     <ScrollToTop />
                     <Quiz title="Опросы студентов - Кафедра управления инновациями" />
-                </>))} />
+                </Fragment>))} />
 
                 {/* FOR ADMINISTRATION */}
-                <Route path="/login" exact component={(() => (<>
+                <Route path="/login" exact component={(() => (<Fragment>
                     <ScrollToTop />
                     {auth ? <Redirect to="/admin" />
                         : <Login title="Авторизация - Кафедра управления инновациями" />}
-                </>))} />
+                </Fragment>))} />
                 {auth && <Route path="/admin" component={(() => (<AdminRoutes />))} />}
                 {/* NOT FOUND 404 */}
-                <Route path="*" exact component={(() => (<>
+                <Route path="*" exact component={(() => (<Fragment>
                     <ScrollToTop />
                     <PageNotFound status={404} />
-                </>))} />
+                </Fragment>))} />
             </Switch>
             <PageUpButton />
             {/* Модальные окна */}

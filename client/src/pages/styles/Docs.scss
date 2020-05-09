@@ -2,31 +2,51 @@
 
 #title_main.documents{
     background: linear-gradient(default.$mint,default.$dmint);
+    .category-doc-btn{
+        &:before{
+            content: url('https://api.iconify.design/emojione-v1:document-with-text.svg?height=30');
+        }
+        width: 150px;
+        height: 150px;
+        &:hover{
+            background: #fff2;
+        }
+    }
 }
 
 #documents_list{
-    h2{color: default.$lblue}
-    h4{color: default.$dmint}
+    h2{color: default.$lblue; margin: 1rem 0;}
+    h4{color: default.$dmint; margin: 0.75rem 0;}
     a.document-link{
-        padding: 8px 15px;
+        align-items: center;
+        &:before{
+            content: url('https://api.iconify.design/emojione-v1:document-with-text.svg?height=24');
+            align-self:center;
+            font-size: 1em;
+            margin-right: 10px;
+        }
+        padding: 10px;
         margin: 5px 5px 0 0;
         color: #222;
         transition: all 0.3s ease;
         border-radius: 3px;
+        display: flex;
         background: whitesmoke;
-        small{
-            opacity: 0.75;
+        .text-indoc{
+            small{
+                display: block;
+                opacity: 0.7;
+                font-weight: 500;
+            }
         }
         &:after{
             transition: all 0.3s ease;
             content:"\0279C";
-            margin-left: 20px;
+            position: absolute;
+            align-self:center ;
+            right: 20px;
         }
         &:hover{
-            &:after{
-                margin-left: 30px;
-                color: default.$lblue;
-            }
             box-shadow: 0 2px 5px default.$shadow;
         }
         &:active{

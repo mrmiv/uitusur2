@@ -50,6 +50,11 @@ export class AdminHome extends Component {
                 path: 'curator',
                 name: 'Кураторы',
                 icon: <Icon color={"yellow"} icon={userTie} />
+            },
+            {
+                path: 'docs',
+                name: 'Регл. документы',
+                icon: <Icon icon={userTie} />
             }
         ]
     }

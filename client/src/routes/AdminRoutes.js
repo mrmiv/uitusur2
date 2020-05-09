@@ -7,6 +7,7 @@ const AdminStaffRoutes = lazy(() => import('../pages/admin/Staff'))
 const AdminNewsRoutes = lazy(() => import('../pages/admin/News'))
 const AdminCuratorRoutes = lazy(() => import('../pages/admin/Curator'))
 const AdminClubsRoutes = lazy(() => import('../pages/admin/Clubs'))
+const AdminDocsRoutes = lazy(() => import('../pages/admin/Docs'))
 const AdminSPRoutes = lazy(() => import('../pages/admin/StudyPlan'))
 const AdminHome = lazy(() => import('../pages/admin'))
 
@@ -24,6 +25,7 @@ export default function AdminRoutes() {
             <AdminSPRoutes />
             <AdminParamRoutes />
             <AdminCuratorRoutes />
+            <AdminDocsRoutes />
         </Fragment>
     )
 }

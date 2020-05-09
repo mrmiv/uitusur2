@@ -1,8 +1,8 @@
-import { 
-    DOC_LOADING,DOCS_LOADING,
+import {
+    DOC_LOADING, DOCS_LOADING,
     GET_DOCUMENTS_LIST,
-    GET_DOC, 
-    LOADING_REQ, 
+    GET_DOC,
+    LOADING_REQ,
     REQ_SUCCESS,
     REQ_FAIL
 } from './types'
@@ -27,13 +27,17 @@ export const GetDocuments = () => dispatch => {
                     subcategories: res.data.subcategories
                 }
             })
-            return res.data})
-        .catch(err => {
-            console.error(err);
-    })
+            return res.data
+        })
+        .catch((err) => {
+            dispatch(returnInfo(err.response.data, err.response.status, "REQ_FAIL"));
+            dispatch({
+                type: REQ_FAIL,
+            });
+        })
 }
 
-export const GetDoc = (id) => dispatch => {
+export const GetDocument = (id) => dispatch => {
 
     dispatch({
         type: DOC_LOADING
@@ -45,98 +49,147 @@ export const GetDoc = (id) => dispatch => {
             dispatch({
                 type: GET_DOC,
                 payload: {
-                    Doc: res.data,
+                    document: res.data,
                 }
             })
-            return res.data})
-        .catch(err => {
-            console.error(err);
-    })
+            return res.data
+        })
+        .catch((err) => {
+            dispatch(returnInfo(err.response.data, err.response.status, "REQ_FAIL"));
+            dispatch({
+                type: REQ_FAIL,
+            });
+        })
 }
 
-// export const postLiterature = ({
-//     title,
-//     category,
-//     description,
-//     annotation,
-//     image,
-//     doc,
-//     author,
-//     keywords,
-//     path,
-// }) => dispatch => {
+export const postDocument = ({
+    title,
+    category,
+    subcategory,
+    doc,
+    path,
+    date,
+}) => dispatch => {
 
-//     dispatch({
-//         type: LOADING_REQ
-//     })
-    
-//     const headers={
-//         "Content-type" : "multipart/form-data",
-//         "token": sessionStorage.getItem("token")
-//     }
+    dispatch({
+        type: LOADING_REQ
+    })
 
-//     const formdata = new FormData()
+    const headers = {
+        "Content-type": "multipart/form-data",
+        "token": sessionStorage.getItem("token")
+    }
 
-//     formdata.append('image', image)
-//     if(doc){formdata.append('doc', doc)}
-//     formdata.append('title', title)
-//     formdata.append('category', category.toLowerCase())
-//     formdata.append('description', description)
-//     formdata.append('annotation', annotation)
-//     formdata.append('author', author)
-//     formdata.append('path', path)
+    const formdata = new FormData()
 
-//     let keywords_arr = keywords.split(' ')
+    if (doc) {
+        formdata.append('document', doc)
+    } else if (path && !doc) {
+        formdata.append('path', path)
+    }
 
-//     keywords_arr.forEach(item => {
-//          // keywords[:index] = keyword
-//         formdata.append(`keywords`, item)
-//     })
-       
-//     // get /literature/book/id
-//     axios({
-//         url: '/api/literature',
-//         method: 'POST',
-//         headers,
-//         data: formdata
-//     })
-//     .then(res => {
-//         dispatch(returnInfo(res.data.message, res.status, 'REQ_SUCCESS'))
-//         dispatch({
-//             type: REQ_SUCCESS
-//         })
-//     })
-//     .catch(err => {
-//         dispatch(returnInfo(err.response.data, err.response.status, 'REQ_FAIL'))
-//         dispatch({
-//             type: REQ_FAIL
-//         })
-//     })
-// }
+    formdata.append('title', title)
+    formdata.append('category', category)
+    formdata.append('subcategory', subcategory)
+    if (date) { formdata.append('date', date) }
 
-// export const delLiterature = (id, page) => dispatch => {
+    // psot /docs/id
+    axios({
+        url: '/api/docs',
+        method: 'POST',
+        headers,
+        data: formdata
+    })
+        .then(res => {
+            dispatch(returnInfo(res.data, res.status, 'REQ_SUCCESS'))
+            dispatch({
+                type: REQ_SUCCESS
+            })
+        })
+        .catch(err => {
+            dispatch(returnInfo(err.response.data, err.response.status, 'REQ_FAIL'))
+            dispatch({
+                type: REQ_FAIL
+            })
+        })
+}
 
-//     dispatch({
-//         type: LOADING_REQ
-//     })
+export const patchDocument = (id, {
+    title,
+    category,
+    subcategory,
+    doc,
+    path,
+    date,
+}) => dispatch => {
 
-//     const config={
-//         headers:{"token": sessionStorage.getItem("token")}
-//     }
+    dispatch({
+        type: LOADING_REQ
+    })
 
-//     // debugger
-//     axios.delete(`/api/literature/book/${id}`,config)
-//         .then(res => {
-//             dispatch(returnInfo(res.data.message, res.status, 'REQ_SUCCESS'))
-//             dispatch({
-//                 type: REQ_SUCCESS
-//             })
-//             dispatch(GetLiteraturePerPage(page))
-//         })
-//         .catch(err => {
-//             dispatch(returnInfo(err.response.data, err.response.status, 'REQ_FAIL'))
-//             dispatch({
-//                 type: REQ_FAIL
-//         })
-//     })
-// }
+    const headers = {
+        "Content-type": "multipart/form-data",
+        "token": sessionStorage.getItem("token")
+    }
+
+    const formdata = new FormData()
+
+    if (doc) {
+        formdata.append('document', doc)
+    } else if (path && !doc) {
+        formdata.append('path', path)
+    }
+
+    formdata.append('title', title)
+    formdata.append('category', category)
+    formdata.append('subcategory', subcategory)
+    if (date) { formdata.append('date', date) }
+
+    // psot /docs/id
+    axios({
+        url: `/api/docs/${id}`,
+        method: 'PATCH',
+        headers,
+        data: formdata
+    })
+        .then(res => {
+            dispatch(returnInfo(res.data, res.status, 'REQ_SUCCESS'))
+            dispatch({
+                type: REQ_SUCCESS
+            })
+        })
+        .catch(err => {
+            dispatch(returnInfo(err.response.data, err.response.status, 'REQ_FAIL'))
+            dispatch({
+                type: REQ_FAIL
+            })
+        })
+}
+
+export const delDocument = id => dispatch => {
+
+    dispatch({
+        type: LOADING_REQ
+    })
+
+    const config = {
+        headers: {
+            token: sessionStorage.getItem("token")
+        }
+    }
+
+    // debugger
+    axios.delete(`/api/docs/${id}`, config)
+        .then(res => {
+            dispatch(returnInfo(res.data, res.status, 'REQ_SUCCESS'))
+            dispatch({
+                type: REQ_SUCCESS
+            })
+        })
+        .catch(err => {
+            dispatch(returnInfo(err.response.data, err.response.status, 'REQ_FAIL'))
+            dispatch({
+                type: REQ_FAIL
+            })
+        })
+}
