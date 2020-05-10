@@ -28,6 +28,7 @@ const StudentBach = lazy(() => import('../pages/Bach'))
 const StudentMag = lazy(() => import('../pages/Mag'))
 
 const DegreeBach = lazy(() => import('../pages/DegreeBach'))
+const DegreeMag = lazy(() => import('../pages/DegreeMag'))
 
 const News = lazy(() => import('../pages/News'))
 const FullNews = lazy(() => import('../pages/components/FullNews'))
@@ -122,7 +123,7 @@ function HomeRoutes({ auth }) {
                 </Fragment>))} />
                 <Route path="/degree/mag" exact component={(() => (<Fragment>
                     <ScrollToTop />
-                    <Developing />
+                    <DegreeMag title="Магистратура ФИТ - Кафедра управления инновациями" />
                 </Fragment>))} />
                 <Route path="/docs" exact component={(() => (<Fragment>
                     <ScrollToTop />

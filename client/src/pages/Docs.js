@@ -62,6 +62,7 @@ export class Docs extends Component {
                             return (
                                 <Fragment key={index}>
                                     <h2 id={cat}>{cat[0].toUpperCase() + cat.substr(1)}</h2>
+
                                     {subcategories.map((subcat, index) => {
                                         if (docslist.find((item) => {
                                             return item.category === cat && item.subcategory === subcat
@@ -81,6 +82,18 @@ export class Docs extends Component {
                                             )
                                         }
                                     })}
+
+                                    {(docslist.find((doc) => {
+                                        return doc.category === cat && !doc.subcategory
+                                    })) ? <div className="row no-gutters">
+                                            {docslist.map((doc) => {
+                                                if (doc.category === cat && !doc.subcategory) {
+                                                    return <div key={index} className="col-sm-6 col-12">
+                                                        <Document title={doc.title} path={doc.path} document={doc.document} date={doc.date} />
+                                                    </div>
+                                                }
+                                            })}</div>
+                                        : null}
                                 </Fragment>
                             )
                         }) : <h1>Загрузка</h1>}

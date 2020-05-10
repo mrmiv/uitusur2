@@ -39,13 +39,13 @@
                 font-weight: 500;
             }
         }
-        &:after{
-            transition: all 0.3s ease;
-            content:"\0279C";
-            position: absolute;
-            align-self:center ;
-            right: 20px;
-        }
+        // &:after{
+        //     transition: all 0.3s ease;
+        //     content:"\0279C";
+        //     position: absolute;
+        //     align-self:center ;
+        //     right: 20px;
+        // }
         &:hover{
             box-shadow: 0 2px 5px default.$shadow;
         }

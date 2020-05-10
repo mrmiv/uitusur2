@@ -1,5 +1,5 @@
 // Реглам. док-ты
-const {Schema, model} = require('mongoose')
+const { Schema, model } = require('mongoose')
 
 const DocSchema = new Schema({
 
@@ -7,40 +7,40 @@ const DocSchema = new Schema({
         type: String,
         required: true,
         unique: true,
-        validate:{
+        validate: {
             validator: function (name) {
-                return /^[а-яА-ЯёЁa-zA-Z0-9(\s)(\*.,:\-_?\(\)"'!#;)]+$/.test(name)
+                return /^[а-яА-ЯёЁa-zA-Z0-9(\s)(\*.,:\-_+№@\/?\(\)"'!#;)]+$/.test(name)
             },
             message: props => `${props.value} - Поле заголовок содержит недопустимые символы`
         }
     },
 
-// категория 
+    // категория 
     category: {
         type: String,
         lowercase: true,
-        required:true,
+        required: true,
         trim: true,
     },
-// подкатегория 
+    // подкатегория 
     subcategory: {
         type: String,
         lowercase: true,
         trim: true
     },
-// document
+    // document
     document: {
         type: String
     },
-//path
+    //path
     path: {
         type: String
     },
-// дата утверждения
+    // дата утверждения
     date: {
         type: Date
     }
 
-}, {autoIndex:false, versionKey: false})
+}, { autoIndex: false, versionKey: false })
 
 module.exports = model('Doc', DocSchema)

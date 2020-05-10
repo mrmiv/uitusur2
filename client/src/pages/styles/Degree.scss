@@ -1,7 +1,12 @@
 @use 'default.scss';
 
-#title_main.degree_bach{
+#title_main{
+  &.degree_bach{
   background: linear-gradient(lightblue,white);
+  }
+  &.degree_mag{
+    background: linear-gradient(lightpink,white);
+  }
 }
 
 #rules_degree{

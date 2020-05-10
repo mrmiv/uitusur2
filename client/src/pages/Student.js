@@ -24,6 +24,7 @@ import career_img from './img/CAREER.svg';
 export class Student extends Component {
 
     state = {
+        index: null,
         StudyPlan: null
     }
 
@@ -38,20 +39,19 @@ export class Student extends Component {
         this.props.getClubs()
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps, prevState) {
         const { StudyPlan } = this.props
 
         if (StudyPlan !== prevProps.StudyPlan) {
-            this.setState({ StudyPlan: StudyPlan })
+            this.setState({ StudyPlan })
         }
     }
 
-    onChooseYear = course => {
-        this.props.getCourseSP(course)
-    }
-
-    onBack = () => {
-        this.setState({ StudyPlan: null })
+    onChooseYear = (index, course) => {
+        if (index !== this.state.index) {
+            this.setState({ index })
+            this.props.getCourseSP(course)
+        } else { this.setState({ StudyPlan: null, index: null }) }
     }
 
     scrollTo = (id) => {
@@ -108,8 +108,10 @@ export class Student extends Component {
                             <div className="text-center">
                                 <h2>Учебный график на 2019 - 2020 учебный год</h2>
                                 <div className="choose_field mt-2">
-                                    {sp_btns.map(btn => {
-                                        return (<button type="button" className="more-link" onClick={() => this.onChooseYear(btn.course)}>{btn.name}</button>)
+                                    {sp_btns.map((btn, index) => {
+                                        return (<button type="button" index={index}
+                                            className={`more-link ${this.state.index === index ? 'active' : ''}`}
+                                            onClick={() => this.onChooseYear(index, btn.course)}>{btn.name}</button>)
                                     })}
                                 </div>
                             </div>

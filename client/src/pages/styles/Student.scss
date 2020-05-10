@@ -37,9 +37,21 @@
         button{
             margin: 3px;
             width: 140px;
-            background: linear-gradient(default.$pink, default.$purple);
-            &[name="Бакалавр"]{
-                background: linear-gradient(default.$lblue, darkblue);
+            transition: all 0.6s ease;
+            color: default.$purple;
+            font-weight: 500;
+            border: 2px solid #98248FAA;
+            &:hover{
+                border: 2px solid default.$purple;
+                background: linear-gradient(#B21F6640, #98248F40);
+            }&:active{
+                border: 2px solid default.$purple;
+                background: linear-gradient(#B21F6680, #98248F80);
+            }
+            &.active{
+                transition: all 0.3s ease;
+                color: white;
+                background: linear-gradient(default.$pink, default.$purple);
             }
         }
     }
