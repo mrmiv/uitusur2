@@ -158,42 +158,42 @@ router.patch('/:id', async (req, res) => { //patch smth try catch delete file
         }
 
         const { document } = doc
-        const newdocument = req.files[0]
+        if (req.files) {
+            const newdocument = req.files[0]
 
-        console.log(newdocument);
+            if (newdocument) {
 
-        if (newdocument) {
+                if (document) {
+                    fs.unlink(`${document.substr(1)}`, (err) => {
+                        if (err) {
+                            return res.status(400).json({ message: err.message })
+                        }
+                    })
+                }
 
-            if (document) {
-                fs.unlink(`${document.substr(1)}`, (err) => {
+                if (doc.path) {
+                    doc.path = undefined
+                }
+
+                newdocument.mv(`uploads/docs/${doc._id}_${newdocument.name}`, function (err) {
                     if (err) {
-                        return res.status(400).json({ message: err.message })
+                        return res.status(500).json({ message: "Ошибка при прикреплении документа: " + err });
                     }
                 })
+                doc.document = `/uploads/docs/${doc._id}_${newdocument.name}`
+                // Use the mv() method to place the file somewhere on your server
             }
-
-            if (doc.path) {
-                doc.path = undefined
-            }
-
-            newdocument.mv(`uploads/docs/${doc._id}_${newdocument.name}`, function (err) {
-                if (err) {
-                    return res.status(500).json({ message: "Ошибка при прикреплении документа: " + err });
-                }
-            })
-            doc.document = `/uploads/docs/${doc._id}_${newdocument.name}`
-            // Use the mv() method to place the file somewhere on your server
         }
 
         if (title) { doc.title = title }
         if (date) { doc.date = date }
         if (category) { doc.category = category }
         if (subcategory) { doc.subcategory = subcategory }
-        if (path && !newdocument) { doc.path = path }
+        if (path && !req.files) { doc.path = path }
 
         try {
             await doc.save()
-                .then(() => res.status(201).json({ message: "Документ успешно добавлен" }))
+                .then(() => res.status(201).json({ message: "Документ успешно обновлен" }))
                 .catch(err => res.status(400).json({ message: err.message }))
         } catch (error) {
             error instanceof Error.ValidationError

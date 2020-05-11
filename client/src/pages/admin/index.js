@@ -12,6 +12,8 @@ import newspaperIcon from '@iconify/icons-emojione-v1/newspaper'
 import booksIcon from '@iconify/icons-fxemoji/books'
 import clipboardList from '@iconify/icons-fa-solid/clipboard-list';
 import documentwithtextIcon from '@iconify/icons-fxemoji/documentwithtext';
+import googleanalyticsIcon from '@iconify/icons-simple-icons/googleanalytics'
+
 export class AdminHome extends Component {
 
     state = {
@@ -49,12 +51,12 @@ export class AdminHome extends Component {
             {
                 path: 'curator',
                 name: 'Кураторы',
-                icon: <Icon color={"yellow"} icon={userTie} />
+                icon: <Icon color={"pink"} icon={userTie} />
             },
             {
                 path: 'docs',
                 name: 'Регл. документы',
-                icon: <Icon icon={userTie} />
+                icon: <Icon icon={documentwithtextIcon} />
             }
         ]
     }
@@ -73,8 +75,10 @@ export class AdminHome extends Component {
         return (
             <div className="container-md container-fluid">
                 <h2>Панель администратора</h2>
-                <a role="button" className="btn btn-info" href="https://metrika.yandex.ru/dashboard?id=62465179" target="blank" rel="norefferer noopener">Статистика</a>
+                {/* <a role="button" className="btn btn-info" href="https://metrika.yandex.ru/dashboard?id=62465179" target="blank" rel="norefferer noopener">Статистика</a> */}
                 <div className="row no-gutters">
+                    <NavCard path={"https://metrika.yandex.ru/dashboard?id=62465179"}
+                        icon={<Icon icon={googleanalyticsIcon} />} name="Статистика" />
                     {navigation.map((item, index) => {
                         return (<NavCard key={index}
                             path={item.path}

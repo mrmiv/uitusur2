@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
     const sort = Number(req.query.sort) || 1 // 1=asc, 2=desc
     const category = req.query.filter || null
     const keywords = req.query.keywords || null
-    console.log(keywords);
+    // console.log(keywords);
     // console.log(page, perpage, sort, category);
     let query = {}
     try {

@@ -11,7 +11,7 @@ export class AdminParam extends Component {
 
   state = {
     msg: null,
-    page: ''
+    page: null
   }
 
   componentWillUnmount() {
@@ -76,7 +76,7 @@ export class AdminParam extends Component {
                       <td name="page">{item.page}</td>
                       <td name="title"><Link to={`/admin/param/edit/${item._id}`}>{item.title}</Link></td>
                       <td name="del">
-                        <button type="button" className="btn" onClick={() => this.delClub(item._id)}><Icon icon={faTrashAlt} /></button>
+                        <button type="button" className="btn" onClick={() => this.delParam(item._id)}><Icon icon={faTrashAlt} /></button>
                       </td>
                     </tr>
                   )
@@ -98,5 +98,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { closeNavbar, clearInfo }
+  { closeNavbar, clearInfo, delParam, getAllParam }
 )(AdminParam)

@@ -53,11 +53,13 @@ export class DegreeBach extends Component {
 
   scrollTo = (id) => {
     let el = document.getElementById(id)
-    let offsetTop = el.offsetTop
-    window.scrollTo({
-      top: offsetTop - 100,
-      behavior: 'smooth'
-    })
+    if (el) {
+      let offsetTop = el.offsetTop
+      window.scrollTo({
+        top: offsetTop - 100,
+        behavior: 'smooth'
+      })
+    }
   }
 
   render() {

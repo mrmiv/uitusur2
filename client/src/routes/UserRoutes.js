@@ -69,7 +69,7 @@ export default connect(
 function HomeRoutes({ auth }) {
 
     const location = useLocation()
-    let background = location.state && location.state.backgroundz
+    let background = location.state && location.state.background
 
     return (
         <div id="content">
