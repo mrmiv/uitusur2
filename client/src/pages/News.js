@@ -18,7 +18,7 @@ export class NewsList extends Component {
 
     state = {
         page: 1,
-        perPage: 5,
+        perPage: 15,
 
         msg: null
     }
