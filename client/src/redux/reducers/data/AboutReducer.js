@@ -1,25 +1,29 @@
-import { 
+import {
     GET_RPD,
     GET_FEEDBACK,
-    GET_CMK 
+    GET_ONE_FEEDBACK,
+    GET_CMK
 } from "../../actions/data_actions/types"
+import { LOADING_REQ } from "../../actions/types"
 
 const RPDState = {
     RPDList: []
 }
 
 const FeedbackState = {
-    FeedbackList: []
+    FeedbackList: [],
+    Feedback: {},
+    isLoading: false
 }
 
 const CMKState = {
     CMKList: []
 }
 
-export function RPDReducer(state=RPDState, action){
+export function RPDReducer(state = RPDState, action) {
     switch (action.type) {
         case GET_RPD:
-            return{
+            return {
                 ...state,
                 RPDList: action.payload.RPDList
             }
@@ -28,22 +32,34 @@ export function RPDReducer(state=RPDState, action){
     }
 }
 
-export function FeedbackReducer(state=FeedbackState, action){
+export function FeedbackReducer(state = FeedbackState, action) {
     switch (action.type) {
-        case GET_FEEDBACK:
-            return{
+        case LOADING_REQ:
+            return {
                 ...state,
-                FeedbackList: action.payload.FeedbackList
+                isLoading: true
+            }
+        case GET_FEEDBACK:
+            return {
+                ...state,
+                FeedbackList: action.payload.FeedbackList,
+                isLoading: false
+            }
+        case GET_ONE_FEEDBACK:
+            return {
+                ...state,
+                Feedback: action.payload.Feedback,
+                isLoading: false
             }
         default:
-            return state;
+            return { ...state, isLoading: false };
     }
 }
 
-export function CMKReducer(state=CMKState, action){
+export function CMKReducer(state = CMKState, action) {
     switch (action.type) {
         case GET_CMK:
-            return{
+            return {
                 ...state,
                 CMKList: action.payload.CMKList
             }

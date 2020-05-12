@@ -9,6 +9,7 @@ export const GET_QUOTE = "GET_QUOTE"
 // О кафедр
 export const GET_RPD = "GET_RPD"
 export const GET_FEEDBACK = "GET_FEEDBACK"
+export const GET_ONE_FEEDBACK = "GET_ONE_FEEDBACK"
 export const GET_CMK = "GET_CMK"
 export const GET_CURATORS = "GET_CURATORS"
 export const GET_CURATOR = "GET_CURATOR"

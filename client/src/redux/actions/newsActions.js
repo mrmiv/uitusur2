@@ -5,15 +5,16 @@ import {
 	GET_NEWS,
 	NEWS_LOADING,
 	GET_NEWSLIST,
+	MORE_NEWSLIST,
 } from "./types";
 
 import axios from "axios";
 import { returnInfo } from "./infoActions";
 
-export const GetNewsList = (type, page = 1, perPage = null) => (dispatch) => {
+export const GetNewsList = (type, page = 1, perPage = 15) => (dispatch) => {
 	// get /literature/?page=1&?perPage=12?category=all&?sort=asc
 	axios
-		.get(`/api/news/${type}?page=${page}&perpage=${perPage || 10}`)
+		.get(`/api/news/${type}?page=${page}&perpage=${perPage}`)
 		.then((res) => {
 			// console.log(res.data);
 
@@ -21,7 +22,7 @@ export const GetNewsList = (type, page = 1, perPage = null) => (dispatch) => {
 				type: GET_NEWSLIST,
 				payload: {
 					NewsList: res.data.data,
-					totalPage: res.data.pages,
+					total: res.data.pages,
 				},
 			});
 			return res.data;
@@ -240,3 +241,32 @@ export const patchNews = (id, {
 			});
 		});
 };
+
+export const pinNews = id => dispatch => {
+
+	dispatch({
+		type: LOADING_REQ,
+	});
+
+	const config = {
+		headers: {
+			token: sessionStorage.getItem("token"),
+		}
+	};
+
+	axios
+		.put(`/api/news/read/pin/${id}`, null, config)
+		.then((res) => {
+			// console.log(res);
+			dispatch(returnInfo(res.data, res.status, "REQ_SUCCESS"));
+			dispatch({
+				type: REQ_SUCCESS,
+			});
+		})
+		.catch((err) => {
+			dispatch(returnInfo(err.response.data, err.response.status, "REQ_FAIL"));
+			dispatch({
+				type: REQ_FAIL,
+			});
+		});
+}

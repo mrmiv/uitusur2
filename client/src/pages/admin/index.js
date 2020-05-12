@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { closeNavbar } from '../../redux/actions/navbarActions'
 import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
+import QuizForm from './QuizForm'
 
 import './AdminIndex.scss'
 
@@ -57,6 +58,11 @@ export class AdminHome extends Component {
                 path: 'docs',
                 name: 'Регл. документы',
                 icon: <Icon icon={documentwithtextIcon} />
+            },
+            {
+                path: 'feedback',
+                name: 'Отзывы о кафедре',
+                icon: <Icon color={"red"} icon={userTie} />
             }
         ]
     }
@@ -85,6 +91,7 @@ export class AdminHome extends Component {
                             icon={item.icon}
                             name={item.name} />)
                     })}
+                    <QuizForm />
                 </div>
             </div>
         )

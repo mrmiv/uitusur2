@@ -4,7 +4,7 @@ import { GetStaffList } from '../redux/actions/staffActions'
 import { useLocation, useParams, Link } from 'react-router-dom'
 
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
-import { faFileAlt, faIdBadge } from '@fortawesome/free-solid-svg-icons'
+import { faFileAlt, faIdBadge, faQuoteRight } from '@fortawesome/free-solid-svg-icons'
 
 import './styles/About.scss'
 import Fade from 'react-reveal/Fade'
@@ -12,7 +12,7 @@ import Fade from 'react-reveal/Fade'
 import { Modal } from '../components/Modal'
 import StaffPage from './components/Staff'
 import { closeNavbar } from '../redux/actions/navbarActions'
-import { GetDataAbout } from '../redux/actions/data_actions/AboutActions'
+import { GetDataAbout, getfeedback } from '../redux/actions/data_actions/AboutActions'
 
 // import images
 import interprice_img from './img/ENTERPRICES.svg';
@@ -33,18 +33,15 @@ export class About extends Component {
         document.title = this.props.title
         this.props.GetDataAbout()
         this.props.GetStaffList()
-
+        this.props.getfeedback()
     }
 
     componentDidUpdate(prevProps) {
-        const { FeedbackList, RPDList, params_list } = this.props
+        const { RPDList, params_list } = this.props
         // console.log(this.props);
-        if (FeedbackList !== prevProps.FeedbackList) {
-            this.setState({ FeedbackList: FeedbackList.FeedbackList })
-        } else if (RPDList !== prevProps.RPDList) {
+        if (RPDList !== prevProps.RPDList) {
             this.setState({ RPDList: RPDList.RPDList })
         }
-
         const param_CMK = params_list.find(item => {
             return item.page === "О кафедре" && item.title === "Документы СМК"
         })
@@ -68,9 +65,9 @@ export class About extends Component {
 
     //РЕНДЕР
     render() {
-        const { RPDList, param_CMK, param_trophy, FeedbackList } = this.state
+        const { RPDList, param_CMK, param_trophy } = this.state
         // console.log(this.state);
-        const { StaffList } = this.props
+        const { StaffList, FeedbackList } = this.props
 
         return (
             <Fragment>
@@ -178,18 +175,16 @@ export class About extends Component {
                 <Fade>
                     <section id="feedback_inter">
                         <div className="container-md container-fluid">
-                            <h2 className="text-center">Отзывы выпускников</h2>
+                            <h2 className="text-center">Отзывы о кафедре</h2>
                             <div className="row no-gutters">
                                 {/* {console.log(typeof(feedback))} */}
-                                {FeedbackList && FeedbackList.map(res => {
-                                    return <div className="col-12" key={res.id}>
-                                        <FeedbackStaff
-                                            firstName={res.firstName}
-                                            lastName={res.lastName}
-                                            post={res.post}
-                                            degree={res.degree}
-                                            text={res.text} />
-                                    </div>
+                                {FeedbackList && FeedbackList.map((res, index) => {
+                                    return <FeedbackStaff
+                                        key={index}
+                                        name={res.name}
+                                        post={res.post}
+                                        degree={res.degree}
+                                        text={res.text} />
                                 })}
                             </div>
                         </div>
@@ -216,14 +211,14 @@ export class About extends Component {
 
 const mapStateToProps = state => ({
     StaffList: state.api.staff.StaffList.StaffList,
-    FeedbackList: state.api.feedback,
+    FeedbackList: state.api.feedback.FeedbackList,
     params_list: state.param.params_list,
     RPDList: state.api.rpd
 })
 
 export default connect(
     mapStateToProps,
-    { GetStaffList, GetDataAbout, closeNavbar }
+    { GetStaffList, GetDataAbout, closeNavbar, getfeedback }
 )(About)
 
 
@@ -282,41 +277,31 @@ const DispCard = (props) => {
 
 // ОТЗЫВ
 const FeedbackStaff = (props) => {
-    const [Expand, setExpand] = useState(props.text.length < 180);
+    const length = 160
+    const [Expand, setExpand] = useState(props.text.length < length);
+    const text = Expand ? props.text : props.text.substr(0, length) + "..."
     return (
-        <div className="row no-gutters feedback__staff align-items-center">
-            <div className="col-md-3">
-                <div className="feedback__staff__info d-flex">
-                    <Icon className="info__icon" icon={faIdBadge} />
-                    <p className="info__name">
-                        <strong>
-                            {props.lastName}<br />{props.firstName}
-                        </strong>
-                        <br />
-                        {props.post}
-                        <br />
-                        {props.degree}
-                    </p>
+        <div className="col-md-6">
+            <div className="row no-gutters">
+                <div className="quote-staff">
+                    {/* img and name :after(quote) | quote */}
+                    <div className="quote-staff__info d-flex">
+                        <Icon className="quote-staff__info__img" style={{ color: "#354ED1" }} icon={faIdBadge} />
+                        <p className="quote-staff__info__name">
+                            <strong>{props.name}</strong>
+                            <br />
+                            {props.post}
+                            <br />
+                            {props.degree}
+                        </p>
+                        <Icon className="quote-staff__info__icon" style={{ color: "#354ED1" }} icon={faQuoteRight} />
+                    </div>
+                    <div className="quote-staff__quote__block">
+                        <div className="quote-staff__quote" dangerouslySetInnerHTML={{ __html: text }} />
+                        {props.text.length > length && <strong className="open-feedback"><a onClick={() => setExpand(!Expand)}>{Expand ? "Свернуть" : "Показать полностью"}</a></strong>}
+                    </div>
                 </div>
             </div>
-            {/* добавить атрибут open из state,  и переключать динамически */}
-            <p className="feedback__staff__text col-md-9">
-                {Expand ? props.text : props.text.substr(0, 180) + "..."}
-                <br />
-                <strong><a onClick={() => setExpand(!Expand)}>{Expand ? "Свернуть" : "Показать полностью"}</a></strong>
-            </p>
-        </div>
-    )
-}
-
-// CMK ДОКУМЕНТЫ
-const CMK = () => {
-    return (
-        <div className="doc_CMK">
-            <p>
-                <Icon icon={faFileAlt} size={"lg"} />
-                <span>ГОСТ 1234.55</span>
-            </p>
         </div>
     )
 }

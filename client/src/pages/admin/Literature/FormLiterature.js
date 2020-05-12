@@ -69,8 +69,6 @@ export class LiteratureForm extends Component {
         if (msg !== prevProps.info.msg) {
             console.log(msg);
             this.setState({ msg })
-        } else if (this.props.Book.isLoading !== prevProps.Book.isLoading) {
-            this.setState({ isLoading: this.props.Book.isLoading })
         }
     }
 

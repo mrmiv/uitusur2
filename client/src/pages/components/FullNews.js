@@ -52,7 +52,7 @@ export class FullNews extends Component {
                     <div id="fullnews">
                         {!isLoading ?
                             News && <Fragment>
-                                <h3>{News.pin && <Icon icon={pushpinIcon} className="mr-2" />} {News.title}</h3>
+                                <h5>{News.pin && <Icon icon={pushpinIcon} className="mr-2" />} {News.title}</h5>
                                 <div className="row no-gutters">
                                     {/* для крнр */}
                                     {News.users && <NewsProps

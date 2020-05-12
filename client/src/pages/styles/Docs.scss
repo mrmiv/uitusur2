@@ -1,16 +1,29 @@
 @use 'default';
 
 #title_main.documents{
-    background: linear-gradient(default.$mint,default.$dmint);
+    background-image: url("/svg/LOGO_BG.svg"),linear-gradient(default.$mint,default.$dmint);
+    background-repeat: no-repeat;
+    background-size: auto;
+    background-position: right center;
+    min-height: 80vh;
+    height: auto;
+    height: max-content;
     .category-doc-btn{
-        &:before{
-            content: url('https://api.iconify.design/emojione-v1:document-with-text.svg?height=30');
-        }
-        width: 150px;
-        height: 150px;
+        background: rgba(255, 255, 255, 0.082);
+        margin-top: 10px;
+        margin-right: 10px;
+        padding: 10px;
+        text-align: left;
+        height: auto;
         &:hover{
-            background: #fff2;
+            background: #fff3;
         }
+    }
+}
+
+@media screen and (max-width: 567px){
+    #title_main.documents{
+        background-position: center center;
     }
 }
 

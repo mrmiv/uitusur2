@@ -3,9 +3,11 @@
 #title_main{
   &.degree_bach{
   background: linear-gradient(lightblue,white);
+  height: auto;
   }
   &.degree_mag{
     background: linear-gradient(lightpink,white);
+    height: auto;
   }
 }
 

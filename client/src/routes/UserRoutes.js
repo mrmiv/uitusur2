@@ -46,6 +46,7 @@ export class Routes extends Component {
     render() {
         return (
             <Fragment>
+                <PageUpButton />
                 <Navbar />
                 <Header />
                 <Suspense fallback={<LoadingScreen />}>
@@ -161,7 +162,6 @@ function HomeRoutes({ auth }) {
                     <PageNotFound status={404} />
                 </Fragment>))} />
             </Switch>
-            <PageUpButton />
             {/* Модальные окна */}
             {background && <Route exact path="/staff/:id" component={StaffModal} />}
             {background && <Route exact path="/book/:id" component={() => (<BookModal />)} />}
@@ -186,7 +186,7 @@ export const PageUpButton = () => {
     window.onscroll = function (scrolled) {
         var scrolled = 0
         scrolled = window.scrollY
-        scrolled > window.innerHeight ? setvisible(true) : setvisible(false)
+        scrolled > window.innerHeight / 2 ? setvisible(true) : setvisible(false)
     }
 
     return (

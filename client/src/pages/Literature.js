@@ -63,46 +63,48 @@ export class Literature extends Component {
         this.setState(query)
     }
 
-    addKeyword(e) {
-        e.preventDefault()
-        const { keywords, keyword, category } = this.state
-        let exists;
+    // addKeyword(e) {
+    //     e.preventDefault()
+    //     const { keywords, keyword, category } = this.state
+    //     let exists;
 
-        if (category) { this.setState({ category: null }) }
-        keywords.forEach(word => {
-            if (word === keyword) { exists = true }
-        })
-        if (keywords.length > 5) { this.setState({ keyword: '' }) }
-        keyword.trim()
-        if (keyword !== '' && !exists) { this.setState({ keywords: [...keywords, keyword], keyword: '' }) }
-    }
+    //     if (category) { this.setState({ category: null }) }
+    //     keywords.forEach(word => {
+    //         if (word === keyword) { exists = true }
+    //     })
+    //     if (keywords.length > 5) { this.setState({ keyword: '' }) }
+    //     keyword.trim()
+    //     if (keyword !== '' && !exists) { this.setState({ keywords: [...keywords, keyword], keyword: '' }) }
+    // }
 
-    deleteKeyword(name) {
-        const { keywords } = this.state
+    // deleteKeyword(name) {
+    //     const { keywords } = this.state
 
-        this.setState({
-            keywords: keywords.filter(el => el !== name)
-        })
-    }
+    //     this.setState({
+    //         keywords: keywords.filter(el => el !== name)
+    //     })
+    // }
 
     render() {
         const { Literature, isLoading } = this.props
         const { LiteratureList, categoryFields, total } = Literature
 
-        const { keywords, page, perPage } = this.state
-
+        const { page, perPage } = this.state
+        // const {keywords} = this.state
         return (
             <div id="literature">
                 <div className="container-lg container-fluid">
                     <div className="row no-gutters literature__nav">
-                        <div className="col-6 col-sm-3">
+                        {/* add col-sm-3 class if open keywords */}
+                        <div className="col-6">
                             <label htmlFor="Sort">Сортировка</label>
                             <select name="sort" id="Sort" onChange={this.ChangeInput}>
                                 <option selected value={1}>По названию (А...Я)</option>
                                 <option value={-1}>По названию (Я...А)</option>
                             </select>
                         </div>
-                        <div className="col-6 col-sm-3">
+                        {/* add col-sm-3 class if open keywords */}
+                        <div className="col-6">
                             <label htmlFor="Filter">Категория</label>
                             <select id="Filter" onChange={this.ChangeInput} name="category">
                                 <option selected value={''}>Выберите категорию</option>
@@ -111,16 +113,18 @@ export class Literature extends Component {
                                 })}
                             </select>
                         </div>
-                        <div className="col-12 col-sm-6">
+                        {/* keywords form */}
+                        {/* <div className="col-12 col-sm-6">
                             <label htmlFor="Keywords">Ключевые слова</label>
                             <form onSubmit={(e) => this.addKeyword(e)}>
                                 <input id="Keywords" placeholder="..." name="keyword" type="text"
                                     value={this.state.keyword}
                                     onChange={(e) => this.setState({ keyword: e.target.value })} />
                             </form>
-                        </div>
+                        </div> */}
                     </div>
-                    {keywords.lenght !== 0 &&
+                    {/* keywords list */}
+                    {/* {keywords.lenght !== 0 &&
                         <div className="keywords d-inline-flex">
                             {keywords.map(word => {
                                 return (<div className="keyword"
@@ -131,7 +135,7 @@ export class Literature extends Component {
                                 </div>)
                             })}
                         </div>
-                    }
+                    } */}
                     {!isLoading ?
                         <Fragment>
                             <div className="row no-gutters literature__content">

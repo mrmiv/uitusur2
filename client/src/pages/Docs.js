@@ -2,8 +2,8 @@ import React, { Component, Fragment } from 'react'
 import { closeNavbar } from '../redux/actions/navbarActions'
 import { GetDocuments } from '../redux/actions/docsActions'
 import Fade from 'react-reveal/Fade'
-import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
-import { faQuoteRight, faIdBadge } from '@fortawesome/free-solid-svg-icons'
+import documentwithtextIcon from '@iconify/icons-fxemoji/documentwithtext';
+import { Icon } from "@iconify/react"
 import { connect } from 'react-redux'
 import './styles/Docs.scss'
 import { toDate } from './components/NewsList'
@@ -35,26 +35,24 @@ export class Docs extends Component {
             {/* ЗАГОЛОВОК */}
             <Fade>
                 <section id="title_main" className="documents">
-                    <div className="container-lg container-fluid bg_th" style={{ height: "100%" }}>
-                        <div className="row no-gutters align-items-center" style={{ height: "100%" }}>
-                            <div className="title_text w-100" >
+                    <div className="container-lg container-fluid" style={{ height: "inherit" }}>
+                        <div className="row no-gutters">
+                            <div className="title_text mt-5 w-100" >
                                 <h1 className="title">Ре&shy;гла&shy;мен&shy;ти&shy;ру&shy;ю&shy;щие до&shy;ку&shy;мен&shy;ты</h1>
-                                <p>Выберите интересующую Вас категорию:</p>
+                                {!isLoading ? categories.length !== 0 && <h6>Выберите интересующую Вас категорию:</h6> : <h6>Пожалуйста подождите...</h6>}
                             </div>
-                            <div className="types_of_docs">
-                                {!isLoading ? categories && categories.map(cat => {
-                                    return (
-                                        <button key={cat} type="button" className="btn category-doc-btn" style={{ color: "white" }} onClick={() => this.scrollTo(cat)}>
-                                            <div className="btn-scroll-docs"><span>{cat}</span></div>
-                                        </button>
-                                    )
-                                }) : <h1>Загрузка</h1>}
-                            </div>
+                            {!isLoading && categories && categories.map(cat => {
+                                return (
+                                    <a key={cat} type="button" className="btn col-md-3 col-sm-6 col-xs-12 category-doc-btn"
+                                        style={{ color: "white" }} onClick={() => this.scrollTo(cat)}>
+                                        <Icon icon={documentwithtextIcon} height="24" style={{ marginBottom: "5px" }} /> <br /> {cat}
+                                    </a>
+                                )
+                            })}
                         </div>
                     </div>
                 </section>
             </Fade>
-            <img className="arrow_down" src="/svg/DOWN_ARROW.svg" />
             <section id="documents_list">
                 <div className="container">
                     {!isLoading ? (categories && subcategories && docslist) &&

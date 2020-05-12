@@ -10,7 +10,7 @@ const News = require("../models/News");
 router.get("/:type", async (req, res) => {
 	// const {page, perpage} = req.params
 	const page = Number(req.query.page) || 1;
-	const perpage = Number(req.query.perpage) || 10;
+	const perpage = Number(req.query.perpage) || 15;
 	// console.log(page, perpage);
 	const { type } = req.params;
 
@@ -38,13 +38,7 @@ router.get("/:type", async (req, res) => {
 			.skip((page - 1) * perpage)
 			.limit(perpage)
 			.then(async (data) => {
-				if (data.length === 0) {
-					return res.status(404).json({ message: "Новостей нет" });
-				}
-
-				const totalnews = await News.find({ type }).countDocuments();
-				const pages = Math.ceil(totalnews / perpage);
-
+				const pages = await News.find({ type }).countDocuments();
 				res.json({ data, pages });
 			})
 			.catch((err) => res.status(400).json({ message: err.message }));
@@ -120,10 +114,12 @@ router.post("/", async (req, res) => {
 
 		if (send_to_email === "true") {
 			const message = {
-				to: 'marina.khaldeeva@mail.ru',
+				to: [],
 				subject: title,
 				html: `${body}
 				
+				<a href=${`http://___.ru/news/${id}`}>Читать новость</a>
+
 				Не нужно отвечать на данное сообщение.
 				<br/>
 				Кафедра управления инновациями`
@@ -135,8 +131,22 @@ router.post("/", async (req, res) => {
 		if (req.files) {
 			const { doc } = req.files;
 
-			for (let i = 0; i < doc.length; i++) {
-				const el = doc[i];
+			if (!typeof doc === Object) {
+				for (let i = 0; i < doc.length; i++) {
+					const el = doc[i];
+					// console.log(el);
+					el.mv(`uploads/news/${news._id}_${el.name}`, function (err) {
+						if (err) {
+							return res
+								.status(500)
+								.json(`Ошибка при прикреплении документа ${el.name}: ` + err);
+						}
+						// console.log(el.name + " uploaded");
+					});
+					news.docs.push(`/uploads/news/${news._id}_${el.name}`);
+				}
+			} else {
+				const el = doc;
 				// console.log(el);
 				el.mv(`uploads/news/${news._id}_${el.name}`, function (err) {
 					if (err) {
@@ -201,6 +211,28 @@ router.delete("/read/:id", async (req, res) => {
 		res.status(500).json({ message: error.message });
 	}
 });
+
+router.put("/read/pin/:id", async (req, res) => {
+	const { id } = req.params
+	try {
+
+		const news = await News.findById(id)
+
+		if (!news) {
+			return res
+				.status(404)
+				.json({ message: "Новости с введенным id не существует" });
+		}
+
+		news.pin = !news.pin
+
+		await news.save()
+			.then(q => res.json({ message: `Новость ${q.title} ${q.pin ? "закреплена" : "откреплена"}` }))
+
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+})
 
 router.patch("/read/:id", async (req, res) => {
 	const id = req.params.id;

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import store from '../store'
 import { Link } from 'react-router-dom'
 import { closeNavbar } from '../redux/actions/navbarActions'
@@ -71,17 +71,19 @@ export class StudentMag extends Component {
 
     scrollTo = (id) => {
         let el = document.getElementById(id)
-        let offsetTop = el.offsetTop
-        window.scrollTo({
-            top: offsetTop - 100,
-            behavior: 'smooth'
-        })
+        if (el) {
+            let offsetTop = el.offsetTop
+            window.scrollTo({
+                top: offsetTop - 100,
+                behavior: 'smooth'
+            })
+        }
     }
 
     render() {
         const { param_practic, param_nir } = this.state
         return (
-            <>
+            <Fragment>
                 {/* ЗАГОЛОВОК */}
                 <Fade>
                     <section id="title_main" className="for_student student_mag">
@@ -195,7 +197,7 @@ export class StudentMag extends Component {
                         </div>
                     </section>
                 </Fade>
-            </>
+            </Fragment>
         )
     }
 }

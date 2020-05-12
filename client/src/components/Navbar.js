@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import store from '../store'
 import { logout } from '../redux/actions/authActions'
-import { NavLink, Switch, Route, Link } from 'react-router-dom'
+import { NavLink, Link } from 'react-router-dom'
 import { HashLink } from 'react-router-hash-link'
 import { closeNavbar } from '../redux/actions/navbarActions'
 import './styles/Navbar.scss'
 import { connect } from 'react-redux';
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome';
-import { faOutdent, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { faOutdent } from '@fortawesome/free-solid-svg-icons';
 
 export class Navbar extends Component {
 
@@ -19,10 +19,13 @@ export class Navbar extends Component {
         return (
             <div id="sider" className={this.props.open ? "open" : null}>
                 <Icon className="close_nav" icon={faOutdent} onClick={this.CloseNavbar} style={{ cursor: "pointer", fontSize: "24px", color: "white" }} />
-                <Switch>
+                {/* <Switch>
                     {this.props.isAuthenticated && <Route path="/admin" component={(() => (<AdminMenu />))} />}
                     <Route path="/" component={(() => (<NavMenu />))} />
-                </Switch>
+                </Switch> */}
+                <NavMenu />
+                {this.props.isAuthenticated ? <Link className="ml-3 mt-3 btn btn-danger" role="button"
+                    to='/' onClick={() => { store.dispatch(logout()) }}>Выйти</Link> : null}
             </div>
         )
     }
@@ -144,28 +147,28 @@ function NavMenu() {
     )
 }
 
-function AdminMenu() {
-    return (
-        <div className="menu">
-            <Link to='/' onClick={() => { store.dispatch(logout()) }}>Выйти</Link>
-            <div className="d-flex">
-                <NavLink className="link" to="/admin/news">Новости</NavLink>
-                <NavLink to="/admin/news/form" exact>
-                    <Icon icon={faPlusCircle} size="lg" />
-                </NavLink>
-            </div>
-            <div className="d-flex">
-                <NavLink className="link" to="/admin/literature">Литература</NavLink>
-                <NavLink to="/admin/literature/add" exact>
-                    <Icon icon={faPlusCircle} size="lg" />
-                </NavLink>
-            </div>
-            <div className="d-flex">
-                <NavLink className="link" to="/admin/staff">Сотрудники</NavLink>
-                <NavLink to="/admin/staff/form" exact>
-                    <Icon icon={faPlusCircle} size="lg" />
-                </NavLink>
-            </div>
-        </div>
-    )
-}
+// function AdminMenu() {
+//     return (
+//         <div className="menu">
+//             <Link to='/' onClick={() => { store.dispatch(logout()) }}>Выйти</Link>
+//             <div className="d-flex">
+//                 <NavLink className="link" to="/admin/news">Новости</NavLink>
+//                 <NavLink to="/admin/news/form" exact>
+//                     <Icon icon={faPlusCircle} size="lg" />
+//                 </NavLink>
+//             </div>
+//             <div className="d-flex">
+//                 <NavLink className="link" to="/admin/literature">Литература</NavLink>
+//                 <NavLink to="/admin/literature/add" exact>
+//                     <Icon icon={faPlusCircle} size="lg" />
+//                 </NavLink>
+//             </div>
+//             <div className="d-flex">
+//                 <NavLink className="link" to="/admin/staff">Сотрудники</NavLink>
+//                 <NavLink to="/admin/staff/form" exact>
+//                     <Icon icon={faPlusCircle} size="lg" />
+//                 </NavLink>
+//             </div>
+//         </div>
+//     )
+// }

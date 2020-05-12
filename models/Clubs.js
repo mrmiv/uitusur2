@@ -1,14 +1,14 @@
 // Внеучебные клубы
 // Сотрудники кафедры
-const {Schema, model} = require('mongoose')
+const { Schema, model } = require('mongoose')
 
 const ClubSchema = new Schema({
 
-// Название
-    name:{
+    // Название
+    name: {
         type: String,
         required: [true, "Поле название является обязательный"],
-        validate:{
+        validate: {
             validator: function (name) {
                 return /^[а-яА-ЯёЁa-zA-Z0-9(\s)(\-\."!№_:?,)]+$/.test(name) // добавить тире
             },
@@ -16,7 +16,7 @@ const ClubSchema = new Schema({
         }
     },
 
-// Руководитель
+    // Руководитель
     // leader:{
     //     type: String,
     //     required: [true, "Поле руководитель является обязательным"],
@@ -28,23 +28,23 @@ const ClubSchema = new Schema({
     //     }
     // },
 
-// ссылка
+    // ссылка
     path: {
         type: String,
-        validate:{
-            validator: function(path){
-                return /^((https|http)?:\/\/)?([\da-z\.-]+)\.([a-z\.-\_@]{2,6})([\/\w \.-]*)*\/?$/.test(path)
+        validate: {
+            validator: function (path) {
+                return /^((https|http)?:\/\/)?+*$/.test(path)
             },
             message: props => `${props.value} - Поле ссылка содержит недопустимые символы`
         }
     },
 
-// image
-    image:{
-        type:String,
+    // image
+    image: {
+        type: String,
         require: [true, 'Изображение является обязательным']
     }
 
-}, {autoIndex:false, versionKey: false})
+}, { autoIndex: false, versionKey: false })
 
 module.exports = model('Club', ClubSchema)

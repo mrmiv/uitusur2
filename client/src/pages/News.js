@@ -9,14 +9,19 @@ import Fade from 'react-reveal/Fade'
 import { closeNavbar } from '../redux/actions/navbarActions'
 import { GetNewsList } from '../redux/actions/newsActions'
 import { NewsInList, LastNews } from './components/NewsList'
+import Pagination from "react-js-pagination";
 
 // import images
 import marketing_img from './img/marketing_.svg';
-// import curator_img from './img/PERSONAL_CURATOR.svg';
-// import dashboard_img from './img/DASHBOARD.svg';
-// import career_img from './img/CAREER.svg';
 
 export class NewsList extends Component {
+
+    state = {
+        page: 1,
+        perPage: 5,
+
+        msg: null
+    }
 
     componentWillUnmount() {
         this.props.closeNavbar()
@@ -24,13 +29,22 @@ export class NewsList extends Component {
 
     componentDidMount() {
         document.title = this.props.title + " - Кафедра управления инновациями"
-        this.props.GetNewsList(this.props.type)
+        this.props.GetNewsList(this.props.type, this.state.page, this.state.perPage)
+    }
+
+    Paginate(page) {
+        window.scrollTo(0, window.innerHeight);
+        // console.log(page);
+        const { type } = this.props
+        this.setState({ page })
+        this.props.GetNewsList(type, page, this.state.perPage)
     }
 
     render() {
         let newslist = this.props.news.NewsList
-        console.log(newslist);
-
+        // console.log(newslist);
+        const { page, perPage } = this.state
+        const { total } = this.props.news
         return (
             <Fragment>
                 {/* Заголовок */}
@@ -67,19 +81,31 @@ export class NewsList extends Component {
                 <Fade>
                     <section id="news">
                         <div className="container-md container-fluid">
-                            {newslist && newslist.map((news, index) => {
-                                return (<div key={index} className="w-100">
-                                    <NewsInList
-                                        pin={news.pin}
-                                        id={news._id}
-                                        title={news.title}
-                                        body={news.body}
-                                        city={news.city}
-                                        deadline={news.deadline}
-                                        users={news.users}
-                                        datetime={news.created_at} />
-                                </div>)
-                            })}
+                            {newslist && <Fragment>
+                                {newslist.map((news, index) => {
+                                    return (<div key={index} className="w-100">
+                                        <NewsInList
+                                            pin={news.pin}
+                                            id={news._id}
+                                            title={news.title}
+                                            body={news.body}
+                                            city={news.city}
+                                            deadline={news.deadline}
+                                            users={news.users}
+                                            datetime={news.created_at} />
+                                    </div>)
+                                })}
+                                <Pagination
+                                    activePage={page}
+                                    itemsCountPerPage={perPage}
+                                    totalItemsCount={total}
+                                    pageRangeDisplayed={5}
+                                    itemClass="more-link"
+                                    hideFirstLastPages
+                                    hideDisabled
+                                    onChange={this.Paginate.bind(this)} />
+                            </Fragment>}
+
                         </div>
                     </section>
                 </Fade>

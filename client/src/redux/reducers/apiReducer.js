@@ -1,4 +1,4 @@
-import {combineReducers} from 'redux'
+import { combineReducers } from 'redux'
 import staffReducer from './api/staffReducer'
 import { CMKReducer, FeedbackReducer, RPDReducer } from './data/AboutReducer'
 import { DegreeReducer, QuoteReducer } from './data/HomeReducer'
@@ -6,6 +6,7 @@ import { StudyPlanReducer, CuratorsReducer, ClubsReducer } from './data/StudentR
 import LiteratureReducer from './api/literatureReducer'
 import newsReducer from './api/newsReducer'
 import docsReducer from './api/docsReducer'
+import quizReducer from './api/quizReducer'
 
 export default combineReducers({
     staff: staffReducer, // Сотрудники
@@ -20,4 +21,5 @@ export default combineReducers({
     literature: LiteratureReducer, // Литература кафедры + книга
     news: newsReducer, // Новости по типу + новость
     docs: docsReducer, // Регламентирующие документы + один док
+    quiz: quizReducer // Опрос
 })

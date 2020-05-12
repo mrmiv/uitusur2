@@ -2,6 +2,7 @@ import {
     GET_NEWSLIST,
     NEWS_LOADING,
     GET_NEWS,
+    MORE_NEWSLIST,
     REQ_FAIL,
     REQ_SUCCESS,
     LOADING_REQ
@@ -9,36 +10,43 @@ import {
 import { combineReducers } from 'redux';
 
 const NewsState = {
-    totalPage: 1,
+    total: 1,
     NewsList: [],
     isLoading: false
 }
 
 const OneNewsState = {
-    News:{},
+    News: {},
     isLoading: false
 }
 
-function NewsReducer(state=NewsState, action){
+function NewsReducer(state = NewsState, action) {
     switch (action.type) {
         case LOADING_REQ:
-            return{
+            return {
                 ...state,
-                NewsList: [],
                 isLoading: true
             }
         case REQ_FAIL:
         case REQ_SUCCESS:
-            return{
+            return {
                 ...state,
                 isLoading: false
             }
-        case GET_NEWSLIST: 
+        case GET_NEWSLIST:
             // console.log(state)
-            return{
+            return {
                 ...state,
-                totalPage: action.payload.totalPage,
+                total: action.payload.total,
                 NewsList: action.payload.NewsList,
+                isLoading: false
+            }
+        case MORE_NEWSLIST:
+            // console.log(state)
+            return {
+                ...state,
+                total: action.payload.total,
+                NewsList: [...state.NewsList, action.payload.NewsList],
                 isLoading: false
             }
         default:
@@ -46,21 +54,21 @@ function NewsReducer(state=NewsState, action){
     }
 }
 
-function OneNewsReducer(state=OneNewsState, action){
+function OneNewsReducer(state = OneNewsState, action) {
     switch (action.type) {
         case NEWS_LOADING:
-            return{
+            return {
                 ...state,
                 isLoading: true
             }
         case GET_NEWS:
-            return{
+            return {
                 ...state,
                 News: action.payload.News,
                 isLoading: false
             }
         default:
-            return {...state, isLoading: false}
+            return { ...state, isLoading: false }
     }
 }
 

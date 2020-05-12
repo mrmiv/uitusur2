@@ -28,17 +28,19 @@ export const BOOK_LOADING = "BOOK_LOADING"
 export const GET_BOOK = "GET_BOOK"
 
 // Новости
-export const GET_NEWSLIST = "GET_NEWSLIST" 
-export const NEWS_LOADING = "NEWS_LOADING" 
-export const GET_NEWS = "GET_NEWS" 
+export const GET_NEWSLIST = "GET_NEWSLIST"
+export const NEWS_LOADING = "NEWS_LOADING"
+export const GET_NEWS = "GET_NEWS"
+export const MORE_NEWSLIST = "MORE_NEWSLIST"
 
 // Регламентирующие документы
-export const GET_DOCUMENTS_LIST = "GET_DOCUMENTS_LIST" 
+export const GET_DOCUMENTS_LIST = "GET_DOCUMENTS_LIST"
 export const DOC_LOADING = "DOC_LOADING"
-export const DOCS_LOADING = "DOCS_LOADING" 
+export const DOCS_LOADING = "DOCS_LOADING"
 
-export const GET_DOC = "GET_DOC" 
-
+export const GET_DOC = "GET_DOC"
+// Опрос
+export const GET_QUIZ = "GET_QUIZ"
 // Запросы
 export const LOADING_REQ = "LOADING_REQ"
 export const REQ_SUCCESS = "REQ_SUCCESS"

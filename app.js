@@ -24,7 +24,7 @@ app.use('/api/studyplan', require('./routes/studyplan.route')) //учебный 
 app.use('/api/param', require('./routes/param.route')) //тексты на страницах
 app.use('/api/curator', require('./routes/curators.route')) //кураторы
 app.use('/quiz', require('./routes/quiz.route')) //Опрос
-// app.use('/category', require('./routes/category.route')) //категория
+app.use('/api/feedback', require('./routes/feedback.route')) //Отзывы о кафедре
 // app.use('/build', require('./routes/build.route')) //корпус
 
 if (process.env.NODE_ENV === 'production') {
