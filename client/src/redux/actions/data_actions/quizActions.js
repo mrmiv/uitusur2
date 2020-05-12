@@ -8,7 +8,7 @@ export const getquiz = () => dispatch => {
     type: LOADING_REQ
   })
 
-  axios.get('/quiz')
+  axios.get('/api/quiz')
     .then(res => {
       // console.log("ACTION", res.data[id]);
       dispatch({
@@ -40,7 +40,7 @@ export const updatequiz = quiz => dispatch => {
 
   const data = { quiz }
 
-  axios.post(`/quiz`, data, config)
+  axios.post(`/api/quiz`, data, config)
     .then(res => {
       // console.log("ACTION", res.data);
       dispatch(returnInfo(res.data, res.status, "REQ_SUCCESS"));
@@ -68,7 +68,7 @@ export const delquiz = () => dispatch => {
     }
   }
 
-  axios.delete(`/quiz`, config)
+  axios.delete(`/api/quiz`, config)
     .then(res => {
       dispatch(returnInfo(res.data, res.status, "REQ_SUCCESS"));
       dispatch({
