@@ -137,8 +137,8 @@ router.delete('/:id', async (req, res) => {
             })
         }
 
-        await document.delete()
-            .then(() => res.status(201).json({ message: "Документ удален" }))
+        await doc.delete()
+            .then(() => res.json({ message: "Документ удален" }))
 
     } catch (error) {
         res.status(500).json({ message: error.message })
