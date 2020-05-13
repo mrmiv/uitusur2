@@ -168,11 +168,10 @@ export class NewsForm extends Component {
                 <label htmlFor="date-input">Дата утверждения</label>
                 <input
                   onChange={this.changeInput}
-                  type="text"
+                  type="date"
                   className="form-control"
                   name="date"
                   id="date-input"
-                  placeholder="MM-DD-YYYY"
                   value={this.state.date}
                 />
               </div>

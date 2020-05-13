@@ -265,11 +265,10 @@ export class NewsForm extends Component {
 								<label htmlFor="deadline-input">Крайний срок</label>
 								<input
 									onChange={this.changeInput}
-									type="text"
+									type="date"
 									className="form-control"
 									name="deadline"
 									id="deadline-input"
-									placeholder="mm-dd-yyyy"
 									value={this.state.deadline}
 								/>
 							</div>
