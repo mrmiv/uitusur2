@@ -14,6 +14,7 @@ import booksIcon from '@iconify/icons-fxemoji/books'
 import clipboardList from '@iconify/icons-fa-solid/clipboard-list';
 import documentwithtextIcon from '@iconify/icons-fxemoji/documentwithtext';
 import googleanalyticsIcon from '@iconify/icons-simple-icons/googleanalytics'
+import uploadIcon from '@iconify/icons-fa-solid/upload';
 
 export class AdminHome extends Component {
 
@@ -63,6 +64,11 @@ export class AdminHome extends Component {
                 path: 'feedback',
                 name: 'Отзывы о кафедре',
                 icon: <Icon color={"red"} icon={userTie} />
+            },
+            {
+                path: 'uploadfiles',
+                name: 'Загрузить файл',
+                icon: <Icon icon={uploadIcon} />
             }
         ]
     }

@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react'
 import store from '../store'
-import { Link } from 'react-router-dom'
 import { closeNavbar } from '../redux/actions/navbarActions'
 import Fade from 'react-reveal/Fade'
 
@@ -11,9 +10,7 @@ import { faUniversity, faGraduationCap, faMicroscope } from '@fortawesome/free-s
 
 import lawyer_img from './img/lawyer.svg';
 import practic_img from './img/team_meeting.svg';
-import step1_img from './img/step_1.svg';
-import step2_img from './img/step_2.svg';
-import step3_img from './img/step_3.svg';
+import relax_img from './img/focused_working.svg';
 import report_analysis_img from './img/report_analysis.svg';
 import { connect } from 'react-redux'
 
@@ -21,7 +18,8 @@ export class StudentMag extends Component {
 
     state = {
         param_nir: null,
-        param_practic: null
+        param_practic: null,
+        param_vkr: null
     }
 
     componentDidMount() {
@@ -36,11 +34,16 @@ export class StudentMag extends Component {
             const param_nir = params_list.find(item => {
                 return item.page === "Магистратура" && item.title === "НИР"
             })
+            const param_vkr = params_list.find(item => {
+                return item.page === "Магистратура" && item.title === "ВКР"
+            })
             if (param_practic && !this.state.param_practic) {
                 this.setState({ param_practic })
             }
             if (param_nir && !this.state.param_nir) {
                 this.setState({ param_nir })
+            } if (param_vkr && !this.state.param_vkr) {
+                this.setState({ param_vkr })
             }
         }
     }
@@ -48,19 +51,25 @@ export class StudentMag extends Component {
     componentDidUpdate() {
         const { params_list } = this.props
 
-        const param_practic = params_list.find(item => {
-            return item.page === "Бакалавриат" && item.title === "Практика"
-        })
-
-        const param_nir = params_list.find(item => {
-            return item.page === "Бакалавриат" && item.title === "НИР"
-        })
         if (params_list.length !== 0) {
+            const param_practic = params_list.find(item => {
+                return item.page === "Бакалавриат" && item.title === "Практика"
+            })
+
+            const param_nir = params_list.find(item => {
+                return item.page === "Магистратура" && item.title === "НИР"
+            })
+            const param_vkr = params_list.find(item => {
+                return item.page === "Магистратура" && item.title === "ВКР"
+            })
             if (param_practic && !this.state.param_practic) {
                 this.setState({ param_practic })
             }
             if (param_nir && !this.state.param_nir) {
                 this.setState({ param_nir })
+
+            } if (param_vkr && !this.state.param_vkr) {
+                this.setState({ param_vkr })
             }
         }
     }
@@ -81,7 +90,7 @@ export class StudentMag extends Component {
     }
 
     render() {
-        const { param_practic, param_nir } = this.state
+        const { param_practic, param_nir, param_vkr } = this.state
         return (
             <Fragment>
                 {/* ЗАГОЛОВОК */}
@@ -158,45 +167,22 @@ export class StudentMag extends Component {
                     </section>
                 </Fade>}
                 {/* ВКР */}
-                <Fade>
-                    <section id="vkr" className="vkr_bach">
+                {param_vkr && <Fade>
+                    <section id="vkr" className="vkr vkr_mag">
                         <div className="container-md container-fluid">
-                            <h2 className="text-center">Выпускная квалификационная работа</h2>
-                            <div className="row no-gutters justify-content-between align-items-end">
-                                <div className="col-md-4 vkr-step step-1">
-                                    <div className="row no-gutters">
-                                        <div className="info-step col-6 col-md-12 align-self-start">
-                                            <p>Выбери тему</p>
-                                        </div>
-                                        <div className="vkr-step_img col-6 col-md-12 order-first order-md-last">
-                                            <img src={step1_img} alt="Шаг первый" />
-                                        </div>
-                                    </div>
+                            <div className="row no-gutters justify-content-between">
+                                <div className="col-md-6">
+                                    <div className="text-vkr-mag" dangerouslySetInnerHTML={{ __html: param_vkr.text }} />
                                 </div>
-                                <div className="col-md-4 vkr-step step-2">
-                                    <div className="row no-gutters">
-                                        <div className="info-step col-6 col-md-12 align-self-start">
-                                            <p>Выбери тему</p>
-                                        </div>
-                                        <div className="vkr-step_img col-6 col-md-12 order-first order-md-last">
-                                            <img src={step2_img} alt="Шаг второй" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-md-4 vkr-step step-3">
-                                    <div className="row no-gutters">
-                                        <div className="info-step col-6 col-md-12 align-self-start">
-                                            <p>Выбери тему</p>
-                                        </div>
-                                        <div className="vkr-step_img col-6 col-md-12 order-first order-md-last">
-                                            <img src={step3_img} alt="Шаг третий" />
-                                        </div>
+                                <div className="col-md-6">
+                                    <div className="image-vkr image-vkr-mag">
+                                        <img src={relax_img} alt="Выпускная квалификационная работа" />
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </section>
-                </Fade>
+                </Fade>}
             </Fragment>
         )
     }

@@ -10,15 +10,12 @@ export default function AdminParamRoutes() {
     <Fragment>
       <Route path="/admin/param" exact component={(() => (<Fragment>
         <AdminParam title="Заголовки - Кафедра управления инновациями" />
-        {/* <Home title="Кафедра управления инновациями"/> */}
       </Fragment>))} />
       <Route path="/admin/param/edit/:id" exact component={(() => (<Fragment>
         <FormParam title="Редактировать заголовок - Кафедра управления инновациями" />
-        {/* <Home title="Кафедра управления инновациями"/> */}
       </Fragment>))} />
       <Route path="/admin/param/add" exact component={(() => (<Fragment>
         <FormParam title="Добавить заголовок - Кафедра управления инновациями" />
-        {/* <Home title="Кафедра управления инновациями"/> */}
       </Fragment>))} />
     </Fragment>
   )

@@ -2,10 +2,16 @@
 
 #title_main{
   &.degree_bach{
+    .bg_th{
+      padding: 30px 0;
+    }
   background: linear-gradient(lightblue,white);
   height: auto;
   }
   &.degree_mag{
+    .bg_th{
+      padding: 30px 0;
+    }
     background: linear-gradient(lightpink,white);
     height: auto;
   }
@@ -13,7 +19,7 @@
 
 #rules_degree{
   .text-rules_degree{
-    h2{margin-bottom: 10px;}
+    h2{margin-bottom: 10px; color: default.$lblue}
     ul{
       list-style: none;
       li{
@@ -31,15 +37,57 @@
     }
   }
   .rules_degree_image{
-    padding: 10px;text-align: right;
+    padding: 15px;
+    text-align: right;
     max-width: 100%;
   }
 }
 
 #testing_degree{
   margin-top: 100px;
+  h2,a{color: default.$pink}
+  .image-testing_degree{
+    padding: 15px;
+    margin: 30px;
+    height: 100%;
+    img{
+      width: 100%;
+      padding: 15px;
+    }
+  }
 }
 
+#steps__degree{
+  margin-top: 100px;
+  h2{color: default.$orange}
+  h4,h5,h6{color: default.$lorange}
+  table{
+    margin-top: 20px;
+    tbody{
+      tr:first-child{
+        color: default.$orange;
+      }
+    }
+    tr,td{
+      border: 2px solid default.$lorange;
+    }
+  }
+  .steps__image{
+    img{
+      padding: 15px;
+      width: 100%;
+    }
+  }
+}
+
+#time_degree_mag{
+  margin-top: 50px;
+  h2{color: default.$dmint}
+  .image-time_degree{
+    img{width: 100%;
+    padding: 10px;}
+  }
+}
 
 @media screen and (max-width: 992px){
   #title_main.degree_bach{

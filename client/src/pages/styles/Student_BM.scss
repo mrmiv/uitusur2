@@ -117,17 +117,14 @@
     }
 }
 
-#vkr.vkr_bach{
+#vkr.vkr{
     margin-top: 100px;
     h2,a{
         color: default.$purple;
     }
-    .vkr-step{
-        margin-top: 40px;
-        .vkr-step_img{
-            img{
-                max-width: 150px;
-            }
+    .image-vkr{
+        img{
+            width: 100%;padding: 10px;
         }
     }
 }

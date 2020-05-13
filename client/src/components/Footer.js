@@ -90,7 +90,7 @@ export default class Footer extends Component {
                 </p>
                 <p>
                   Email:
-                  <i className="email"><a href="mailto:kov@2i.tusur.ru"></a>kov@2i.tusur.ru</i>
+                  <i className="email"><a href="mailto:kov@2i.tusur.ru">kov@2i.tusur.ru</a></i>
                   <br />
                   Тел.: (3822) 70-17-38
                 </p>

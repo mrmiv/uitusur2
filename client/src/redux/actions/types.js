@@ -37,8 +37,10 @@ export const MORE_NEWSLIST = "MORE_NEWSLIST"
 export const GET_DOCUMENTS_LIST = "GET_DOCUMENTS_LIST"
 export const DOC_LOADING = "DOC_LOADING"
 export const DOCS_LOADING = "DOCS_LOADING"
-
 export const GET_DOC = "GET_DOC"
+// другие файлы
+export const GET_FILES = "GET_FILES"
+
 // Опрос
 export const GET_QUIZ = "GET_QUIZ"
 // Запросы

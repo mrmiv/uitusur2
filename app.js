@@ -25,8 +25,7 @@ app.use('/api/param', require('./routes/param.route')) //тексты на ст�
 app.use('/api/curator', require('./routes/curators.route')) //кураторы
 app.use('/api/quiz', require('./routes/quiz.route')) //Опрос
 app.use('/api/feedback', require('./routes/feedback.route')) //Отзывы о кафедре
-// app.use('/build', require('./routes/build.route')) //корпус
-
+app.use('/api/files', require('./routes/uploadfile.route')) //Отзывы о кафедре
 if (process.env.NODE_ENV === 'production') {
     app.use('/', express.static(path.join(__dirname, "client", "build")))
 
