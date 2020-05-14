@@ -110,10 +110,9 @@ export class StudentMag extends Component {
                                         <button type="button" className="btn" name="НИР" onClick={() => this.scrollTo('nir')}>
                                             <div className="btn-scroll-student"><Icon icon={faMicroscope} /></div> <span>НИР</span>
                                         </button>
-                                        <button type="button" className="btn" name="ВКР" onClick={() => this.scrollTo('vkr')}>
+                                        {param_vkr && <button type="button" className="btn" name="ВКР" onClick={() => this.scrollTo('vkr')}>
                                             <div className="btn-scroll-student"><Icon icon={faGraduationCap} /></div> <span>ВКР</span>
-                                        </button>
-                                        {/* <img className="triple_helix_svg" src={lawyer_img}  alt="Бакалавру"/> */}
+                                        </button>}
                                     </div>
                                 </div>
                                 <div className="col-md-4">

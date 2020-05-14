@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import store from '../store'
 import { closeNavbar } from '../redux/actions/navbarActions'
-import { Link } from 'react-router-dom'
 import Fade from 'react-reveal/Fade'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import { faUniversity, faLightbulb, faGraduationCap } from '@fortawesome/free-solid-svg-icons'
@@ -113,9 +112,9 @@ export class StudentBach extends Component {
                                         <button type="button" className="btn" name="ГПО" onClick={() => this.scrollTo('gpo_bach')}>
                                             <div className="btn-scroll-student"><Icon icon={faLightbulb} /></div> <span>ГПО</span>
                                         </button>
-                                        <button type="button" className="btn" name="ВКР" onClick={() => this.scrollTo('vkr')}>
+                                        {param_vkr && <button type="button" className="btn" name="ВКР" onClick={() => this.scrollTo('vkr')}>
                                             <div className="btn-scroll-student"><Icon icon={faGraduationCap} /></div> <span>ВКР</span>
-                                        </button>
+                                        </button>}
                                         {/* <img className="triple_helix_svg" src={lawyer_img}  alt="Бакалавру"/> */}
                                     </div>
                                 </div>

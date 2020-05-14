@@ -14,6 +14,41 @@ import Pagination from "react-js-pagination";
 // import images
 import marketing_img from './img/marketing_.svg';
 
+const grants = [
+    {
+        name: "РФФИ — активные конкурсы Российского фонда фундаментальных исследований",
+        path: "http://www.rfbr.ru/rffi/ru/contest"
+    },
+    {
+        name: "4science — актуальные гранты и конкурсы для ученых и предпринимателей",
+        path: "https://4science.ru/"
+    },
+    {
+        name: "Grantist — гранты, доступные для студентов, молодых ученых и преподавателей из стран СНГ",
+        path: "http://grantist.com/scholarships/vse-stipendii/"
+    },
+    {
+        name: "RSCI.RU (INTELICA) — актуальная деловая информация",
+        path: "http://www.rsci.ru/grants/"
+    },
+    {
+        name: "Инновационный центр \"Сколково\"",
+        path: "https://sk.ru"
+    },
+    {
+        name: "РНФ — конкурсы Российского научного фонда",
+        path: "http://rscf.ru/ru/contests/"
+    },
+    {
+        name: "РВК — Российская венчурная компания",
+        path: "https://www.rvc.ru/"
+    },
+    {
+        name: "Росмолодежь — Федеральное агенство по делам молодежи",
+        path: "https://fadm.gov.ru/"
+    },
+]
+
 export class NewsList extends Component {
 
     state = {
@@ -50,29 +85,41 @@ export class NewsList extends Component {
                 {/* Заголовок */}
                 <Fade>
                     <section id="title_main" className="news">
-                        <div className="container-md container-fluid bg_th" style={{ height: "inherit" }}>
-                            <div className="row no-gutters align-items-center" style={{ height: "inherit" }}>
+                        <div className="container-md container-fluid" style={{ height: "inherit" }}>
+                            <div className="row no-gutters" style={{ height: "inherit" }}>
                                 <h1 className="title title-text w-100">{this.props.title}</h1>
-                                <div className="col-md-6 col-12">
-                                    <h4 className="title w-100">Последние новости</h4>
-                                    <div className="lastnews">
-                                        {newslist && newslist.slice(0, 3).map((news, index) => {
-                                            return (<div key={index}>
-                                                <LastNews
-                                                    id={news._id}
-                                                    title={news.title}
-                                                    body={news.body}
-                                                    datetime={news.created_at} />
-                                            </div>)
+                                {/* Для грантов отобразить последние гранты, иначе последние новости */}
+                                {this.props.type !== 2 ? <Fragment>
+                                    <div className="col-md-6 col-12">
+                                        <h4 className="title w-100">Последние новости</h4>
+                                        <div className="lastnews">
+                                            {newslist && newslist.slice(0, 3).map((news, index) => {
+                                                return (<div key={index}>
+                                                    <LastNews
+                                                        id={news._id}
+                                                        title={news.title}
+                                                        body={news.body}
+                                                        datetime={news.created_at} />
+                                                </div>)
+                                            })}
+                                        </div>
+                                    </div>
+                                    <div className="col-md-6 col-12">
+                                        <div className="triple_helix">
+                                            <img className="triple_helix_svg" src={marketing_img} alt={this.props.title}
+                                                style={{ maxWidth: "100%", padding: "10px" }} />
+                                        </div>
+                                    </div>
+                                </Fragment> : <Fragment>
+                                        {grants.map((g, index) => {
+                                            return <div className="col-md-6" key={index}>
+                                                <a href={g.path} target="_blank" rel="norefferer noopener" >
+                                                    <div className="grant-link">{g.name}</div>
+                                                </a>
+                                            </div>
                                         })}
-                                    </div>
-                                </div>
-                                <div className="col-md-6 col-12">
-                                    <div className="triple_helix">
-                                        <img className="triple_helix_svg" src={marketing_img} alt={this.props.title}
-                                            style={{ maxWidth: "100%", padding: "10px" }} />
-                                    </div>
-                                </div>
+
+                                    </Fragment>}
                             </div>
                         </div>
                     </section>

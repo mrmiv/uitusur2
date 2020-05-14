@@ -3,8 +3,6 @@ import { connect } from 'react-redux'
 import store from '../store'
 import { closeNavbar } from '../redux/actions/navbarActions'
 import { GetLiteraturePerPage } from '../redux/actions/literatureActions'
-import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
-import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import Pagination from "react-js-pagination";
 
 import "./styles/Literature.scss"
@@ -195,7 +193,7 @@ const Book = ({ title, author, image, category, id }) => {
                 <div className="literature__bookInList">
                     <div className="literature-list-image" style={{ background: `url(${image}) no-repeat` }} />
                     <p>
-                        <span>{category}</span>
+                        <span>{category[0].toUpperCase() + category.substr(1)}</span>
                         <br />
                         <strong>{title}</strong>
                         <br />

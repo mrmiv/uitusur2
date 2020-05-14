@@ -11,13 +11,13 @@ import {
 import axios from 'axios'
 import { returnInfo } from './infoActions';
 
-export const GetLiteraturePerPage = (page = 1, perPage = null, filter = null, sort = null) => dispatch => {
+export const GetLiteraturePerPage = (page = 1, perPage = 12, filter = null, sort = 1) => dispatch => {
 
     dispatch({
         type: LOADING_LITERATURE
     })
 
-    let query = `/api/literature?page=${page}&perpage=${perPage || 12}&sort=${sort || 1}${filter !== null ? `&filter=${filter}` : ''}`
+    let query = `/api/literature?page=${page}&perpage=${perPage}&sort=${sort}${filter !== null ? `&filter=${filter}` : ''}`
     // console.log(query);
 
     // get /literature/?page=1&?perPage=12?category=all&?sort=asc
@@ -29,7 +29,10 @@ export const GetLiteraturePerPage = (page = 1, perPage = null, filter = null, so
                 payload: {
                     LiteratureList: res.data.data,
                     total: res.data.total,
-                    categoryFields: res.data.fields
+                    categoryFields: res.data.fields,
+                    page,
+                    filter,
+                    sort
                 }
             })
             return res.data

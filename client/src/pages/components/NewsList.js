@@ -13,8 +13,8 @@ export function toDate(datetime, time = false) {
 
     let day = date.getDate()
     if (day < 10) { day = "0" + day }
-    let month = date.getMonth()
-    if (month < 9) { month = "0" + (month + 1) }
+    let month = date.getMonth() + 1
+    if (month < 10) { month = "0" + month }
     const year = date.getFullYear()
     if (time) {
         let hour = date.getHours()
@@ -28,12 +28,14 @@ export function toDate(datetime, time = false) {
 
 export function LastNews({ id, title, body, datetime }) {
 
+    const length = 80
+
     return (
         <Link to={`/news/${id}`}>
             <div className="last-one-news">
-                <h6>{title.length < 64 ? title : title.substr(0, 61) + "..."}</h6>
+                <h6>{title.length < length ? title : title.substr(0, length) + "..."}</h6>
                 <small>{toDate(datetime)}</small>
-                <div dangerouslySetInnerHTML={{ __html: body.length < 64 ? body : body.substr(0, 64) + "..." }} />
+                <div dangerouslySetInnerHTML={{ __html: body.length < length ? body : body.substr(0, length) + "..." }} />
             </div>
         </Link>
     )

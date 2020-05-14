@@ -185,10 +185,12 @@ router.patch('/:id', async (req, res) => { //patch smth try catch delete file
             }
         }
 
+        console.log(subcategory);
+
         if (title) { doc.title = title }
         if (date) { doc.date = date }
         if (category) { doc.category = category }
-        if (subcategory) { doc.subcategory = subcategory }
+        if (subcategory) { doc.subcategory = subcategory } else { doc.subcategory = undefined }
         if (path && !req.files) { doc.path = path }
 
         try {

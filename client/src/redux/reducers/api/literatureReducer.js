@@ -13,50 +13,56 @@ const LiteratureState = {
     total: 1,
     categoryFields: [],
     LiteratureList: [],
-    isLoading: false
+    isLoading: false,
+    page: 1,
+    filter: null,
+    sort: 1
 }
 
 const BookState = {
-    Book:{},
+    Book: {},
     isLoading: false
 }
 
-function LiteratureReducer(state=LiteratureState, action){
+function LiteratureReducer(state = LiteratureState, action) {
     switch (action.type) {
         case LOADING_LITERATURE:
         case LOADING_REQ:
-            return{
+            return {
                 ...state,
                 isLoading: true
             }
         case REQ_FAIL:
         case REQ_SUCCESS:
-            return{
+            return {
                 ...state,
                 isLoading: false
             }
-        case GET_LITERATURE: 
+        case GET_LITERATURE:
             // console.log(state)
-            return{
+            return {
                 total: action.payload.total,
                 LiteratureList: action.payload.LiteratureList,
                 categoryFields: action.payload.categoryFields,
-                isLoading: false
+                isLoading: false,
+                page: action.payload.page,
+                filter: action.payload.filter,
+                sort: action.payload.sort,
             }
         default:
-            return state
+            return { ...state, isLoading: false }
     }
 }
 
-function BookReducer(state=BookState, action){
+function BookReducer(state = BookState, action) {
     switch (action.type) {
         case BOOK_LOADING:
-            return{
+            return {
                 ...state,
                 isLoading: true
             }
         case GET_BOOK:
-            return{
+            return {
                 ...state,
                 Book: action.payload.Book,
                 isLoading: false

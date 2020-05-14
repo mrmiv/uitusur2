@@ -134,9 +134,6 @@ function HomeRoutes({ auth }) {
                 <Route path="/literature" component={(() => (<Fragment>
                     {!background && <ScrollToTop />}
                     <Route exact path="/literature">
-                        <Redirect to="/literature/1" />
-                    </Route>
-                    <Route exact path="/literature/:page">
                         <Literature title="Литература кафедры - Кафедра управления инновациями" />
                     </Route>
                 </Fragment>))} />
