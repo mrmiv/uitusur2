@@ -130,7 +130,7 @@ export class StudentBach extends Component {
                 {/* Практика */}
                 {param_practic && <Fade>
                     <section id="practic">
-                        <div className="container-lg container-md container-fluid">
+                        <div className="container">
                             <div className="row no-gutters justify-content-between align-items-center">
                                 <div className="col-md-5 title_student practic_title"
                                     dangerouslySetInnerHTML={{ __html: param_practic.text }} />
@@ -147,7 +147,7 @@ export class StudentBach extends Component {
                 {/* ГПО */}
                 {param_gpo && <Fade>
                     <section id="gpo_bach">
-                        <div className="container-md container-fluid">
+                        <div className="container">
                             <div className="row no-gutters justify-content-between align-items-center">
                                 <div className="col-md-6 order-md-first order-last">
                                     <div className="gpo_bach_img img_block text-center">
@@ -163,7 +163,7 @@ export class StudentBach extends Component {
                 {/* ВКР */}
                 {param_vkr && <Fade>
                     <section id="vkr" className="vkr vkr_bach">
-                        <div className="container-md container-fluid">
+                        <div className="container">
                             <div className="row no-gutters justify-content-between">
                                 <div className="col-md-6">
                                     <div className="text-vkr text-vkr-mag" dangerouslySetInnerHTML={{ __html: param_vkr.text }} />

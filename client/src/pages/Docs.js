@@ -36,16 +36,18 @@ export class Docs extends Component {
             <Fade>
                 <section id="title_main" className="documents">
                     <div className="container-lg container-fluid" style={{ height: "inherit" }}>
-                        <div className="row no-gutters">
-                            <div className="title_text mt-5 w-100" >
+                        <div className="row no-gutters pb-2">
+                            <div className="title_text mt-4 w-100" >
                                 <h1 className="title">Ре&shy;гла&shy;мен&shy;ти&shy;ру&shy;ю&shy;щие до&shy;ку&shy;мен&shy;ты</h1>
                                 {!isLoading ? categories.length !== 0 && <h6>Выберите интересующую Вас категорию:</h6> : <h6>Пожалуйста подождите...</h6>}
                             </div>
                             {!isLoading && categories && categories.map(cat => {
                                 return (
-                                    <a key={cat} type="button" className="btn col-md-3 col-sm-6 col-xs-12 category-doc-btn"
+                                    <a key={cat} className="btn col-md-4 col-sm-6 col-xs-12"
                                         style={{ color: "white" }} onClick={() => this.scrollTo(cat)}>
-                                        <Icon icon={documentwithtextIcon} height="24" style={{ marginBottom: "5px" }} /> <br /> {cat}
+                                        <div className="category-doc-btn">
+                                            <Icon icon={documentwithtextIcon} height="24" style={{ marginBottom: "5px", marginRight: "5px" }} />{cat[0].toUpperCase() + cat.substr(1)}
+                                        </div>
                                     </a>
                                 )
                             })}
@@ -66,7 +68,7 @@ export class Docs extends Component {
                                             {docslist.map((doc) => {
                                                 if (doc.category === cat && !doc.subcategory) {
                                                     return <div key={index} className="col-sm-6 col-12">
-                                                        <Document title={doc.title} path={doc.path} document={doc.document} date={doc.date} />
+                                                        <Document cat title={doc.title} path={doc.path} document={doc.document} date={doc.date} />
                                                     </div>
                                                 }
                                             })}</div>
@@ -110,10 +112,10 @@ export default connect(
     { closeNavbar, GetDocuments }
 )(Docs)
 
-const Document = ({ title, path, document, date }) => {
+const Document = ({ title, cat, path, document, date }) => {
     return (
         <a href={`${document || path}`}
-            className="document-link"
+            className={`document-link ${cat ? 'w-cat' : ''}`}
             target="_blank" rel="noopener noreferrer"
         >
             <div className="text-indoc">

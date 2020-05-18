@@ -9,14 +9,14 @@
     height: auto;
     height: max-content;
     .category-doc-btn{
-        background: rgba(255, 255, 255, 0.082);
-        margin-top: 10px;
+        background: #fff1;
+        // margin-top: 5px;
         margin-right: 10px;
         padding: 10px;
         text-align: left;
         height: auto;
         &:hover{
-            background: #fff3;
+            background: #fff4;
         }
     }
 }
@@ -59,8 +59,13 @@
         //     align-self:center ;
         //     right: 20px;
         // }
+        &.w-cat{
+            &:hover{
+            background: #354ED140;
+            }
+        }
         &:hover{
-            box-shadow: 0 2px 5px default.$shadow;
+            background: #1FB27740;
         }
         &:active{
             background: default.$lgray;

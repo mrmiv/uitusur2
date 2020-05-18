@@ -23,6 +23,7 @@ export class Login extends Component {
 
     componentWillUnmount() {
         this.props.closeNavbar()
+        this.props.clearInfo()
     }
 
     static propTypes = {
@@ -40,13 +41,13 @@ export class Login extends Component {
             // check for login error
             if (info.id === "LOGIN_FAIL") {
                 this.setState({
-                    msg: info.msg,
-                    loading: loading
+                    msg: "Что-то не так :(",
+                    loading
                 })
             } else {
                 this.setState({
                     msg: null,
-                    loading: loading
+                    loading
                 })
             }
         }
@@ -76,7 +77,7 @@ export class Login extends Component {
                 <h2 className="text-center mb-3 pt-4">Вход в систему</h2>
                 <div className="row no-gutters justify-content-center">
                     {this.state.msg &&
-                        <div className="alert alert-danger alert-dismissible fade show" role="alert">
+                        <div className="alert alert-danger alert-dismissible fade show w-75" role="alert">
                             <span> {this.state.msg} </span>
                         </div>}
                     <div className="w-100" />

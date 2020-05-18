@@ -121,7 +121,7 @@ export class DegreeBach extends Component {
         </Fade>
         {param_podacha_docs && <Fade>
           <section id="rules_degree">
-            <div className="container-lg container-fluid">
+            <div className="container">
               <div className="row no-gutters align-items-center">
                 <div className="col-md-6">
                   <div className="text-rules_degree" dangerouslySetInnerHTML={{ __html: param_podacha_docs.text }} />
@@ -136,7 +136,7 @@ export class DegreeBach extends Component {
         {param_steps &&
           <Fade>
             <section id="steps__degree">
-              <div className="container-lg container-fluid">
+              <div className="container">
                 <div className="text-steps" dangerouslySetInnerHTML={{ __html: param_steps.text }} />
                 {/* <div className="col-lg-6 col-sm-12">
                     <div className="steps__image">
@@ -149,7 +149,7 @@ export class DegreeBach extends Component {
         {param_time &&
           <Fade>
             <section id="time_degree_mag">
-              <div className="container-lg container-fluid">
+              <div className="container">
                 <div className="row no-gutters align-items-center">
                   <div className="col-md-6 col-sm-12">
                     <div className="text-time_degree" dangerouslySetInnerHTML={{ __html: param_time.text }} />

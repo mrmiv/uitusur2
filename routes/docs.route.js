@@ -53,7 +53,7 @@ router.get('/:id', async (req, res) => {
 })
 
 // Docs/
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
 
     const {
         title,
@@ -116,7 +116,7 @@ router.post('/', async (req, res) => {
 })
 
 // Docs/:id
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
 
     const id = req.params.id
 
@@ -145,7 +145,7 @@ router.delete('/:id', async (req, res) => {
     }
 })
 
-router.patch('/:id', async (req, res) => { //patch smth try catch delete file
+router.patch('/:id', auth, async (req, res) => { //patch smth try catch delete file
 
     const id = req.params.id
     const { title, date, path, category, subcategory } = req.body
@@ -185,7 +185,7 @@ router.patch('/:id', async (req, res) => { //patch smth try catch delete file
             }
         }
 
-        console.log(subcategory);
+        // console.log(subcategory);
 
         if (title) { doc.title = title }
         if (date) { doc.date = date }

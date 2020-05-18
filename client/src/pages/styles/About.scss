@@ -156,7 +156,7 @@
 
 #staff {
     margin-top: 80px;
-    scroll-margin-top: 80px;
+    scroll-margin-top: 40px;
 
     h2{
         color: default.$purple;
@@ -211,7 +211,7 @@
 #CMK{
     margin-top: 80px;
     margin-bottom: -100px;
-    scroll-margin-top: 80px;
+    scroll-margin-top: 40px;
     
     h2{
         margin-bottom: 30px;
@@ -277,7 +277,7 @@
     }
 }
 
-@media screen and (max-width:564px){
+@media screen and (max-width:567px){
     .staff__photo{
         display: none;
     }

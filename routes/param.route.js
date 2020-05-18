@@ -1,6 +1,6 @@
 const { Router } = require('express')
 const router = Router()
-// const authStaff = require('../middleware/middleware.auth.Param')
+const auth = require('../middleware/middleware.auth')
 
 const Param = require('../models/Param')
 
@@ -39,7 +39,7 @@ router.get('/:id', async (req, res) => {
 })
 
 // param/
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
 
   const {
     page,
@@ -76,7 +76,7 @@ router.post('/', async (req, res) => {
 })
 
 // param/:id
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
 
   const id = req.params.id
 
@@ -94,7 +94,7 @@ router.delete('/:id', async (req, res) => {
   }
 })
 
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', auth, async (req, res) => {
 
   const id = req.params.id
   const { page, text, title } = req.body

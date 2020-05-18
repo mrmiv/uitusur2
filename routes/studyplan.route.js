@@ -1,6 +1,6 @@
 const { Router } = require('express')
 const router = Router()
-// const authStaff = require('../middleware/middleware.auth.StudyPlan')
+const authStaff = require('../middleware/middleware.auth')
 
 const StudyPlan = require('../models/StudyPlan')
 
@@ -37,7 +37,7 @@ router.get('/:id', async (req, res) => {
 })
 
 // sp/
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
 
     const {
         course,
@@ -62,7 +62,7 @@ router.post('/', async (req, res) => {
 
         const exists = await StudyPlan.findOne({ group })
 
-        console.log(exists);
+        // console.log(exists);
 
         if (exists) {
             return res.status(400).json({ message: "Учебный план уже существует" })
@@ -114,7 +114,7 @@ router.post('/', async (req, res) => {
 })
 
 // sp/:id
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
 
     const id = req.params.id
 
@@ -132,7 +132,7 @@ router.delete('/:id', async (req, res) => {
     }
 })
 
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', auth, async (req, res) => {
 
     const id = req.params.id
     const body = req.body

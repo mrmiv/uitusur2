@@ -99,7 +99,7 @@ export default class Footer extends Component {
                   <br />
                   Выходные: суббота, воскресенье
                 </p>
-                <span className="cogs-info"><i><Icon icon={faCogs} size="md" type="button" /></i></span>
+                <span className="cogs-info"><i><Icon icon={faCogs} size="md" /></i></span>
               </div>
             </div>
             <div className="other_info">

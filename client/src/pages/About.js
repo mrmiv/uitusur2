@@ -95,7 +95,7 @@ export class About extends Component {
                 {/* ИСТОРИЯ КАФЕДРЫ */}
                 <Fade>
                     <section id="history_about">
-                        <div className="container-md container-fluid">
+                        <div className="container">
                             <div className="row no-gutters align-items-center">
                                 <div className="col-lg-6 col-md-7 title_about_history ">
                                     <h2>История кафедры</h2>
@@ -157,7 +157,7 @@ export class About extends Component {
                 {/* Достижения кафедры */}
                 {param_trophy && <Fade>
                     <section id="trophy_about">
-                        <div className="container-fluid container-md">
+                        <div className="container">
                             <div className="row no-gutters justify-content-between align-items-center">
                                 <div className="col-md-6 col-lg-5 col-12">
                                     <div className="text_trophy" dangerouslySetInnerHTML={{ __html: param_trophy.text }} />
@@ -192,7 +192,7 @@ export class About extends Component {
                 </Fade>
                 {/* СМК */}
                 {param_CMK && <Fade><section id="CMK">
-                    <div className="container-md container-fluid">
+                    <div className="container">
                         <h2>Система менеджмента качества</h2>
                         <div className="row no-gutters align-items-center">
                             <div className="col-md-6">

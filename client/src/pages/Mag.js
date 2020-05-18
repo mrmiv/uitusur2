@@ -127,7 +127,7 @@ export class StudentMag extends Component {
                 {/* Практика */}
                 {param_practic && <Fade>
                     <section id="practic">
-                        <div className="container-lg container-md container-fluid">
+                        <div className="container">
                             <div className="row no-gutters justify-content-between align-items-center">
                                 <div className="col-md-5 title_student practic_title" dangerouslySetInnerHTML={{ __html: param_practic.text }} />
                                 {/* <h2>Практика</h2>
@@ -147,7 +147,7 @@ export class StudentMag extends Component {
                 {/* Научная исследовательская работа */}
                 {param_nir && <Fade>
                     <section id="nir">
-                        <div className="container-md container-fluid">
+                        <div className="container">
                             <div className="row no-gutters justify-content-between align-items-center">
                                 <div className="col-md-5 order-md-first order-last">
                                     <div className="nir_img img_block text-left">
@@ -168,7 +168,7 @@ export class StudentMag extends Component {
                 {/* ВКР */}
                 {param_vkr && <Fade>
                     <section id="vkr" className="vkr vkr_mag">
-                        <div className="container-md container-fluid">
+                        <div className="container">
                             <div className="row no-gutters justify-content-between">
                                 <div className="col-md-6">
                                     <div className="text-vkr-mag" dangerouslySetInnerHTML={{ __html: param_vkr.text }} />

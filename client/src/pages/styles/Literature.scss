@@ -84,6 +84,17 @@
     }
 }
 
-@media screen and (max-width:764px){
-    
+@media screen and (max-width:465px){
+    #literature{
+        .literature__content{        
+                .literature__bookInList{
+                    
+                    .literature-list-image{
+                        background-size: cover !important;
+                        width: 140px;
+                        border: 1px solid red;
+                    }
+            }
+        }
+    }
 }

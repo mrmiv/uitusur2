@@ -1,6 +1,6 @@
 const { Router } = require('express')
 const router = Router()
-// const authStaff = require('../middleware/middleware.auth.Curator')
+const auth = require('../middleware/middleware.auth')
 
 const Curator = require('../models/Curator')
 
@@ -39,7 +39,7 @@ router.get('/:id', async (req, res) => {
 })
 
 // curator/
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
 
   const {
     firstname,
@@ -94,7 +94,7 @@ router.post('/', async (req, res) => {
 })
 
 // curator/:id
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
 
   const id = req.params.id
 
@@ -114,7 +114,7 @@ router.delete('/:id', async (req, res) => {
   }
 })
 
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', auth, async (req, res) => {
 
   const id = req.params.id
   const { firstname,

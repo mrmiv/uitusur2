@@ -90,7 +90,7 @@ export class Home extends Component {
                 {/* НАПРАВЛЕНИЯ ПОДГОТОВКИ */}
                 <Fade>
                     <section id="degree">
-                        <div className="container-xl container-md-fluid">
+                        <div className="container-lg container-fluid">
                             <div className="row justify-content-center no-gutters">
                                 <div className="col-12 col-md-8 align-content-center text-center title_degree">
                                     <h2>Направления подготовки</h2>
@@ -197,7 +197,7 @@ export class Home extends Component {
                 {/* ТРУДОУСТРОЙСТВО */}
                 <Fade>
                     <section id="work_home">
-                        <div className="container-md container-fluid">
+                        <div className="container">
                             <div className="row no-gutters justify-content-between">
                                 <div className="title__workhome col-md-5">
                                     <h2>Трудоустройство</h2>
@@ -210,7 +210,7 @@ export class Home extends Component {
                                         hash: 'work'
                                     }}>Подробнее</HashLink>
                                 </div>
-                                <div className="img__workhome col-md-5">
+                                <div className="img__workhome col-md-5 text-center">
                                     <img src={student_img} alt="Трудоустройство" />
                                 </div>
                             </div>

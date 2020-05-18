@@ -35,8 +35,8 @@ export class FullNews extends Component {
 
     componentDidUpdate(prevProps) {
         const { News } = this.props.news
-        console.log(this.props.news.isLoading + " props ");
-        console.log(this.state.isLoading + " state");
+        // console.log(this.props.news.isLoading + " props ");
+        // console.log(this.state.isLoading + " state");
 
         if (News !== prevProps.news.News) {
             this.setState({ News })

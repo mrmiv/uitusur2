@@ -114,7 +114,7 @@ export class DegreeBach extends Component {
         </Fade>
         {param_podacha_docs && <Fade>
           <section id="rules_degree">
-            <div className="container-lg container-fluid container-fluid">
+            <div className="container">
               <div className="row no-gutters align-items-center">
                 <div className="col-md-6">
                   <div className="text-rules_degree" dangerouslySetInnerHTML={{ __html: param_podacha_docs.text }} />
@@ -129,7 +129,7 @@ export class DegreeBach extends Component {
         {param_testing_degree &&
           <Fade>
             <section id="testing_degree">
-              <div className="container-lg container-fluid container-fluid">
+              <div className="container">
                 <div className="row no-gutters align-items-center">
                   <div className="col-md-6">
                     <div className="text-testing_degree" dangerouslySetInnerHTML={{ __html: param_testing_degree.text }} />

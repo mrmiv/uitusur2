@@ -80,6 +80,7 @@ export class NewsList extends Component {
         // console.log(newslist);
         const { page, perPage } = this.state
         const { total } = this.props.news
+        const { isLoading } = this.props
         return (
             <Fragment>
                 {/* Заголовок */}
@@ -125,37 +126,35 @@ export class NewsList extends Component {
                     </section>
                 </Fade>
                 {/* Список новостей */}
-                <Fade>
-                    <section id="news">
-                        <div className="container-md container-fluid">
-                            {newslist && <Fragment>
-                                {newslist.map((news, index) => {
-                                    return (<div key={index} className="w-100">
-                                        <NewsInList
-                                            pin={news.pin}
-                                            id={news._id}
-                                            title={news.title}
-                                            body={news.body}
-                                            city={news.city}
-                                            deadline={news.deadline}
-                                            users={news.users}
-                                            datetime={news.created_at} />
-                                    </div>)
-                                })}
-                                <Pagination
-                                    activePage={page}
-                                    itemsCountPerPage={perPage}
-                                    totalItemsCount={total}
-                                    pageRangeDisplayed={5}
-                                    itemClass="more-link"
-                                    hideFirstLastPages
-                                    hideDisabled
-                                    onChange={this.Paginate.bind(this)} />
-                            </Fragment>}
+                <section id="news">
+                    <div className="container-md container-fluid">
+                        {newslist && !isLoading ? <Fragment>
+                            {newslist.map((news, index) => {
+                                return (<div key={index} className="w-100">
+                                    <NewsInList
+                                        pin={news.pin}
+                                        id={news._id}
+                                        title={news.title}
+                                        body={news.body}
+                                        city={news.city}
+                                        deadline={news.deadline}
+                                        users={news.users}
+                                        datetime={news.created_at} />
+                                </div>)
+                            })}
+                            <Pagination
+                                activePage={page}
+                                itemsCountPerPage={perPage}
+                                totalItemsCount={total}
+                                pageRangeDisplayed={5}
+                                itemClass="more-link"
+                                hideFirstLastPages
+                                hideDisabled
+                                onChange={this.Paginate.bind(this)} />
+                        </Fragment> : <h4>Новостей нет</h4>}
 
-                        </div>
-                    </section>
-                </Fade>
+                    </div>
+                </section>
             </Fragment>
         )
     }
@@ -163,7 +162,8 @@ export class NewsList extends Component {
 }
 
 const mapStateToProps = state => ({
-    news: state.api.news.newslist
+    news: state.api.news.newslist,
+    isLoading: state.api.news.isLoading
 })
 
 export default connect(

@@ -2,7 +2,7 @@ const { Router } = require("express");
 const mailer = require("../middleware/middleware.mail");
 const router = Router();
 const fs = require("fs");
-// const authStaff = require('../middleware/middleware.auth.Staff')
+const auth = require('../middleware/middleware.auth')
 
 const News = require("../models/News");
 
@@ -178,7 +178,7 @@ router.post("/", async (req, res) => {
 });
 
 // News/read/:id
-router.delete("/read/:id", async (req, res) => {
+router.delete("/read/:id", auth, async (req, res) => {
 	const id = req.params.id;
 
 	try {
@@ -212,7 +212,7 @@ router.delete("/read/:id", async (req, res) => {
 	}
 });
 
-router.put("/read/pin/:id", async (req, res) => {
+router.put("/read/pin/:id", auth, async (req, res) => {
 	const { id } = req.params
 	try {
 
@@ -234,7 +234,7 @@ router.put("/read/pin/:id", async (req, res) => {
 	}
 })
 
-router.patch("/read/:id", async (req, res) => {
+router.patch("/read/:id", auth, async (req, res) => {
 	const id = req.params.id;
 	const { title,
 		site,
