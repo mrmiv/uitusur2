@@ -117,8 +117,6 @@ router.post("/", async (req, res) => {
 				to: [],
 				subject: title,
 				html: `${body}
-				
-				<a href=${`http://___.ru/news/${id}`}>Читать новость</a>
 
 				Не нужно отвечать на данное сообщение.
 				<br/>
