@@ -1,4 +1,5 @@
 @use "default";
+@import "./animations.scss";
 
 #title_main.for_student{
     &.student_mag{
@@ -12,69 +13,78 @@
         padding-top: 0;
     }
 
-    .types_for_student{
-        margin-top: 10px;
-        align-self: center;
-        button{
-            padding: 5px 0;
-            align-items: center;
-            display: list-item;
-            margin: 5px 0;
-            text-align: left;
-            color: white;
-            &[name="Практика"]{
-                .btn-scroll-student{
-                    color: default.$green;
-                }
-            }
-            &[name="НИР"],&[name="ГПО"]{
-                .btn-scroll-student{
-                    color: default.$lorange;
-                }
-            }
-            &[name="ВКР"]{
-                .btn-scroll-student{
-                    color: default.$lblue;
-                }
-            }
-
-            &:after{
-                transition: all 100ms ease-in-out;
-                margin-left: 15px;
-                // visibility: visible;
-                opacity: 0.2;
-                content: '\0279C';
-            }
-
-            &:hover{
-                .btn-scroll-student{
-                    margin-left: 5px;
-                }
-                &:after{
-                    margin-left: 18px;
-                    // visibility: visible;
-                    opacity: 1;
-                    content: '\0279C';
-                }
-            }
-
-            .btn-scroll-student{
-                transition: all 100ms ease-in-out;
-                display: inline-flex;
-                background: white;
-                border-radius: 50%;
-                justify-content: center;
-                align-items: center;
-                padding: 8px 12pxpx;
-                padding: 5px 0;
-                width: 50px;
-                height: 50px;
-                font-style: 1em;
-                box-shadow: 0 2px 10px default.$shadow;
-                margin-right: 10px;
-            }
-        }
+    svg{
+        animation: pulse 2s ease 0s infinite alternate;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        -o-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        -moz-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        -webkit-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        cursor: pointer;
     }
+
+    // .types_for_student{
+    //     margin-top: 10px;
+    //     align-self: center;
+        // button{
+        //     padding: 5px 0;
+        //     align-items: center;
+        //     display: list-item;
+        //     margin: 5px 0;
+        //     text-align: left;
+        //     color: white;
+        //     &[name="Практика"]{
+        //         .btn-scroll-student{
+        //             color: default.$green;
+        //         }
+        //     }
+        //     &[name="НИР"],&[name="ГПО"]{
+        //         .btn-scroll-student{
+        //             color: default.$lorange;
+        //         }
+        //     }
+        //     &[name="ВКР"]{
+        //         .btn-scroll-student{
+        //             color: default.$lblue;
+        //         }
+        //     }
+
+            // &:after{
+            //     transition: all 100ms ease-in-out;
+            //     margin-left: 15px;
+            //     // visibility: visible;
+            //     opacity: 0.2;
+            //     content: '\0279C';
+            // }
+
+            // &:hover{
+            //     .btn-scroll-student{
+            //         margin-left: 5px;
+            //     }
+            //     &:after{
+            //         margin-left: 18px;
+            //         // visibility: visible;
+            //         opacity: 1;
+            //         content: '\0279C';
+            //     }
+            // }
+
+            // .btn-scroll-student{
+            //     transition: all 100ms ease-in-out;
+            //     display: inline-flex;
+            //     background: white;
+            //     border-radius: 50%;
+            //     justify-content: center;
+            //     align-items: center;
+            //     padding: 8px 12pxpx;
+            //     padding: 5px 0;
+            //     width: 50px;
+            //     height: 50px;
+            //     font-style: 1em;
+            //     box-shadow: 0 2px 10px default.$shadow;
+            //     margin-right: 10px;
+            // }
+        // }
+    // }
 }
 
 @media screen and (max-height:380px){
@@ -89,60 +99,4 @@
         }
     }
     
-}
-
-#practic{
-    .practic_title{
-        h2,a{
-            color: default.$orange;
-        }
-    }
-}
-
-#gpo_bach{
-    margin-top: 80px;
-    .gpo_bach_title{
-        h2,a{
-            color: default.$lblue;
-        }
-    }
-}
-
-#nir{
-    margin-top: 80px;
-    .nir_title{
-        h2,a{
-            color: default.$lblue;
-        }
-    }
-}
-
-#vkr.vkr{
-    margin-top: 100px;
-    h2,a{
-        color: default.$purple;
-    }
-    .image-vkr{
-        img{
-            width: 100%;padding: 10px;
-        }
-    }
-}
-
-a.link-for-student{
-    margin-top: 10px;
-    display: list-item;
-    list-style: none;
-    &:after{
-        margin-left: 10px;
-        content: '\0279C';
-    }
-}
-
-.img_block{
-    width: 100%;
-    img{
-        padding: 10px;
-        width: 90%;
-    }
 }

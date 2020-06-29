@@ -11,13 +11,24 @@ import {
 import axios from 'axios'
 import { returnInfo } from './infoActions';
 
-export const GetLiteraturePerPage = (page = 1, perPage = 12, filter = null, sort = 1) => dispatch => {
+export const GetLiteraturePerPage = (page = 1, perPage = 12, filter = null, sort = 1, keywords=[]) => dispatch => {
 
     dispatch({
         type: LOADING_LITERATURE
     })
+    // console.log(keywords);
+    let keywords_string = ''
 
-    let query = `/api/literature?page=${page}&perpage=${perPage}&sort=${sort}${filter !== null ? `&filter=${filter}` : ''}`
+    if (keywords.length !== 0){
+
+        keywords_string = keywords.reduce(function(sum, current) {
+            return sum +'&keywords='+ current;
+          }, '');
+    }
+
+    // console.log(keywords_string);
+
+    let query = `/api/literature?page=${page}&perpage=${perPage}&sort=${sort}${filter !== null ? `&filter=${filter}`: ''}${keywords_string}`
     // console.log(query);
 
     // get /literature/?page=1&?perPage=12?category=all&?sort=asc

@@ -52,14 +52,6 @@ router.post('/',auth, async (req, res) => {
             path
         })
 
-        try{
-            await club.validate(
-                {name, path}, 
-                ['name','path'])
-        } catch( error){
-            // error instanceof Error.ValidationError
-            return res.status(400).json({message: error.message})
-        }
         // console.log(club);
         const exists = await Club.findOne({name})
 

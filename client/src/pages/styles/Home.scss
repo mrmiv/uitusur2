@@ -6,6 +6,10 @@ h2{
 
 #title_main{
     background: linear-gradient(default.$pink, default.$purple);
+    background: -moz-linear-gradient(default.$pink, default.$purple);
+    background: -o-linear-gradient(default.$pink, default.$purple);
+    background: -ms-linear-gradient(default.$pink, default.$purple);
+    background: -webkit-linear-gradient(default.$pink, default.$purple);
 }
 
 #degree{
@@ -25,20 +29,41 @@ h2{
     margin-top: 20px;
 
     .card_deg{
+        border-radius: 8px;
         margin:8px;
         padding: 10px 25px 10px 10px;
         width: auto;
         height: auto;
-        box-shadow: 0 5px 15px default.$shadow;
+        box-shadow: 0 4px 6px default.$shadow;
         background-position: right;
         background-repeat: no-repeat;
         background-size: contain;
         background-clip: border-box;
-        transition: all 0.2s ease;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        -o-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        -moz-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        -webkit-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         background-color: #fff;
         &:hover{
-            box-shadow: 0 8px 20px default.$shadow;
+            box-shadow: 0 6px 8px default.$shadow;
             transform: translateY(-3px);
+            -o-transform: translateY(-3px);
+            -moz-transform: translateY(-3px);
+            -ms-transform: translateY(-3px);
+            -webkit-transform: translateY(-3px);
+        }
+
+        &:active{
+            transform: scale(0.95);
+            -o-transform: scale(0.95);
+            -ms-transform: scale(0.95);
+            -moz-transform: scale(0.95);
+            filter: brightness(0.97);
+            -o-filter: brightness(0.97);
+            -moz-filter: brightness(0.97);
+            -webkit-transform: scale(0.95);
+            -webkit-filter: brightness(0.97);
+            box-shadow: 0 1px 4px default.$shadow;
         }
 
         [data-name="Мехатроника и робототехника"]{
@@ -103,6 +128,9 @@ h2{
 
         .more-link{
             background: linear-gradient(default.$mint, default.$dmint);
+            background: -o-linear-gradient(default.$mint, default.$dmint);
+            background: -moz-linear-gradient(default.$mint, default.$dmint);
+            background: -webkit-linear-gradient(default.$mint, default.$dmint);
         }
     }
     .img_GPO{
@@ -120,6 +148,9 @@ h2{
         p{margin-top: 15px;}
         .more-link{
             background: linear-gradient(default.$lorange, default.$orange);
+            background: -o-linear-gradient(default.$lorange, default.$orange);
+            background: -moz-linear-gradient(default.$lorange, default.$orange);
+            background: -webkit-linear-gradient(default.$lorange, default.$orange);
         }
     }
 
@@ -133,18 +164,27 @@ h2{
 
 #staffs_home{
     margin-top: 100px;
+    h2{
+        color: default.$pink
+    }
     .quote-staff{
         width: 100%;
         height: inherit;
         border-radius: 15px;
         padding: 20px;
         margin: 10px;
-        box-shadow: 0 8px 20px default.$shadow;
-        transition: all 0.2s ease;
+        box-shadow: 0 4px 6px default.$shadow;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        -o-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        -moz-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        -webkit-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
         &:hover{
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px default.$shadow;
+            box-shadow: 0 6px 8px default.$shadow;
+            -webkit-transform: scale(1.025);
+            transform: scale(1.025);
+            -o-transform: scale(1.025);
+            -moz-transform: scale(1.025);
         }
 
         .quote-staff__info{
@@ -172,6 +212,9 @@ h2{
 
     .more-link{
         background: linear-gradient(default.$pink, default.$purple);
+        background: -o-linear-gradient(default.$pink, default.$purple);
+        background: -moz-linear-gradient(default.$pink, default.$purple);
+        background: -webkit-linear-gradient(default.$pink, default.$purple);
     }
 }
 
@@ -183,7 +226,10 @@ h2{
             a{color: default.$lblue; font-weight: medium;}
         }
         .more-link{
-            background: linear-gradient(default.$lblue, darkblue)
+            background: linear-gradient(default.$lblue, darkblue);
+            background: -o-linear-gradient(default.$lblue, darkblue);
+            background: -moz-linear-gradient(default.$lblue, darkblue);
+            background: -webkit-linear-gradient(default.$lblue, darkblue);
         }
     }
     .img__workhome{

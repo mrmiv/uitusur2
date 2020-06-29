@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { closeNavbar } from '../../../redux/actions/navbarActions'
 import { connect } from 'react-redux'
 import { Editor } from "@tinymce/tinymce-react";
-import { getParam, patchParam, postParam } from '../../../redux/actions/data_actions/paramActions'
+import { getParam, patchParam, postParam,getPageParam } from '../../../redux/actions/data_actions/paramActions'
 import { clearInfo } from '../../../redux/actions/infoActions'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
-import { faArrowAltCircleLeft, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+import { faArrowAltCircleLeft } from '@fortawesome/free-solid-svg-icons'
 import { Link, Prompt, withRouter } from 'react-router-dom'
 
 export class FormParam extends Component {
@@ -15,7 +15,15 @@ export class FormParam extends Component {
 
     title: "",
     text: "",
-    page: "",
+    page: "О кафедре",
+    active: false,
+    order: 0,
+    image: "",
+
+    order_length: null,
+
+    visiblePreview: false,
+    textRight: false,
 
     blocked: false,
     msg: null
@@ -26,7 +34,9 @@ export class FormParam extends Component {
   }
 
   componentDidMount() {
+    window.scrollTo(0, 0)
     document.title = this.props.title
+    this.props.getPageParam(this.state.page)
     const id = this.props.match.params.id
     if (id) {
       this.props.getParam(id)
@@ -48,10 +58,22 @@ export class FormParam extends Component {
         this.setState({
           title: param.title,
           text: param.text,
-          page: param.page
+          page: param.page,
+          image: param.img || null,
+          active: param.isActive,
+          order: param.order
         });
       }
     }
+
+    if(this.props.params_list_onpage !== prevProps.params_list_onpage){
+      this.setState({order_length: this.props.params_list_onpage})
+    }
+
+    if (this.state.page !== prevState.page){
+      this.props.getPageParam(this.state.page)
+    }
+
     if (msg !== prevProps.info.msg) {
       this.setState({ msg })
     }
@@ -59,7 +81,8 @@ export class FormParam extends Component {
 
   changeInput = e => {
     const field = e.target.name
-    this.setState({ [field]: e.target.value })
+    const {value} = e.target
+    this.setState({ [field]: value.length ? value : null })
     if (!this.state.blocked) {
       this.setState({ blocked: true })
     }
@@ -76,14 +99,16 @@ export class FormParam extends Component {
     e.preventDefault()
     window.scrollTo(0, 0)
     this.props.clearInfo()
-    const id = this.state.id
 
-    const { title, text, page } = this.state
+    const { title, text, page, id, image, order, active } = this.state
 
     const Param = {
       title: title.trim(),
       text,
-      page
+      page,
+      image,
+      order,
+      active
     }
 
     if (id) {
@@ -101,7 +126,9 @@ export class FormParam extends Component {
 
   render() {
     const { msg } = this.state
-    const { isLoading } = this.props
+    console.log(this.state);
+    
+    const { isLoading } = this.props    
     return (
       <div className="container-md container-fluid">
         <Prompt
@@ -133,35 +160,94 @@ export class FormParam extends Component {
               </div>
               <div className="col form-group">
                 <label htmlFor="page-input">Страница</label>
-                <input onChange={this.changeInput} type="text" className="form-control"
-                  name="page" id="page-input" placeholder="Обучающимся" value={this.state.page} />
-              </div>
+                <select onChange={this.changeInput} value={this.state.page} 
+                name="page" id="page-input" className="form-control">
+                    <option defaultValue value="О кафедре">О кафедре</option>
+                    <option value="Поступающему Магистратура">Абитуриенту - Магистратура</option>
+                    <option value="Абитуриенту">Абитуриенту - Бакалавриат</option>
+                    <option value="Бакалавриат">Обучающимся - Бакалавриат</option>
+                    <option value="Магистратура">Обучающимся - Магистратура</option>
+                  </select>
+                </div>
             </div>
+
+            <div className="form-row">
+
+              <div className="col form-group">
+                <label htmlFor="order-input">Порядок на странице</label>
+                <select onChange={this.changeInput} value={this.state.order} 
+                name="order" id="order-input" className="form-control">
+                  {this.state.order_length && (this.state.id ? 
+                    this.state.order_length.map((ord,index)=>{
+                      return <option defaultValue={index===0} value={index+1}>{index+1}</option> 
+                    })
+                    : <Fragment>
+                      {this.state.order_length.map((ord,index)=>{
+                      return <option defaultValue={index===0} value={index+1}>{index+1}</option> 
+                    })} <option value={this.state.order_length.length+1}>{this.state.order_length.length +1}</option> 
+                    </Fragment>
+                  )}
+
+                </select>
+                
+              </div>
+
+              <div className="col form-group">
+                <label htmlFor="image-input">Изображение</label>
+                <select onChange={this.changeInput} value={this.state.image} 
+                name="image" id="image-input" className="form-control">
+                    <option defaultValue value="">Без изображения</option>
+                    <option value="/svg/images_for_params/calendar.svg">Календарь</option>
+                    <option value="/svg/images_for_params/files_and_folders.svg">Файлы и папки</option>
+                    <option value="/svg/images_for_params/focused_working.svg">Фокусировка</option>
+                    <option value="/svg/images_for_params/gpo_bach.svg">Группа на велосипеде</option>
+                    <option value="/svg/images_for_params/knowledge.svg">Человек и знания</option>
+                    <option value="/svg/images_for_params/quality_check.svg">Документ в руке</option>
+                    <option value="/svg/images_for_params/report_analysis.svg">Аналитика</option>
+                    <option value="/svg/images_for_params/team_meeting.svg">Работа за столом</option>
+                  </select>
+                </div>
+            </div>
+
             <div className="form-group">
               <label htmlFor="body-input">Сообщение</label>
               <Editor
                 initialValue={this.state.text}
                 init={{
                   height: 400,
-                  menubar: true,
-                  plugins: [
-                    "advlist autolink lists link charmap print preview anchor",
-                    "searchreplace visualblocks code",
-                    "insertdatetime table paste code help wordcount",
-                  ],
+                  // plugins: [
+                  //   "advlist autolink lists link charmap print preview anchor",
+                  //   "searchreplace visualblocks code",
+                  //   "insertdatetime table paste code help wordcount",
+                  // ],
+                  plugins: 'print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons',
+                  menubar: 'file edit view insert format tools table help',
+                  toolbar: 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl',
+                  // toolbar_sticky: true,
                   style_formats: [
                     { title: 'button', inline: 'button', class: "more-link" }
                   ],
-                  toolbar:
-                    "undo redo | formatselect | bold italic backcolor |alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | table insertfile image link media mediaembed pageembed | preview help",
+                  // toolbar:
+                  //   "undo redo | formatselect | bold italic backcolor |alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | table insertfile image link media mediaembed pageembed | preview help",
                 }}
                 onEditorChange={this.changeBody}
                 id="body-input"
               />
             </div>
-            <div className="w-100 mt-2 text-right">
+            <div className="justify-content-end align-items-center form-row">
+              
+            <div className="form-group col-auto">
+                <div className="form-check">
+                  <input type="checkbox" id="activity" name="active" 
+                  className="form-check-input" onChange={()=>this.setState({active: !this.state.active})} checked={this.state.active}/>
+                  <label htmlFor="activity" className="form-check-label">Отобразить на странице</label>
+                </div>
+              </div>
+            <div className="col-auto">
               <button className="btn btn-success mr-0" type="submit"
                 disabled={isLoading}>{this.state.id ? "Обновить заголовок" : "Добавить заголовок"}</button>
+            </div>
+
             </div>
           </form>
         </div>
@@ -172,11 +258,12 @@ export class FormParam extends Component {
 
 const mapStateToProps = state => ({
   param: state.param.param,
+  params_list_onpage: state.param.params_list_onpage,
   isLoading: state.param.isLoading,
   info: state.info
 })
 
 export default withRouter(connect(
   mapStateToProps,
-  { postParam, closeNavbar, clearInfo, patchParam, getParam }
+  { postParam, closeNavbar, clearInfo, patchParam, getParam, getPageParam }
 )(FormParam))

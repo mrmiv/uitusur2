@@ -25,7 +25,8 @@ export class Literature extends Component {
 
     componentDidMount() {
         document.title = this.props.title
-        this.props.GetLiteraturePerPage(this.state.page, this.state.perPage, this.state.category, this.state.sort)
+        const {page, perPage, category, sort, keywords} = this.state
+        this.props.GetLiteraturePerPage(page, perPage, category, sort, keywords)
     }
 
     componentWillUnmount() {
@@ -33,68 +34,59 @@ export class Literature extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const { category, sort, page } = this.state
-        if (category !== prevState.category || sort !== prevState.sort || page !== prevState.page) {
-            this.props.GetLiteraturePerPage(page, this.state.perPage, category, sort)
+        const { category, sort, page, keywords } = this.state
+        if (category !== prevState.category || sort !== prevState.sort || page !== prevState.page || keywords!==prevState.keywords) {
+            this.props.GetLiteraturePerPage(page, this.state.perPage, category, sort, keywords)
         }
     }
 
     Paginate(page) {
         window.scrollTo(0, 0);
         // console.log(page);
-        const { perPage, category, sort } = this.state
+        const { perPage, category, sort, keywords } = this.state
         this.setState({ page })
-        this.props.GetLiteraturePerPage(page, perPage, category, sort)
+        this.props.GetLiteraturePerPage(page, perPage, category, sort, keywords)
     }
 
     ChangeInput = e => {
-
-        const { keywords } = this.state
-        let query = {}
-
-        if (e.target.name === "category" && keywords !== []) {
-            query = { category: e.target.value, keywords: [] }
-        } else {
-            query = { [e.target.name]: e.target.value }
-        }
-
+        let query = {[e.target.name]: e.target.value}
         this.setState(query)
     }
 
-    // addKeyword(e) {
-    //     e.preventDefault()
-    //     const { keywords, keyword, category } = this.state
-    //     let exists;
+    addKeyword(e) {
+        e.preventDefault()
+        const { keywords, keyword } = this.state
+        let exists;
 
-    //     if (category) { this.setState({ category: null }) }
-    //     keywords.forEach(word => {
-    //         if (word === keyword) { exists = true }
-    //     })
-    //     if (keywords.length > 5) { this.setState({ keyword: '' }) }
-    //     keyword.trim()
-    //     if (keyword !== '' && !exists) { this.setState({ keywords: [...keywords, keyword], keyword: '' }) }
-    // }
+        // if (category) { this.setState({ category: null }) }
+        keywords.forEach(word => {
+            if (word === keyword) { exists = true }
+        })
+        if (keywords.length > 5) { this.setState({ keyword: '' }) }
+        keyword.trim()
+        if (keyword !== '' && !exists) { this.setState({ keywords: [...keywords, keyword], keyword: '' }) }
+    }
 
-    // deleteKeyword(name) {
-    //     const { keywords } = this.state
+    deleteKeyword(name) {
+        const { keywords } = this.state
 
-    //     this.setState({
-    //         keywords: keywords.filter(el => el !== name)
-    //     })
-    // }
+        this.setState({
+            keywords: keywords.filter(el => el !== name)
+        })
+    }
 
     render() {
         const { Literature, isLoading } = this.props
         const { LiteratureList, categoryFields, total } = Literature
 
-        const { page, perPage } = this.state
+        const { page, perPage, keywords } = this.state
         // const {keywords} = this.state
         return (
             <div id="literature">
                 <div className="container-lg container-fluid">
                     <div className="row no-gutters literature__nav">
                         {/* add col-sm-3 class if open keywords */}
-                        <div className="col-6">
+                        <div className="col-6 col-sm-3">
                             <label htmlFor="Sort">Сортировка</label>
                             <select name="sort" id="Sort" onChange={this.ChangeInput}>
                                 <option selected value={1}>По названию (А...Я)</option>
@@ -102,38 +94,38 @@ export class Literature extends Component {
                             </select>
                         </div>
                         {/* add col-sm-3 class if open keywords */}
-                        <div className="col-6">
+                        <div className="col-sm-3 col-6">
                             <label htmlFor="Filter">Категория</label>
                             <select id="Filter" onChange={this.ChangeInput} name="category">
-                                <option selected value={''}>Выберите категорию</option>
+                                <option selected value="">Все</option>
                                 {categoryFields && categoryFields.map((item, index) => {
-                                    return (<option key={index} value={item}>{item[0].toUpperCase() + item.substr(1)}</option>)
+                                    return (<option  key={index} value={item}>{item[0].toUpperCase() + item.substr(1)}</option>)
                                 })}
                             </select>
                         </div>
                         {/* keywords form */}
-                        {/* <div className="col-12 col-sm-6">
+                        <div className="col-12 col-sm-6">
                             <label htmlFor="Keywords">Ключевые слова</label>
                             <form onSubmit={(e) => this.addKeyword(e)}>
                                 <input id="Keywords" placeholder="..." name="keyword" type="text"
                                     value={this.state.keyword}
                                     onChange={(e) => this.setState({ keyword: e.target.value })} />
                             </form>
-                        </div> */}
+                        </div>
                     </div>
                     {/* keywords list */}
-                    {/* {keywords.lenght !== 0 &&
+                    {keywords.lenght !== 0 &&
                         <div className="keywords d-inline-flex">
                             {keywords.map(word => {
                                 return (<div className="keyword"
                                     key={word}
                                     name={word}
                                     onClick={() => this.deleteKeyword(word)}>
-                                    <p>{word} <Icon icon={faTimesCircle} className="ml-2" /></p>
+                                    <p>{word} &times;</p>
                                 </div>)
                             })}
                         </div>
-                    } */}
+                    }
                     {!isLoading ?
                         <Fragment>
                             <div className="row no-gutters literature__content">

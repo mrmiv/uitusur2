@@ -8,7 +8,6 @@ import store from '../store'
 import { closeNavbar } from '../redux/actions/navbarActions'
 import { HashLink } from 'react-router-hash-link'
 // import images
-import tripleHelix_img from './img/FIT_LOGO_TITLE.svg';
 import GPO_img from './img/GPO_IDEA.svg';
 import student_img from './img/STUDENT.svg';
 import clubs_img from './img/DANCING.svg';
@@ -52,8 +51,8 @@ export class Home extends Component {
                 <Fade>
                     <section id="title_main">
                         <div className="container-md container-fluid bg_th" style={{ height: "inherit" }}>
-                            <div className="row no-gutters align-items-center" style={{ height: "inherit" }}>
-                                <div className="col-md-5 offset-md-1 text-center title_text">
+                            <div className="row no-gutters justify-content-around align-items-center" style={{ height: "inherit" }}>
+                                <div className="col-md-5 text-center title_text">
                                     <h1 className="title">Кафедра управления инновациями</h1>
                                     <div id="carouselTitle" className="carousel slide" data-ride="carousel">
                                         <div className="carousel-inner">
@@ -77,16 +76,19 @@ export class Home extends Component {
                         </a> */}
                                     </div>
                                 </div>
-                                <div className="col-md-4 col-12 offset-md-1 ">
+                                <div className="col-md-4 col-12">
                                     <div className="triple_helix">
-                                        <img className="triple_helix_svg" src={tripleHelix_img} alt="Тройная спираль" />
+                                        <TripleHelix/>
+                                        {/* <img className="triple_helix_svg" src={tripleHelix_img} alt="Тройная спираль" /> */}
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </section>
                 </Fade>
-                <img className="arrow_down" src="/svg/DOWN_ARROW.svg" />
+                <img className="arrow_down" onClick={()=>{
+                    window.scrollTo({top: window.innerHeight-40, behavior: 'smooth'})
+                }} src="/svg/DOWN_ARROW.svg" alt="Листать вниз"/>
                 {/* НАПРАВЛЕНИЯ ПОДГОТОВКИ */}
                 <Fade>
                     <section id="degree">
@@ -303,5 +305,68 @@ const QuoteStaff = (props) => {
                 </div>
             </div>
         </div>
+    )
+}
+
+const TripleHelix = () => {
+
+    return(
+        <svg width="345" height="370" viewBox="0 0 345 370" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g filter="url(#filter0_d)">
+            {/* первая линия */}
+            <path id="path1" d="M305 30.5C267 97.5 107.86 152.076 62.064 195.601C7.23501 247.707 48.5 297 48.5 297" stroke="white" strokeWidth="30" strokeLinecap="round" strokeDasharray="409.3562927246094" strokeDashoffset="-409.3562927246094">
+                <animate id="path1" attributeName="stroke-dashoffset" values="-409.3562927246094; 0 "
+                begin="200ms" dur="0.75s" repeatCount="1"  fill="freeze"  calcMode="ease"/>
+            </path>
+            <path d="M52.923 351.757C70.3603 351.757 84.496 337.621 84.496 320.184C84.496 302.747 70.3603 288.611 52.923 288.611C35.4857 288.611 21.35 302.747 21.35 320.184C21.35 337.621 35.4857 351.757 52.923 351.757Z" fill="white"/>
+        </g>
+        <g filter="url(#filter1_d)">
+            {/* центральная линия */}
+            <path id="path2" d="M206.677 27.676C146.598 75.776 43.976 95.053 35.479 164.204C26.999 233.216 167.5 275.5 167.5 305" 
+            stroke="white" strokeWidth="30" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="428.020751953125" strokeDashoffset="-428.020751953125">
+                <animate id="path2" attributeName="stroke-dashoffset" values="-428.020751953125; 0 "
+                begin="350ms" dur="0.75s" repeatCount="1"  fill="freeze"  calcMode="ease"/>
+            </path>
+            <path d="M165.568 351.757C183.005 351.757 197.141 337.621 197.141 320.184C197.141 302.747 183.005 288.611 165.568 288.611C148.131 288.611 133.995 302.747 133.995 320.184C133.995 337.621 148.131 351.757 165.568 351.757Z" fill="white"/>
+        </g>
+        <g filter="url(#filter2_d)">
+            {/* третья линия */}
+            <path id="path3" d="M60.529 31.7321C-5.121 93.5871 45.817 138.39 119.108 176.418C148.397 193.19 262.525 250.854 290.19 295.295" stroke="white" strokeWidth="30" strokeLinecap="round" strokeDasharray="406.46551513671875" strokeDashoffset="-406.46551513671875">
+                <animate id="path3" attributeName="stroke-dashoffset" values="-406.46551513671875; 0 "
+                begin="500ms" dur="0.75s" repeatCount="1"  fill="freeze"  calcMode="ease"/>
+            </path>
+            <path d="M297.488 350.743C314.925 350.743 329.061 336.607 329.061 319.17C329.061 301.733 314.925 287.597 297.488 287.597C280.051 287.597 265.915 301.733 265.915 319.17C265.915 336.607 280.051 350.743 297.488 350.743Z" fill="white"/>
+        </g>
+        <defs>
+        <filter id="filter0_d" x="3.60559" y="3.49738" width="331.397" height="366.26" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+        <feFlood floodOpacity="0" result="BackgroundImageFix"/>
+        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
+        <feOffset dy="3"/>
+        <feGaussianBlur stdDeviation="7.5"/>
+        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.2 0"/>
+        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+        </filter>
+        <filter id="filter1_d" x="5.10627" y="0.675476" width="231.571" height="369.082" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+        <feFlood floodOpacity="0" result="BackgroundImageFix"/>
+        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
+        <feOffset dy="3"/>
+        <feGaussianBlur stdDeviation="7.5"/>
+        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.2 0"/>
+        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+        </filter>
+        <filter id="filter2_d" x="0.226768" y="4.73199" width="343.834" height="364.011" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+        <feFlood floodOpacity="0" result="BackgroundImageFix"/>
+        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
+        <feOffset dy="3"/>
+        <feGaussianBlur stdDeviation="7.5"/>
+        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.2 0"/>
+        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+        </filter>
+        </defs>
+        </svg>
+
     )
 }

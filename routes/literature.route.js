@@ -12,19 +12,25 @@ router.get('/', async (req, res) => {
     const page = Number(req.query.page) || 1
     const perpage = Number(req.query.perpage) || 12
     const sort = Number(req.query.sort) || 1 // 1=asc, 2=desc
-    const category = req.query.filter || null
+    let category = req.query.filter || null
     const keywords = req.query.keywords || null
     // console.log(keywords);
     // console.log(page, perpage, sort, category);
     let query = {}
-    try {
+    
+    if (keywords){
+        query.keywords = {$all : keywords}
+    }
 
-        if (category) {
-            query = { category }
-        } else if (keywords) {
-            query = { keywords: { $in: { keywords } } }
+    if (category){
+        category = category.trim()
+        if(category){
+            query.category = category
         }
+    }
 
+    try {
+        // console.log(query);
         await Literature.find(query)
             .select(['title', 'author', 'category', 'image'])
             .sort([['title', sort], ['author', 1], ['category', 1]])
@@ -36,13 +42,13 @@ router.get('/', async (req, res) => {
                 }
                 const total = await Literature.find(query).countDocuments()
 
-                let fields = []
-                const arrayoffields = await Literature.find().select('category')
-                for (let f of arrayoffields) {
-                    if (!fields.includes(f.category.toLowerCase())) {
-                        fields.push(f.category.toLowerCase())
-                    }
-                }
+                let fields = await Literature.distinct("category")
+                // const arrayoffields = await Literature.find().select('category')
+                // for (let f of arrayoffields) {
+                //     if (!fields.includes(f.category.toLowerCase())) {
+                //         fields.push(f.category.toLowerCase())
+                //     }
+                // }
 
                 res.json({
                     data,
@@ -205,7 +211,7 @@ router.patch('/book/:id', auth, async (req, res) => {
 
     try {
         await Literature.findByIdAndUpdate(id,
-            { title, category, description, annotation, author, keywords, path },
+            { title, category, description, annotation, author, keywords, path: path? path : null },
             (err) => {
                 if (err) {
                     throw new Error(err.message)

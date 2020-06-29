@@ -53,6 +53,9 @@ export class Docs extends Component {
                             })}
                         </div>
                     </div>
+                    {!isLoading && <img className="arrow_down" onClick={()=>{
+                    window.scrollTo({top: window.innerHeight-80, behavior: 'smooth'})
+                }} src="/svg/DOWN_ARROW.svg" alt="Листать вниз"/>}
                 </section>
             </Fade>
             <section id="documents_list">

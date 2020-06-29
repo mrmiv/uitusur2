@@ -60,10 +60,27 @@ a, button{
     border: none;
     display: inline-block;
     margin-top: 15px;
-    
+    transition: all 0.4s cubic-bezier(0.1, 0.8, 0.3, 1.2);
+    -o-transition: all 0.4s cubic-bezier(0.1, 0.8, 0.3, 1.2);
+    -moz-transition: all 0.4s cubic-bezier(0.1, 0.8, 0.3, 1.2);
+    -webkit-transition: all 0.4s cubic-bezier(0.1, 0.8, 0.3, 1.2);
+
     &:hover{
+        transform: scale(1.03);
+        -webkit-transform: scale(1.03);
         text-decoration: none;
         color:white
+    }
+
+    &:active{
+        transform: scale(0.95);
+        filter: brightness(0.85);
+        -o-filter: brightness(0.85);
+        -moz-filter: brightness(0.85);
+        -webkit-transform: scale(0.95);
+        -o-transform: scale(0.95);
+        -moz-transform: scale(0.95);
+        -webkit-filter: brightness(0.85);
     }
 
     &:focus{
@@ -71,10 +88,37 @@ a, button{
     }
 }
 
+@keyframes openup {
+    from{top: 53%}
+    to{top:50%}
+}
+
+@-o-keyframes openup {
+    from{top: 53%}
+    to{top:50%}
+}
+
+
+@-moz-keyframes openup {
+    from{top: 53%}
+    to{top:50%}
+}
+
+
+@-webkit-keyframes openup {
+    from{top: 53%}
+    to{top:50%}
+}
 
 .modal_window{
+    &.animation-modal-open{
+        -moz-animation: openup 300ms cubic-bezier(0.175, 0.885, 0.32, 1.275) 100ms 1 normal forwards;
+        animation:  openup 300ms cubic-bezier(0.175, 0.885, 0.32, 1.275) 100ms 1 normal forwards;
+        -webkit-animation:  openup 300ms cubic-bezier(0.175, 0.885, 0.32, 1.275) 100ms 1 normal forwards;
+        -o-animation:  openup 300ms cubic-bezier(0.175, 0.885, 0.32, 1.275) 100ms 1 normal forwards;
+    }
     z-index: 1291;
-    max-width: 80%;
+    max-width: 90%;
     width: -moz-max-content;
     width: -webkit-max-content;
     width: -o-max-content;
@@ -83,8 +127,11 @@ a, button{
     background: white;
     border-radius: 5px;
     left: 50%;
-    top: 50%;
+    top: 53%;
     transform: translate(-50%,-50%);
+    -o-transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+    -moz-transform: translate(-50%,-50%);
     height: fit-content;
     height: auto;
     max-height: 85%;
@@ -103,6 +150,9 @@ a, button{
         position: absolute;
         right: 0px;
         top: 0px;
-        transition: 300ms ease;
+        transition: 300ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        -o-transition: 300ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        -moz-transition: 300ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        -webkit-transition: 300ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 }

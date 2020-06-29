@@ -46,7 +46,7 @@ export class StaffPage extends Component {
                                         Время консультаций:
                                 </span>
                                     <br />
-                                    <table class="table table-responsive table-bordered" style={{ width: "inherit" }}>
+                                    <table class="table table-responsive table-bordered">
                                         <thead>
                                             <tr>
                                                 <th scope="col">День недели</th>

@@ -5,3 +5,4 @@ package-lock.json
 *.orig
 .idea/
 .vscode/
+ui.tusur.workspace.code-workspace

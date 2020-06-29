@@ -5,27 +5,27 @@
     .literature__nav{
         padding-top: 20px;
         label{
-            margin-bottom: 3px;
+            margin-bottom: 4px;
         }
         input, select{
             width: 97%;
-            padding: 3px 5px;
+            padding: 4px 8px;
+            background: whitesmoke;
             border: 1px solid default.$shadow;
-            border-radius: 5px;
-            font-size: 14px;
+            border-radius: 4px;
         }
     }
 
     .keywords{
-        margin-top: 10px;
+        margin-top: 8px;
         .keyword{
             cursor: pointer;
-            padding: 5px 10px;
-            margin-right: 5px;
+            padding: 4px 12px;
+            margin-right: 4px;
             background: default.$lblue;
             color: white;
-            border-radius: 5px;
-            transition: all 0.3s ease;
+            border-radius: 4px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             &:hover{
                 background: default.$dblue;
                 svg{
@@ -36,17 +36,17 @@
     }
 
     .literature__content{
-        margin-top: 30px;
+        margin-top: 28px;
 
         .literature__bookInList{
-            margin:0 10px 10px 0;
-            padding: 10px;
-            box-shadow: 0 3px 10px default.$shadow;
+            margin:0 8px 8px 0;
+            padding: 8px;
+            box-shadow: 0 2px 4px default.$shadow;
             border-radius: 10px;
             .literature-list-image{
                 background-size: cover !important;
                 background-position: center center !important;
-                border-radius: 5px;
+                border-radius: 4px;
                 height: 190px;
             }
             p{
@@ -69,17 +69,63 @@
 
 .modal__book{
     overflow-y: auto;
-    padding-top: 20px;
+    // padding-top: 0px;
     .book__img{
-        padding: 0 20px;
+        padding: 0 16px;
         width: 100%;
         text-align: center;
         img{
-            border-radius: 20px;
             max-height: 400px;
             width: auto;
             max-width: 100%;
-            border-radius: 20px;
+        }
+    }
+    .book__info{
+        h4{margin-bottom: 0;}
+        p{
+            margin-top: 8px;
+            span{
+                font-weight: 500;
+            }
+            &.__authors{
+                margin-top: 4px;
+            }
+            &.__category{
+                margin-top: 0;
+                font-weight: 500;
+                color: default.$lblue
+            }
+            &.__keywords{
+                .book__keyword{
+                    background: whitesmoke;
+                    padding: 4px 8px;
+                    margin-right: 4px;
+                    margin-top: 4px;
+                    border-radius: 4px;
+                    display: inline-block;
+                    width: -moz-max-content;
+                    width: -webkit-max-content;
+                    width: -o-max-content;
+                    width: max-content;
+                    cursor: pointer;
+                    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                    -o-transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                    -moz-transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                    -webkit-transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                    &:hover{
+                        background: red;
+                    }
+                    &:active{
+                        background: red;
+
+                        transform: scale(0.95);
+                        -o-transform: scale(0.95);
+                        -moz-transform: scale(0.95);
+                        -webkit-transform: scale(0.95);
+                        -ms-transform: scale(0.95);
+                    }
+                }
+            }
         }
     }
 }

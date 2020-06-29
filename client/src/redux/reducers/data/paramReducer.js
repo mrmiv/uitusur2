@@ -1,6 +1,9 @@
 import {
   GET_PARAMS,
-  GET_PARAM, GET_PARAMS_ONPAGE
+  GET_PARAM, 
+  GET_PARAMS_ONPAGE,
+  GET_ACTIVE_PARAMS,
+  GET_ACTIVE_PARAMS_ONPAGE
 } from '../../actions/data_actions/types'
 import { LOADING_REQ } from '../../actions/types';
 
@@ -31,6 +34,18 @@ export default function (state = ParamState, action) {
         isLoading: false
       }
     case GET_PARAMS_ONPAGE:
+      return {
+        ...state,
+        params_list_onpage: action.payload.data,
+        isLoading: false
+      }
+    case GET_ACTIVE_PARAMS:
+      return {
+        ...state,
+        params_list: action.payload.data,
+        isLoading: false
+      }
+    case GET_ACTIVE_PARAMS_ONPAGE:
       return {
         ...state,
         params_list_onpage: action.payload.data,

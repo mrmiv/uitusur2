@@ -6,6 +6,28 @@ $orange: #DE7128;
 $lorange: #EE9A2F;
 $lgray: #c8d6e5;
 
+@keyframes fadein{
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+}
+
+#bg-menu-open{
+    animation-name: fadein;
+    animation-duration: 0.2s;
+    animation-iteration-count: 1;
+    position: fixed;
+    background: rgba(0, 0, 0, 0.465);
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 1100;
+}
+
 #sider{
     position: fixed;
     height: 100%;
@@ -14,18 +36,28 @@ $lgray: #c8d6e5;
     max-width: 300px;
     width: 250px;
     max-height: 100vh;
-    transition: all 0.25s ease;
+    transition: all 0.3s cubic-bezier(0.1, 0.9, 0.3, 1);
+    -webkit-transition: all 0.3s cubic-bezier(0.1, 0.9, 0.3, 1);
     background: $blue;
     z-index: 1100;
     overflow-y: auto;
     overflow-block: red;
 
-    .close_nav{
-        top: 15px;
+    .top-navbar-btns{
         position: relative;
-        left: 210px;
-        cursor: pointer;
+        padding: 0 15px;
+        top: 15px;
+        align-items: center;
+        span.close_nav{
+            cursor: pointer;
+        }
+    
+        span.login_span{
+            cursor: pointer;
+        }
     }
+
+    
 
     &.open{
         left: 0;
@@ -41,13 +73,15 @@ $lgray: #c8d6e5;
             display: list-item;
             color: $lgray;
             text-decoration: none;
-            transition: all 0.25s ease;
+            -webkit-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             align-items: center;
             width: 100%;
 
             &[aria-expanded="true"]{
                 span{
                     transform: rotate(180deg);
+                    -webkit-transform: rotate(180deg);
                 }
             }
 
@@ -55,7 +89,8 @@ $lgray: #c8d6e5;
             span{
                 width: auto;
                 height: inherit;
-                transition: all 0.25s ease;
+                transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                -webkit-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
                 margin-left: auto;
 
                 // border: 1px solid white;
@@ -69,18 +104,35 @@ $lgray: #c8d6e5;
 
             &.active{
                 color: white;
-                &:before{
-                    content:" ";
-                    position: relative;
-                    height: 100%;
-                    left: -15px;
-                    background: white;
-                    border: 1.5px solid white;
-                }
+                transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                -webkit-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                background: linear-gradient(to left, transparent 50%, rgba(255, 255, 122554, 0.3)) ;
+                background: -o-linear-gradient(to left, transparent 50%, rgba(255, 255, 255, 0.3)) ;
+                background: -moz-linear-gradient(to left, transparent 50%, rgba(255, 255, 255, 0.3));
+                background: -webkit-linear-gradient(to left, transparent 50%, rgba(255, 255, 255, 0.3));
+                // &:before{
+                //     content:" ";
+                //     position: relative;
+                //     height: 100%;
+                //     left: -15px;
+                //     background: white;
+                //     border: 1.5px solid white;
+                // }
             }
 
             &:hover{
                 color: white;
+                background: linear-gradient(to left, transparent 35%, rgba(255, 255, 255, 0.1)) ;
+                background: -o-linear-gradient(to left, transparent 35%, rgba(255, 255, 255, 0.1)) ;
+                background: -moz-linear-gradient(to left, transparent 35%, rgba(255, 255, 255, 0.1));
+                background: -webkit-linear-gradient(to left, transparent 35%, rgba(255, 255, 255, 0.1));
+            }
+            &:active{
+                color: white;
+                background: linear-gradient(to left, transparent 42%, rgba(255, 255, 255, 0.2)) ;
+                background: -o-linear-gradient(to left, transparent 42%, rgba(255, 255, 255, 0.2)) ;
+                background: -moz-linear-gradient(to left, transparent 42%, rgba(255, 255, 255, 0.2));
+                background: -webkit-linear-gradient(to left, transparent 42%, rgba(255, 255, 255, 0.2));
             }
         }
 
@@ -90,7 +142,7 @@ $lgray: #c8d6e5;
                 width: auto;
                 height: inherit;
                 padding: 5px 10px 5px;
-                transition: transform 0.25s ease;
+                transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
                 // border: 1px solid white;
 
                 &[aria-expanded="true"]{

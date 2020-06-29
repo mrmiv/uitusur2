@@ -2,9 +2,10 @@ import React, { Component, useState, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { GetStaffList } from '../redux/actions/staffActions'
 import { useLocation, useParams, Link } from 'react-router-dom'
+import ParamsList from './components/ParamsList'
 
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
-import { faFileAlt, faIdBadge, faQuoteRight } from '@fortawesome/free-solid-svg-icons'
+import { faIdBadge, faQuoteRight } from '@fortawesome/free-solid-svg-icons'
 
 import './styles/About.scss'
 import Fade from 'react-reveal/Fade'
@@ -16,15 +17,12 @@ import { GetDataAbout, getfeedback } from '../redux/actions/data_actions/AboutAc
 
 // import images
 import interprice_img from './img/ENTERPRICES.svg';
-import knowledge_img from './img/knowledge_.svg';
 import history_img from './img/HISTORY_PHOTO.jpg';
-import CMK_img from './img/QUALITY_CHECK.svg';
 
 export class About extends Component {
 
     state = {
-        param_CMK: null,
-        param_trophy: null,
+        params_list: null,
         FeedbackList: this.props.FeedbackList.FeedbackList,
         RPDList: this.props.RPDList.RPDList
     }
@@ -37,25 +35,10 @@ export class About extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        const { RPDList, params_list } = this.props
+        const { RPDList } = this.props
         // console.log(this.props);
         if (RPDList !== prevProps.RPDList) {
             this.setState({ RPDList: RPDList.RPDList })
-        }
-        const param_CMK = params_list.find(item => {
-            return item.page === "О кафедре" && item.title === "Документы СМК"
-        })
-
-        const param_trophy = params_list.find(item => {
-            return item.page === "О кафедре" && item.title === "Достижения кафедры"
-        })
-
-        if (params_list.length !== 0) {
-            if (param_CMK && !this.state.param_CMK) {
-                this.setState({ param_CMK })
-            } else if (param_trophy && !this.state.param_trophy) {
-                this.setState({ param_trophy })
-            }
         }
     }
 
@@ -65,7 +48,7 @@ export class About extends Component {
 
     //РЕНДЕР
     render() {
-        const { RPDList, param_CMK, param_trophy } = this.state
+        const { RPDList } = this.state
         // console.log(this.state);
         const { StaffList, FeedbackList } = this.props
 
@@ -91,7 +74,9 @@ export class About extends Component {
                     </section>
                 </Fade>
                 {/* <Icon icon={faArrowCircleDown}/> */}
-                <img className="arrow_down blue" src="/svg/DOWN_ARROW.svg" alt="Листайте страницу дальше" />
+                <img className="arrow_down" onClick={()=>{
+                    window.scrollTo({top: window.innerHeight-40, behavior: 'smooth'})
+                }} src="/svg/DOWN_ARROW.svg" alt="Листать вниз"/>
                 {/* ИСТОРИЯ КАФЕДРЫ */}
                 <Fade>
                     <section id="history_about">
@@ -154,23 +139,6 @@ export class About extends Component {
                         </div>
                     </section>
                 </Fade>
-                {/* Достижения кафедры */}
-                {param_trophy && <Fade>
-                    <section id="trophy_about">
-                        <div className="container">
-                            <div className="row no-gutters justify-content-between align-items-center">
-                                <div className="col-md-6 col-lg-5 col-12">
-                                    <div className="text_trophy" dangerouslySetInnerHTML={{ __html: param_trophy.text }} />
-                                </div>
-                                <div className="col-md-6 col-lg-5 col-12">
-                                    <div className="image_trophy">
-                                        <img src={knowledge_img} alt="Достижения кафедры" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                </Fade>}
                 {/* ОТЗЫВЫ ОТ ПРЕДПРИЯТИЙ */}
                 <Fade>
                     <section id="feedback_inter">
@@ -190,20 +158,7 @@ export class About extends Component {
                         </div>
                     </section>
                 </Fade>
-                {/* СМК */}
-                {param_CMK && <Fade><section id="CMK">
-                    <div className="container">
-                        <h2>Система менеджмента качества</h2>
-                        <div className="row no-gutters align-items-center">
-                            <div className="col-md-6">
-                                <div className="CMK-docs" dangerouslySetInnerHTML={{ __html: param_CMK.text }} />
-                            </div>
-                            <div className="col-md-6 order-md-first img_CMK">
-                                <img src={CMK_img} alt="Система менеджмента качества" />
-                            </div>
-                        </div>
-                    </div>
-                </section></Fade>}
+                <ParamsList page="О кафедре"/>
             </Fragment>
         )
     }

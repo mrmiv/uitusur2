@@ -1,7 +1,10 @@
 @use 'default';
 
 #title_main.about{
-    background: linear-gradient(default.$lblue, default.$blue)
+    background: linear-gradient(default.$lblue, default.$blue);
+    background: -o-linear-gradient(default.$lblue, default.$blue);
+    background: -moz-linear-gradient(default.$lblue, default.$blue);
+    background: -webkit-linear-gradient(default.$lblue, default.$blue);
 }
 
 #history_about{
@@ -40,29 +43,28 @@
 
 #disciplines{
     
-    margin-top: 60px;
-    // background-image: url("/svg/lines/wave-left.svg");
-    // background-size: contain;
-    // background-repeat: no-repeat;
+    margin-top: 30px;
+    padding: 30px 0;
 
     h2{
-        color: default.$orange;
+        color: default.$pink;
         margin-bottom: 20px;
     }
 
     .DispCard{
+        background-color: white;
         text-decoration: none;
         color: black;
         max-width: 400px;
         width: auto;
         max-height: 150px;
         height: auto;
-        box-shadow: 0 5px 15px default.$shadow;
+        box-shadow: 0 4px 8px default.$shadow;
         padding: 20px;
         // padding-right: 40px;
         margin: 15px auto 0;
         border-radius: 5px;
-        transition: all 0.2s ease;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
         h5{
             margin-bottom: 0;
@@ -83,7 +85,15 @@
         }
         &:hover{
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px default.$shadow;
+            -webkit-transform: translateY(-3px);
+            box-shadow: 0 8px 12px default.$shadow;
+        }
+
+        &:active{
+            transform: scale(0.97);
+            -webkit-transform: scale(0.97);
+            box-shadow: 0 2px 4px default.$shadow;
+            background: rgb(250, 250, 250);
         }
     }
 }
@@ -96,6 +106,9 @@
         .more-link{
             margin-top: 10px;
             background: linear-gradient(default.$pink, default.$purple);
+            background: -o-linear-gradient(default.$pink, default.$purple);
+            background: -moz-linear-gradient(default.$pink, default.$purple);
+            background: -webkit-linear-gradient(default.$pink, default.$purple);
         }
     }
     img{width: 100%;}
@@ -112,12 +125,18 @@
         border-radius: 15px;
         padding: 20px;
         margin: 10px;
-        box-shadow: 0 4px 10px default.$shadow;
-        transition: all 0.2s ease;
-        *{transition: all 0.2s ease;}
+        box-shadow: 0 4px 8px default.$shadow;
+        transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        -webkit-transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        *{
+            -webkit-transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
 
         &:hover{
-            box-shadow: 0 4px 10px default.$shadow;
+            box-shadow: 0 6px 10px default.$shadow;
+            -webkit-transform: scale(1.025);
+            transform: scale(1.025);
         }
 
         .quote-staff__info{
@@ -159,7 +178,7 @@
     scroll-margin-top: 40px;
 
     h2{
-        color: default.$purple;
+        color: default.$orange;
         margin-bottom: 30px;
     }
 
@@ -168,16 +187,24 @@
 
         .StaffCard{
             padding: 7px;
-            box-shadow: 0 3px 8px default.$shadow;
-            border-radius: 5px;
-            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px default.$shadow;
+            border-radius: 4px;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            -webkit-transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             cursor: pointer;
             color: default.$dark;
     
             &:hover{
-                transform: translateY(-3px);
-                box-shadow: 0 5px 12px default.$shadow;
+                transform: translateY(-2px);
+                -webkit-transform: translateY(-2px);
+                box-shadow: 0 4px 8px default.$shadow;
                 p{color: black;}
+            }
+
+            &:active{
+                background-color: rgb(250, 250, 250);
+                transform: scale(0.97);
+                -webkit-transform: scale(0.97);
             }
     
             .staff__photo{
@@ -186,7 +213,8 @@
                 width: 100%;
                 height: 100%;
                 align-self: center;
-                transition: all 0.2s ease;
+                transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                -webkit-transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
                 padding: 1px;
                 svg{
                     text-align: center;
@@ -220,7 +248,12 @@
         justify-content: center;
         p{
             display: block;
-            padding: 10px 0;
+            background-color: rgb(245, 245, 245);
+            margin: 12px 0;
+            box-shadow: 0 2px 4px #2a2a2a4b;
+            border-radius: 5px;
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            -webkit-transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             .cmk_link{
                 &:before{
                     content: url('https://api.iconify.design/emojione-v1:document-with-text.svg?height=16');
@@ -228,14 +261,25 @@
                     margin-right: 10px;
                 }
                 color: black;
-                box-shadow: 0 2px 5px #2a2a2a4b;
-                border-radius: 5px;
-                padding: 5px;
-                transition: 0.3s;
-                &:hover{
-                    box-shadow: 0 4px 8px #2a2a2a4b;
-                    background: whitesmoke;
-                }
+                padding: 8px 16px;
+                font-weight: 500;
+                width: 100%;
+                height: 100%;
+                display: block;
+            }
+            &:hover{
+                box-shadow: 0 2px 6px #2a2a2a4b;
+                transform: scale(1.01);
+                -o-transform: scale(1.01);
+                -moz-transform: scale(1.01);
+                -webkit-transform: scale(1.01);
+            }
+            &:active{
+                box-shadow: 0 1px 4px #2a2a2a4b;
+                transform: scale(0.99);
+                -o-transform: scale(0.99);
+                -moz-transform: scale(0.99);
+                -webkit-transform: scale(0.99);
             }
         }
         
@@ -257,10 +301,14 @@
         p{
             padding-bottom: 10px;
             table{
+                font-size: 0.95em;
                 margin-top: 5px;
                 margin-bottom: 0;
             }
             table{
+                td, tr, th{
+                    padding: 8px;
+                }
                 width: max-content;
                 width: intrinsic;           /* Safari/WebKit используют нестандартное имя */
                 width: -moz-max-content;    /* Firefox/Gecko */

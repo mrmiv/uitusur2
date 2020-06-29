@@ -16,7 +16,7 @@ const AdminHome = lazy(() => import('../pages/admin'))
 export default function AdminRoutes() {
 
     return (
-        <Fragment>
+        <section id="content-admin">
             <Route path="/admin" exact component={(() => (
                 <AdminHome title="Администратор - Кафедра управления инновациями" />
             ))} />
@@ -30,7 +30,7 @@ export default function AdminRoutes() {
             <AdminDocsRoutes />
             <AdminFeedbackRoutes />
             <AdminFilesRoutes />
-        </Fragment>
+        </section>
     )
 }
 

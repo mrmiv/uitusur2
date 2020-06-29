@@ -2,6 +2,9 @@
 
 #title_main.student{
     background: linear-gradient(default.$lorange, default.$orange);
+    background: -o-linear-gradient(default.$lorange, default.$orange);
+    background: -moz-linear-gradient(default.$lorange, default.$orange);
+    background: -webkit-linear-gradient(default.$lorange, default.$orange);
 
     .hash_list{
         margin-top: 5px;
@@ -13,16 +16,23 @@
             list-style: none;
             cursor: pointer;
             &:after{
-                transition: all 0.3s ease;
+                transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                -webkit-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                -o-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                -moz-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
                 content:"\0279C";
                 opacity: 0.2;
-                margin-left: 10px;
+                margin-left: 8px;
             }
             &:hover{
                 &:after{
-                    content:"\0279C";
                     opacity: 1;
-                    margin-left: 20px;
+                    margin-left: 16px;
+                }
+            }
+            &:active{
+                &:after{
+                    margin-left: 24px;
                 }
             }
         }
@@ -37,7 +47,10 @@
         button{
             margin: 3px;
             width: 140px;
-            transition: all 0.6s ease;
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            -webkit-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            -o-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            -moz-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             color: default.$purple;
             font-weight: 500;
             border: 2px solid #98248FAA;
@@ -45,11 +58,16 @@
                 border: 2px solid default.$purple;
                 background: linear-gradient(#B21F6640, #98248F40);
             }&:active{
+                filter: none;
                 border: 2px solid default.$purple;
                 background: linear-gradient(#B21F6680, #98248F80);
             }
             &.active{
-                transition: all 0.3s ease;
+                transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                -webkit-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                -o-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                -moz-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                transform: none;
                 color: white;
                 background: linear-gradient(default.$pink, default.$purple);
             }
@@ -120,15 +138,16 @@
 
     .card_club{
         margin: 5px;
-        border-radius: 5px;
-        box-shadow: 0 5px 10px rgba(42,42,42,.29);
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(42, 42, 42, 0.2);
         padding: 5px;
         /* width: 100%; */
         /* max-width: 140px; */
         min-height: 150px;
         height: auto;
         max-height: 220px;
-        transition: all .5s ease;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        -webkit-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
         img.card_club__img{
             display: block;
@@ -146,9 +165,21 @@
         }
 
         &:hover{
-            transform: translateY(-3px);
-            box-shadow: 0 8px 15px default.$shadow;
+            transform: translateY(-2px);
+            -o-transform: translateY(-2px);
+            -moz-transform: translateY(-2px);
+            -webkit-transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(42, 42, 42, 0.2);
         }
+
+        &:active{
+            transform: scale(0.97);
+            -o-transform: scale(0.97);
+            -moz-transform: scale(0.97);
+            box-shadow: 0 1px 2px rgba(42, 42, 42, 0.2);
+            -webkit-transform: scale(0.97);
+        }
+
     }
 }
 

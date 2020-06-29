@@ -47,12 +47,28 @@ $shadow:#2a2a2a4b;
 }
 
 img.arrow_down{
-    transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%) scale(1);
+    -webkit-transform: translate(-50%,-50%) scale(1);
+    -o-transform: translate(-50%,-50%) scale(1);
+    -moz-transform: translate(-50%,-50%) scale(1);
     left: 50%;
     position: absolute;
     top: 90%;
     width: 50px;
     height: 50px;
+    cursor: pointer;
+    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    -webkit-transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    -o-transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    -moz-transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    -ms-transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    &:hover{
+        transform:  translate(-50%,-50%) scale(1.15);
+        -o-transform:  translate(-50%,-50%) scale(1.15);
+        -moz-transform:  translate(-50%,-50%) scale(1.15);
+        -webkit-transform:  translate(-50%,-50%) scale(1.15);
+        -ms-transform:  translate(-50%,-50%) scale(1.15);
+    }
 }
 
 .pagination{
@@ -67,9 +83,102 @@ img.arrow_down{
         a{color: $lblue;}
         &.active{
             background: linear-gradient($lblue, darkblue);
+            background: -moz-linear-gradient($lblue, darkblue);
+            background: -o-linear-gradient($lblue, darkblue);
+            background: -webkit-linear-gradient($lblue, darkblue);
+            background: -ms-linear-gradient($lblue, darkblue);
             border: none;
             a{color: white;}
         }
+    }
+}
+
+
+section.param-onpage{
+    margin-top: 60px;
+    .text-param-onpage{
+        *{
+            max-width: 100%;
+        }
+        &.param-onpage__0{
+            h2, a{
+                color: $orange;
+                &.more-link{
+                    color: white;
+                    background: linear-gradient($lorange, $orange);
+                }
+            }
+        }
+        
+        &.param-onpage__1{
+            h2, a{
+                color: $purple;
+                
+                &.more-link{
+                    color: white;
+                    background: linear-gradient($pink, $purple);
+                }
+            }
+        }
+        
+        &.param-onpage__2{
+            h2, a{
+                color: $lblue;
+                
+                &.more-link{
+                    color: white;
+                    background: linear-gradient($lblue, $blue);
+                }
+            }
+        }
+
+        &.param-onpage__2{
+            h2, a{
+                color: $mint;
+                
+                &.more-link{
+                    color: white;
+                    background: linear-gradient($mint, $dmint);
+                }
+            }
+        }
+
+        a.link-for-student{
+            margin-top: 10px;
+            display: list-item;
+            list-style: none;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            -o-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            -moz-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            -webkit-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            &:after{
+                margin-left: 10px;
+                content: '\0279C';
+                opacity: 0.4;
+                transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                -o-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                -moz-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                -webkit-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            }
+            &:hover{
+                transform: translateX(8px);
+                -ms-transform: translateX(8px);
+                -moz-transform: translateX(8px);
+                -o-transform: translateX(8px);
+                -webkit-transform: translateX(8px);
+                &:after{
+                    opacity: 0.9;
+                }
+            }
+        }
+    }
+    img.img-param-onpage{
+    //    height: fit-content(300px);
+       height: auto;
+       width: auto;
+       max-width: 100%;
+       padding: 8px; 
     }
 }
 

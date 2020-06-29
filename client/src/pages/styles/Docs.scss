@@ -1,14 +1,18 @@
 @use 'default';
 
 #title_main.documents{
-    background-image: url("/svg/LOGO_BG.svg"),linear-gradient(default.$mint,default.$dmint);
+    background-image: url("/svg/LOGO_BG.svg"), linear-gradient(default.$mint,default.$dmint);
     background-repeat: no-repeat;
     background-size: auto;
     background-position: right center;
     min-height: 80vh;
     height: auto;
     height: max-content;
-    .category-doc-btn{
+    .category-doc-btn{    
+        transition: all 0.3s cubic-bezier(0.2, 0.8, 0.3, 1.1);
+        -o-transition: all 0.3s cubic-bezier(0.2, 0.8, 0.3, 1.1);
+        -moz-transition: all 0.3s cubic-bezier(0.2, 0.8, 0.3, 1.1);
+        -webkit-transition: all 0.3s cubic-bezier(0.2, 0.8, 0.3, 1.1);
         background: #fff1;
         // margin-top: 5px;
         margin-right: 10px;
@@ -18,12 +22,19 @@
         &:hover{
             background: #fff4;
         }
+        &:active{
+            background: #fff6;
+            transform: scale(0.97);
+            -o-transform: scale(0.97);
+            -moz-transform: scale(0.97);
+            -webkit-transform: scale(0.97);
+        }
     }
 }
 
 @media screen and (max-width: 567px){
     #title_main.documents{
-        background-position: center center;
+        background-position: center;
     }
 }
 
@@ -41,7 +52,7 @@
         padding: 10px;
         margin: 5px 5px 0 0;
         color: #222;
-        transition: all 0.3s ease;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         border-radius: 3px;
         display: flex;
         background: whitesmoke;
@@ -53,7 +64,7 @@
             }
         }
         // &:after{
-        //     transition: all 0.3s ease;
+        //     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         //     content:"\0279C";
         //     position: absolute;
         //     align-self:center ;
@@ -63,12 +74,19 @@
             &:hover{
             background: #354ED140;
             }
+            &:active{
+            background: #354ED160;
+            }
         }
         &:hover{
             background: #1FB27740;
         }
         &:active{
-            background: default.$lgray;
+            transform: scale(0.97);
+            -o-transform: scale(0.97);
+            -moz-transform: scale(0.97);
+            -webkit-transform: scale(0.97);
+            background: #1FB27760;
         }
     }
 }

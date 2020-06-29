@@ -29,15 +29,7 @@ const ClubSchema = new Schema({
     // },
 
     // ссылка
-    path: {
-        type: String,
-        validate: {
-            validator: function (path) {
-                return /^((https|http)?:\/\/)?+*$/.test(path)
-            },
-            message: props => `${props.value} - Поле ссылка содержит недопустимые символы`
-        }
-    },
+    path: String,
 
     // image
     image: {

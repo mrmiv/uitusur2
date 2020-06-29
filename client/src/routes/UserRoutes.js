@@ -152,7 +152,9 @@ function HomeRoutes({ auth }) {
                     {auth ? <Redirect to="/admin" />
                         : <Login title="Авторизация - Кафедра управления инновациями" />}
                 </Fragment>))} />
+
                 {auth && <Route path="/admin" component={(() => (<AdminRoutes />))} />}
+                
                 {/* NOT FOUND 404 */}
                 <Route path="*" exact component={(() => (<Fragment>
                     <ScrollToTop />

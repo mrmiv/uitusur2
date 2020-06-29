@@ -25,6 +25,22 @@ const ParamSchema = new Schema({
   text: {
     type: String,
     required: true
+  },
+  
+  isActive: { // статус активности заголовка
+    type: Boolean,
+    default: false,
+    required: true,
+  },
+
+  img: { // изображение для заголовка
+    type: String
+  },
+
+  order: {
+    type: Number,
+    required: true,
+    default: 0
   }
 
 }, { autoIndex: false, versionKey: false })
