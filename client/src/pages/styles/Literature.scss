@@ -1,4 +1,5 @@
 @use 'default';
+@import "./animations.scss";
 
 #literature{
 
@@ -39,29 +40,67 @@
         margin-top: 28px;
 
         .literature__bookInList{
-            margin:0 8px 8px 0;
             padding: 8px;
-            box-shadow: 0 2px 4px default.$shadow;
-            border-radius: 10px;
-            .literature-list-image{
-                background-size: cover !important;
-                background-position: center center !important;
-                border-radius: 4px;
-                height: 190px;
+            box-shadow: 0 -180px 60px -60px rgba(0, 0, 0, 0.705) inset,
+            0 2px 4px default.$shadow;
+            border-radius: 8px;
+            height: 320px;
+            display: grid;
+            display: -moz-grid;
+            display: -o-grid;
+            display: -webkit-grid;
+            align-items: end;
+
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.15);
+            -o-transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.15);
+            -moz-transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.15);
+            -webkit-transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.15);
+
+            &:hover{
+                box-shadow: 0 -200px 40px -40px rgba(0, 0, 0, 0.8) inset,
+                0 2px 4px default.$shadow
             }
-            p{
+
+            &:active{
+                transform: scale(0.95);
+                box-shadow: 0 -200px 40px -40px rgba(0, 0, 0, 0.8) inset,
+                0 1px 2px default.$shadow;
+            }
+
+            *{
+                transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);
+                -o-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);
+                -moz-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);
+                -webkit-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);
+            }
+            p.bookInList__info{
                 -moz-hyphens: auto;
                 -webkit-hyphens: auto;
                 -ms-hyphens: auto;
                 hyphens: auto;
+                z-index: 1;
+                height: auto;
+
                 span{
-                    color: default.$lblue;
-                    font-weight: 500;
+                    color: white;
+                    display: block;
+                    text-overflow: ellipsis;
+                    &.info__category{
+                        color: default.$orange;
+                        font-weight: 500;
+                    }
+                    &.info__title{
+                        font-size: 18px;
+                        line-height: normal;
+                        font-weight: bold;
+                    }
+                    &.info__author{
+                        color: rgb(200, 200, 200)
+                    }
                 }
                 strong{
                     color: black;
                 }
-                color: gray;
             }
         }
     }

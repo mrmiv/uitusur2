@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component, Fragment, useState } from 'react'
 import { connect } from 'react-redux'
 import store from '../store'
 import { closeNavbar } from '../redux/actions/navbarActions'
@@ -174,25 +174,36 @@ export default connect(
 
 const Book = ({ title, author, image, category, id }) => {
 
+    const len = title.length
+    const start = 32
+    const full = 64
+    
+    const [Title, setVisibilityTitle] = useState(len<=start);
+
+    // console.log(Title);
+    // len<=start ? title : title.substr(0,start-3) + "..."
     let location = useLocation()
 
     return (
-        <div className="col-xl-2 col-lg-3 col-md-4 col-sm-4">
-            <Link to={{
-                pathname: `/book/${id}`,
-                state: { background: location }
-            }}>
-                <div className="literature__bookInList">
-                    <div className="literature-list-image" style={{ background: `url(${image}) no-repeat` }} />
-                    <p>
-                        <span>{category[0].toUpperCase() + category.substr(1)}</span>
-                        <br />
-                        <strong>{title}</strong>
-                        <br />
-                        {author}
-                    </p>
-                </div>
-            </Link>
+        <div className="col-xl-3 col-md-4 col-sm-6 col-xs-12 p-2"
+        onMouseEnter={()=>setVisibilityTitle(true)}
+        onMouseLeave={()=>setVisibilityTitle(false)}>
+            <div className="literature__bookInList" style={{ background: `url(${image}) no-repeat`, backgroundSize: "cover", backgroundPosition: "center" }}>
+                {/* <div className="literature-list-image"  /> */}
+                <p className="bookInList__info">
+                    <span className="info__category">{category[0].toUpperCase() + category.substr(1)}</span>
+                    <span className="info__title">{
+                        Title 
+                        ? (len<full ? title : title.substr(0,full-3)+"...")
+                        : (len<start ? title : title.substr(0,start-3)+"...")
+                    }</span>
+                    <span className="info__author">{author}</span>
+                <Link to={{
+                    pathname: `/book/${id}`,
+                    state: { background: location }
+                }}>Подробнее</Link>
+                </p>
+            </div>
         </div>
     )
 }
