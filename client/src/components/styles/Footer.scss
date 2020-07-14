@@ -12,10 +12,10 @@ $lgray: #c8d6e5;
     .footer_nav{
 
         ul.list_footer_nav{
-            list-style: none;
-
             li.list-item{
-                font-family: "Inter";
+                &:before{
+                    content: none;
+                }
                 padding: 0.25em 0;
                 a{
                     cursor: pointer;

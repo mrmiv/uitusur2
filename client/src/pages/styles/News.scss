@@ -101,15 +101,24 @@ $lightblue: rgb(216, 238, 245);
 }
 
 #fullnews{
-    padding: 10px 20px;
+    padding: 12px 24px;
     background: whitesmoke;
-    border-radius: 10px;
-    margin-top: 100px;
+    border-radius: 8px;
+    margin-top: 88px;
     .text__news{
-        margin-top: 20px;
+        margin-top: 16px;
+        *{
+            font-family: "Roboto", sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        p{
+            margin-bottom: 4px !important;
+        }
+        
     }
     .docs__news{
-        margin-top: 2.5em;
+        margin-top: 16px;
         a{
             display: block;
             color: black;

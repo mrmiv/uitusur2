@@ -72,6 +72,11 @@ img.arrow_down{
 }
 
 .pagination{
+    li{
+        &:before{
+            content: none
+        }
+    }
     .more-link{
         margin-right: 5px;
         padding: 3px;

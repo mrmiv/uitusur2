@@ -51,19 +51,20 @@
             display: -webkit-grid;
             align-items: end;
 
-            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.15);
-            -o-transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.15);
-            -moz-transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.15);
-            -webkit-transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.15);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.15);
+            -o-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.15);
+            -moz-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.15);
+            -webkit-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.15);
 
             &:hover{
                 box-shadow: 0 -200px 40px -40px rgba(0, 0, 0, 0.8) inset,
-                0 2px 4px default.$shadow
+                0 2px 4px default.$shadow;
+                transform: scale(1.03);
             }
 
             &:active{
                 transform: scale(0.95);
-                box-shadow: 0 -200px 40px -40px rgba(0, 0, 0, 0.8) inset,
+                box-shadow: 0 -240px 60px -60px rgba(0, 0, 0, 0.6) inset,
                 0 1px 2px default.$shadow;
             }
 
