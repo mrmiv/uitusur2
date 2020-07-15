@@ -144,24 +144,24 @@ router.patch('/:id', auth, async (req, res) => {
             return res.status(404).json({ message: "Учебный план не найден" })
         }
 
-        if (body.group) { sp.group = body.group }
-        if (body.course) { sp.course = body.course }
+        if (body.group !== sp.group) { sp.group = body.group } 
+        if (body.course !== sp.course) { sp.course = body.course }
 
-        if (body.exam_from) { sp.exam.from = body.exam_from }
-        if (body.exam_to) { sp.exam.to = body.exam_to }
+        if (body.exam_from !== sp.exam_from) { sp.exam.from = body.exam_from }
+        if (body.exam_to !== sp.exam_to) { sp.exam.to = body.exam_to }
 
-        if (body.gia_from) { sp.gia.from = body.gia_from }
-        if (body.gia_to) { sp.gia.to = body.gia_to }
+        if (body.gia_from !== sp.gia_from) { sp.gia.from = body.gia_from }
+        if (body.gia_to !== sp.gia_to) { sp.gia.to = body.gia_to }
 
-        if (body.weekend_from) { sp.weekend.from = body.weekend_from }
-        if (body.weekend_to) { sp.weekend.to = body.weekend_to }
+        if (body.weekend_from !== sp.weekend_from) { sp.weekend.from = body.weekend_from }
+        if (body.weekend_to !== sp.weekend_to) { sp.weekend.to = body.weekend_to }
 
-        if (body.practic_from) { sp.practic.from = body.practic_from }
-        if (body.practic_type) { sp.practic.type = body.practic_type }
-        if (body.practic_to) { sp.practic.to = body.practic_to }
+        if (body.practic_from !== sp.practic_from) { sp.practic.from = body.practic_from }
+        if (body.practic_type !== sp.practic_type) { sp.practic.type = body.practic_type }
+        if (body.practic_to !== sp.practic_to) { sp.practic.to = body.practic_to }
 
         await sp.save()
-            .then(sp => res.json({ message: "Учебный план обновлен", sp }))
+            .then(sp => res.json({ message: `Учебный план для группы ${sp.group} обновлен!`, sp }))
 
     } catch (error) {
         res.status(500).json({ message: error.message })

@@ -61,7 +61,7 @@ export class SPForm extends Component {
                     exam_to: SP.exam && SP.exam.to ? SP.exam.to : '',
                     gia_from: SP.gia && SP.gia.from ? SP.gia.from : '',
                     gia_to: SP.gia && SP.gia.to ? SP.gia.to : '',
-                    weekend_from: SP.weekend && SP.weekend.from ? SP.weekend.from : '',
+                    weekend_from: SP.weekend && SP.weekend.from ? this.FormatDate(SP.weekend.from) : '',
                     weekend_to: SP.weekend && SP.weekend.to ? SP.weekend.to : '',
                     practic_from: SP.practic && SP.practic.to ? SP.practic.to : '',
                     practic_to: SP.practic && SP.practic.from ? SP.practic.from : '',
@@ -73,6 +73,14 @@ export class SPForm extends Component {
         if (msg !== prevProps.info.msg) {
             this.setState({ msg })
         }
+    }
+
+    FormatDate = date => {
+        const DateField = new Date(date)
+        const year = DateField.getFullYear()
+        const month = DateField.getMonth()
+        const day = DateField.getDay()
+        return `${year}-${month}-${day}`
     }
 
     changeInput = e => {
