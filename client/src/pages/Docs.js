@@ -107,7 +107,7 @@ export class Docs extends Component {
 }
 
 const mapStateToProps = state => ({
-    Docs: state.api.docs.docslist
+    Docs: state.api.docs.docslist,
 })
 
 export default connect(
@@ -115,9 +115,12 @@ export default connect(
     { closeNavbar, GetDocuments }
 )(Docs)
 
-const Document = ({ title, cat, path, document, date }) => {
+const Document = connect(
+    state=>({domain: state.location.domain})
+    ,null
+    )(({ title, cat, path, document, date, domain }) => {
     return (
-        <a href={`${document || path}`}
+        <a href={document ? `http://${domain}${document}` : path }
             className={`document-link ${cat ? 'w-cat' : ''}`}
             target="_blank" rel="noopener noreferrer"
         >
@@ -127,4 +130,4 @@ const Document = ({ title, cat, path, document, date }) => {
             </div>
         </a>
     )
-}
+})

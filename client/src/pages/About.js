@@ -276,7 +276,7 @@ function Staff({ id, firstname, lastname, secondname }) {
                 <div className="staff__name align-self-center">
                     <p>
                         <span>{lastname}</span> <br />
-                        {firstname + " " + secondname}
+                        {`${firstname} ${secondname ? secondname : ''}`}
                     </p>
                 </div>
             </Link>

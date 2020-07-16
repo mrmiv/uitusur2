@@ -78,7 +78,9 @@ export class AdminStaff extends Component {
                                     return (
                                         <tr key={index}>
                                             <th scope="row">{index}</th>
-                                            <td name="name"><Link to={`/admin/staff/form/${item._id}`}>{item.lastname + ' ' + item.firstname[0] + '. ' + item.secondname[0] + '.'}</Link></td>
+                                            <td name="name"><Link to={`/admin/staff/form/${item._id}`}>
+                                                {`${item.lastname} ${item.firstname[0]}. ${item.secondname ? `${item.secondname[0]}.` : ''}`}
+                                                </Link></td>
                                             <td name="post">{item.post}</td>
                                             <td name="degree">{item.degree}</td>
                                             <td name="del">

@@ -2,6 +2,9 @@
 export const OPEN_NAV = "OPEN_NAV"
 export const CLOSE_NAV = "CLOSE_NAV"
 
+// Домен
+export const GET_DOMAIN_LOCATION = "GET_DOMAIN_LOCATION"
+
 // Авторизация\регистрация
 export const USER_LOADING = 'LOADING'
 export const USER_LOADED = 'USER_LOADED'

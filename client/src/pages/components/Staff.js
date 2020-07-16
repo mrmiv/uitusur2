@@ -21,7 +21,7 @@ export class StaffPage extends Component {
                 <div className="modal__staff">
                     {CurrentStaff &&
                         <div className="modal__staff__info">
-                            <h4>{CurrentStaff.lastname + ' ' + CurrentStaff.firstname + ' ' + CurrentStaff.secondname}</h4>
+                            <h4>{`${CurrentStaff.lastname} ${CurrentStaff.firstname} ${CurrentStaff.secondname ? CurrentStaff.secondname : ''}`}</h4>
                             {CurrentStaff.post && <p>
                                 <span style={{ fontWeight: "500" }}>
                                     Должность:

@@ -66,17 +66,6 @@ router.post('/', auth, async (req, res) => {
             worktime
         })
 
-        try {
-            await staff.validate(
-                { firstname, lastname, secondname, post, degree, rank, path, worktime },
-                ['firstname', 'lastname', 'secondname', 'post', 'degree', 'rank', 'path', 'worktime'])
-        } catch (error) {
-            // error instanceof Error.ValidationError
-            return res.status(400).json({
-                message: error.message
-            })
-        }
-
         // console.log(staff);
 
         const exists = await Staff.findOne({ firstname, lastname, secondname, post, degree, rank, path })
