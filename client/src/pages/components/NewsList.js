@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Icon } from '@iconify/react'
 import pushpinIcon from '@iconify/icons-fxemoji/pushpin'
@@ -21,41 +21,36 @@ export function toDate(datetime, time = false) {
         if (hour < 10) { hour = "0" + hour }
         let minute = date.getMinutes()
         if (minute < 10) { minute = "0" + minute }
-        return `${day}.${month}.${year} ${hour}:${minute}`
+        return `${hour}:${minute} ${day}.${month}.${year}`
     }
     return `${day}.${month}.${year}`
 }
 
-export function LastNews({ id, title, body, datetime }) {
-
-    const length = 80
-
-    return (
-        <Link to={`/news/${id}`}>
-            <div className="last-one-news">
-                <h6>{title.length < length ? title : title.substr(0, length) + "..."}</h6>
-                <small>{toDate(datetime)}</small>
-                <div dangerouslySetInnerHTML={{ __html: body.length < length ? body : body.substr(0, length) + "..." }} />
-            </div>
-        </Link>
-    )
-}
-
 export function NewsInList(props) {
 
-    const { body, title, datetime, pin } = props
-
+    const { body, title, datetime, pin, annotation } = props
+    // console.log(annotation, props)
     return (
-        <Link to={`/news/${props.id}`}>
-            <div className="one-news">
-                <div className="d-flex justify-content-between">
-                    <h5>{pin && <span className="pin-icon"><Icon icon={pushpinIcon} style={{ fontSize: "18px" }} /></span>} {title} </h5>
-                    <small className="text-right">{toDate(datetime)}</small>
-                </div>
+        <Link to={`/news/${props.id}`} 
+        className={`
+            one-news 
+            ${annotation ? 'news-with-annotation' : ''} \
+            ${pin ? 'pinned' : ''}`}>
+            <div>
+                <span>
+                    {pin && 
+                        <span className="pin-icon">
+                            <Icon icon={pushpinIcon} style={{ fontSize: "18px" }} />
+                        </span>
+                    } 
+                    {toDate(datetime, true)}
+                </span>
+                <h2>{title}</h2>
+
                 <div className="row no-gutters props-news-list">
                     {/* Для кого */}
                     {props.users &&
-                        <div className="col-md-3 col-sm-4 col-6">
+                        <div className="col-auto">
                             <p className="prop-news">
                                 <FontAwesomeIcon icon={faUsers} style={{ fontSize: "18px" }} /> <span>Для кого:</span> {props.users}
                             </p>
@@ -63,34 +58,39 @@ export function NewsInList(props) {
                     }
                     {/* Дедлайн */}
                     {props.deadline &&
-                        <div className="col-md-3 col-sm-4 col-6">
+                        <div className="col-auto">
                             <p className="prop-news">
                                 <Icon icon={alarmClock} style={{ fontSize: "18px" }} /> <span>Крайний срок:</span> {toDate(props.deadline)}
                             </p>
                         </div>}
                     {/* Размер гранта
                 {props.grant &&
-                <div className="col-md-3 col-sm-4 col-6">
+                <div className="col-auto">
                     <p className="prop-news">
                         <Icon icon={alarmClock} style={{fontSize: "18px"}}/> <span>Крайний срок:</span> {props.grant}
                     </p>
                 </div>} */}
                     {/* Сроки проведения */}
                     {props.period &&
-                        <div className="col-md-3 col-sm-4 col-6">
+                        <div className="col-auto">
                             <p className="prop-news">
                                 <Icon icon={spiralCalendar} style={{ fontSize: "18px" }} /> <span>Сроки проведения:</span> {props.period}
                             </p>
                         </div>}
                     {/* Город */}
                     {props.city &&
-                        <div className="col-md-3 col-sm-4 col-6">
+                        <div className="col-auto">
                             <p className="prop-news">
                                 <Icon icon={cityscapeIcon} style={{ fontSize: "18px" }} /> <span>Место проведения:</span> {props.city}
                             </p>
                         </div>}
                 </div>
-                <div className="news-text" dangerouslySetInnerHTML={{ __html: body.length < 200 ? body : body.substr(0, 200) + "...", }} />
+                {annotation && 
+                <div className="news-annotation">
+                    <p>
+                        {annotation}
+                    </p>
+                </div>}
             </div>
         </Link>
     )

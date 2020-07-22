@@ -18,6 +18,13 @@ const NewsSchema = new Schema({
         trim: true
     },
 
+    // Аннотация
+    annotation: {
+        type: String,
+        maxlength: 255,
+        trim: true
+    },
+
     // Авторы
     body: {
         type: String,

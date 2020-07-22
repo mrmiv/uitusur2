@@ -4,7 +4,6 @@ export const GET_PARAMS_ONPAGE = "GET_PARAMS_ONPAGE"
 export const GET_ACTIVE_PARAMS = "GET_ACTIVE_PARAMS"
 export const GET_ACTIVE_PARAMS_ONPAGE = "GET_ACTIVE_PARAMS_ONPAGE"
   
-
 // Главна
 export const GET_DEGREE = "GET_DEGREE"
 export const GET_QUOTE = "GET_QUOTE"

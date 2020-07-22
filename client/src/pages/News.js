@@ -1,14 +1,12 @@
 import React, { Component, Fragment } from 'react'
 
 import { connect } from 'react-redux'
-
+import {NavLink} from 'react-router-dom'
 import './styles/News.scss'
-
-import Fade from 'react-reveal/Fade'
 // import {Modal} from '../components/Modal'
 import { closeNavbar } from '../redux/actions/navbarActions'
-import { GetNewsList } from '../redux/actions/newsActions'
-import { NewsInList, LastNews } from './components/NewsList'
+import { GetNewsList, GetMoreNews } from '../redux/actions/newsActions'
+import { NewsInList } from './components/NewsList'
 import Pagination from "react-js-pagination";
 
 // import images
@@ -52,8 +50,11 @@ const grants = [
 export class NewsList extends Component {
 
     state = {
+        toggleMenuIsVisible: false,
         page: 1,
-        perPage: 15,
+        perPage: 10,
+
+        type: this.props.type,
 
         msg: null
     }
@@ -64,95 +65,87 @@ export class NewsList extends Component {
 
     componentDidMount() {
         document.title = this.props.title + " - Кафедра управления инновациями"
-        this.props.GetNewsList(this.props.type, this.state.page, this.state.perPage)
+        this.props.GetNewsList(this.state.type, this.state.page, this.state.perPage)
     }
 
     Paginate(page) {
         window.scrollTo(0, window.innerHeight);
         // console.log(page);
-        const { type } = this.props
+        const { type, perPage } = this.state
         this.setState({ page })
-        this.props.GetNewsList(type, page, this.state.perPage)
+        this.props.GetNewsList(type, page, perPage)
+    }
+
+    getMoreNews(page){
+        const { type, perPage } = this.state
+        this.setState({ page })
+        this.props.GetMoreNews(type, page, perPage)
     }
 
     render() {
-        let newslist = this.props.news.NewsList
+        // let newslist = this.props.news.NewsList
         // console.log(newslist);
-        const { page, perPage } = this.state
-        const { total } = this.props.news
-        const { isLoading } = this.props
+        const { page, perPage, toggleMenuIsVisible, type } = this.state
+        const { total, NewsList, isLoading } = this.props.news
+        const { title } = this.props
         return (
             <Fragment>
-                {/* Заголовок */}
-                <Fade>
-                    <section id="title_main" className="news">
-                        <div className="container-md container-fluid" style={{ height: "inherit" }}>
-                            <div className="row no-gutters" style={{ height: "inherit" }}>
-                                <h1 className="title title-text w-100">{this.props.title}</h1>
-                                {/* Для грантов отобразить последние гранты, иначе последние новости */}
-                                {this.props.type !== 2 ? <Fragment>
-                                    <div className="col-md-6 col-12">
-                                        <h4 className="title w-100">Последние новости</h4>
-                                        <div className="lastnews">
-                                            {newslist && newslist.slice(0, 3).map((news, index) => {
-                                                return (<div key={index}>
-                                                    <LastNews
-                                                        id={news._id}
-                                                        title={news.title}
-                                                        body={news.body}
-                                                        datetime={news.created_at} />
-                                                </div>)
-                                            })}
-                                        </div>
-                                    </div>
-                                    <div className="col-md-6 col-12">
-                                        <div className="triple_helix">
-                                            <img className="triple_helix_svg" src={marketing_img} alt={this.props.title}
-                                                style={{ maxWidth: "100%", padding: "10px" }} />
-                                        </div>
-                                    </div>
-                                </Fragment> : <Fragment>
-                                        {grants.map((g, index) => {
-                                            return <div className="col-md-6" key={index}>
-                                                <a href={g.path} target="_blank" rel="norefferer noopener" >
-                                                    <div className="grant-link">{g.name}</div>
-                                                </a>
-                                            </div>
-                                        })}
-
-                                    </Fragment>}
-                            </div>
-                        </div>
-                    </section>
-                </Fade>
                 {/* Список новостей */}
                 <section id="news">
                     <div className="container-md container-fluid">
-                        {newslist && !isLoading ? <Fragment>
-                            {newslist.map((news, index) => {
-                                return (<div key={index} className="w-100">
-                                    <NewsInList
-                                        pin={news.pin}
-                                        id={news._id}
-                                        title={news.title}
-                                        body={news.body}
-                                        city={news.city}
-                                        deadline={news.deadline}
-                                        users={news.users}
-                                        datetime={news.created_at} />
-                                </div>)
-                            })}
-                            <Pagination
-                                activePage={page}
-                                itemsCountPerPage={perPage}
-                                totalItemsCount={total}
-                                pageRangeDisplayed={5}
-                                itemClass="more-link"
-                                hideFirstLastPages
-                                hideDisabled
-                                onChange={this.Paginate.bind(this)} />
-                        </Fragment> : <h4>Новостей нет</h4>}
+                        <h1 data-menu-visible={toggleMenuIsVisible}
+                            onClick={()=>this.setState({toggleMenuIsVisible: !this.state.toggleMenuIsVisible})}>
+                                {title}
+                        </h1>
+                        <div id="toggle-news" data-visible={toggleMenuIsVisible}>
+                            <ul>
+                                {type !== 1 && <li><NavLink to='/announcements'>Объявления кафедры</NavLink></li>}
+                                {type !== 2 && <li><NavLink to='/grants'>Стипендии и гранты</NavLink></li>}
+                                {type !== 3 && <li><NavLink to='/conferences'>Конференции</NavLink></li>}
+                            </ul>
+                        </div>
+                            {!isLoading 
 
+                            ? <Fragment>
+                                {NewsList.length !== 0 
+                                    ? <Fragment>
+                                        <div className="news-list-grid">
+                                            {NewsList.map((news, index) => {
+                                            return (<Fragment key={index}>
+                                                <NewsInList
+                                                    pin={news.pin}
+                                                    id={news._id}
+                                                    title={news.title}
+                                                    body={news.body}
+                                                    city={news.city}
+                                                    deadline={news.deadline}
+                                                    users={news.users}
+                                                    annotation={news.annotation}
+                                                    datetime={news.created_at} />
+                                                </Fragment>)
+                                            })}
+                                        </div>
+                                        {/*<Pagination
+                                            activePage={page}
+                                            itemsCountPerPage={perPage}
+                                            totalItemsCount={total}
+                                            pageRangeDisplayed={5}
+                                            itemClass="more-link"
+                                            hideFirstLastPages
+                                            hideDisabled
+                                            onChange={this.Paginate.bind(this)} /> */}
+                                        { page < Math.ceil(total/perPage) ? 
+                                            <a className="more-link link-center" onClick={()=>this.getMoreNews(Number(page+1))}>
+                                            ЕЩЕ НОВОСТИ</a> 
+                                            : <p className="link-center">На этом все :)</p>
+                                        }
+                                    </Fragment>
+                                
+                                    : <p>Новостей нет</p>}
+                                
+                            </Fragment> 
+
+                            : <p>Загрузка</p>}
                     </div>
                 </section>
             </Fragment>
@@ -163,12 +156,11 @@ export class NewsList extends Component {
 
 const mapStateToProps = state => ({
     news: state.api.news.newslist,
-    isLoading: state.api.news.isLoading
 })
 
 export default connect(
     mapStateToProps,
-    { closeNavbar, GetNewsList }
+    { closeNavbar, GetNewsList, GetMoreNews }
 )(NewsList)
 
 

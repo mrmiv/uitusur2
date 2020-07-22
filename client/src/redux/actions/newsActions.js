@@ -13,6 +13,11 @@ import { returnInfo } from "./infoActions";
 
 export const GetNewsList = (type, page = 1, perPage = 15) => (dispatch) => {
 	// get /literature/?page=1&?perPage=12?category=all&?sort=asc
+
+	dispatch({
+	    type: LOADING_REQ
+	})
+
 	axios
 		.get(`/api/news/${type}?page=${page}&perpage=${perPage}`)
 		.then((res) => {
@@ -20,6 +25,31 @@ export const GetNewsList = (type, page = 1, perPage = 15) => (dispatch) => {
 
 			dispatch({
 				type: GET_NEWSLIST,
+				payload: {
+					NewsList: res.data.data,
+					total: res.data.pages,
+				},
+			});
+			return res.data;
+		})
+		.catch((err) => {
+			dispatch(returnInfo(err.response.data, err.response.status, "REQ_FAIL"));
+			dispatch({
+				type: REQ_FAIL,
+			});
+		});
+};
+
+export const GetMoreNews = (type, page = 1, perPage = 15) => (dispatch) => {
+	// get /literature/?page=1&?perPage=12?category=all&?sort=asc
+
+	axios
+		.get(`/api/news/${type}?page=${page}&perpage=${perPage}`)
+		.then((res) => {
+			// console.log(res.data);
+
+			dispatch({
+				type: MORE_NEWSLIST,
 				payload: {
 					NewsList: res.data.data,
 					total: res.data.pages,
@@ -62,6 +92,7 @@ export const ReadNews = (id) => (dispatch) => {
 
 export const postNews = ({
 	title,
+	annotation,
 	site,
 	type,
 	deadline,
@@ -106,6 +137,9 @@ export const postNews = ({
 	}
 	if (grant) {
 		formdata.append("grant", grant);
+	}
+	if (annotation) {
+		formdata.append("annotation", annotation);
 	}
 	formdata.append("pin", pin);
 	formdata.append("send_to_email", send_to_email);
@@ -170,6 +204,7 @@ export const delNews = (id) => (dispatch) => {
 
 export const patchNews = (id, {
 	title,
+	annotation,
 	site,
 	type,
 	deadline,
@@ -218,6 +253,9 @@ export const patchNews = (id, {
 
 	if (doc) {
 		formdata.append("doc", doc);
+	}
+	if (annotation) {
+		formdata.append("annotation", annotation);
 	}
 
 	// get /literature/book/id
