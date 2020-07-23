@@ -46,13 +46,15 @@ export class FullNews extends Component {
     render() {
         const { News } = this.state
         const { isLoading } = this.props.news
+        // console.log(this.props)
         return (
             <Fragment>
                 <div className="container-md container-fluid">
+                    <a onClick={()=>this.props.history.goBack()}> Назад </a>
                     <div id="fullnews">
                         {!isLoading ?
-                            News && <Fragment>
-                                <h5>{News.pin && <Icon icon={pushpinIcon} className="mr-2" />} {News.title}</h5>
+                            News ? <Fragment>
+                                <h1>{News.pin && <Icon icon={pushpinIcon} className="mr-2" />} {News.title}</h1>
                                 <div className="row no-gutters">
                                     {/* для крнр */}
                                     {News.users && <NewsProps
@@ -80,7 +82,9 @@ export class FullNews extends Component {
                                             <Icon className="mr-3" size="lg" icon={documentAttach} /> {doc.substr(39)}
                                         </a>)
                                     })}</div>}
-                            </Fragment> : "Загрузка"}
+                            </Fragment> 
+                            : <p>Такая новость не найдена :( </p>
+                        : "Загрузка"}
                     </div>
                 </div>
             </Fragment>
@@ -91,10 +95,10 @@ const mapStateToProps = state => ({
     news: state.api.news.news
 })
 
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
     { closeNavbar, ReadNews }
-)(FullNews)
+)(FullNews))
 
 function NewsProps({ icon, text, link, name }) {
     return (

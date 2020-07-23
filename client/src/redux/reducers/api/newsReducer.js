@@ -42,8 +42,8 @@ function NewsReducer(state = NewsState, action) {
                 isLoading: false
             }
         case MORE_NEWSLIST:
-            console.log(state.NewsList)
-            console.log([...state.NewsList, action.payload.NewsList])
+            // console.log(state.NewsList)
+            // console.log([...state.NewsList, action.payload.NewsList])
             return {
                 ...state,
                 total: action.payload.total,
