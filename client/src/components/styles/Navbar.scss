@@ -81,6 +81,8 @@ $lgray: #c8d6e5;
             &[aria-expanded="true"]{
                 span{
                     transform: rotate(180deg);
+                    -moz-transform: rotate(180deg);
+                    -o-transform: rotate(180deg);
                     -webkit-transform: rotate(180deg);
                 }
             }
@@ -103,13 +105,21 @@ $lgray: #c8d6e5;
             }
 
             &.active{
-                color: white;
+                color: $blue;
+                box-shadow: 0px 0px 0px 100px rgba(255, 255, 255, 0.6) inset;
                 transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
                 -webkit-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-                background: linear-gradient(to left, transparent 50%, rgba(255, 255, 122554, 0.3)) ;
-                background: -o-linear-gradient(to left, transparent 50%, rgba(255, 255, 255, 0.3)) ;
-                background: -moz-linear-gradient(to left, transparent 50%, rgba(255, 255, 255, 0.3));
-                background: -webkit-linear-gradient(to left, transparent 50%, rgba(255, 255, 255, 0.3));
+                &:hover, &:active{
+                    box-shadow: 0px 0px 0px 100px rgba(255, 255, 255, 0.6) inset;
+                    color: $blue;
+
+                }
+                // box-shadow: -100px 0 100px 5px $blue inset,
+                //             50px 0 50px 0 rgba(245, 245, 245, 0.6) inset;
+                // background: linear-gradient(to left, transparent 50%, rgba(255, 255, 122554, 0.3)) ;
+                // background: -o-linear-gradient(to left, transparent 50%, rgba(255, 255, 255, 0.3)) ;
+                // background: -moz-linear-gradient(to left, transparent 50%, rgba(255, 255, 255, 0.3));
+                // background: -webkit-linear-gradient(to left, transparent 50%, rgba(255, 255, 255, 0.3));
                 // &:before{
                 //     content:" ";
                 //     position: relative;
@@ -122,17 +132,11 @@ $lgray: #c8d6e5;
 
             &:hover{
                 color: white;
-                background: linear-gradient(to left, transparent 35%, rgba(255, 255, 255, 0.1)) ;
-                background: -o-linear-gradient(to left, transparent 35%, rgba(255, 255, 255, 0.1)) ;
-                background: -moz-linear-gradient(to left, transparent 35%, rgba(255, 255, 255, 0.1));
-                background: -webkit-linear-gradient(to left, transparent 35%, rgba(255, 255, 255, 0.1));
+                box-shadow: 0px 0px 0px 100px rgba(255, 255, 255, 0.2) inset;
             }
             &:active{
                 color: white;
-                background: linear-gradient(to left, transparent 42%, rgba(255, 255, 255, 0.2)) ;
-                background: -o-linear-gradient(to left, transparent 42%, rgba(255, 255, 255, 0.2)) ;
-                background: -moz-linear-gradient(to left, transparent 42%, rgba(255, 255, 255, 0.2));
-                background: -webkit-linear-gradient(to left, transparent 42%, rgba(255, 255, 255, 0.2));
+                box-shadow: 0px 0px 0px 100px rgba(255, 255, 255, 0.3) inset;
             }
         }
 
@@ -158,7 +162,7 @@ $lgray: #c8d6e5;
         }
 
         .submenu{
-
+            padding: 2px 0;
             background: $dblue;
             a{
                 display: list-item;

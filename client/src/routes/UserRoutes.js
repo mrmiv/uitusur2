@@ -72,98 +72,147 @@ function HomeRoutes({ auth }) {
     const location = useLocation()
     let background = location.state && location.state.background
 
+    const getRoute = ({path, exact, component, noScroll}) => {
+        
+
+        const route = <Route path={path} exact={exact} component={(()=><Fragment>
+                {!noScroll && <ScrollToTop/>}
+                {component}
+            </Fragment>)}/>
+
+        return route
+    }
+
+    const getAllRoutes = () => {
+        
+        const allRoutes = [
+            {
+                exact: true,
+                path: "/",
+                component: <Home title="Кафедра управления инновациями" />
+            },
+            {
+                exact: true,
+                path: "/about",
+                component: <About title="О кафедре - Кафедра управления инновациями" />,
+                noScroll: background
+            },
+            {
+                exact: true,
+                path: "/news",
+                component: <News title="Новости" />
+            },
+            {
+                exact: true,
+                path: "/about/staff/:id",
+                component: <StaffView />
+            },
+            {
+                exact: true,
+                path: "/news/announcements",
+                component: <News type={1} title="Объявления кафедры" />
+            },
+            {
+                exact: true,
+                path: "/news/conference",
+                component: <News type={3} title="Конференции" />
+            },
+            {
+                exact: true,
+                path: "/news/grants",
+                component: <News type={2} title="Стипендии и гранты" />
+            },
+            {
+                exact: true,
+                path: "/news/read/:id",
+                component: <FullNews />
+            },
+            {
+                exact: true,
+                path: "/student",
+                component: <Student title="Обучающимся - Кафедра управления инновациями" />
+            },
+            {
+                exact: true,
+                path: "/student/bakalavriat",
+                component: <StudentBach title="Бакалавриат - Обучающимся - Кафедра управления инновациями" />
+            },
+            {
+                exact: true,
+                path: "/student/magistratura",
+                component: <StudentMag title="Магистратура - Обучающимся - Кафедра управления инновациями" />
+            },
+            {
+                exact: true,
+                path: "/abiturient",
+                component: <DegreeBach title="Абитуриенту - Кафедра управления инновациями" />
+            },
+            {
+                exact: true,
+                path: "/abiturient-mag",
+                component: <DegreeMag title="Магистратура ФИТ - Кафедра управления инновациями" />
+            },
+            {
+                exact: true,
+                path: "/documents",
+                component:<Docs title="Регламентирующие документы - Кафедра управления инновациями" />
+            },
+            {
+                exact: true,
+                path: "/literature",
+                component:<Literature title="Литература кафедры - Кафедра управления инновациями" />,
+                noScroll: background
+            },
+            {
+                exact: true,
+                path: "/literature/page/:page",
+                component:<Literature title="Литература кафедры - Кафедра управления инновациями" />,
+                noScroll: background
+            },
+            {
+                exact: true,
+                path: "/literature/book/:id",
+                component:<BookPage />
+            },
+            {
+                exact: true,
+                path: "/quiz",
+                component:<Quiz title="Опросы студентов - Кафедра управления инновациями" />
+            },
+            {
+                exact: true,
+                path: "/search",
+                component:<Quiz title="Поиск - Кафедра управления инновациями" />
+            },
+            // admin
+            {
+                exact: true,
+                path: "/login",
+                component: auth ? <Redirect to="/admin" /> : <Login title="Авторизация - Кафедра управления инновациями" />
+            },
+            
+            // other
+            {
+                exact: true,
+                path: "*",
+                component: <PageNotFound status={404} />
+            }
+        ]
+        
+        return allRoutes
+    }
+
     return (
         <div id="content">
             <Switch location={background || location}>
-                <Route path="/" exact component={(() => (<Fragment>
-                    <ScrollToTop />
-                    <Home title="Кафедра управления инновациями" />
-                </Fragment>))} />
-                {/* О Кафедре */}
-                <Route path="/about" exact component={(() => (<Fragment>
-                    {!background && <ScrollToTop />}
-                    <About title="О кафедре - Кафедра управления инновациями" />
-                </Fragment>))} />
-                <Route path="/staff/:id" exact component={(() => (<Fragment>
-                    <ScrollToTop />
-                    <StaffView />
-                </Fragment>))} />
-                {/* Новости */}
-                <Route path="/announcements" exact component={(() => (<Fragment>
-                    <ScrollToTop />
-                    <News type={1} title="Объявления кафедры" />
-                </Fragment>))} />
-                <Route path="/conferences" exact component={(() => (<Fragment>
-                    <ScrollToTop />
-                    <News type={3} title="Конференции" />
-                </Fragment>))} />
-                <Route path="/grants" exact component={(() => (<Fragment>
-                    <ScrollToTop />
-                    <News type={2} title="Стипендии и гранты" />
-                </Fragment>))} />
-                <Route path="/news/:id" exact component={((props) => (<Fragment>
-                    <ScrollToTop />
-                    <FullNews id={props.match.params.id} />
-                </Fragment>))} />
-                {/* Обучающемуся */}
-                <Route path="/student" exact component={(() => (<Fragment>
-                    <ScrollToTop />
-                    <Student title="Обучающимся - Кафедра управления инновациями" />
-                </Fragment>))} />
-                <Route path="/student/bach" exact component={(() => (<Fragment>
-                    <ScrollToTop />
-                    <StudentBach title="Бакалавру - Кафедра управления инновациями" />
-                </Fragment>))} />
-                <Route path="/student/mag" exact component={(() => (<Fragment>
-                    <ScrollToTop />
-                    <StudentMag title="Магистранту - Кафедра управления инновациями" />
-                </Fragment>))} />
-                <Route path="/degree/bach" exact component={(() => (<Fragment>
-                    <ScrollToTop />
-                    <DegreeBach title="Абитуриенту - Кафедра управления инновациями" />
-                </Fragment>))} />
-                <Route path="/degree/mag" exact component={(() => (<Fragment>
-                    <ScrollToTop />
-                    <DegreeMag title="Магистратура ФИТ - Кафедра управления инновациями" />
-                </Fragment>))} />
-                <Route path="/docs" exact component={(() => (<Fragment>
-                    <ScrollToTop />
-                    <Docs title="Регламентирующие документы - Кафедра управления инновациями" />
-                </Fragment>))} />
-                {/* Литература кафедры */}
-                <Route path="/literature" component={(() => (<Fragment>
-                    {!background && <ScrollToTop />}
-                    <Route exact path="/literature">
-                        <Literature title="Литература кафедры - Кафедра управления инновациями" />
-                    </Route>
-                </Fragment>))} />
-                <Route exact path="/book/:id" component={() => (<Fragment>
-                    <ScrollToTop />
-                    <BookPage />
-                </Fragment>)} />
-                <Route path="/quiz" exact component={(() => (<Fragment>
-                    <ScrollToTop />
-                    <Quiz title="Опросы студентов - Кафедра управления инновациями" />
-                </Fragment>))} />
-
-                {/* FOR ADMINISTRATION */}
-                <Route path="/login" exact component={(() => (<Fragment>
-                    <ScrollToTop />
-                    {auth ? <Redirect to="/admin" />
-                        : <Login title="Авторизация - Кафедра управления инновациями" />}
-                </Fragment>))} />
-
+                {getAllRoutes().map((route, index)=>{
+                    return getRoute(route)
+                })}
                 {auth && <Route path="/admin" component={(() => (<AdminRoutes />))} />}
-                
-                {/* NOT FOUND 404 */}
-                <Route path="*" exact component={(() => (<Fragment>
-                    <ScrollToTop />
-                    <PageNotFound status={404} />
-                </Fragment>))} />
             </Switch>
             {/* Модальные окна */}
             {background && <Route exact path="/staff/:id" component={StaffModal} />}
-            {background && <Route exact path="/book/:id" component={() => (<BookModal />)} />}
+            {background && <Route exact path="/literature/book/:id" component={BookModal}/>}
         </div>
     )
 }

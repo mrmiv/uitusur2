@@ -13,6 +13,145 @@ export class Navbar extends Component {
         this.props.closeNavbar()
     }
 
+    getLinkList = () =>{
+        
+        const linkList = [
+            {
+                id: "main",
+                to: "/",
+                exact: true,
+                name: "Главная"
+            },
+            {
+                id: "news",
+                to: "/news",
+                exact: true,
+                name: "Новости",
+                submenu: [
+                    {
+                        to: "/news/announcements",
+                        name: "Объявления кафедры",
+                    },
+                    {
+                        to: "/news/grants",
+                        name: "Стипендии и гранты",
+                    },
+                    {
+                        to: "/news/conference",
+                        name: "Конференции",
+                    },
+                ]
+            },
+            {
+                id: "about",
+                to: "/about",
+                exact: true,
+                name: "О кафедре",
+                submenu: [
+                    {
+                        to: {
+                            pathname: "/about",
+                            state: "staff"
+                        },
+                        name: "Сотрудники кафедры",
+                    },
+                    {
+                        to: {
+                            pathname: "/about",
+                            state: "СМК"
+                        },
+                        name: "СМК",
+                    },
+                    
+                ]
+            },
+            {
+                id: "student",
+                to: "/student",
+                exact: true,
+                name: "Обучающимся",
+                submenu: [
+                    {
+                        to: "/student/bakalavriat",
+                        name: "Бакалавриат",
+                    },
+                    {
+                        to: "/student/magistratura",
+                        name: "Магистратура",
+                    }
+                ]
+            },
+            {
+                id: "abiturient",
+                to: "/abiturient",
+                exact: true,
+                name: "Абитуриенту"
+            },
+            {
+                id: "abiturient-mag",
+                to: "/abiturient-mag",
+                exact: true,
+                name: "Магистратура ФИТ"
+            },
+            {
+                id: "documents",
+                to: "/documents",
+                exact: true,
+                name: "Регламентирующие документы"
+            },
+            {
+                id: "literature",
+                to: "/literature",
+                exact: true,
+                name: "Литература кафедры"
+            },
+            {
+                id: "quiz",
+                to: "/quiz",
+                exact: true,
+                name: "Опросы для студентов ?"
+            }
+        ]
+        
+        return linkList
+    }
+
+    getLinkComponent = ({id, name, to, exact, submenu}, index) => {
+        
+        const link_id = `submenu_${id}`
+        const submenu_links = <div className="submenu collapse" id={link_id} data-parent="#accordion_navbar">
+            {submenu && submenu.map((sub_item, index)=>{
+                return <NavLink index={index} className="link" to={sub_item.to}>
+                    {sub_item.name}
+                </NavLink>
+            })}
+        </div>
+
+        const main_link = <NavLink className="link d-flex" exact={exact} to={to}>{name}</NavLink>
+
+        const link = <Fragment>
+            {submenu ?
+                <Fragment>
+                    <div className="collapse_links d-flex justify-content-between">
+                        {main_link}<a
+                            className="open_sub"
+                            data-toggle="collapse"
+                            data-target={`#${link_id}`}
+                            href={`#${link_id}`}
+                            role="button"
+                            aria-expanded="false"
+                            aria-controls={link_id}>
+                            <Arrowdown_svg index={index} />
+                        </a>
+                    </div>
+                    {submenu_links}
+                </Fragment>
+            : main_link}
+        </Fragment>
+        
+        return link
+    }
+
     render() {
         return (
             <Fragment>
@@ -46,7 +185,11 @@ export class Navbar extends Component {
                         {this.props.isAuthenticated && <Route path="/admin" component={(() => (<AdminMenu />))} />}
                         <Route path="/" component={(() => (<NavMenu />))} />
                     </Switch> */}
-                    <NavMenu />
+                    <div className="menu" id="accordion_navbar">
+                        {this.getLinkList().map((link, index)=>{
+                            return this.getLinkComponent(link,index)
+                        })}
+                    </div>
                     {this.props.isAuthenticated ? <Link className="ml-3 mt-3 btn btn-danger" role="button"
                         to='/' onClick={() => { store.dispatch(logout()) }}>Выйти</Link> : null}
                 </div>
@@ -64,135 +207,6 @@ export default connect(
     mapStateToProps,
     { closeNavbar }
 )(Navbar)
-
-function NavMenu() {
-    return (
-        <div className="menu" id="accordion_navbar">
-            <NavLink to="/" className="link" exact>Главная</NavLink>
-            {/* НОВОСТИ */}
-            <a className="link d-flex"
-                data-toggle="collapse"
-                data-target="#submenu_news"
-                href="#submenu_news"
-                role="button"
-                aria-expanded="false"
-                aria-controls="submenu_news">
-                Новости <span> <Arrowdown_svg index={0}/> </span>
-            </a>
-            <div className="submenu collapse" id="submenu_news" data-parent="#accordion_navbar">
-                <NavLink className="link" to="/announcements">Объявления кафедры</NavLink>
-                <NavLink className="link" to="/grants">Стипендии и гранты</NavLink>
-                <NavLink className="link" to="/conferences">Конференции</NavLink>
-            </div>
-            {/* О КАФЕДРЕ */}
-            <div className="collapse_links d-flex justify-content-between">
-                <NavLink className="link d-flex"
-                    to="/about"
-                >   О кафедре
-            </NavLink>
-                <a
-                    className="open_sub"
-                    data-toggle="collapse"
-                    data-target="#submenu_about"
-                    href="#submenu_about"
-                    role="button"
-                    aria-expanded="false"
-                    aria-controls="submenu_about">
-                    <Arrowdown_svg index={1} />
-                </a>
-            </div>
-            <div className="submenu collapse" id="submenu_about" data-parent="#accordion_navbar">
-                <HashLink className="link" smooth to={{
-                    pathname: "/about",
-                    hash: "staff",
-                }}>Сотрудники кафедры</HashLink>
-                <HashLink className="link" smooth to={{
-                    pathname: "/about",
-                    hash: "CMK",
-                }} >СМК</HashLink>
-                {/*                         
-                <HashLink className="link" to="/about#staff">Сотрудники кафедры</HashLink>
-                <HashLink className="link" to="/about#CMK">СМК</HashLink> */}
-            </div>
-            {/* ОБУЧАЮЩИМСЯ */}
-            <div className="collapse_links d-flex justify-content-between">
-                <NavLink className="link d-flex"
-                    exact to="/student"
-                >   Обучающимся
-            </NavLink>
-                <a
-                    className="open_sub"
-                    data-toggle="collapse"
-                    data-target="#submenu_student"
-                    href="#submenu_student"
-                    role="button"
-                    aria-expanded="false"
-                    aria-controls="submenu_student">
-                    <Arrowdown_svg index={2} />
-                </a>
-            </div>
-            <div className="submenu collapse" id="submenu_student" data-parent="#accordion_navbar">
-                <NavLink className="link" to="/student/bach">Бакалавриат</NavLink>
-                <NavLink className="link" to="/student/mag">Магистратура</NavLink>
-            </div>
-            {/* ПОСТУПАЮЩЕМУ */}
-            <a className="link d-flex"
-                data-toggle="collapse"
-                data-target="#submenu_degree"
-                href="#submenu_degree"
-                role="button"
-                aria-expanded="false"
-                aria-controls="submenu_degree">
-                Поступающему <span> <Arrowdown_svg index={3} /> </span>
-            </a>
-            <div className="submenu collapse" id="submenu_degree" data-parent="#accordion_navbar">
-                <NavLink className="link" to="/degree/bach">Абитуриенту</NavLink>
-                <NavLink className="link" to="/degree/mag">Магистратура ФИТ</NavLink>
-            </div>
-            {/* РЕГЛАМЕНТИРУЮЩИЕ ДОКУМЕНТЫ */}
-            <NavLink to="/docs" className="link">
-                Регламентирующие документы
-            </NavLink>
-            {/* ЛИТЕРАТУРА КАФЕДРЫ */}
-            <NavLink to="/literature" className="link">
-                Литература кафедры
-            </NavLink>
-            <NavLink to="/quiz" className="link">
-                Опросы для студентов
-            </NavLink>
-            {/* ВХОД В СИСТЕМУ */}
-            {/* <NavLink  to="/login" className="link login">
-                Войти в систему
-            </NavLink>   */}
-        </div>
-    )
-}
-
-// function AdminMenu() {
-//     return (
-//         <div className="menu">
-//             <Link to='/' onClick={() => { store.dispatch(logout()) }}>Выйти</Link>
-//             <div className="d-flex">
-//                 <NavLink className="link" to="/admin/news">Новости</NavLink>
-//                 <NavLink to="/admin/news/form" exact>
-//                     <Icon icon={faPlusCircle} size="lg" />
-//                 </NavLink>
-//             </div>
-//             <div className="d-flex">
-//                 <NavLink className="link" to="/admin/literature">Литература</NavLink>
-//                 <NavLink to="/admin/literature/add" exact>
-//                     <Icon icon={faPlusCircle} size="lg" />
-//                 </NavLink>
-//             </div>
-//             <div className="d-flex">
-//                 <NavLink className="link" to="/admin/staff">Сотрудники</NavLink>
-//                 <NavLink to="/admin/staff/form" exact>
-//                     <Icon icon={faPlusCircle} size="lg" />
-//                 </NavLink>
-//             </div>
-//         </div>
-//     )
-// }
 
 const Arrowdown_svg = ({index}) => {
     return (<svg id={`menu_arrow_down_svg_${index}`} width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
