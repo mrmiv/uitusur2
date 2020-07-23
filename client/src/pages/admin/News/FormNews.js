@@ -14,6 +14,7 @@ export class NewsForm extends Component {
 		id: null,
 
 		title: "",
+		annotation: "",
 		body: "",
 		type: null,
 		site: "",
@@ -56,6 +57,7 @@ export class NewsForm extends Component {
 			if (News !== prevProps.news.News) {
 				this.setState({
 					title: News.title,
+					annotation: News.annotation,
 					body: News.body,
 					type: String(News.type),
 					site: News.site,
@@ -119,6 +121,7 @@ export class NewsForm extends Component {
 
 		const {
 			title,
+			annotation,
 			body,
 			type,
 			site,
@@ -151,6 +154,9 @@ export class NewsForm extends Component {
 		}
 		if (doc) {
 			fields.doc = doc;
+		}
+		if (annotation) {
+			fields.annotation = annotation;
 		}
 
 		if (type === "2") {
@@ -222,6 +228,17 @@ export class NewsForm extends Component {
 								id="title-input"
 								placeholder="Иван Иванов вступил в профсоюз ТУСУРа"
 								value={this.state.title}
+							/>
+						</div>
+						<div className="form-group">
+							<label htmlFor="annotation-input">Аннотация</label>
+							<textarea
+								maxLength="255"
+								onChange={this.changeInput}
+								className="form-control"
+								name="annotation"
+								id="annotation-input"
+								value={this.state.annotation}
 							/>
 						</div>
 						<div className="form-row">

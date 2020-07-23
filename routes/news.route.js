@@ -22,7 +22,7 @@ router.get("/:type", async (req, res) => {
 		await News.find({ type })
 			.select([
 				"title",
-				"body",
+				"annotation",
 				"created_at",
 				"pin",
 				"city",
@@ -69,6 +69,7 @@ router.post("/", async (req, res) => {
 	const {
 		title,
 		body,
+		annotation,
 		type,
 		pin,
 		site,
@@ -98,6 +99,7 @@ router.post("/", async (req, res) => {
 		const news = new News({
 			title,
 			body,
+			annotation,
 			type: parseInt(type),
 			pin: pin === "true",
 			site,
@@ -235,6 +237,7 @@ router.put("/read/pin/:id", auth, async (req, res) => {
 router.patch("/read/:id", auth, async (req, res) => {
 	const id = req.params.id;
 	const { title,
+		annotation,
 		site,
 		type,
 		deadline,
@@ -247,26 +250,42 @@ router.patch("/read/:id", auth, async (req, res) => {
 
 	try {
 
-		const news = await News.findById(id, (err) => {
+		if (!title) {
+			return res
+				.status(400)
+				.json({ message: "Поле заголовок является обязательным" });
+		}
+		if (!body) {
+			return res
+				.status(400)
+				.json({ message: "Поле сообщение является обязательным" });
+		}
+		if (!type) {
+			return res.status(400).json({ message: "Поле тип является обязательным" });
+		}
+
+		const news = await News.findByIdAndUpdate(id,{
+			title,
+			annotation,
+			site,
+			type,
+			deadline,
+			body,
+			city,
+			users,
+			period,
+			grant,
+			pin
+		}, (err) => {
 			if (err) {
 				throw new Error(err.message)
 			}
 		});
 
-		if (title) { news.title = title }
-		if (body) { news.body = body }
+		return res.json({ message: "Новость обновлена"})
 
-		if (deadline) { news.deadline = deadline }
-		if (type) { news.type = type }
-		if (site) { news.site = site }
-		if (city) { news.city = city }
-		if (users) { news.users = users }
-		if (period) { news.period = period }
-		if (grant) { news.grant = grant }
-		if (pin) { news.pin = pin }
-
-		await news.save()
-			.then(() => res.json({ message: "Новость обновлена" }))
+		// await news.save()
+			// .then(() => res.json({ message: "Новость обновлена" }))
 
 		// try {
 		//     // delete doc
