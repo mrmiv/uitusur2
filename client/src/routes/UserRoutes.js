@@ -124,7 +124,7 @@ function HomeRoutes({ auth }) {
             },
             {
                 exact: true,
-                path: "/news/read/:id",
+                path: "/news/read/:title",
                 component: <FullNews />
             },
             {
@@ -190,13 +190,6 @@ function HomeRoutes({ auth }) {
                 path: "/login",
                 component: auth ? <Redirect to="/admin" /> : <Login title="Авторизация - Кафедра управления инновациями" />
             },
-            
-            // other
-            {
-                exact: true,
-                path: "*",
-                component: <PageNotFound status={404} />
-            }
         ]
         
         return allRoutes
@@ -209,9 +202,13 @@ function HomeRoutes({ auth }) {
                     return getRoute(route)
                 })}
                 {auth && <Route path="/admin" component={(() => (<AdminRoutes />))} />}
+                {getRoute({
+                    path: "*",
+                    component: <PageNotFound status={404} />
+                })}
             </Switch>
             {/* Модальные окна */}
-            {background && <Route exact path="/staff/:id" component={StaffModal} />}
+            {background && <Route exact path="/about/staff/:id" component={StaffModal} />}
             {background && <Route exact path="/literature/book/:id" component={BookModal}/>}
         </div>
     )

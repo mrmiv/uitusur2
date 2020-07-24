@@ -18,6 +18,14 @@ const NewsSchema = new Schema({
         trim: true
     },
 
+    translit_title: {
+        type: String,
+        required: [true, 'Поле URL является обязательным!'],
+        unique: true,
+        trim: true,
+        lowercase: true
+    },
+
     // Аннотация
     annotation: {
         type: String,

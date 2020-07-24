@@ -1,4 +1,4 @@
-const { Router } = require("express");
+const { Router, query } = require("express");
 const mailer = require("../middleware/middleware.mail");
 const router = Router();
 const fs = require("fs");
@@ -7,21 +7,27 @@ const auth = require('../middleware/middleware.auth')
 const News = require("../models/News");
 
 // /news
-router.get("/:type", async (req, res) => {
+router.get("/", async (req, res) => {
 	// const {page, perpage} = req.params
 	const page = Number(req.query.page) || 1;
-	const perpage = Number(req.query.perpage) || 15;
+	const perpage = Number(req.query.perpage) || 10;
 	// console.log(page, perpage);
-	const { type } = req.params;
+	const type = req.query.type || null;
 
 	try {
-		if (!(type === 1 || 2 || 3)) {
-			return res.status(404).json({ message: "Страница не найдена" });
+		if (type && !(type === 1 || 2 || 3 || 4)) {
+			return res.status(404).json({ message: "Категория новостей не найдена" });
 		}
 
-		await News.find({ type })
+		const query = {}
+		if(type){
+			query.type = type
+		}
+
+		await News.find(query)
 			.select([
 				"title",
+				"translit_title",
 				"annotation",
 				"created_at",
 				"pin",
@@ -38,7 +44,7 @@ router.get("/:type", async (req, res) => {
 			.skip((page - 1) * perpage)
 			.limit(perpage)
 			.then(async (data) => {
-				const pages = await News.find({ type }).countDocuments();
+				const pages = await News.find(query).countDocuments();
 				res.json({ data, pages });
 			})
 			.catch((err) => res.status(400).json({ message: err.message }));
@@ -48,11 +54,11 @@ router.get("/:type", async (req, res) => {
 });
 
 // news/read/:id
-router.get("/read/:id", async (req, res) => {
-	const id = req.params.id;
+router.get("/read/:title", async (req, res) => {
+	const {title} = req.params;
 
 	try {
-		const news = await News.findById(id);
+		const news = await News.findOne({translit_title: title});
 
 		if (!news) {
 			return res.status(404).json({ message: "Новость не найдена" });
@@ -68,6 +74,7 @@ router.get("/read/:id", async (req, res) => {
 router.post("/", async (req, res) => {
 	const {
 		title,
+		translit_title,
 		body,
 		annotation,
 		type,
@@ -86,6 +93,11 @@ router.post("/", async (req, res) => {
 			.status(400)
 			.json({ message: "Поле заголовок является обязательным" });
 	}
+	if (!translit_title) {
+		return res
+			.status(400)
+			.json({ message: "Поле URL является обязательным" });
+	}
 	if (!body) {
 		return res
 			.status(400)
@@ -96,8 +108,16 @@ router.post("/", async (req, res) => {
 	}
 
 	try {
+
+		const exist = News.findOne({translit_title}).select(["translit_title"])
+
+		if(exists){
+			return res.status(400).json({ message: "Новость с таким URL уже существует, измените заголовок" }); 
+		}
+
 		const news = new News({
 			title,
+			translit_title,
 			body,
 			annotation,
 			type: parseInt(type),
@@ -187,7 +207,7 @@ router.delete("/read/:id", auth, async (req, res) => {
 		if (!news) {
 			return res
 				.status(404)
-				.json({ message: "Новости с введенным id не существует" });
+				.json({ message: "Такой новости не существует" });
 		}
 
 		// if (news.docs){
@@ -221,7 +241,7 @@ router.put("/read/pin/:id", auth, async (req, res) => {
 		if (!news) {
 			return res
 				.status(404)
-				.json({ message: "Новости с введенным id не существует" });
+				.json({ message: "Такой новости не существует" });
 		}
 
 		news.pin = !news.pin
@@ -237,6 +257,7 @@ router.put("/read/pin/:id", auth, async (req, res) => {
 router.patch("/read/:id", auth, async (req, res) => {
 	const id = req.params.id;
 	const { title,
+		translit_title,
 		annotation,
 		site,
 		type,
@@ -266,6 +287,7 @@ router.patch("/read/:id", auth, async (req, res) => {
 
 		const news = await News.findByIdAndUpdate(id,{
 			title,
+			translit_title,
 			annotation,
 			site,
 			type,

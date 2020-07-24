@@ -30,7 +30,8 @@
     "react-scripts": "3.4.0",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "sass": "^1.26.3"
+    "sass": "^1.26.3",
+    "transliteration": "^2.1.11"
   },
   "scripts": {
     "start": "react-scripts start",

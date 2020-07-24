@@ -20,13 +20,14 @@ import spiralCalendar from '@iconify/icons-twemoji/spiral-calendar';
 export class FullNews extends Component {
 
     state = {
-        News: null
+        News: null,
+        title: this.props.match.params.title
     }
 
     // didmount and req for id
     componentDidMount() {
-        // const id = this.props.match.params.id
-        this.props.ReadNews(this.props.id)
+        const {title} = this.state
+        this.props.ReadNews(title)
     }
 
     componentWillUnmount() {
@@ -50,7 +51,7 @@ export class FullNews extends Component {
         return (
             <Fragment>
                 <div className="container-md container-fluid">
-                    <a onClick={()=>this.props.history.goBack()}> Назад </a>
+                    <a onClick={() => this.props.history.goBack()}> Назад </a>
                     <div id="fullnews">
                         {!isLoading ?
                             News ? <Fragment>
@@ -82,9 +83,9 @@ export class FullNews extends Component {
                                             <Icon className="mr-3" size="lg" icon={documentAttach} /> {doc.substr(39)}
                                         </a>)
                                     })}</div>}
-                            </Fragment> 
-                            : <p>Такая новость не найдена :( </p>
-                        : "Загрузка"}
+                            </Fragment>
+                                : <p>Такая новость не найдена :( </p>
+                            : "Загрузка"}
                     </div>
                 </div>
             </Fragment>

@@ -33,6 +33,10 @@
         }
     }
 
+    #toggle-news{
+        overflow-y: auto;
+    }
+
     .news-list-grid{
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -49,7 +53,6 @@
                     opacity 0.1s ease,
                     visibility 0.1s ease;
         ul{
-            display: flex;
             li{
                 margin: 0 16px 0 0;
                 a{
@@ -111,6 +114,8 @@
             p{
                 font-size:16px;    
                 overflow-wrap: anywhere;
+                word-wrap: all;
+                -ms-word-wrap: all;
             }
         }
 
@@ -157,11 +162,11 @@
         margin-top: 16px;
         *{
             font-family: "Roboto", sans-serif;
-            font-size: 16px;
+            font-size: 18px;
             line-height: 1.5;
         }
         p{
-            margin-bottom: 4px !important;
+            margin-bottom: 8px !important;
         }
         
     }

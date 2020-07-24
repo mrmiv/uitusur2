@@ -40,7 +40,7 @@ $lgray: #c8d6e5;
     -webkit-transition: all 0.3s cubic-bezier(0.1, 0.9, 0.3, 1);
     background: $blue;
     z-index: 1100;
-    overflow-y: auto;
+    overflow: none auto;
     overflow-block: red;
 
     .top-navbar-btns{

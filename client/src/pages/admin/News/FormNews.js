@@ -8,12 +8,14 @@ import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faArrowAltCircleLeft } from "@fortawesome/free-solid-svg-icons";
 import { Link, Prompt, withRouter } from "react-router-dom";
 import CyrillicToTranslit from "cyrillic-to-translit-js";
+import { transliterate as tr, slugify } from 'transliteration';
 
 export class NewsForm extends Component {
 	state = {
 		id: null,
 
 		title: "",
+		translit_title: "",
 		annotation: "",
 		body: "",
 		type: null,
@@ -81,13 +83,27 @@ export class NewsForm extends Component {
 		this.setState({ type });
 	};
 
-	changeInput = (e) => {
+	changeInput = e => {
 		const field = e.target.name;
-		this.setState({ [field]: e.target.value });
+		const value = e.target.value
+		this.setState({ [field]: value });
 		if (!this.state.blocked) {
 			this.setState({ blocked: true });
 		}
 	};
+
+	changeTitleAndTranslit = e => {
+		const value = e.target.value
+		const translit_value = slugify(value)
+
+		this.setState({ 
+			title: value,
+			translit_title: translit_value
+		});
+		if (!this.state.blocked) {
+			this.setState({ blocked: true });
+		}
+	}
 
 	changeCheckbox = (e) => {
 		const field = e.target.name;
@@ -117,10 +133,11 @@ export class NewsForm extends Component {
 		e.preventDefault();
 		this.props.clearInfo();
 		window.scrollTo(0, 0);
-		const id = this.state.id;
+		const {id} = this.state;
 
 		const {
 			title,
+			translit_title,
 			annotation,
 			body,
 			type,
@@ -138,6 +155,7 @@ export class NewsForm extends Component {
 
 		let fields = {
 			title,
+			translit_title,
 			body,
 			pin,
 			send_to_email,
@@ -221,13 +239,25 @@ export class NewsForm extends Component {
 						<div className="form-group">
 							<label htmlFor="title-input">Заголовок</label>
 							<input
-								onChange={this.changeInput}
+								onChange={this.changeTitleAndTranslit}
 								type="text"
 								className="form-control"
 								name="title"
 								id="title-input"
 								placeholder="Иван Иванов вступил в профсоюз ТУСУРа"
 								value={this.state.title}
+							/>
+						</div>
+						<div className="form-group">
+							<label htmlFor="translit-title-input">Транслитом / URL</label>
+							<input
+								disabled
+								type="text"
+								className="form-control"
+								name="translit_title"
+								id="translit-title-input"
+								placeholder="ivan-ivanon-vstupil-v-profsouz-tusura"
+								value={this.state.translit_title}
 							/>
 						</div>
 						<div className="form-group">

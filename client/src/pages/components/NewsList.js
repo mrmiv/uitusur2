@@ -28,10 +28,9 @@ export function toDate(datetime, time = false) {
 
 export function NewsInList(props) {
 
-    const { body, title, datetime, pin, annotation } = props
-    // console.log(annotation, props)
+    const { url, title, datetime, pin, annotation, id } = props
     return (
-        <Link to={`/news/${props.id}`} 
+        <Link to={`/news/read/${url}`}
         className={`
             one-news 
             ${annotation ? 'news-with-annotation' : ''} \

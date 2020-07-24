@@ -7,10 +7,7 @@ import './styles/News.scss'
 import { closeNavbar } from '../redux/actions/navbarActions'
 import { GetNewsList, GetMoreNews } from '../redux/actions/newsActions'
 import { NewsInList } from './components/NewsList'
-import Pagination from "react-js-pagination";
-
-// import images
-import marketing_img from './img/marketing_.svg';
+// import Pagination from "react-js-pagination";
 
 const grants = [
     {
@@ -54,7 +51,7 @@ export class NewsList extends Component {
         page: 1,
         perPage: 10,
 
-        type: this.props.type,
+        type: this.props.type || null,
 
         msg: null
     }
@@ -65,16 +62,23 @@ export class NewsList extends Component {
 
     componentDidMount() {
         document.title = this.props.title + " - Кафедра управления инновациями"
-        this.props.GetNewsList(this.state.type, this.state.page, this.state.perPage)
-    }
 
-    Paginate(page) {
-        window.scrollTo(0, window.innerHeight);
-        // console.log(page);
-        const { type, perPage } = this.state
-        this.setState({ page })
+        const {type, page, perPage} = this.state
+
         this.props.GetNewsList(type, page, perPage)
     }
+
+    // Paginate(page) {
+    //     window.scrollTo(0, window.innerHeight);
+    //     // console.log(page);
+    //     const { type, perPage } = this.state
+    //     this.setState({ page })
+    //     if (type){
+    //         this.props.GetNewsList(type, page, perPage)
+    //     } else {
+    //         this.props.GetAllNews(page, perPage)
+    //     }
+    // }
 
     getMoreNews(page){
         const { type, perPage } = this.state
@@ -98,10 +102,11 @@ export class NewsList extends Component {
                                 {title}
                         </h1>
                         <div id="toggle-news" data-visible={toggleMenuIsVisible}>
-                            <ul>
-                                {type !== 1 && <li><NavLink to='/announcements'>Объявления кафедры</NavLink></li>}
-                                {type !== 2 && <li><NavLink to='/grants'>Стипендии и гранты</NavLink></li>}
-                                {type !== 3 && <li><NavLink to='/conferences'>Конференции</NavLink></li>}
+                            <ul className="d-sm-flex">
+                                {type && <li><NavLink to='/news'>Все новости</NavLink></li>}
+                                {type !== 1 && <li><NavLink to='/news/announcements'>Объявления кафедры</NavLink></li>}
+                                {type !== 2 && <li><NavLink to='/news/grants'>Стипендии и гранты</NavLink></li>}
+                                {type !== 3 && <li><NavLink to='/news/conference'>Конференции</NavLink></li>}
                             </ul>
                         </div>
                             {!isLoading 
@@ -116,7 +121,7 @@ export class NewsList extends Component {
                                                     pin={news.pin}
                                                     id={news._id}
                                                     title={news.title}
-                                                    body={news.body}
+                                                    url={news.translit_title}
                                                     city={news.city}
                                                     deadline={news.deadline}
                                                     users={news.users}
@@ -125,15 +130,6 @@ export class NewsList extends Component {
                                                 </Fragment>)
                                             })}
                                         </div>
-                                        {/*<Pagination
-                                            activePage={page}
-                                            itemsCountPerPage={perPage}
-                                            totalItemsCount={total}
-                                            pageRangeDisplayed={5}
-                                            itemClass="more-link"
-                                            hideFirstLastPages
-                                            hideDisabled
-                                            onChange={this.Paginate.bind(this)} /> */}
                                         { page < Math.ceil(total/perPage) ? 
                                             <a className="more-link link-center" onClick={()=>this.getMoreNews(Number(page+1))}>
                                             ЕЩЕ НОВОСТИ</a> 

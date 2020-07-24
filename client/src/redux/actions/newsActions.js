@@ -11,15 +11,17 @@ import {
 import axios from "axios";
 import { returnInfo } from "./infoActions";
 
-export const GetNewsList = (type, page = 1, perPage = 15) => (dispatch) => {
+export const GetNewsList = (type='', page = 1, perPage = 10) => (dispatch) => {
 	// get /literature/?page=1&?perPage=12?category=all&?sort=asc
 
 	dispatch({
 	    type: LOADING_REQ
 	})
 
+	const url = `/api/news/?${type ? `type=${type}&` : ''}page=${page}&perpage=${perPage}`
+
 	axios
-		.get(`/api/news/${type}?page=${page}&perpage=${perPage}`)
+		.get(url)
 		.then((res) => {
 			// console.log(res.data);
 
@@ -40,11 +42,13 @@ export const GetNewsList = (type, page = 1, perPage = 15) => (dispatch) => {
 		});
 };
 
-export const GetMoreNews = (type, page = 1, perPage = 15) => (dispatch) => {
+export const GetMoreNews = (type, page = 1, perPage = 10) => (dispatch) => {
 	// get /literature/?page=1&?perPage=12?category=all&?sort=asc
 
+	const url = `/api/news/${type ? type : ''}?page=${page}&perpage=${perPage}`
+
 	axios
-		.get(`/api/news/${type}?page=${page}&perpage=${perPage}`)
+		.get(url)
 		.then((res) => {
 			// console.log(res.data);
 
@@ -65,14 +69,14 @@ export const GetMoreNews = (type, page = 1, perPage = 15) => (dispatch) => {
 		});
 };
 
-export const ReadNews = (id) => (dispatch) => {
+export const ReadNews = title => (dispatch) => {
 	dispatch({
 		type: NEWS_LOADING,
 	});
 
-	// get /literature/book/id
+	// get /literature/book/title
 	axios
-		.get(`/api/news/read/${id}`)
+		.get(`/api/news/read/${title}`)
 		.then((res) => {
 			dispatch({
 				type: GET_NEWS,
@@ -92,6 +96,7 @@ export const ReadNews = (id) => (dispatch) => {
 
 export const postNews = ({
 	title,
+	translit_title,
 	annotation,
 	site,
 	type,
@@ -117,6 +122,7 @@ export const postNews = ({
 	const formdata = new FormData();
 
 	formdata.append("title", title);
+	formdata.append("translit_title", translit_title);
 	formdata.append("body", body);
 	formdata.append("type", type);
 
@@ -204,6 +210,7 @@ export const delNews = (id) => (dispatch) => {
 
 export const patchNews = (id, {
 	title,
+	translit_title,
 	annotation,
 	site,
 	type,
@@ -228,6 +235,7 @@ export const patchNews = (id, {
 	const formdata = new FormData();
 
 	formdata.append("title", title);
+	formdata.append("translit_title", translit_title);
 	formdata.append("body", body);
 	formdata.append("type", type);
 
