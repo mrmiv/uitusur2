@@ -61,6 +61,9 @@ const NewsSchema = new Schema({
         type: String,
         validate: {
             validator: function (path) {
+                if(!path){
+                    return
+                }
                 return /^((https|http)?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/.test(path)
             },
             message: props => `${props.value} - Поле сайт содержит недопустимые символы`

@@ -181,10 +181,7 @@ export const postNews = ({
 		});
 };
 
-export const delNews = (id) => (dispatch) => {
-	dispatch({
-		type: LOADING_REQ,
-	});
+export const delNews = (id, type='', page=1, perPage=15) => dispatch => {
 
 	const config = {
 		headers: {
@@ -199,6 +196,7 @@ export const delNews = (id) => (dispatch) => {
 			dispatch({
 				type: REQ_SUCCESS,
 			});
+			dispatch(GetNewsList(type, page, perPage))
 		})
 		.catch((err) => {
 			dispatch(returnInfo(err.response.data, err.response.status, "REQ_FAIL"));
@@ -288,11 +286,7 @@ export const patchNews = (id, {
 		});
 };
 
-export const pinNews = id => dispatch => {
-
-	dispatch({
-		type: LOADING_REQ,
-	});
+export const pinNews = (id, type='', page = 1, perPage = 10) => dispatch => {
 
 	const config = {
 		headers: {
@@ -308,6 +302,7 @@ export const pinNews = id => dispatch => {
 			dispatch({
 				type: REQ_SUCCESS,
 			});
+			dispatch(GetNewsList(type, page, perPage))
 		})
 		.catch((err) => {
 			dispatch(returnInfo(err.response.data, err.response.status, "REQ_FAIL"));

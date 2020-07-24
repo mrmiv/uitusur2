@@ -1,12 +1,13 @@
 import React, { Component, Fragment } from 'react'
 import { closeNavbar } from '../../../redux/actions/navbarActions'
 import { connect } from 'react-redux'
-import { Editor } from "@tinymce/tinymce-react";
+import { EditorArea } from '../components/Editor'
 import { getParam, patchParam, postParam,getPageParam } from '../../../redux/actions/data_actions/paramActions'
 import { clearInfo } from '../../../redux/actions/infoActions'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import { faArrowAltCircleLeft } from '@fortawesome/free-solid-svg-icons'
 import { Link, Prompt, withRouter } from 'react-router-dom'
+import { text } from '@fortawesome/fontawesome-svg-core'
 
 export class FormParam extends Component {
 
@@ -88,8 +89,9 @@ export class FormParam extends Component {
     }
   }
 
-  changeBody = (text) => {
+  changeBody = text => {
     this.setState({ text });
+    // console.log(this.state.text);
     if (!this.state.blocked) {
       this.setState({ blocked: true });
     }
@@ -126,7 +128,7 @@ export class FormParam extends Component {
 
   render() {
     const { msg } = this.state
-    console.log(this.state);
+    // console.log(this.state);
     
     const { isLoading } = this.props    
     return (
@@ -209,31 +211,8 @@ export class FormParam extends Component {
                 </div>
             </div>
 
-            <div className="form-group">
-              <label htmlFor="body-input">Сообщение</label>
-              <Editor
-                initialValue={this.state.text}
-                init={{
-                  height: 400,
-                  // plugins: [
-                  //   "advlist autolink lists link charmap print preview anchor",
-                  //   "searchreplace visualblocks code",
-                  //   "insertdatetime table paste code help wordcount",
-                  // ],
-                  plugins: 'print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons',
-                  menubar: 'file edit view insert format tools table help',
-                  toolbar: 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl',
-                  // toolbar_sticky: true,
-                  style_formats: [
-                    { title: 'button', inline: 'button', class: "more-link" }
-                  ],
-                  // toolbar:
-                  //   "undo redo | formatselect | bold italic backcolor |alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | table insertfile image link media mediaembed pageembed | preview help",
-                }}
-                onEditorChange={this.changeBody}
-                id="body-input"
-              />
-            </div>
+            <EditorArea value={this.state.text} changeParentBody={this.changeBody}/>
+
             <div className="justify-content-end align-items-center form-row">
               
             <div className="form-group col-auto">

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { closeNavbar } from "../../../redux/actions/navbarActions";
 import { connect } from "react-redux";
-import { Editor } from "@tinymce/tinymce-react";
+import { EditorArea } from '../components/Editor'
 import { clearInfo } from "../../../redux/actions/infoActions";
 import { ReadNews, postNews, patchNews } from "../../../redux/actions/newsActions";
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
@@ -12,7 +12,8 @@ import { transliterate as tr, slugify } from 'transliteration';
 
 export class NewsForm extends Component {
 	state = {
-		id: null,
+		id: "",
+		url: null,
 
 		title: "",
 		translit_title: "",
@@ -41,24 +42,25 @@ export class NewsForm extends Component {
 
 	componentDidMount() {
 		document.title = this.props.title;
-		const id = this.props.match.params.id;
-		if (id) {
-			this.props.ReadNews(id);
+		const title = this.props.match.params.title;
+		if (title) {
+			this.props.ReadNews(title);
 		}
 	}
 
 	componentDidUpdate(prevProps, prevState) {
-		const id = this.props.match.params.id;
+		const url = this.props.match.params.title;
 		const { msg } = this.props.info;
-		if (id) {
-			if (id !== prevState.id) {
-				this.setState({ id });
+		if (url) {
+			if (url !== prevState.url) {
+				this.setState({ url });
 			}
 			const { News } = this.props.news;
 
 			if (News !== prevProps.news.News) {
 				this.setState({
 					title: News.title,
+					translit_title: News.translit_title,
 					annotation: News.annotation,
 					body: News.body,
 					type: String(News.type),
@@ -69,6 +71,7 @@ export class NewsForm extends Component {
 					grant: News.grant,
 					pin: News.pin,
 					period: News.period,
+					id: News._id
 				});
 			}
 		}
@@ -133,7 +136,6 @@ export class NewsForm extends Component {
 		e.preventDefault();
 		this.props.clearInfo();
 		window.scrollTo(0, 0);
-		const {id} = this.state;
 
 		const {
 			title,
@@ -151,6 +153,9 @@ export class NewsForm extends Component {
 
 			pin,
 			send_to_email,
+
+			url,
+			id
 		} = this.state;
 
 		let fields = {
@@ -193,7 +198,7 @@ export class NewsForm extends Component {
 		const News = fields;
 		// console.log(Staff);
 
-		if (id) {
+		if (url) {
 			// console.log(fields);
 			this.props.patchNews(id, News)
 		} else {
@@ -391,26 +396,7 @@ export class NewsForm extends Component {
 								)}
 							</div>
 						)}
-						<div className="form-group">
-							<label htmlFor="body-input">Сообщение</label>
-							<Editor
-								initialValue={this.state.body}
-								init={{
-									height: 400,
-									menubar: false,
-									plugins: [
-										"advlist autolink lists link charmap print preview anchor",
-										"searchreplace visualblocks code",
-										"insertdatetime table paste code help wordcount",
-									],
-									toolbar:
-										"undo redo | formatselect | bold italic backcolor |alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | table insertfile image link media mediaembed pageembed | preview help",
-								}}
-								onEditorChange={this.changeBody}
-								id="body-input"
-								placeholder="Иван Иванов вступил в профсоюз ТУСУРа"
-							/>
-						</div>
+						<EditorArea value={this.state.body} changeParentBody={this.changeBody}/>
 						<div className="w-100 mt-2 d-flex justify-content-between align-items-bottom">
 							<div>
 								<div className="form-group form-check">
@@ -445,7 +431,7 @@ export class NewsForm extends Component {
 								type="submit"
 								disabled={isLoading}
 							>
-								{this.state.id ? "Обновить новость" : "Добавить новость"}
+								{this.state.url ? "Обновить новость" : "Добавить новость"}
 							</button>
 						</div>
 					</form>

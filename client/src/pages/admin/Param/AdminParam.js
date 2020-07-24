@@ -54,7 +54,6 @@ export class AdminParam extends Component {
     }
   }
 
-
   setActivity = (id, activity) => {
     const {page, onlyActive} = this.state
 

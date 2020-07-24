@@ -109,7 +109,7 @@ router.post("/", async (req, res) => {
 
 	try {
 
-		const exist = News.findOne({translit_title}).select(["translit_title"])
+		const exists = await News.findOne({translit_title})
 
 		if(exists){
 			return res.status(400).json({ message: "Новость с таким URL уже существует, измените заголовок" }); 
