@@ -7,7 +7,8 @@ import { clearInfo } from '../../../redux/actions/infoActions'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import { faArrowAltCircleLeft } from '@fortawesome/free-solid-svg-icons'
 import { Link, Prompt, withRouter } from 'react-router-dom'
-import { text } from '@fortawesome/fontawesome-svg-core'
+// import { text } from '@fortawesome/fontawesome-svg-core'
+import { ParamComponent } from '../../components/ParamsList'
 
 export class FormParam extends Component {
 
@@ -23,7 +24,6 @@ export class FormParam extends Component {
 
     order_length: null,
 
-    visiblePreview: false,
     textRight: false,
 
     blocked: false,
@@ -229,6 +229,20 @@ export class FormParam extends Component {
 
             </div>
           </form>
+
+          <section id="preview-param">
+            <h1>Предпросмотр</h1>
+            <hr/>
+            <ParamComponent
+              param={{
+                title: this.state.title,
+                text: this.state.text,
+                img: this.state.image,
+              }}
+              index={this.state.order-1}
+            />
+          </section>
+
         </div>
       </div>
     )
