@@ -13,11 +13,14 @@ class SearchField extends Component{
 
     changeQuery = e => {
         this.setState({query: e.target.value})
+        // this.props.setQuery(query)
     }
 
-    search = () => {
+    search = e => {
+        e.preventDefault()
         const {query} = this.state
         console.log(query)
+        window.location = '/search'
     }
 
     render(){
@@ -33,7 +36,8 @@ class SearchField extends Component{
                         class="form-control col"
                         placeholder="Что ищем?.."
                     />
-                    <button className="btn btn-success" onClick={this.search}>ПОИСК</button>
+                    <button className="btn btn-success" type="submit" 
+                    onClick={this.search}>ПОИСК</button>
                 </div>
                 </div>
             </form>
@@ -49,6 +53,7 @@ const mapStateToProps = state => ({
 export default connect(
     mapStateToProps,
     {
-        // post
+        // post 
+        // setQuery
     }
 )(SearchField)
