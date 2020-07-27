@@ -2,6 +2,11 @@
 export const OPEN_NAV = "OPEN_NAV"
 export const CLOSE_NAV = "CLOSE_NAV"
 
+// ПОиск
+export const SEARCH_LOADING = "SEARCH_LOADING"
+export const SEARCH_SUCCESS = "SEARCH_SUCCESS"
+export const SEARCH_FAIL = "SEARCH_FAIL"
+
 // Домен
 export const GET_DOMAIN_LOCATION = "GET_DOMAIN_LOCATION"
 
