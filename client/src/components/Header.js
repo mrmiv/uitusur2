@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component,Fragment} from 'react'
 import {Link} from 'react-router-dom'
 import './styles/Header.scss'
 import {openNavbar} from '../redux/actions/navbarActions'
@@ -8,8 +8,13 @@ import "./styles/Header.scss"
 
 import { FontAwesomeIcon as Icon} from '@fortawesome/react-fontawesome';
 import { faIndent, faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import SearchField from './SearchField'
 
 export class Header extends Component{
+
+    state = {
+        searchIsOpen: false
+    }
 
     static propTypes = {
         openNavbar: PropTypes.func.isRequired,
@@ -20,14 +25,13 @@ export class Header extends Component{
     }
 
     render(){
-        return(
-            <nav id="Header" className="navbar fixed-top navbar-light bg-light shadow-sm">
+        return( <Fragment>
+            <nav id="Header" className={`navbar fixed-top navbar-light bg-light ${this.state.searchIsOpen ? 'search-is-open' : ''}`} >
                 <div className="container-md container-fluid">
                     <a
                     onClick={this.OpenNavbar}
                     style={{cursor:"pointer"}}
                     >
-
                         <span>
                         <svg id="opennavbar_svgicon" width="36" height="22" viewBox="0 0 25 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12.5844 11H1.58441C1.03441 11 0.584412 10.5875 0.584412 10.0833C0.584412 9.57917 1.03441 9.16667 1.58441 
@@ -92,11 +96,9 @@ export class Header extends Component{
                         </circle>
                     </svg>
 
-
-
                         {/* <img src="/svg/FIT_LOGO_NAV.svg"/> */}
                     </Link>
-                    <Link to="/search">
+                    <a onClick={()=>this.setState({searchIsOpen: !this.state.searchIsOpen})} title="Поиск" style={{cursor: "pointer"}}>
                     <svg id="search_button" width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="10" cy="10" r="9" stroke="#354ED1" stroke-width="2.4">
                             <animate attributeName="cx" begin="search_button.mouseenter" fill="freeze" from="10" to="12" dur="0.3s"/>
@@ -116,9 +118,11 @@ export class Header extends Component{
                         </line>
                     </svg>
                         {/* <Icon icon={faUserCircle} size="lg" style={{cursor:"pointer", color: "darkblue"}}/> */}
-                    </Link>
+                    </a>
                 </div>
             </nav>
+            {this.state.searchIsOpen && <SearchField/>}
+        </Fragment>
         )
     }
 }

@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react'
 import store from '../store'
 import { logout } from '../redux/actions/authActions'
 import { NavLink, Link } from 'react-router-dom'
-import { HashLink } from 'react-router-hash-link'
 import { closeNavbar } from '../redux/actions/navbarActions'
 import './styles/Navbar.scss'
 import { connect } from 'react-redux';

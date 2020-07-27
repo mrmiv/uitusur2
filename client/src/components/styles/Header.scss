@@ -1,5 +1,28 @@
+@import '../../pages/styles/animations.scss';
+
 .navbar{
   height: 60px;
   flex-wrap: unset;
   -ms-flex-wrap: unset;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  &.search-is-open{
+    box-shadow: 0 40px 160px 12px black;
+  }
+}
+
+form#search-global-form{
+  padding: 8px;
+  left: 0;
+  right: 0;
+  position: fixed;
+  animation: fadeInFromTop 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0s 1 alternate forwards;
+  z-index: 1029;
+  top: 80px;
+  input{
+    margin-right: 8px;
+    &:focus{
+      box-shadow: none;
+    }
+  }
 }

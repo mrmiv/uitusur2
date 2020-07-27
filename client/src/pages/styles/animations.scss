@@ -24,3 +24,24 @@
         background-color: #ddd8,
     }
 }
+
+@keyframes fadeInFromTop{
+    from{
+        top: 0;
+        z-index: 1029;
+    }
+    to{
+        top: 80px;
+        z-index: 1031;
+    }
+}
+
+
+@keyframes fadeOutToTop{
+    from{
+        top: 80px;
+    }
+    to{
+        top: 0;
+    }
+}
