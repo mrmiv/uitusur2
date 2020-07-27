@@ -16,7 +16,7 @@ import { getClubs } from '../redux/actions/data_actions/clubsAction'
 import { getCourseSP, getSP } from '../redux/actions/data_actions/spActionns'
 
 // import images
-import student_img from './img/student2.svg';
+import student_img from './img/coach_monochromatic.svg';
 import curator_img from './img/PERSONAL_CURATOR.svg';
 import dashboard_img from './img/DASHBOARD.svg';
 import career_img from './img/CAREER.svg';
@@ -82,17 +82,19 @@ export class Student extends Component {
                 <Fade>
                     <section id="title_main" className="student">
                         <div className="container-md container-fluid bg_th" style={{ height: "inherit" }}>
-                            <div className="row no-gutters align-items-center" style={{ height: "inherit" }}>
-                                <div className="col-md-5 offset-md-1 text-center title_text">
+                            <div className="row no-gutters align-items-center justify-content-between" style={{ height: "inherit" }}>
+                                <div className="col-md-6 text-center title_text">
                                     <h1 className="title">Обучающимся</h1>
-                                    <div className="hash_list">
-                                        <a onClick={() => this.scrollTo('studyplan')} className="link"><Icon icon={faHashtag} />  Учебный график</a>
-                                        <a onClick={() => this.scrollTo('work')} className="link"> <Icon icon={faHashtag} />  Трудоустройство</a>
-                                        <a onClick={() => this.scrollTo('curator')} className="link"> <Icon icon={faHashtag} />  Кураторы студентов</a>
-                                        <a onClick={() => this.scrollTo('clubs')} className="link"> <Icon icon={faHashtag} />  Внеучебная деятельность</a>
+                                    <div className="hash_list row no-gutters row-cols-2">
+                                        <div class="col"><Link to="/student/bakalavriat" className="link for-bakalavriat ">Бакалавриат</Link></div>
+                                        <div class="col"><Link to="/student/magistratura" className="link for-magistratura ">Магистратура</Link></div>
+                                        <div class="col"><a onClick={() => this.scrollTo('studyplan')} className="link">  Учебный график</a></div>
+                                        <div class="col"><a onClick={() => this.scrollTo('work')} className="link">  Трудоустройство</a></div>
+                                        <div class="col"><a onClick={() => this.scrollTo('curator')} className="link"> Кураторы студентов</a></div>
+                                        <div class="col"><a onClick={() => this.scrollTo('clubs')} className="link">  Внеучебная деятельность</a></div>
                                     </div>
                                 </div>
-                                <div className="col-md-4 col-12 offset-md-1 ">
+                                <div className="col-md-6">
                                     <div className="triple_helix">
                                         <img className="triple_helix_svg" src={student_img} alt="Обучающимся" />
                                     </div>

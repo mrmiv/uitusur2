@@ -7,41 +7,68 @@
     background: -webkit-linear-gradient(default.$lorange, default.$orange);
 
     .hash_list{
-        margin-top: 5px;
-        a{
-            padding: 2px 0;
-            color: white;
-            font-weight: 550;
-            display: list-item;
-            list-style: none;
-            cursor: pointer;
-            &:after{
-                transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-                -webkit-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-                -o-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-                -moz-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-                content:"\0279C";
-                opacity: 0.2;
-                margin-left: 8px;
+        margin-top: 4px;
+        a.link{
+            &.for-bakalavriat, &.for-magistratura{
+                color: white;
+                text-align: center;
+                margin: 8px 4px;
+                font-size: 18px;
             }
+
+            &.for-bakalavriat{
+                background-color: default.$lblue;
+            }
+            &.for-magistratura{
+                background-color: default.$pink;
+            }
+            display: block;
+            padding: 4px 8px;
+            margin: 4px;
+            background-color: white;
+            text-align: left;
+            color: default.$orange;
+            border-radius: 4px;
+            font-weight: 550;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0s;
+            // display: list-item;
+            // list-style: none;
+            cursor: pointer;
             &:hover{
-                &:after{
-                    opacity: 1;
-                    margin-left: 16px;
-                }
+                transform: scale(1.05);
             }
             &:active{
-                &:after{
-                    margin-left: 24px;
-                }
+                transform: scale(0.97);
             }
+            // &:after{
+            //     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            //     -webkit-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            //     -o-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            //     -moz-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            //     content:"\0279C";
+            //     opacity: 0.2;
+            //     margin-left: 8px;
+            // }
+            // &:hover{
+            //     &:after{
+            //         opacity: 1;
+            //         margin-left: 16px;
+            //     }
+            // }
+            // &:active{
+            //     &:after{
+            //         margin-left: 24px;
+            //     }
+            // }
         }
     }
 }
 
 #studyplan{
     scroll-margin-top: 100px;
-    
+    h2{
+        color: default.$pink
+    }
     .choose_field{
         height: auto;
         button{
