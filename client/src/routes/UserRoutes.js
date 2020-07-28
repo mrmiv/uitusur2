@@ -2,8 +2,6 @@ import React, { Component, useEffect, Suspense, lazy, useState, Fragment } from 
 import { Route, Switch, useLocation, Redirect } from 'react-router-dom'
 
 import { LoadingScreen } from '../components/LoadingScreen'
-import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
-import { faArrowCircleUp } from '@fortawesome/free-solid-svg-icons'
 
 import Header from '../components/Header'
 import Navbar from '../components/Navbar'
@@ -39,6 +37,7 @@ const Login = lazy(() => import('../pages/Login'))
 const AdminRoutes = lazy(() => import('../routes/AdminRoutes'))
 
 const Developing = lazy(() => import('../components/Dev'))
+const SearchPage = lazy(() => import('../pages/Search'))
 const PageNotFound = lazy(() => import('../components/PageNotFound'))
 
 export class Routes extends Component {
@@ -182,7 +181,7 @@ function HomeRoutes({ auth }) {
             {
                 exact: true,
                 path: "/search",
-                component:<Quiz title="Поиск - Кафедра управления инновациями" />
+                component: <SearchPage title="Поиск - Кафедры управления инновациями"/>
             },
             // admin
             {

@@ -1,7 +1,7 @@
 import React, { Component, useState, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { GetStaffList } from '../redux/actions/staffActions'
-import { useLocation, useParams, Link } from 'react-router-dom'
+import { useLocation, useParams, Link, withRouter } from 'react-router-dom'
 import ParamsList from './components/ParamsList'
 
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
@@ -32,6 +32,20 @@ export class About extends Component {
         this.props.GetDataAbout()
         this.props.GetStaffList()
         this.props.getfeedback()
+
+        const loc = this.props.location.state
+        // console.log(loc);
+        if (loc){
+            setTimeout(() => {  
+                const el = document.getElementById(loc)
+                if(el){
+                    window.scrollTo({
+                        top: document.getElementById(loc).offsetTop - 80,
+                        behavior: "smooth" 
+                    })
+                }
+            }, 300);
+        }
     }
 
     componentDidUpdate(prevProps) {
@@ -171,10 +185,10 @@ const mapStateToProps = state => ({
     RPDList: state.api.rpd
 })
 
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
     { GetStaffList, GetDataAbout, closeNavbar, getfeedback }
-)(About)
+)(About))
 
 
 
@@ -199,19 +213,26 @@ export function StaffModal() {
 const HistoryText = () => {
     return (
         <Fragment>
-            <p>
+            <div>
+                <p>
                 Кафедра управления инновациями была создана в октябре 2009 года приказом ректора
                 (Приказ № 11276 от 30.10.2009г.) в соответствии с концепцией развития учебно-научно-инновационного
                 комплекса ТУСУР.
-        <div className="collapse" id="p_more">
-                    <pre />
-            Основал  кафедру Уваров Александр Фавстович, будучи проректором по инновационному развитию и международной деятельности, директором Института инноватики.
-            <pre />
-            Уваров А.Ф. в составе авторского коллектива удостоен премии Правительства Российской Федерации 2010 года в области образования за создание нового направления высшего профессионального образования «Инноватика», его научное и учебно-методическое обеспечение, экспериментальную отработку и широкое внедрение в отечественных университетах.
-        </div>
-                <pre />
-        Сегодня кафедра Управления инновациями в составе факультета инновационных технологий и Института инноватики является ключевым элементом инновационной инфраструктуры университета, обеспечивающим подготовку квалифицированных кадров для высокотехнологичных отраслей экономики по передовым направлениям – инноватике, мехатронике и робототехнике, управлению качеством.
-    </p>
+                </p>
+                <div className="collapse" id="p_more">
+                    <p>Основал  кафедру Уваров Александр Фавстович, будучи проректором по инновационному развитию и международной деятельности, 
+                        директором Института инноватики.</p>
+                    <p>Уваров А.Ф. в составе авторского коллектива удостоен премии Правительства Российской Федерации 
+                        2010 года в области образования за создание нового направления высшего профессионального образования «Инноватика», 
+                        его научное и учебно-методическое обеспечение, экспериментальную отработку и широкое внедрение в отечественных 
+                        университетах.</p>
+                </div>
+                <p>Сегодня кафедра Управления инновациями в составе факультета инновационных технологий и Института инноватики 
+                    является ключевым элементом инновационной инфраструктуры университета, обеспечивающим подготовку квалифицированных 
+                    кадров для высокотехнологичных отраслей экономики по передовым направлениям – инноватике, 
+                    мехатронике и робототехнике, управлению качеством.
+                </p>
+            </div>
             <a data-toggle="collapse" data-target="#p_more" aria-expanded="false" aria-controls="p_more" />
         </Fragment>
     )
@@ -226,7 +247,6 @@ const DispCard = (props) => {
                 <p style={{ color: props.color }}><span>{props.name}</span><br />{props.profile}</p>
             </div>
         </a>
-
     )
 }
 
@@ -269,7 +289,7 @@ function Staff({ id, firstname, lastname, secondname }) {
     return (
         <div className="col_p col-md-4 col-lg-3 col-6">
             <Link className="StaffCard d-flex" to={{
-                pathname: `/staff/${id}`,
+                pathname: `/about/staff/${id}`,
                 state: { background: location }
             }}>
                 <div className="staff__photo"><Icon icon={faIdBadge} /></div>

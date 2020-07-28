@@ -57,7 +57,7 @@ export class Navbar extends Component {
                     {
                         to: {
                             pathname: "/about",
-                            state: "СМК"
+                            state: "Документы СМК"
                         },
                         name: "СМК",
                     },

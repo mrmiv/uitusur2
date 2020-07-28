@@ -6,6 +6,7 @@ export const CLOSE_NAV = "CLOSE_NAV"
 export const SEARCH_LOADING = "SEARCH_LOADING"
 export const SEARCH_SUCCESS = "SEARCH_SUCCESS"
 export const SEARCH_FAIL = "SEARCH_FAIL"
+export const SEARCH_QUERY_SET = "SEARCH_QUERY_SET"
 
 // Домен
 export const GET_DOMAIN_LOCATION = "GET_DOMAIN_LOCATION"

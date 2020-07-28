@@ -22,7 +22,10 @@ export const GetStaffList = () => dispatch => {
             return res.data
         })
         .catch(err => {
-            console.log(err);
+            dispatch(returnInfo(err.response.data, err.response.status, 'REQ_FAIL'))
+            dispatch({
+                type: REQ_FAIL
+            })
         })
 }
 
@@ -42,7 +45,10 @@ export const GetStaff = (id) => dispatch => {
             return res.data
         })
         .catch(err => {
-            console.error(err);
+            dispatch(returnInfo(err.response.data, err.response.status, 'REQ_FAIL'))
+            dispatch({
+                type: REQ_FAIL
+            })
         })
 }
 

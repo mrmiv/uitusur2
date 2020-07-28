@@ -6,16 +6,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
 import "./styles/Header.scss"
 
-import { FontAwesomeIcon as Icon} from '@fortawesome/react-fontawesome';
-import { faIndent, faUserCircle } from '@fortawesome/free-solid-svg-icons';
-import SearchField from './SearchField'
-
 export class Header extends Component{
-
-    state = {
-        searchIsOpen: false
-    }
-
     static propTypes = {
         openNavbar: PropTypes.func.isRequired,
     }
@@ -26,7 +17,7 @@ export class Header extends Component{
 
     render(){
         return( <Fragment>
-            <nav id="Header" className={`navbar fixed-top navbar-light bg-light ${this.state.searchIsOpen ? 'search-is-open' : ''}`} >
+            <nav id="Header" className="navbar fixed-top navbar-light bg-light" >
                 <div className="container-md container-fluid">
                     <a
                     onClick={this.OpenNavbar}
@@ -98,7 +89,7 @@ export class Header extends Component{
 
                         {/* <img src="/svg/FIT_LOGO_NAV.svg"/> */}
                     </Link>
-                    <a onClick={()=>this.setState({searchIsOpen: !this.state.searchIsOpen})} title="Поиск" style={{cursor: "pointer"}}>
+                    <Link title="Поиск" to="/search">
                     <svg id="search_button" width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="10" cy="10" r="9" stroke="#354ED1" stroke-width="2.4">
                             <animate attributeName="cx" begin="search_button.mouseenter" fill="freeze" from="10" to="12" dur="0.3s"/>
@@ -118,10 +109,9 @@ export class Header extends Component{
                         </line>
                     </svg>
                         {/* <Icon icon={faUserCircle} size="lg" style={{cursor:"pointer", color: "darkblue"}}/> */}
-                    </a>
+                    </Link>
                 </div>
             </nav>
-            {this.state.searchIsOpen && <SearchField/>}
         </Fragment>
         )
     }

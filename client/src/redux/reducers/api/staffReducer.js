@@ -2,8 +2,6 @@ import {
     GET_STAFF_LIST,
     CURRENT_STAFF_LOADING,
     GET_CURRENT_STAFF,
-    REQ_SUCCESS,
-    REQ_FAIL,
     LOADING_REQ
 } from '../../actions/types';
 import { combineReducers } from 'redux';
@@ -45,17 +43,11 @@ function StaffListReducer(state = StaffListState, action) {
 function CurrentStaffReducer(state = CurrentStaffState, action) {
     // CURRENT STAFF
     switch (action.type) {
-        case LOADING_REQ:
         case CURRENT_STAFF_LOADING:
             return {
                 ...state,
+                CurrentStaff: null,
                 isLoading: true
-            }
-        case REQ_FAIL:
-        case REQ_SUCCESS:
-            return {
-                ...state,
-                isLoading: false
             }
         case GET_CURRENT_STAFF:
             // console.log(action.payload.CurrentStaff);
