@@ -1,59 +1,65 @@
 @use 'default';
 
-#title_main.documents{
-    background-image: url("/svg/LOGO_BG.svg"), linear-gradient(default.$mint,default.$dmint);
-    background-repeat: no-repeat;
-    background-size: auto;
-    background-position: right center;
-    min-height: 80vh;
-    height: auto;
-    height: max-content;
-    .category-doc-btn{    
-        transition: all 0.3s cubic-bezier(0.2, 0.8, 0.3, 1.1);
-        -o-transition: all 0.3s cubic-bezier(0.2, 0.8, 0.3, 1.1);
-        -moz-transition: all 0.3s cubic-bezier(0.2, 0.8, 0.3, 1.1);
-        -webkit-transition: all 0.3s cubic-bezier(0.2, 0.8, 0.3, 1.1);
-        background: #fff1;
-        // margin-top: 5px;
-        margin-right: 10px;
-        padding: 10px;
-        text-align: left;
-        height: auto;
-        &:hover{
-            background: #fff4;
-        }
-        &:active{
-            background: #fff6;
-            transform: scale(0.97);
-            -o-transform: scale(0.97);
-            -moz-transform: scale(0.97);
-            -webkit-transform: scale(0.97);
-        }
-    }
-}
-
-@media screen and (max-width: 567px){
-    #title_main.documents{
-        background-position: center;
-    }
-}
-
 #documents_list{
-    h2{color: default.$lblue; margin: 1rem 0;}
-    h4{color: default.$dmint; margin: 0.75rem 0;}
+    h1{
+        padding: 8px 0 0 0;
+        margin: 0;
+        color: default.$dark;
+    }
+    h2{color: default.$lblue; margin: 0.8rem 0;}
+    h4{color: default.$dmint; margin: 0.7rem 0;}
+    #categories-scroll-list{
+        display: flex;
+        position: sticky;
+        padding: 8px 4px;
+        top: 60px;
+        z-index: 2;
+        background-color: white;
+        overflow-y: hidden;
+        flex-wrap: nowrap;
+        -webkit-overflow-scrolling: touch;
+        overflow-x: scroll;
+        &::-webkit-scrollbar {
+            display: none;
+        }
+        a.document-hash-link{
+            padding: 4px 8px;
+            flex: 0 0 auto;
+            margin: 0 8px 0 0 ;
+            // cursor: context-menu;
+            cursor: help;
+            font-weight: 500;
+            background-color: whitesmoke;
+            color: default.$dark;
+            box-shadow: 0 2px 4px 0 default.$shadow;
+            border-radius: 4px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            -o-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            -webkit-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            -moz-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            &:hover{
+                color: default.$lblue
+            }
+            &:active{
+                filter: brightness(0.95);
+            }
+        }
+    }
     a.document-link{
         align-items: center;
         &:before{
             content: url('https://api.iconify.design/emojione-v1:document-with-text.svg?height=24');
             align-self:center;
-            font-size: 1em;
-            margin-right: 10px;
+            margin-right: 8px;
         }
-        padding: 10px;
-        margin: 5px 5px 0 0;
+        padding: 8px;
+        margin: 4px 4px 0 0;
         color: #222;
-        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        border-radius: 3px;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);
+        -o-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);
+        -webkit-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);
+        -moz-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);
+        border-radius: 4px;
         display: flex;
         background: whitesmoke;
         .text-indoc{

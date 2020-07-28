@@ -24,7 +24,7 @@ export class Docs extends Component {
         let el = document.getElementById(cat)
         let offsetTop = el.offsetTop
         window.scrollTo({
-            top: offsetTop - 100,
+            top: offsetTop - 160,
             behavior: 'smooth'
         })
     }
@@ -33,33 +33,16 @@ export class Docs extends Component {
         const { docslist, categories, subcategories, isLoading } = this.props.Docs
         return (<Fragment>
             {/* ЗАГОЛОВОК */}
-            <Fade>
-                <section id="title_main" className="documents">
-                    <div className="container-lg container-fluid" style={{ height: "inherit" }}>
-                        <div className="row no-gutters pb-2">
-                            <div className="title_text mt-4 w-100" >
-                                <h1 className="title">Ре&shy;гла&shy;мен&shy;ти&shy;ру&shy;ю&shy;щие до&shy;ку&shy;мен&shy;ты</h1>
-                                {!isLoading ? categories.length !== 0 && <h6>Выберите интересующую Вас категорию:</h6> : <h6>Пожалуйста подождите...</h6>}
-                            </div>
-                            {!isLoading && categories && categories.map(cat => {
-                                return (
-                                    <a key={cat} className="btn col-md-4 col-sm-6 col-xs-12"
-                                        style={{ color: "white" }} onClick={() => this.scrollTo(cat)}>
-                                        <div className="category-doc-btn">
-                                            <Icon icon={documentwithtextIcon} height="24" style={{ marginBottom: "5px", marginRight: "5px" }} />{cat[0].toUpperCase() + cat.substr(1)}
-                                        </div>
-                                    </a>
-                                )
-                            })}
-                        </div>
-                    </div>
-                    {!isLoading && <img className="arrow_down" onClick={()=>{
-                    window.scrollTo({top: window.innerHeight-80, behavior: 'smooth'})
-                }} src="/svg/DOWN_ARROW.svg" alt="Листать вниз"/>}
-                </section>
-            </Fade>
             <section id="documents_list">
                 <div className="container">
+                <h1>Регламентирующие документы</h1>
+                <nav id="categories-scroll-list">
+                    {!isLoading && categories && categories.map(cat => {
+                        return <a key={cat} className="document-hash-link" onClick={() => this.scrollTo(cat)}> {cat[0].toUpperCase() + cat.substr(1)}</a>
+                        })}
+                </nav>
+                <hr/>
+                <div id="documents-scroll-list">
                     {!isLoading ? (categories && subcategories && docslist) &&
                         categories.map((cat, index) => {
                             return (
@@ -97,7 +80,8 @@ export class Docs extends Component {
                                     })}
                                 </Fragment>
                             )
-                        }) : <h1>Загрузка</h1>}
+                        }) : <p>Загрузка...</p>}  
+                    </div>
                     {/* в цикле по категориям фильтровать дату по категории */}
                 </div>
             </section>
