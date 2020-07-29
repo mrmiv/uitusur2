@@ -59,14 +59,14 @@ export class SPForm extends Component {
                 this.setState({
                     course: SP.course,
                     group: SP.group,
-                    exam_from: SP.exam && SP.exam.from ? toDate(SP.exam.from) : '',
+                    exam_from: SP.exam && SP.exam.from ? toDate(SP.exam.from, "-") : '',
                     exam_to: SP.exam && SP.exam.to ? toDate(SP.exam.to, false, "-") : '',
                     gia_from: SP.gia && SP.gia.from ? toDate(SP.gia.from, false, "-") : '',
                     gia_to: SP.gia && SP.gia.to ? toDate(SP.gia.to, false, "-") : '',
                     weekend_from: SP.weekend && SP.weekend.from ? toDate(SP.weekend.from, false, "-") : '',
                     weekend_to: SP.weekend && SP.weekend.to ? toDate(SP.weekend.to, false, "-") : '',
-                    practic_from: SP.practic && SP.practic.to ? toDate(SP.practic.to, false, "-") : '',
-                    practic_to: SP.practic && SP.practic.from ? toDate(SP.practic.from, false, "-") : '',
+                    practic_from: SP.practic && SP.practic.to ? toDate(SP.practic.from, false, "-") : '',
+                    practic_to: SP.practic && SP.practic.from ? toDate(SP.practic.to, false, "-") : '',
                     practic_type: SP.practic && SP.practic.type ? SP.practic.type : ''
                 });
 

@@ -9,8 +9,6 @@ router.get('/', async (req, res) => {
 
     try {
         await StudyPlan.find()
-            .select(['course','group'])
-            .sort([['course',1],['group',1]])
             .then(data => res.json(data))
             .catch(err => res.status(400).json({ message: err.message }))
 
@@ -160,26 +158,7 @@ router.patch('/:id', auth, async (req, res) => {
 
         // console.log(data);
 
-        await StudyPlan.findByIdAndUpdate(id, {
-            ...data,
-            exam:{
-                from: data.exam_from,
-                to: data.exam_to
-            },
-            practic:{
-                type: data.practic_type,
-                to: data.practic_to,
-                from: data.practic_from
-            },
-            weekend:{
-                from: data.weekend_from,
-                to: data.weekend_to
-            },
-            gia:{
-                from: data.gia_from,
-                to: data.gia_to
-            },
-        })
+        await StudyPlan.findByIdAndUpdate(id, data)
             .then(sp => res.json({ message: `Учебный план для группы ${sp.group} обновлен!`, sp }))            
 
     } catch (error) {

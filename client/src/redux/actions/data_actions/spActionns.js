@@ -107,7 +107,7 @@ export const postSP = ({ course, group, exam_from, exam_to, weekend_from, weeken
     });
 };
 
-export const patchSP = (id, data) => (dispatch) => {
+export const patchSP = (id, SP) => (dispatch) => {
   dispatch({
     type: LOADING_REQ,
   });
@@ -117,6 +117,27 @@ export const patchSP = (id, data) => (dispatch) => {
       token: sessionStorage.getItem("token"),
     }
   };
+
+  const data = {
+    ...SP,
+    exam:{
+        from: SP.exam_from,
+        to: SP.exam_to
+    },
+    practic:{
+        type: SP.practic_type,
+        to: SP.practic_to,
+        from: SP.practic_from
+    },
+    weekend:{
+        from: SP.weekend_from,
+        to: SP.weekend_to
+    },
+    gia:{
+        from: SP.gia_from,
+        to: SP.gia_to
+    },
+}
 
   axios.patch(`/api/studyplan/${id}`, data, config)
     .then((res) => {
