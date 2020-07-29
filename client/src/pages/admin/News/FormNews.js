@@ -9,6 +9,8 @@ import { faArrowAltCircleLeft } from "@fortawesome/free-solid-svg-icons";
 import { Link, Prompt, withRouter } from "react-router-dom";
 import CyrillicToTranslit from "cyrillic-to-translit-js";
 import { transliterate as tr, slugify } from 'transliteration';
+import { toDate } from "../../components/NewsList";
+import { FormatDateToPost, DateMaskInput } from "../components/DateField";
 
 export class NewsForm extends Component {
 	state = {
@@ -66,7 +68,7 @@ export class NewsForm extends Component {
 					type: String(News.type),
 					site: News.site,
 					city: News.city,
-					deadline: new Date(News.deadline),
+					deadline: toDate(News.deadline),
 					users: News.users,
 					grant: News.grant,
 					pin: News.pin,
@@ -161,26 +163,17 @@ export class NewsForm extends Component {
 		let fields = {
 			title,
 			translit_title,
+			annotation,
+			users,
+			doc,
 			body,
 			pin,
 			send_to_email,
 			type,
+			deadline: FormatDateToPost(deadline)
 		};
 
 		// console.log("this is docs",doc);
-
-		if (users) {
-			fields.users = users;
-		}
-		if (deadline) {
-			fields.deadline = deadline;
-		}
-		if (doc) {
-			fields.doc = doc;
-		}
-		if (annotation) {
-			fields.annotation = annotation;
-		}
 
 		if (type === "2") {
 			// стипендии и гранты
@@ -313,17 +306,9 @@ export class NewsForm extends Component {
 							</div>
 						</div>
 						<div className="form-row">
-							<div className="col form-group">
-								<label htmlFor="deadline-input">Крайний срок</label>
-								<input
-									onChange={this.changeInput}
-									type="date"
-									className="form-control"
-									name="deadline"
-									id="deadline-input"
-									value={this.state.deadline}
-								/>
-							</div>
+							<DateMaskInput id="deadline-input" name="deadline"
+                                changeParentInput={this.changeInput}
+                                value={this.state.deadline} label="Крайний срок" col />
 							<div className="col form-group">
 								<label htmlFor="doc-input">Вложения</label>
 								<input

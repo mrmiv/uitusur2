@@ -25,3 +25,12 @@ export class DateMaskInput extends Component{
         )
     }
 }
+
+export function FormatDateToPost(StringDate){
+    const ddmmyyy = StringDate.split('-')
+    const dd = ddmmyyy[0]
+    const mm = ddmmyyy[1]
+    const yyyy = ddmmyyy[2]
+    console.log(StringDate, `${mm}-${dd}-${yyyy}`);
+    return `${mm}-${dd}-${yyyy}`
+}

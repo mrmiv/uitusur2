@@ -2,10 +2,7 @@ import React, { Component } from 'react'
 
 export class LoadingScreen extends Component {
 
-  constructor(props){
-    super(props);
-    this.viewRef = React.createRef();
-  }
+  viewRef = React.createRef()
 
   componentWillUnmount(){
     this.viewRef.current.style.opacity = 0;

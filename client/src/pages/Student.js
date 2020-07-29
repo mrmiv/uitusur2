@@ -126,13 +126,13 @@ export class Student extends Component {
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <th scope="col">Группа</th>
                                                     {StudyPlan.slice(0, 1).map(sp => {
                                                         return (<Fragment>
-                                                            {sp.exam ? <th scope="col">Экзамены</th> : null}
-                                                            {sp.practic ? <th scope="col">Практика</th> : null}
-                                                            {sp.gia ? <th scope="col">ГИА</th> : null}
-                                                            {sp.weekend ? <th scope="col">Каникулы</th> : null}
+                                                            <th scope="col">Группа</th>
+                                                            {sp.exam && sp.exam.from && sp.exam.to ? <th scope="col">Экзамены</th> : null}
+                                                            {sp.practic && sp.practic.type && sp.practic.from && sp.practic.to ? <th scope="col">Практика</th> : null}
+                                                            {sp.gia && sp.gia.from && sp.gia.to ? <th scope="col">ГИА</th> : null}
+                                                            {sp.weekend && sp.weekend.from && sp.weekend.to ? <th scope="col">Каникулы</th> : null}
                                                         </Fragment>)
                                                     })}
                                                 </tr>
@@ -141,28 +141,27 @@ export class Student extends Component {
                                                 {StudyPlan.map((sp, index) => {
                                                     return (<tr key={index}>
                                                         <td>{sp.group}</td>
-                                                        {sp.exam ?
+                                                        {sp.exam && sp.exam.from && sp.exam.to ?
                                                             <td>
-                                                                {sp.exam.from && <Fragment><strong>c</strong> {toDate(sp.exam.from)}</Fragment>}<br />
-                                                                {sp.exam.to && <Fragment><strong>по</strong> {toDate(sp.exam.to)}</Fragment>}
+                                                                <strong>c</strong> {toDate(sp.exam.from)}<br />
+                                                                <strong>по</strong> {toDate(sp.exam.to)}
                                                             </td> : null}
-                                                        {sp.practic ?
+                                                        {sp.practic && sp.practic.type && sp.practic.from && sp.practic.to ?
                                                             <td>
-                                                                {sp.practic.type && sp.practic.type}<br />
-                                                                {sp.practic.from && <Fragment><strong>c</strong> {toDate(sp.practic.from)}</Fragment>}<br />
-                                                                {sp.practic.to && <Fragment><strong>по</strong> {toDate(sp.practic.to)}</Fragment>}
+                                                                {sp.practic.type}<br />
+                                                                <strong>c</strong> {toDate(sp.practic.from)}<br />
+                                                                <strong>по</strong> {toDate(sp.practic.to)}
                                                             </td> : null}
-                                                        {sp.gia ?
+                                                        {sp.gia && sp.gia.from && sp.gia.to ?
                                                             <td>
-                                                                {sp.gia.from && <Fragment><strong>c</strong> {toDate(sp.gia.from)}</Fragment>}
+                                                                <strong>c</strong> {toDate(sp.gia.from)}
                                                                 <br />
-                                                                {sp.gia.to && <Fragment><strong>по</strong> {toDate(sp.gia.to)}</Fragment>}
+                                                                <strong>по</strong> {toDate(sp.gia.to)}
                                                             </td> : null}
-                                                        {sp.weekend ?
+                                                        {sp.weekend && sp.weekend.from && sp.weekend.to ?
                                                             <td>
-                                                                {sp.weekend.from && <Fragment> <strong>c</strong> {toDate(sp.weekend.from)}</Fragment>}
-                                                                <br />
-                                                                {sp.weekend.to && <Fragment><strong>по</strong> {toDate(sp.weekend.to)}</Fragment>}
+                                                                <strong>c</strong> {toDate(sp.weekend.from)}
+                                                                <br /><strong>по</strong> {toDate(sp.weekend.to)}
                                                             </td> : null}
                                                     </tr>)
                                                 })}

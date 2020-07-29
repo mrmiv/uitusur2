@@ -119,7 +119,8 @@ export const patchSP = (id, SP) => (dispatch) => {
   };
 
   const data = {
-    ...SP,
+    course: SP.course,
+    group: SP.group,
     exam:{
         from: SP.exam_from,
         to: SP.exam_to

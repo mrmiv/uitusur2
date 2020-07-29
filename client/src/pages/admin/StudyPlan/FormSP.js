@@ -4,9 +4,9 @@ import { connect } from 'react-redux'
 import { postSP, patchSP, getOneSP } from '../../../redux/actions/data_actions/spActionns'
 import { clearInfo } from '../../../redux/actions/infoActions'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
-import { faArrowAltCircleLeft, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+import { faArrowAltCircleLeft } from '@fortawesome/free-solid-svg-icons'
 import { Link, Prompt, withRouter } from 'react-router-dom'
-import { DateMaskInput } from '../components/DateField'
+import { DateMaskInput, FormatDateToPost } from '../components/DateField'
 import { toDate } from '../../components/NewsList'
 
 export class SPForm extends Component {
@@ -59,7 +59,7 @@ export class SPForm extends Component {
                 this.setState({
                     course: SP.course,
                     group: SP.group,
-                    exam_from: SP.exam && SP.exam.from ? toDate(SP.exam.from, "-") : '',
+                    exam_from: SP.exam && SP.exam.from ? toDate(SP.exam.from,false, "-") : '',
                     exam_to: SP.exam && SP.exam.to ? toDate(SP.exam.to, false, "-") : '',
                     gia_from: SP.gia && SP.gia.from ? toDate(SP.gia.from, false, "-") : '',
                     gia_to: SP.gia && SP.gia.to ? toDate(SP.gia.to, false, "-") : '',
@@ -75,15 +75,6 @@ export class SPForm extends Component {
         if (msg !== prevProps.info.msg) {
             this.setState({ msg })
         }
-    }
-
-    FormatDateToPost = StringDate => {
-        const ddmmyyy = StringDate.split('-')
-        const dd = ddmmyyy[0]
-        const mm = ddmmyyy[1]
-        const yyyy = ddmmyyy[2]
-        console.log(StringDate, `${mm}-${dd}-${yyyy}`);
-        return `${mm}-${dd}-${yyyy}`
     }
 
     changeInput = e => {
@@ -105,15 +96,15 @@ export class SPForm extends Component {
         const SP = {
             course, 
             group, 
-            exam_from: exam_from && this.FormatDateToPost(exam_from), 
-            exam_to: exam_to && this.FormatDateToPost(exam_to), 
-            practic_from: practic_from && this.FormatDateToPost(practic_from), 
-            practic_to: practic_to && this.FormatDateToPost(practic_to), 
+            exam_from: exam_from && FormatDateToPost(exam_from), 
+            exam_to: exam_to && FormatDateToPost(exam_to), 
+            practic_from: practic_from && FormatDateToPost(practic_from), 
+            practic_to: practic_to && FormatDateToPost(practic_to), 
             practic_type, 
-            gia_from: gia_from && this.FormatDateToPost(gia_from), 
-            gia_to: gia_to && this.FormatDateToPost(gia_to), 
-            weekend_from: weekend_from && this.FormatDateToPost(weekend_from), 
-            weekend_to: weekend_to && this.FormatDateToPost(weekend_to)
+            gia_from: gia_from && FormatDateToPost(gia_from), 
+            gia_to: gia_to && FormatDateToPost(gia_to), 
+            weekend_from: weekend_from && FormatDateToPost(weekend_from), 
+            weekend_to: weekend_to && FormatDateToPost(weekend_to)
         }
         // console.log(Club);
 
