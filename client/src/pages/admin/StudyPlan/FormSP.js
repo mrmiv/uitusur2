@@ -6,6 +6,8 @@ import { clearInfo } from '../../../redux/actions/infoActions'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import { faArrowAltCircleLeft, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { Link, Prompt, withRouter } from 'react-router-dom'
+import { DateMaskInput } from '../components/DateField'
+import { toDate } from '../../components/NewsList'
 
 export class SPForm extends Component {
 
@@ -57,14 +59,14 @@ export class SPForm extends Component {
                 this.setState({
                     course: SP.course,
                     group: SP.group,
-                    exam_from: SP.exam && SP.exam.from ? SP.exam.from : '',
-                    exam_to: SP.exam && SP.exam.to ? SP.exam.to : '',
-                    gia_from: SP.gia && SP.gia.from ? SP.gia.from : '',
-                    gia_to: SP.gia && SP.gia.to ? SP.gia.to : '',
-                    weekend_from: SP.weekend && SP.weekend.from ? this.FormatDate(SP.weekend.from) : '',
-                    weekend_to: SP.weekend && SP.weekend.to ? SP.weekend.to : '',
-                    practic_from: SP.practic && SP.practic.to ? SP.practic.to : '',
-                    practic_to: SP.practic && SP.practic.from ? SP.practic.from : '',
+                    exam_from: SP.exam && SP.exam.from ? toDate(SP.exam.from) : '',
+                    exam_to: SP.exam && SP.exam.to ? toDate(SP.exam.to, false, "-") : '',
+                    gia_from: SP.gia && SP.gia.from ? toDate(SP.gia.from, false, "-") : '',
+                    gia_to: SP.gia && SP.gia.to ? toDate(SP.gia.to, false, "-") : '',
+                    weekend_from: SP.weekend && SP.weekend.from ? toDate(SP.weekend.from, false, "-") : '',
+                    weekend_to: SP.weekend && SP.weekend.to ? toDate(SP.weekend.to, false, "-") : '',
+                    practic_from: SP.practic && SP.practic.to ? toDate(SP.practic.to, false, "-") : '',
+                    practic_to: SP.practic && SP.practic.from ? toDate(SP.practic.from, false, "-") : '',
                     practic_type: SP.practic && SP.practic.type ? SP.practic.type : ''
                 });
 
@@ -75,12 +77,13 @@ export class SPForm extends Component {
         }
     }
 
-    FormatDate = date => {
-        const DateField = new Date(date)
-        const year = DateField.getFullYear()
-        const month = DateField.getMonth()
-        const day = DateField.getDay()
-        return `${year}-${month}-${day}`
+    FormatDateToPost = StringDate => {
+        const ddmmyyy = StringDate.split('-')
+        const dd = ddmmyyy[0]
+        const mm = ddmmyyy[1]
+        const yyyy = ddmmyyy[2]
+        console.log(StringDate, `${mm}-${dd}-${yyyy}`);
+        return `${mm}-${dd}-${yyyy}`
     }
 
     changeInput = e => {
@@ -100,7 +103,17 @@ export class SPForm extends Component {
         const { course, group, exam_from, exam_to, practic_from, practic_to, practic_type, gia_from, gia_to, weekend_from, weekend_to } = this.state
 
         const SP = {
-            course, group, exam_from, exam_to, practic_from, practic_to, practic_type, gia_from, gia_to, weekend_from, weekend_to
+            course, 
+            group, 
+            exam_from: exam_from && this.FormatDateToPost(exam_from), 
+            exam_to: exam_to && this.FormatDateToPost(exam_to), 
+            practic_from: practic_from && this.FormatDateToPost(practic_from), 
+            practic_to: practic_to && this.FormatDateToPost(practic_to), 
+            practic_type, 
+            gia_from: gia_from && this.FormatDateToPost(gia_from), 
+            gia_to: gia_to && this.FormatDateToPost(gia_to), 
+            weekend_from: weekend_from && this.FormatDateToPost(weekend_from), 
+            weekend_to: weekend_to && this.FormatDateToPost(weekend_to)
         }
         // console.log(Club);
 
@@ -160,18 +173,12 @@ export class SPForm extends Component {
                         </div>
                         <label ><strong>Экзамены</strong></label>
                         <div className="form-row">
-                            <div className="col form-group">
-                                <label htmlFor="exam_from-input">С</label>
-                                <input onChange={this.changeInput} type="date" className="form-control"
-                                    name="exam_from" id="exam_from-input"
-                                    placeholder={this.state.exam_from} value={this.state.exam_from} />
-                            </div>
-                            <div className="col form-group">
-                                <label htmlFor="exam_to-input">По</label>
-                                <input onChange={this.changeInput} type="date" className="form-control"
-                                    name="exam_to" id="exam_to-input"
-                                    placeholder={this.state.exam_to} value={this.state.exam_to} />
-                            </div>
+                            <DateMaskInput id="exam_from-input" name="exam_from"
+                                changeParentInput={this.changeInput}
+                                value={this.state.exam_from} label="С" col />
+                            <DateMaskInput id="exam_to-input" name="exam_to"
+                                changeParentInput={this.changeInput}
+                                value={this.state.exam_to} label="По" col />
                         </div>
 
                         <div className="form-group">
@@ -181,51 +188,33 @@ export class SPForm extends Component {
                                 value={this.state.practic_type} />
                         </div>
                         <div className="form-row">
-
-                            <div className="col form-group">
-                                <label htmlFor="practic_from-input">С</label>
-                                <input onChange={this.changeInput} type="date" className="form-control"
-                                    name="practic_from" id="practic_from-input"
-                                    placeholder={this.state.practic_from} value={this.state.practic_from} />
-                            </div>
-                            <div className="col form-group">
-                                <label htmlFor="practic_to-input">По</label>
-                                <input onChange={this.changeInput} type="date" className="form-control"
-                                    name="practic_to" id="practic_to-input"
-                                    value={this.state.practic_to} placeholder={this.state.practic_to} />
-                            </div>
+                            <DateMaskInput id="practic_from-input" name="practic_from"
+                                changeParentInput={this.changeInput}
+                                value={this.state.practic_from} label="С" col />
+                            <DateMaskInput id="practic_to-input" name="practic_to"
+                                changeParentInput={this.changeInput}
+                                value={this.state.practic_to} label="ПО" col />
                         </div>
 
                         <label><strong>ГИА</strong></label>
                         <div className="form-row">
-                            <div className="col form-group">
-                                <label htmlFor="gia_from-input">С</label>
-                                <input onChange={this.changeInput} type="date" className="form-control"
-                                    name="gia_from" id="gia_from-input"
-                                    value={this.state.gia_from} placeholder={this.state.gia_from} />
-                            </div>
-                            <div className="col form-group">
-                                <label htmlFor="gia_to-input">По</label>
-                                <input onChange={this.changeInput} type="date"
-                                    className="form-control" name="gia_to" id="gia_to-input"
-                                    value={this.state.gia_to} placeholder={this.state.gia_to} />
-                            </div>
+                            <DateMaskInput id="gia_from-input" name="gia_from"
+                                changeParentInput={this.changeInput}
+                                value={this.state.gia_from} label="С" col />
+                            <DateMaskInput id="gia_to-input" name="gia_to"
+                                changeParentInput={this.changeInput}
+                                value={this.state.gia_to} label="ПО" col />
                         </div>
 
                         <label><strong>Каникулы</strong></label>
                         <div className="form-row">
-                            <div className="col form-group">
-                                <label htmlFor="weekend_from-input">С</label>
-                                <input onChange={this.changeInput} type="date" className="form-control"
-                                    name="weekend_from" id="weekend_from-input"
-                                    placeholder={this.state.weekend_from} value={this.state.weekend_from} />
-                            </div>
-                            <div className="col form-group">
-                                <label htmlFor="weekend_to-input">По</label>
-                                <input onChange={this.changeInput} type="date" className="form-control"
-                                    name="weekend_to" id="weekend_to-input"
-                                    placeholder={this.state.weekend_to} value={this.state.weekend_to} />
-                            </div>
+
+                            <DateMaskInput id="weekend_from-input" name="weekend_from"
+                                changeParentInput={this.changeInput}
+                                value={this.state.weekend_from} label="С" col />
+                            <DateMaskInput id="weekend_to-input" name="weekend_to"
+                                changeParentInput={this.changeInput}
+                                value={this.state.weekend_to} label="ПО" col />
                         </div>
 
                         <div className="w-100 mt-2 text-right">

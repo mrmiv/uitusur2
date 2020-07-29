@@ -8,7 +8,7 @@ import spiralCalendar from '@iconify/icons-twemoji/spiral-calendar';
 import { faUsers } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
 
-export function toDate(datetime, time = false) {
+export function toDate(datetime, time = false, sym = ".") {
     const date = new Date(datetime)
 
     let day = date.getDate()
@@ -23,7 +23,7 @@ export function toDate(datetime, time = false) {
         if (minute < 10) { minute = "0" + minute }
         return `${hour}:${minute} ${day}.${month}.${year}`
     }
-    return `${day}.${month}.${year}`
+    return `${day}${sym}${month}${sym}${year}`
 }
 
 export function NewsInList(props) {

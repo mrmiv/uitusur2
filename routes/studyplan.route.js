@@ -9,6 +9,8 @@ router.get('/', async (req, res) => {
 
     try {
         await StudyPlan.find()
+            .select(['course','group'])
+            .sort([['course',1],['group',1]])
             .then(data => res.json(data))
             .catch(err => res.status(400).json({ message: err.message }))
 
@@ -135,7 +137,7 @@ router.delete('/:id', auth, async (req, res) => {
 router.patch('/:id', auth, async (req, res) => {
 
     const id = req.params.id
-    const body = req.body
+    const data = req.body
 
     try {
         const sp = await StudyPlan.findById(id)
@@ -144,24 +146,41 @@ router.patch('/:id', auth, async (req, res) => {
             return res.status(404).json({ message: "Учебный план не найден" })
         }
 
-        if (body.group !== sp.group) { sp.group = body.group } 
-        if (body.course !== sp.course) { sp.course = body.course }
+        // const data = { course, 
+        //     group, 
+        //     exam_from, 
+        //     exam_to, 
+        //     practic_from, 
+        //     practic_to, 
+        //     practic_type, 
+        //     gia_from, 
+        //     gia_to, 
+        //     weekend_from, 
+        //     weekend_to }
 
-        if (body.exam_from !== sp.exam_from) { sp.exam.from = body.exam_from }
-        if (body.exam_to !== sp.exam_to) { sp.exam.to = body.exam_to }
+        // console.log(data);
 
-        if (body.gia_from !== sp.gia_from) { sp.gia.from = body.gia_from }
-        if (body.gia_to !== sp.gia_to) { sp.gia.to = body.gia_to }
-
-        if (body.weekend_from !== sp.weekend_from) { sp.weekend.from = body.weekend_from }
-        if (body.weekend_to !== sp.weekend_to) { sp.weekend.to = body.weekend_to }
-
-        if (body.practic_from !== sp.practic_from) { sp.practic.from = body.practic_from }
-        if (body.practic_type !== sp.practic_type) { sp.practic.type = body.practic_type }
-        if (body.practic_to !== sp.practic_to) { sp.practic.to = body.practic_to }
-
-        await sp.save()
-            .then(sp => res.json({ message: `Учебный план для группы ${sp.group} обновлен!`, sp }))
+        await StudyPlan.findByIdAndUpdate(id, {
+            ...data,
+            exam:{
+                from: data.exam_from,
+                to: data.exam_to
+            },
+            practic:{
+                type: data.practic_type,
+                to: data.practic_to,
+                from: data.practic_from
+            },
+            weekend:{
+                from: data.weekend_from,
+                to: data.weekend_to
+            },
+            gia:{
+                from: data.gia_from,
+                to: data.gia_to
+            },
+        })
+            .then(sp => res.json({ message: `Учебный план для группы ${sp.group} обновлен!`, sp }))            
 
     } catch (error) {
         res.status(500).json({ message: error.message })
