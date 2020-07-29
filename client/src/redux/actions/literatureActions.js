@@ -42,8 +42,10 @@ export const GetLiteraturePerPage = (page = 1, perPage = 12, filter = null, sort
                     total: res.data.total,
                     categoryFields: res.data.fields,
                     page,
+                    perPage,
                     filter,
-                    sort
+                    sort,
+                    keywords
                 }
             })
             return res.data

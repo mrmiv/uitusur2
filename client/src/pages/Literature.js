@@ -6,7 +6,7 @@ import { GetLiteraturePerPage } from '../redux/actions/literatureActions'
 import Pagination from "react-js-pagination";
 
 import "./styles/Literature.scss"
-import { useLocation, Link, useParams } from 'react-router-dom'
+import { useLocation, Link, useParams, withRouter } from 'react-router-dom'
 import BookView from './components/Book'
 import { Modal } from '../components/Modal'
 
@@ -25,7 +25,8 @@ export class Literature extends Component {
 
     componentDidMount() {
         document.title = this.props.title
-        const {page, perPage, category, sort, keywords} = this.state
+        const {perPage, category, sort, keywords} = this.props
+        const {page} = this.props.match.params || this.props
         this.props.GetLiteraturePerPage(page, perPage, category, sort, keywords)
     }
 
@@ -34,9 +35,10 @@ export class Literature extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const { category, sort, page, keywords } = this.state
-        if (category !== prevState.category || sort !== prevState.sort || page !== prevState.page || keywords!==prevState.keywords) {
-            this.props.GetLiteraturePerPage(page, this.state.perPage, category, sort, keywords)
+        const { category, sort, page, keywords } = this.props
+        if (category !== prevProps.category || sort !== prevProps.sort || page !== prevProps.page || keywords!==prevProps.keywords) {
+            // this.props.GetLiteraturePerPage(page, this.state.perPage, category, sort, keywords)
+            console.log(prevProps, category, sort, page, keywords);
         }
     }
 
@@ -46,6 +48,8 @@ export class Literature extends Component {
         const { perPage, category, sort, keywords } = this.state
         this.setState({ page })
         this.props.GetLiteraturePerPage(page, perPage, category, sort, keywords)
+        this.props.history.push(page !== 1 ? `/literature/page/${page}` : `/literature`)
+
     }
 
     ChangeInput = e => {
@@ -79,7 +83,8 @@ export class Literature extends Component {
         const { Literature, isLoading } = this.props
         const { LiteratureList, categoryFields, total } = Literature
 
-        const { page, perPage, keywords } = this.state
+        const { keywords } = this.state
+        const { page, perPage, sort, filter } = this.state
         // const {keywords} = this.state
         return (
             <div id="literature">
@@ -164,13 +169,18 @@ export class Literature extends Component {
 
 const mapStateToProps = state => ({
     Literature: state.api.literature.literature,
-    isLoading: state.api.literature.literature.isLoading
+    isLoading: state.api.literature.literature.isLoading,
+    page: state.api.literature.literature.page,
+    perPage: state.api.literature.literature.perPage,
+    keywords: state.api.literature.literature.keywords,
+    filter: state.api.literature.literature.filter,
+    sort: state.api.literature.literature.sort
 })
 
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
     { GetLiteraturePerPage }
-)(Literature)
+)(Literature)) 
 
 const Book = ({ title, author, image, category, id }) => {
 
@@ -188,6 +198,10 @@ const Book = ({ title, author, image, category, id }) => {
         <div className="col-xl-3 col-md-4 col-sm-6 col-xs-12 p-2"
         onMouseEnter={()=>setVisibilityTitle(true)}
         onMouseLeave={()=>setVisibilityTitle(false)}>
+            <Link to={{
+                    pathname: `/literature/book/${id}`,
+                    state: { background: location }
+                }}>
             <div className="literature__bookInList" style={{ background: `url(${image}) no-repeat`, backgroundSize: "cover", backgroundPosition: "center" }}>
                 {/* <div className="literature-list-image"  /> */}
                 <p className="bookInList__info">
@@ -198,12 +212,9 @@ const Book = ({ title, author, image, category, id }) => {
                         : (len<start ? title : title.substr(0,start-3)+"...")
                     }</span>
                     <span className="info__author">{author}</span>
-                <Link to={{
-                    pathname: `/book/${id}`,
-                    state: { background: location }
-                }}>Подробнее</Link>
                 </p>
             </div>
+            </Link>
         </div>
     )
 }

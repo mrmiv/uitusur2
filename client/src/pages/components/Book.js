@@ -39,32 +39,34 @@ export class BookView extends Component{
             {Book?
             <div className="row no-gutters align-content-center">
                 <div className="book__img col-lg-5 com-md-6 col-sm-6">
-                    <img src={`${Book.image}`} alt={Book.title}/>
+                    <img src={Book.image} alt={Book.title}/>
                     {/* <div className="w-100"/>
                     {Book.path && <a href={Book.path} target="_blank" rel="noopener noreferrer">Читать</a>} */}
                 </div>
-                <div className="book__info col-lg-7 col-md-6 col-sm-6">
-                <h4>{Book.title}</h4>
-                <p className="__category">{Book.category && Book.category[0].toUpperCase() + Book.category.substr(1)}</p>
-                <p className="__authors"><span>{Book.author}</span></p>
-                <p className="__keywords"><span>Ключевые слова</span>
-                <br/>{Book.keywords && Book.keywords.map(keyword=>{
-                    return <i className="book__keyword">{keyword} </i>
-                })}</p>
-                <p>
-                    <span>Библиографическое описание</span><br/>
-                    {Book.description}
-                </p>
-                <p>
-                    <span>Аннотация</span><br/>
-                    {Book.annotation}
-                </p>
-                {Book.doc && <p>
-                    <strong>Оглавление</strong><br/>
-                    <a href={Book.doc} target="_blank" rel="noopener noreferrer">
-                        <Icon size="lg" icon={faFileAlt}/> {Book.title}
-                    </a>
-                </p>}
+                <div className="col-lg-7 col-md-6 col-sm-6">
+                    <div className="book__info">
+                        <h4>{Book.title}</h4>
+                        <p className="__category">{Book.category && Book.category[0].toUpperCase() + Book.category.substr(1)}</p>
+                        <p className="__authors"><span>{Book.author}</span></p>
+                        <p className="__keywords"><span>Ключевые слова</span>
+                        <br/>{Book.keywords && Book.keywords.map(keyword=>{
+                            return <i className="book__keyword">{keyword} </i>
+                        })}</p>
+                        <p>
+                            <span>Библиографическое описание</span><br/>
+                            {Book.description}
+                        </p>
+                        <p>
+                            <span>Аннотация</span><br/>
+                            {Book.annotation}
+                        </p>
+                        {Book.doc && <p>
+                            <strong>Оглавление</strong><br/>
+                            <a href={Book.doc} target="_blank" rel="noopener noreferrer">
+                                <Icon size="lg" icon={faFileAlt}/> {Book.title}
+                            </a>
+                        </p>}
+                    </div>
                 </div>
             </div>
             :null}
