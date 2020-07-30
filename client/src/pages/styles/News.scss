@@ -80,9 +80,20 @@
     }
 
     .one-news{
-
+        position: relative;
         &.pinned{
             animation: pulseBackground 0.8s ease 0s infinite alternate;
+        }
+        span.pin-icon{
+            position: absolute;
+            top: 0;
+            right: 0;
+            /* font-size: 20px; */
+            /* transform: translate(-50%, -50%); */
+            /* background: green; */
+            padding: 6px;
+            /* border-radius: 8px; */
+            /* background-color: whitesmoke; */
         }
 
         grid-column-end: span 1;
@@ -94,7 +105,11 @@
         
         &:hover{
             background-color: #ddd7;
-            animation: none
+            animation: none;
+        }
+
+        &:active{
+            background-color: #9bb7;
         }
 
         h2{

@@ -85,20 +85,20 @@ const LiteratureSchema = new Schema({
         }
     },
 
-    // Ключевые слова
-    keywords:{
-        type: [{
-            type: String,
-            minlength: 1,
-            maxlength: 60,
-            validate:{
-                validator: function (word) {
-                    return /^[а-яА-ЯёЁa-zA-Z0-9]+$/.test(word)
-                },
-                message: props => `${props.value} - Ключевые слова содержат недопустимые символы`
-            }
-        }] // it may be authors, main theme, category and other
-    }
+    // // Ключевые слова
+    // keywords:{
+    //     type: [{
+    //         type: String,
+    //         minlength: 1,
+    //         maxlength: 60,
+    //         validate:{
+    //             validator: function (word) {
+    //                 return /^[а-яА-ЯёЁa-zA-Z0-9]+$/.test(word)
+    //             },
+    //             message: props => `${props.value} - Ключевые слова содержат недопустимые символы`
+    //         }
+    //     }] // it may be authors, main theme, category and other
+    // }
 
 }, {autoIndex:false, versionKey: false})
 

@@ -31,17 +31,14 @@ export function NewsInList(props) {
     const { url, title, datetime, pin, annotation, id } = props
     return (
         <Link to={`/news/read/${url}`}
-        className={`
-            one-news 
-            ${annotation ? 'news-with-annotation' : ''} \
-            ${pin ? 'pinned' : ''}`}>
+        className={`one-news ${annotation ? 'news-with-annotation' : ''} ${pin ? 'pinned' : ''}`}>
             <div>
+                {pin && 
+                    <span className="pin-icon">
+                        <Icon icon={pushpinIcon} style={{ fontSize: "18px" }} />
+                    </span>
+                } 
                 <span>
-                    {pin && 
-                        <span className="pin-icon">
-                            <Icon icon={pushpinIcon} style={{ fontSize: "18px" }} />
-                        </span>
-                    } 
                     {toDate(datetime, true)}
                 </span>
                 <h2>{title}</h2>

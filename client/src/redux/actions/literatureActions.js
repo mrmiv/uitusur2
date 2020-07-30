@@ -15,7 +15,7 @@ import {
 import axios from 'axios'
 import { returnInfo } from './infoActions';
 
-export const GetLiteraturePerPage = (page = 1, perPage = 12, filter = null, sort = 1, keywords=[]) => dispatch => {
+export const GetLiteraturePerPage = (page = 1, perPage = 12, filter = null, sort = 1, search='') => dispatch => {
 
     dispatch({
         type: LOADING_LITERATURE
@@ -23,22 +23,13 @@ export const GetLiteraturePerPage = (page = 1, perPage = 12, filter = null, sort
 
     dispatch({
         type:SET_LITERATURE_FILTER,
-        payload: {page, perPage, filter, sort, keywords}
+        payload: {page, perPage, filter, sort, search}
     })
 
-    // console.log(keywords);
-    let keywords_string = ''
-
-    if (keywords.length !== 0){
-
-        keywords_string = keywords.reduce(function(sum, current) {
-            return sum +'&keywords='+ current;
-          }, '');
-    }
 
     // console.log(keywords_string);
 
-    let query = `/api/literature?page=${page}&perpage=${perPage}&sort=${sort}${filter !== null ? `&filter=${filter}`: ''}${keywords_string}`
+    let query = `/api/literature?page=${page}&perpage=${perPage}&sort=${sort}${filter !== null ? `&filter=${filter}`: ''}&search=${search}`
     // console.log(query);
 
     // get /literature/?page=1&?perPage=12?category=all&?sort=asc
@@ -65,7 +56,7 @@ export const GetLiteraturePerPage = (page = 1, perPage = 12, filter = null, sort
         })
 }
 
-export const GetCurrentBook = (id) => dispatch => {
+export const GetCurrentBook = id => dispatch => {
 
     dispatch({
         type: BOOK_LOADING
@@ -90,51 +81,22 @@ export const GetCurrentBook = (id) => dispatch => {
         })
 }
 
-export const postLiterature = ({
-    title,
-    category,
-    description,
-    annotation,
-    image,
-    doc,
-    author,
-    keywords,
-    path,
-}) => dispatch => {
+export const postLiterature = data => dispatch => {
 
     dispatch({
         type: LOADING_REQ
     })
 
     const headers = {
-        "Content-type": "multipart/form-data",
         "token": sessionStorage.getItem("token")
     }
-
-    const formdata = new FormData()
-
-    formdata.append('image', image)
-    if (doc) { formdata.append('doc', doc) }
-    formdata.append('title', title)
-    formdata.append('category', category.toLowerCase())
-    formdata.append('description', description)
-    formdata.append('annotation', annotation)
-    formdata.append('author', author)
-    formdata.append('path', path)
-
-    let keywords_arr = keywords.split(' ')
-
-    keywords_arr.forEach(item => {
-        // keywords[:index] = keyword
-        formdata.append(`keywords`, item)
-    })
 
     // get /literature/book/id
     axios({
         url: '/api/literature',
         method: 'POST',
         headers,
-        data: formdata
+        data
     })
         .then(res => {
             dispatch(returnInfo(res.data, res.status, 'REQ_SUCCESS'))
@@ -150,47 +112,22 @@ export const postLiterature = ({
         })
 }
 
-export const patchLiterature = (id, {
-    title,
-    category,
-    description,
-    annotation,
-    author,
-    keywords,
-    path,
-}) => dispatch => {
+export const patchLiterature = (id, data) => dispatch => {
 
     dispatch({
         type: LOADING_REQ
     })
 
     const headers = {
-        "Content-type": "multipart/form-data",
         "token": sessionStorage.getItem("token")
     }
-
-    const formdata = new FormData()
-
-    formdata.append('title', title)
-    formdata.append('category', category.toLowerCase())
-    formdata.append('description', description)
-    formdata.append('annotation', annotation)
-    formdata.append('author', author)
-    formdata.append('path', path)
-
-    let keywords_arr = keywords.split(' ')
-
-    keywords_arr.forEach(item => {
-        // keywords[:index] = keyword
-        formdata.append(`keywords`, item)
-    })
 
     // get /literature/book/id
     axios({
         url: `/api/literature/book/${id}`,
         method: 'PATCH',
         headers,
-        data: formdata
+        data
     })
         .then(res => {
             dispatch(returnInfo(res.data, res.status, 'REQ_SUCCESS'))

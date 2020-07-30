@@ -13,13 +13,14 @@ router.get('/', async (req, res) => {
     const perpage = Number(req.query.perpage) || 12
     const sort = Number(req.query.sort) || 1 // 1=asc, 2=desc
     let category = req.query.filter || null
-    const keywords = req.query.keywords || null
+    const search = req.query.search || null
     // console.log(keywords);
     // console.log(page, perpage, sort, category);
     let query = {}
     
-    if (keywords){
-        query.keywords = {$all : keywords}
+    if (search){
+        query.annotation = { $regex: `.*${search}.*` }
+        // query.keywords = {$all : keywords}
     }
 
     if (category){
@@ -87,7 +88,6 @@ router.post('/', auth, async (req, res) => {
         category,
         description,
         annotation,
-        keywords,
         path
     } = req.body
 
@@ -108,8 +108,7 @@ router.post('/', auth, async (req, res) => {
             category,
             description,
             annotation,
-            image: `/uploads/literature/images/${image.name}`,
-            keywords
+            image: `/uploads/literature/images/${image.name}`
         })
 
         if (path) {
@@ -206,12 +205,11 @@ router.patch('/book/:id', auth, async (req, res) => {
         description,
         annotation,
         author,
-        keywords,
         path } = req.body
 
     try {
         await Literature.findByIdAndUpdate(id,
-            { title, category, description, annotation, author, keywords, path: path? path : null },
+            { title, category, description, annotation, author, path: path? path : null },
             (err) => {
                 if (err) {
                     throw new Error(err.message)

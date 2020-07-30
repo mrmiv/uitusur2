@@ -6,13 +6,13 @@ import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import { faQuoteRight, faIdBadge } from '@fortawesome/free-solid-svg-icons'
 import store from '../store'
 import { closeNavbar } from '../redux/actions/navbarActions'
-import { HashLink } from 'react-router-hash-link'
 // import images
 import GPO_img from './img/GPO_IDEA.svg';
 import student_img from './img/STUDENT.svg';
 import clubs_img from './img/DANCING.svg';
 import { GetDataHome } from '../redux/actions/data_actions/HomeAction'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 export class Home extends Component {
 
@@ -156,10 +156,10 @@ export class Home extends Component {
                                     способностей в тех областях познавательной, социальной, культурной жизнедеятельности, 
                                     которые не могут быть реализованы в процессе учебных занятий и в рамках основных образовательных дисциплин.
                                     </p>
-                                    <HashLink className="more-link" smooth to={{
+                                    <Link className="more-link" to={{
                                         pathname: '/student',
-                                        hash: 'clubs'
-                                    }}>Клубы</HashLink>
+                                        state: 'clubs'
+                                    }}>Клубы</Link>
                                 </div>
                             </div>
                         </div>
@@ -186,10 +186,10 @@ export class Home extends Component {
                                             color={staff.color}
                                         />)
                                 })}
-                                <HashLink smooth className="more-link" to={{
+                                <Link className="more-link" to={{
                                     pathname: '/about',
-                                    hash: 'staff'
-                                }}>Все сотрудники</HashLink>
+                                    state: 'staff'
+                                }}>Все сотрудники</Link>
                             </div>
                         </div>
                     </section>
@@ -201,14 +201,15 @@ export class Home extends Component {
                             <div className="row no-gutters justify-content-between">
                                 <div className="title__workhome col-md-5">
                                     <h2>Трудоустройство</h2>
-                                    <p>Поиск работы процесс многогранный. Здесь не так много жестко фиксированных требований, прописанных правил игры, универсальных решений. Скорее, это процесс полный творчества, позволяющий проявить свою креативность, острый ум и адаптивные навыки.
-                                <pre />В Томском государственном университете систем управления и радиоэлектроники существует <a href="https://tusur.ru/ru/o-tusure/struktura-i-organy-upravleniya/departament-obrazovaniya/tsentr-sodeystviya-trudoustroystvu-vypusknikov" rel="noopener noreferrer" target="_blank"> центр содействия трудоустройству выпускников</a>.
+                                    <p>Поиск работы процесс многогранный. Здесь не так много жестко фиксированных требований, прописанных правил игры, универсальных решений. Скорее, это процесс полный творчества, позволяющий проявить свою креативность, острый ум и адаптивные навыки.</p>
+                                    <p>
+                                    В Томском государственном университете систем управления и радиоэлектроники существует <a href="https://tusur.ru/ru/o-tusure/struktura-i-organy-upravleniya/departament-obrazovaniya/tsentr-sodeystviya-trudoustroystvu-vypusknikov" rel="noopener noreferrer" target="_blank"> центр содействия трудоустройству выпускников</a>.
                                 <br />Поиск работы процесс многогранный в котором учитывается не только как Вы составили резюме, но и как Вы ведете себя на собеседовании.
-                            </p>
-                                    <HashLink smooth className="more-link" to={{
+                                    </p>
+                                    <Link className="more-link" to={{
                                         pathname: '/student',
-                                        hash: 'work'
-                                    }}>Подробнее</HashLink>
+                                        state: 'work'
+                                    }}>Подробнее</Link>
                                 </div>
                                 <div className="img__workhome col-md-5 text-center">
                                     <img src={student_img} alt="Трудоустройство" />
@@ -234,21 +235,33 @@ export default connect(
 
 const GPO_Text_Collapse = () => {
     return (
-        <>
+        <Fragment>
             <p>
-                На факультете успешно развивается технология группового проектного обучения (ГПО) студентов. Реализация проектов осуществляется преимущественно на базе предприятий-партнеров и научных лабораторий, что способствует формированию и динамичному развитию профессиональных компетенций у студентов.
-    <pre />
-    Проект, над которым работает команда из 5-7 человек, должен стать реализацией новой идеи и воплотиться в виде устройства, технологии или услуги. Обучающиеся имеют прекрасную возможность выводить свои инновационные проекты на рынок со студенческой скамьи.
-    <div className="collapse" id="p_gpo_more">
-                    <pre />
-        Созданная на основе инновационной инфраструктуры университета и индустриальных партнеров факультета система подготовки мотивированных кадров, способных создавать собственный бизнес, позволяет студенчеству активно участвовать в престижных конкурсах технологических стартапов, получать финансирование по программам федерального института развития Фонд содействия инноваций (программа «УМНИК»).
-        <pre />
-        В перспективе успешные предприятия, созданные в студенческом бизнес-инкубаторе и достигшие достаточного роста в технологическом бизнес-инкубаторе  университета имеют возможность перейти в особую экономическую зону технико-внедренческого типа «Томск».
-        </div>
+                На факультете успешно развивается технология группового проектного обучения (ГПО) студентов. 
+                Реализация проектов осуществляется преимущественно на базе предприятий-партнеров и научных лабораторий, 
+                что способствует формированию и динамичному развитию профессиональных компетенций у студентов.
             </p>
+            <p>
+                Проект, над которым работает команда из 5-7 человек, должен стать реализацией новой идеи и воплотиться 
+                в виде устройства, технологии или услуги. Обучающиеся имеют прекрасную возможность выводить 
+                свои инновационные проекты на рынок со студенческой скамьи.
+            </p>
+            <div className="collapse" id="p_gpo_more">
+                <p>
+                Созданная на основе инновационной инфраструктуры университета и индустриальных партнеров факультета 
+                система подготовки мотивированных кадров, способных создавать собственный бизнес, позволяет 
+                студенчеству активно участвовать в престижных конкурсах технологических стартапов, 
+                получать финансирование по программам федерального института развития Фонд содействия инноваций (программа «УМНИК»).
+                </p>
+                <p>
+                В перспективе успешные предприятия, созданные в студенческом бизнес-инкубаторе и достигшие достаточного роста 
+                в технологическом бизнес-инкубаторе  университета имеют возможность перейти в особую экономическую зону 
+                технико-внедренческого типа «Томск».
+                </p>
+            </div>
             <a data-toggle="collapse" data-target="#p_gpo_more" aria-expanded="false" aria-controls="p_gpo_more" />
-            <br />
-        </>
+            <br/>
+        </Fragment>
     )
 }
 
@@ -263,18 +276,16 @@ export const CardDegree = (props) => {
                     : { backgroundImage: `url(${props.bg})` }}
             >
                 <h5 data-name={props.name}>{props.num}</h5>
-                <h6>{props.name} <br />
-                    <span data-name={props.name}>{props.type}</span></h6>
+                <h6>{props.name} 
+                    <span className="d-block" data-name={props.name}>{props.type}</span></h6>
 
                 <p>
                     {props.time}
-                    <br />
-                    <span>срок освоения</span>
+                    <span className="d-block">срок освоения</span>
                 </p>
                 <p>
                     {props.profile}
-                    <br />
-                    <span>профиль</span>
+                    <span className="d-block">профиль</span>
                 </p>
             </div>
         </a>

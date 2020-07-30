@@ -17,7 +17,7 @@ const LiteratureState = {
     isLoading: false,
     page: 1,
     perPage: 12,
-    keywords: [],
+    search: '',
     filter: null,
     sort: 1
 }
@@ -42,7 +42,7 @@ function LiteratureReducer(state = LiteratureState, action) {
                 page: action.payload.page,
                 perPage: action.payload.perPage,
                 sort: action.payload.sort,
-                keywords: action.payload.keywords
+                search: action.payload.search
             }
         case REQ_FAIL:
         case REQ_SUCCESS:

@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import store from '../store'
 
 import { connect } from 'react-redux'
-import { useLocation, Link } from 'react-router-dom'
+import { useLocation, Link, withRouter } from 'react-router-dom'
 
 import './styles/Student.scss'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
@@ -37,9 +37,22 @@ export class Student extends Component {
         this.props.getSP()
         this.props.GetAllCurators()
         this.props.getClubs()
+        const idToScroll = this.props.location.state
+        if(idToScroll){
+            const element = document.getElementById(idToScroll)
+            if (!element){
+                return
+            }
+            setTimeout(() => {
+                window.scrollTo({
+                    top: element.offsetTop -80,
+                    behavior: "smooth" 
+                })
+            }, 300);
+        }
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps) {
         const { StudyPlan } = this.props
 
         if (StudyPlan !== prevProps.StudyPlan) {
@@ -54,7 +67,7 @@ export class Student extends Component {
         } else { this.setState({ StudyPlan: null, index: null }) }
     }
 
-    scrollTo = (id) => {
+    scrollTo = id => {
         let el = document.getElementById(id)
         let offsetTop = el.offsetTop
         window.scrollTo({
@@ -264,10 +277,10 @@ const mapStateToProps = state => ({
     StudyPlan: state.api.studyplan.courseSP
 })
 
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
     { GetAllCurators, getCourseSP, getClubs, getSP }
-)(Student)
+)(Student))
 
 const Club = ({ name, image }) => {
     return (

@@ -3,35 +3,21 @@
 
 #literature{
 
-    .literature__nav{
-        padding-top: 20px;
-        label{
-            margin-bottom: 4px;
-        }
-        input, select{
-            width: 97%;
-            padding: 4px 8px;
-            background: whitesmoke;
-            border: 1px solid default.$shadow;
-            border-radius: 4px;
-        }
+    h1{
+        padding-top: 12px;
+        color: default.$orange;
     }
 
-    .keywords{
-        margin-top: 8px;
-        .keyword{
-            cursor: pointer;
-            padding: 4px 12px;
-            margin-right: 4px;
-            background: default.$lblue;
-            color: white;
-            border-radius: 4px;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            &:hover{
-                background: default.$dblue;
-                svg{
-                    color: red
-                }
+    .literature__nav{
+        .form-group{
+            margin: 0 2px 0 0;
+
+            label{
+                margin-bottom: 2px;
+            }
+            input, select{
+                padding: 4px 8px;
+                border-radius: 4px;
             }
         }
     }
