@@ -9,25 +9,28 @@ import "./styles/Literature.scss"
 import { useLocation, Link, useParams, withRouter } from 'react-router-dom'
 import BookView from './components/Book'
 import { Modal } from '../components/Modal'
+import { SET_LITERATURE_FILTER } from '../redux/actions/types'
 
 export class Literature extends Component {
 
     state = {
-        page: 1,
-        perPage: 12,
+        page: Number(this.props.match.params.page) || 1,
+        perPage: this.props.Literature.perPage,
 
-        sort: 1,
-        category: null,
-        keywords: [],
+        sort: this.props.Literature.sort || 1,
+        filter: this.props.Literature.filter || null,
+        keywords: this.props.Literature.keywords || [],
 
         keyword: '',
     }
 
     componentDidMount() {
         document.title = this.props.title
-        const {perPage, category, sort, keywords} = this.props
-        const {page} = this.props.match.params || this.props
-        this.props.GetLiteraturePerPage(page, perPage, category, sort, keywords)
+        const {perPage, filter, sort, keywords, page} = this.state
+        if (Number(page) === 1 && this.props.location.pathname !== '/literature') {
+            this.props.history.push('/literature')
+        }
+        this.props.GetLiteraturePerPage(Number(page), perPage, filter, sort, keywords)
     }
 
     componentWillUnmount() {
@@ -35,25 +38,38 @@ export class Literature extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const { category, sort, page, keywords } = this.props
-        if (category !== prevProps.category || sort !== prevProps.sort || page !== prevProps.page || keywords!==prevProps.keywords) {
-            // this.props.GetLiteraturePerPage(page, this.state.perPage, category, sort, keywords)
-            console.log(prevProps, category, sort, page, keywords);
-        }
+        const { filter, sort, page, perPage, keywords } = this.props.Literature
+        const pp = prevProps.Literature
+        const state = this.state
+        const ps = prevState        
+        if (
+               filter !== state.filter
+            || sort !== state.sort
+            || page !== state.page
+            || keywords !== state.keywords
+            ){
+                console.log(
+                    "prevprops:", pp,
+                    {ppage: page,
+                    pperPage: perPage,
+                    psort: sort,
+                    pfilter: filter,
+                    pkeywords: keywords},
+                    "state:", state)
+                this.props.GetLiteraturePerPage(Number(state.page), perPage, state.filter, state.sort, state.keywords)
+            }
+            
+        // console.log(pl, filter, sort, page, perPage, keywords);
     }
 
     Paginate(page) {
         window.scrollTo(0, 0);
         // console.log(page);
-        const { perPage, category, sort, keywords } = this.state
-        this.setState({ page })
-        this.props.GetLiteraturePerPage(page, perPage, category, sort, keywords)
         this.props.history.push(page !== 1 ? `/literature/page/${page}` : `/literature`)
-
     }
 
     ChangeInput = e => {
-        let query = {[e.target.name]: e.target.value}
+        let query = { [e.target.name]: e.target.value }
         this.setState(query)
     }
 
@@ -81,10 +97,8 @@ export class Literature extends Component {
 
     render() {
         const { Literature, isLoading } = this.props
-        const { LiteratureList, categoryFields, total } = Literature
-
-        const { keywords } = this.state
-        const { page, perPage, sort, filter } = this.state
+        const { LiteratureList, categoryFields, total,
+            page, perPage, sort, filter, keywords } = Literature
         // const {keywords} = this.state
         return (
             <div id="literature">
@@ -93,7 +107,7 @@ export class Literature extends Component {
                         {/* add col-sm-3 class if open keywords */}
                         <div className="col-6 col-sm-3">
                             <label htmlFor="Sort">Сортировка</label>
-                            <select name="sort" id="Sort" onChange={this.ChangeInput}>
+                            <select name="sort" id="Sort" value={sort} onChange={this.ChangeInput}>
                                 <option selected value={1}>По названию (А...Я)</option>
                                 <option value={-1}>По названию (Я...А)</option>
                             </select>
@@ -101,10 +115,10 @@ export class Literature extends Component {
                         {/* add col-sm-3 class if open keywords */}
                         <div className="col-sm-3 col-6">
                             <label htmlFor="Filter">Категория</label>
-                            <select id="Filter" onChange={this.ChangeInput} name="category">
+                            <select id="Filter" onChange={this.ChangeInput} value={filter} name="filter">
                                 <option selected value="">Все</option>
                                 {categoryFields && categoryFields.map((item, index) => {
-                                    return (<option  key={index} value={item}>{item[0].toUpperCase() + item.substr(1)}</option>)
+                                    return (<option key={index} value={item}>{item[0].toUpperCase() + item.substr(1)}</option>)
                                 })}
                             </select>
                         </div>
@@ -119,7 +133,7 @@ export class Literature extends Component {
                         </div>
                     </div>
                     {/* keywords list */}
-                    {keywords.lenght !== 0 &&
+                    {keywords && keywords.lenght !== 0 &&
                         <div className="keywords d-inline-flex">
                             {keywords.map(word => {
                                 return (<div className="keyword"
@@ -132,7 +146,7 @@ export class Literature extends Component {
                         </div>
                     }
                     {!isLoading ?
-                        <Fragment>
+                        LiteratureList.length !== 0 ? <Fragment>
                             <div className="row no-gutters literature__content">
                                 {LiteratureList.map((book, index) => {
                                     return (
@@ -148,19 +162,19 @@ export class Literature extends Component {
                                 })}
                             </div>
                             <div className="pagination">
-                                {LiteratureList &&
-                                    <Pagination
-                                        activePage={page}
-                                        itemsCountPerPage={perPage}
-                                        totalItemsCount={total}
-                                        pageRangeDisplayed={5}
-                                        itemClass="more-link"
-                                        hideFirstLastPages
-                                        hideDisabled
-                                        onChange={this.Paginate.bind(this)} //this.Paginate.bind(this)
-                                    />}
+                                <Pagination
+                                    activePage={page}
+                                    itemsCountPerPage={perPage}
+                                    totalItemsCount={total}
+                                    pageRangeDisplayed={5}
+                                    itemClass="more-link"
+                                    hideFirstLastPages
+                                    hideDisabled
+                                    onChange={this.Paginate.bind(this)} //this.Paginate.bind(this)
+                                />
                             </div>
-                        </Fragment> : "Загрузка"}
+                        </Fragment> : "Книги не найдены :("
+                        : "Загрузка"}
                 </div>
             </div>
         )
@@ -170,25 +184,20 @@ export class Literature extends Component {
 const mapStateToProps = state => ({
     Literature: state.api.literature.literature,
     isLoading: state.api.literature.literature.isLoading,
-    page: state.api.literature.literature.page,
-    perPage: state.api.literature.literature.perPage,
-    keywords: state.api.literature.literature.keywords,
-    filter: state.api.literature.literature.filter,
-    sort: state.api.literature.literature.sort
 })
 
 export default withRouter(connect(
     mapStateToProps,
     { GetLiteraturePerPage }
-)(Literature)) 
+)(Literature))
 
 const Book = ({ title, author, image, category, id }) => {
 
     const len = title.length
     const start = 32
     const full = 64
-    
-    const [Title, setVisibilityTitle] = useState(len<=start);
+
+    const [Title, setVisibilityTitle] = useState(len <= start);
 
     // console.log(Title);
     // len<=start ? title : title.substr(0,start-3) + "..."
@@ -196,24 +205,24 @@ const Book = ({ title, author, image, category, id }) => {
 
     return (
         <div className="col-xl-3 col-md-4 col-sm-6 col-xs-12 p-2"
-        onMouseEnter={()=>setVisibilityTitle(true)}
-        onMouseLeave={()=>setVisibilityTitle(false)}>
+            onMouseEnter={() => setVisibilityTitle(true)}
+            onMouseLeave={() => setVisibilityTitle(false)}>
             <Link to={{
-                    pathname: `/literature/book/${id}`,
-                    state: { background: location }
-                }}>
-            <div className="literature__bookInList" style={{ background: `url(${image}) no-repeat`, backgroundSize: "cover", backgroundPosition: "center" }}>
-                {/* <div className="literature-list-image"  /> */}
-                <p className="bookInList__info">
-                    <span className="info__category">{category[0].toUpperCase() + category.substr(1)}</span>
-                    <span className="info__title">{
-                        Title 
-                        ? (len<full ? title : title.substr(0,full-3)+"...")
-                        : (len<start ? title : title.substr(0,start-3)+"...")
-                    }</span>
-                    <span className="info__author">{author}</span>
-                </p>
-            </div>
+                pathname: `/literature/book/${id}`,
+                state: { background: location }
+            }}>
+                <div className="literature__bookInList" style={{ background: `url(${image}) no-repeat`, backgroundSize: "cover", backgroundPosition: "center" }}>
+                    {/* <div className="literature-list-image"  /> */}
+                    <p className="bookInList__info">
+                        <span className="info__category">{category[0].toUpperCase() + category.substr(1)}</span>
+                        <span className="info__title">{
+                            Title
+                                ? (len < full ? title : title.substr(0, full - 3) + "...")
+                                : (len < start ? title : title.substr(0, start - 3) + "...")
+                        }</span>
+                        <span className="info__author">{author}</span>
+                    </p>
+                </div>
             </Link>
         </div>
     )

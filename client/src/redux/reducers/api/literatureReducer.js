@@ -5,7 +5,8 @@ import {
     REQ_FAIL,
     REQ_SUCCESS,
     LOADING_REQ,
-    LOADING_LITERATURE
+    LOADING_LITERATURE,
+    SET_LITERATURE_FILTER,
 } from "../../actions/types"
 import { combineReducers } from 'redux';
 
@@ -34,6 +35,15 @@ function LiteratureReducer(state = LiteratureState, action) {
                 ...state,
                 isLoading: true
             }
+        case SET_LITERATURE_FILTER:
+            return{ 
+                ...state,
+                filter: action.payload.filter,
+                page: action.payload.page,
+                perPage: action.payload.perPage,
+                sort: action.payload.sort,
+                keywords: action.payload.keywords
+            }
         case REQ_FAIL:
         case REQ_SUCCESS:
             return {
@@ -43,15 +53,10 @@ function LiteratureReducer(state = LiteratureState, action) {
         case GET_LITERATURE:
             // console.log(state)
             return {
+                ...state,
                 total: action.payload.total,
                 LiteratureList: action.payload.LiteratureList,
                 categoryFields: action.payload.categoryFields,
-                isLoading: false,
-                page: action.payload.page,
-                perPage: action.payload.perPage,
-                keywords: action.payload.keywords,
-                filter: action.payload.filter,
-                sort: action.payload.sort,
             }
         default:
             return { ...state, isLoading: false }

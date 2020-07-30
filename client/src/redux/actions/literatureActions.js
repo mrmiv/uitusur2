@@ -5,7 +5,11 @@ import {
     GET_BOOK,
     LOADING_REQ,
     REQ_SUCCESS,
-    REQ_FAIL
+    REQ_FAIL,
+    SET_LITERATURE_FILTER,
+    SET_LITERATURE_PAGE,
+    SET_LITERATURE_SORT,
+    SET_LITERATURE_KEYWORDS,
 } from './types'
 
 import axios from 'axios'
@@ -16,6 +20,12 @@ export const GetLiteraturePerPage = (page = 1, perPage = 12, filter = null, sort
     dispatch({
         type: LOADING_LITERATURE
     })
+
+    dispatch({
+        type:SET_LITERATURE_FILTER,
+        payload: {page, perPage, filter, sort, keywords}
+    })
+
     // console.log(keywords);
     let keywords_string = ''
 
@@ -40,15 +50,15 @@ export const GetLiteraturePerPage = (page = 1, perPage = 12, filter = null, sort
                 payload: {
                     LiteratureList: res.data.data,
                     total: res.data.total,
-                    categoryFields: res.data.fields,
-                    page,
-                    perPage,
-                    filter,
-                    sort,
-                    keywords
+                    categoryFields: res.data.fields
                 }
             })
             return res.data
+        })
+        .then(()=>{
+            dispatch({
+                type: REQ_SUCCESS
+            })
         })
         .catch(err => {
             console.error(err);
@@ -73,7 +83,10 @@ export const GetCurrentBook = (id) => dispatch => {
             return res.data
         })
         .catch(err => {
-            console.error(err);
+            dispatch(returnInfo(err.response.data, err.response.status, 'REQ_FAIL'))
+            dispatch({
+                type: REQ_FAIL
+            })
         })
 }
 
