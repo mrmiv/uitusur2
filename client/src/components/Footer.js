@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import './styles/Footer.scss'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import { Link } from 'react-router-dom'
-import { HashLink } from 'react-router-hash-link'
 import { faCogs } from '@fortawesome/free-solid-svg-icons'
 
 export default class Footer extends Component {
@@ -19,53 +18,52 @@ export default class Footer extends Component {
                   <li className="list-item main">
                     <Link to="/">Главная</Link>
                   </li>
-                  <li className="list-item main not_active">Новости</li>
-                  <li className="list-item">
-                    <Link to="/announcements">Объявления кафедры</Link>
+                  <li className="list-item main">
+                    <Link to="/news">Новости</Link>
                   </li>
                   <li className="list-item">
-                    <Link to="/conferences">Конференции</Link>
+                    <Link to="/news/announcements">Объявления кафедры</Link>
                   </li>
                   <li className="list-item">
-                    <Link to="/grants">Стипендии и гранты</Link>
+                    <Link to="/news/conference">Конференции</Link>
+                  </li>
+                  <li className="list-item">
+                    <Link to="/news/grants">Стипендии и гранты</Link>
                   </li>
                   <li className="list-item main">
                     <Link to="/about">О кафедре</Link>
                   </li>
                   <li className="list-item">
-                    <HashLink smooth to={{
+                    <Link to={{
                       pathname: "/about",
-                      hash: "#staff",
-                      state: { fromNavbar: true }
-                    }} >Сотрудники кафедры</HashLink>
+                      state: "staff"
+                    }} >Сотрудники кафедры</Link>
                   </li>
                   <li className="list-item">
-                    <HashLink smooth to={{
+                    <Link to={{
                       pathname: "/about",
-                      hash: "#CMK",
-                      state: { fromNavbar: true }
-                    }} >СМК</HashLink>
+                      state: "#CMK"
+                    }} >СМК</Link>
                   </li>
                 </ul>
                 <ul className="list_footer_nav">
-                  <li className="list-item main not_active">Поступающему</li>
                   <li className="list-item">
-                    <Link to="/degree/bach">Абитуриенту</Link>
+                    <Link to="/abiturient">Абитуриенту</Link>
                   </li>
                   <li className="list-item">
-                    <Link to="/degree/mag">Магистратура ФИТ</Link>
+                    <Link to="/abiturient-mag">Магистратура ФИТ</Link>
                   </li>
                   <li className="list-item main">
                     <Link to="/student">Обучающимся</Link>
                   </li>
                   <li className="list-item">
-                    <Link to="/student/bach">Бакалавриат</Link>
+                    <Link to="/student/bakalavriat">Бакалавриат</Link>
                   </li>
                   <li className="list-item">
-                    <Link to="/student/mag">Магистратура</Link>
+                    <Link to="/student/magistratura">Магистратура</Link>
                   </li>
                   <li className="list-item main">
-                    <Link to="/docs">Регламентирующие документы</Link>
+                    <Link to="/documents">Регламентирующие документы</Link>
                   </li>
                   <li className="list-item main">
                     <Link to="/literature">Литература кафедры</Link>
@@ -92,7 +90,7 @@ export default class Footer extends Component {
                   Email:
                   <i className="email"><a href="mailto:kov@2i.tusur.ru">kov@2i.tusur.ru</a></i>
                   <br />
-                  Тел.: (3822) 70-17-38
+                  Тел.: <a href="tel:+73822701738">(3822) 70-17-38</a>
                 </p>
                 <p>
                   Часы приема студентов: с 09:00 до 12:00

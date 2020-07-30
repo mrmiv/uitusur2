@@ -103,18 +103,18 @@ export const logout = () => {
 }
 
 export const tokenConfig = (getState) =>{
-        // Get token from LS
-        const token = getState().auth.token
+    // Get token from LS
+    const token = getState().auth.token
 
-        const config = {
-            headers:{
-                "Content-type" : "application/json"
-            }
+    const config = {
+        headers:{
+            "Content-type" : "application/json"
         }
-    
-        if (token){
-            config.headers['token'] = token
-        }
+    }
 
-        return config
+    if (token){
+        config.headers['token'] = token
+    }
+
+    return config
 }

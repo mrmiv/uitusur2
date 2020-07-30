@@ -86,7 +86,7 @@ export class Literature extends Component {
         return (
             <div id="literature">
                 <div className="container-lg container-fluid">
-                    <h1>Литература кафедры</h1>
+                    <h1 >Литература кафедры</h1>
                     <div className="row no-gutters literature__nav">
                         {/* add col-sm-3 class if open search */}
                         <div className="col-6 col-sm-4">

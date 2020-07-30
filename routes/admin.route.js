@@ -14,7 +14,7 @@ router.get('/',auth, async (req, res) => {
       
       const user = await Admin.findOne({email: req.user})
 
-      if (!user) throw Error({message: 'no auth'})
+      if (!user) throw Error({message: 'Проверьте правильность введенных данных'})
       
       res.json({message: `Пользователь ${req.user} авторизован`})
 
@@ -103,7 +103,7 @@ router.post('/login', async (req, res) => {
         const token = jwt.sign(
             { email : user.email },
             process.env.secretKey || config.get('secretKey'),
-            {expiresIn: '2h'}
+            {expiresIn: '4h'}
         )
         
         return res.json({ token, email: user.email })

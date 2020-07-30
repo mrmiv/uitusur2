@@ -89,8 +89,17 @@ export class AdminHome extends Component {
                 <h2>Панель администратора</h2>
                 {/* <a role="button" className="btn btn-info" href="https://metrika.yandex.ru/dashboard?id=62465179" target="blank" rel="norefferer noopener">Статистика</a> */}
                 <div className="row no-gutters">
-                    <NavCard path={"https://metrika.yandex.ru/dashboard?id=62465179"}
-                        icon={<Icon icon={googleanalyticsIcon} />} name="Статистика" />
+                    <div className="col-xl-2 col-md-3 col-sm-4 col-6 mt-2">
+                        <a className="link-boxfor-navcard" 
+                        ref="noopener norefferer" target="_blank"
+                        href="https://metrika.yandex.ru/dashboard?id=62465179">
+                            <div className="nav-admin-card">
+                                <span className="icon-nav-card" ><Icon icon={googleanalyticsIcon} /></span>
+                                <br />
+                                <u>Статистика</u>
+                            </div>
+                        </a>
+                    </div>
                     {navigation.map((item, index) => {
                         return (<NavCard key={index}
                             path={item.path}

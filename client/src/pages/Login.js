@@ -74,7 +74,7 @@ export class Login extends Component {
     render() {
         return (
             <div className="container-md container-fluid">
-                <h2 className="text-center mb-3 pt-4">Вход в систему</h2>
+                <h1 className="text-center mb-3 pt-4">Вход в систему</h1>
                 <div className="row no-gutters justify-content-center">
                     {this.state.msg &&
                         <div className="alert alert-danger alert-dismissible fade show w-75" role="alert">

@@ -17,7 +17,7 @@ module.exports = (req, res, next) =>{
             req.user = decoded.email
             next()
         } catch (error) {
-            res.status(403).json({message: error.message})
+            res.status(403).json({message: "Ошибка! Авторизуйтесь еще раз." ,error: error.message})
         }
 
     } catch (error) {
