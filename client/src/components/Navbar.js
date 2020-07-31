@@ -53,6 +53,7 @@ export class Navbar extends Component {
                             state: "staff"
                         },
                         name: "Сотрудники кафедры",
+                        notActive: true
                     },
                     {
                         to: {
@@ -60,6 +61,7 @@ export class Navbar extends Component {
                             state: "Документы СМК"
                         },
                         name: "СМК",
+                        notActive: true
                     },
                     
                 ]
@@ -120,7 +122,7 @@ export class Navbar extends Component {
         const link_id = `submenu_${id}`
         const submenu_links = <div className="submenu collapse" id={link_id} data-parent="#accordion_navbar">
             {submenu && submenu.map((sub_item, index)=>{
-                return <NavLink index={index} className="link" to={sub_item.to}>
+                return <NavLink index={index} className={`link ${sub_item.notActive ? 'sublink-not-active' : ''}`} to={sub_item.to}>
                     {sub_item.name}
                 </NavLink>
             })}

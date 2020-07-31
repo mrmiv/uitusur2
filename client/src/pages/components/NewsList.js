@@ -38,7 +38,7 @@ export function NewsInList(props) {
                         <Icon icon={pushpinIcon} style={{ fontSize: "18px" }} />
                     </span>
                 } 
-                <span>
+                <span className="created-date-news">
                     {toDate(datetime, true)}
                 </span>
                 <h2>{title}</h2>

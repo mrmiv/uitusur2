@@ -2,7 +2,8 @@
 @import './animations.scss';
 
 #news{
-    margin: 88px 0 0 0;
+    padding: 20px 0;
+    background: #80808020;
     *{
         font-family: "Roboto", sans-serif;
     }
@@ -39,7 +40,6 @@
 
     .news-list-grid{
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
         grid-gap: 8px;
         grid-auto-rows: minmax(auto, auto);
         grid-auto-flow: dense;
@@ -81,9 +81,6 @@
 
     .one-news{
         position: relative;
-        &.pinned{
-            animation: pulseBackground 0.8s ease 0s infinite alternate;
-        }
         span.pin-icon{
             position: absolute;
             top: 0;
@@ -98,23 +95,29 @@
 
         grid-column-end: span 1;
         color:black;
-        transition: 0.3s ease;
-        background-color: #eee5;
+        transition: 0.2s ease;
+        background-color: #fffb;
         padding: 8px 16px;
         border-radius: 8px;
+        box-shadow: 0 1px 2px #0002;
         
         &:hover{
-            background-color: #ddd7;
-            animation: none;
+            background-color: #fffd;
         }
 
         &:active{
-            background-color: #9bb7;
+            background-color: #ffff;
+
+        }
+
+        span.created-date-news{
+            opacity: 0.75;
         }
 
         h2{
             font-weight: 500 !important;
-            font-size:1.5em;
+            font-size:1.3em;
+            margin: 6px 0;
         }
         .props-news-list{
             p.prop-news{
@@ -138,7 +141,7 @@
             grid-column-end: span 2;
         }
 
-        @media screen and (max-width:576px){
+        @media screen and (max-width:768px){
             &.news-with-annotation{
                 grid-column-end: span 1;
             }
