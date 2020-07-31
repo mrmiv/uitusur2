@@ -88,7 +88,7 @@ export const postLiterature = data => dispatch => {
     })
 
     const headers = {
-        "token": sessionStorage.getItem("token")
+        "token": localStorage.getItem("token")
     }
 
     // get /literature/book/id
@@ -119,7 +119,7 @@ export const patchLiterature = (id, data) => dispatch => {
     })
 
     const headers = {
-        "token": sessionStorage.getItem("token")
+        "token": localStorage.getItem("token")
     }
 
     // get /literature/book/id
@@ -150,7 +150,7 @@ export const delLiterature = (id, page) => dispatch => {
     })
 
     const config = {
-        headers: { "token": sessionStorage.getItem("token") }
+        headers: { "token": localStorage.getItem("token") }
     }
 
     // debugger

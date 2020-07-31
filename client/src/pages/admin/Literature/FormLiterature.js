@@ -22,7 +22,6 @@ export class LiteratureForm extends Component {
         image: null,
         path: '',
         doc: null,
-        keywords: '',
 
         blocked: false,
 
@@ -62,7 +61,6 @@ export class LiteratureForm extends Component {
                     doc: Book.doc,
                     author: Book.author,
                     path: Book.path,
-                    keywords: Book.keywords.join(' '),
                 });
             }
         }
@@ -102,19 +100,17 @@ export class LiteratureForm extends Component {
             image,
             path,
             doc,
-            keywords,
             id } = this.state
 
         const Book = {
-            title: title,
-            description: description,
-            annotation: annotation,
-            category: category,
-            author: author,
+            title,
+            description,
+            annotation,
+            category,
+            author,
             image,
-            path: path,
+            path,
             doc,
-            keywords: keywords
         }
 
         // console.log(id);
@@ -206,11 +202,6 @@ export class LiteratureForm extends Component {
                             <label HtmlFor="annotationInput">Аннотация</label>
                             <textarea onChange={this.changeInput} required type="text" className="form-control"
                                 name="annotation" id="annotationInput" placeholder="..." value={this.state.annotation} />
-                        </div>
-                        <div className="form-group">
-                            <label HtmlFor="keywordsInput">Ключевые слова</label>
-                            <input onChange={this.changeInput} required type="text" className="form-control"
-                                name="keywords" id="keywordsInput" placeholder="Введите ключевые слова через пробел без запятых" value={this.state.keywords} />
                         </div>
                         <div className="w-100 mt-2 text-right">
                             <button className="btn btn-success mr-0" type="submit" onClick={this.submitForm}

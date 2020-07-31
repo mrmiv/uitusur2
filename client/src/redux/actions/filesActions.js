@@ -34,7 +34,7 @@ export const postfile = file => dispatch => {
   const config = {
     headers: {
       "content-type": "multipart/formdata",
-      token: sessionStorage.getItem("token")
+      token: localStorage.getItem("token")
     }
   }
 
@@ -65,7 +65,7 @@ export const delfile = id => dispatch => {
 
   const config = {
     headers: {
-      token: sessionStorage.getItem("token")
+      token: localStorage.getItem("token")
     }
   }
 

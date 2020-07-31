@@ -66,9 +66,14 @@ export class AdminParam extends Component {
   }
 
   delParam = (id) => {
-    window.scrollTo(0, 0)
-    this.props.clearInfo()
-    this.props.delParam(id)
+    const areYouSure = window.confirm('Вы действительно хотите удалить этот элемент?')
+    if(areYouSure){
+      window.scrollTo(0, 0)
+      this.props.clearInfo()
+      this.props.delParam(id)
+    } else {
+        console.log('Элемент не удален')
+    }
   }
 
   render() {
@@ -104,8 +109,8 @@ export class AdminParam extends Component {
               <span aria-hidden="true">&times;</span>
             </button>
           </div> : null}
-        <div className="row no-gutters justify-content-between">
-          <h2> <Link to="/admin"><Icon icon={cogIcon} /></Link> Заголовки</h2>
+        <div className="row no-gutters  align-items-center justify-content-between">
+          <h1> <Link to="/admin" style={{fontSize:"1em"}}><Icon icon={cogIcon} /></Link> Заголовки</h1>
           <Link className="add_admin_button" to="/admin/param/add">Добавить заголовок <Icon icon={plusCircle} /></Link>
         </div>
         <form>

@@ -116,7 +116,7 @@ export const postNews = ({
 
 	const headers = {
 		"content-type": "multipart/form-data",
-		token: sessionStorage.getItem("token"),
+		token: localStorage.getItem("token"),
 	};
 
 	const formdata = new FormData();
@@ -185,7 +185,7 @@ export const delNews = (id, type='', page=1, perPage=15) => dispatch => {
 
 	const config = {
 		headers: {
-			token: sessionStorage.getItem("token"),
+			token: localStorage.getItem("token"),
 		},
 	};
 
@@ -227,7 +227,7 @@ export const patchNews = (id, {
 
 	const headers = {
 		"content-type": "multipart/form-data",
-		token: sessionStorage.getItem("token"),
+		token: localStorage.getItem("token"),
 	};
 
 	const formdata = new FormData();
@@ -290,7 +290,7 @@ export const pinNews = (id, type='', page = 1, perPage = 10) => dispatch => {
 
 	const config = {
 		headers: {
-			token: sessionStorage.getItem("token"),
+			token: localStorage.getItem("token"),
 		}
 	};
 

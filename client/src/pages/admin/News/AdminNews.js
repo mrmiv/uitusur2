@@ -51,11 +51,15 @@ export class AdminNews extends Component {
 
     delNews = id => {
         const { type, page, perPage } = this.state
-        this.props.delNews(id, type, page, perPage)
+        const areYouSure = window.confirm('Вы действительно хотите удалить этот элемент?')
+        if(areYouSure){
+            window.scrollTo(0, 0)
+            this.props.clearInfo()
+            this.props.delNews(id, type, page, perPage)
 
-        // setTimeout(() => {
-        //     this.props.GetNewsList(this.state.type, this.state.page)
-        // }, 250)
+        } else {
+            console.log('Элемент не удален')
+        }
     }
 
     pinNews = id => {
@@ -93,8 +97,8 @@ export class AdminNews extends Component {
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div> : null}
-                <div className="row no-gutters justify-content-between">
-                    <h2><Link to="/admin"><Icon icon={cogIcon} /></Link> Новости кафедры</h2>
+                <div className="row no-gutters justify-content-between align-items-center">
+                    <h1><Link to="/admin" style={{fontSize: "1em"}}><Icon icon={cogIcon} /></Link> Новости кафедры</h1>
                     <Link className="add_admin_button" to="/admin/news/form">Добавить новость<Icon icon={plusCircle} /></Link>
                 </div>
                 <form>
@@ -126,7 +130,7 @@ export class AdminNews extends Component {
                                     <td name="title"><Link to={`/admin/news/form/${item.translit_title}`}>{item.title}</Link></td>
                                     <td name="date">{toDate(item.created_at, true)}</td>
                                     <td name="pin" style={{cursor:"pointer", textAlign: "center"}} onClick={() => this.pinNews(item._id)}>
-                                        {item.pin && <Icon icon={pushpinIcon} />}
+                                        <Icon icon={pushpinIcon} style={{opacity: item.pin ? 1 : '0.2' }}/>
                                     </td>
                                     <td name="del">
                                         <button type="button" className="btn"

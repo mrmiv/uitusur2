@@ -68,7 +68,7 @@ export const getAllParam = () => dispatch => {
   // set token
   const config = {
     headers: {
-      token: sessionStorage.getItem("token")
+      token: localStorage.getItem("token")
     }
   }
   axios.get('/api/param', config)
@@ -95,7 +95,7 @@ export const getPageParam = page => dispatch => {
 
   const config = {
     headers: {
-      token: sessionStorage.getItem("token")
+      token: localStorage.getItem("token")
     }
   }
 
@@ -149,7 +149,7 @@ export const delParam = id => dispatch => {
 
   const config = {
     headers: {
-      token: sessionStorage.getItem("token")
+      token: localStorage.getItem("token")
     }
   }
 
@@ -176,7 +176,7 @@ export const postParam = ({ title, page, text, image, order, active }) => dispat
 
   const config = {
     headers: {
-      token: sessionStorage.getItem("token")
+      token: localStorage.getItem("token")
     }
   }
 
@@ -208,7 +208,7 @@ export const setActivityOrOrder = (id, active, page, onlyActive) => dispatch => 
 
   const config = {
     headers: {
-      token: sessionStorage.getItem("token")
+      token: localStorage.getItem("token")
     }
   }
 
@@ -253,7 +253,7 @@ export const patchParam = (id, { title, page, text, image, order, active }) => d
 
   const config = {
     headers: {
-      token: sessionStorage.getItem("token")
+      token: localStorage.getItem("token")
     }
   }
 

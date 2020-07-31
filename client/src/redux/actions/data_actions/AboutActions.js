@@ -76,7 +76,7 @@ export const postfeedback = ({ name, text, post, degree }) => dispatch => {
 
     const config = {
         headers: {
-            token: sessionStorage.getItem("token")
+            token: localStorage.getItem("token")
         }
     }
 
@@ -106,7 +106,7 @@ export const patchfeedback = (id, { name, text, post, degree }) => dispatch => {
 
     const config = {
         headers: {
-            token: sessionStorage.getItem("token")
+            token: localStorage.getItem("token")
         }
     }
 
@@ -136,7 +136,7 @@ export const delfeedback = (id) => dispatch => {
 
     const config = {
         headers: {
-            token: sessionStorage.getItem("token")
+            token: localStorage.getItem("token")
         }
     }
 

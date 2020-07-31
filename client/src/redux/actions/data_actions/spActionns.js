@@ -40,7 +40,7 @@ export const delSP = id => (dispatch) => {
   });
 
   const config = {
-    headers: { token: sessionStorage.getItem("token") },
+    headers: { token: localStorage.getItem("token") },
   };
 
   axios.delete(`/api/studyplan/${id}`, config)
@@ -83,7 +83,7 @@ export const postSP = ({ course, group, exam_from, exam_to, weekend_from, weeken
 
   const config = {
     headers: {
-      token: sessionStorage.getItem("token"),
+      token: localStorage.getItem("token"),
     }
   };
 
@@ -114,7 +114,7 @@ export const patchSP = (id, SP) => (dispatch) => {
 
   const config = {
     headers: {
-      token: sessionStorage.getItem("token"),
+      token: localStorage.getItem("token"),
     }
   };
 

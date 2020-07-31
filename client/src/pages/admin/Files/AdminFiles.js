@@ -18,10 +18,15 @@ export class AdminFiles extends Component {
   }
 
   delfile = id => {
-    this.props.delfile(id)
-    setTimeout(() => {
-      this.props.getfiles()
-    }, 200)
+    const areYouSure = window.confirm('Вы действительно хотите удалить этот элемент?')
+    if(areYouSure){
+      window.scrollTo(0, 0)
+      this.props.clearInfo()
+      this.props.delfile(id)
+
+    } else {
+        console.log('Элемент не удален')
+    }
   }
 
   render() {
@@ -29,7 +34,7 @@ export class AdminFiles extends Component {
     const { files } = this.props
 
     return (<Fragment>
-      <table class="table table-hover mt-3">
+      <table class="table table-hover table-bordered table-sm mt-3">
         <thead class="thead-dark">
           <tr>
             <th scope="col">#</th>

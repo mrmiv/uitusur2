@@ -2,10 +2,12 @@ import React, { Component } from 'react'
 import { closeNavbar } from '../../../redux/actions/navbarActions'
 import { connect } from 'react-redux'
 import { GetAllCurators, delCurator } from '../../../redux/actions/data_actions/curatorActions'
-import { clearInfo } from '../../../redux/actions/infoActions'
-import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
-import { faPlusCircle, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { Link, withRouter } from 'react-router-dom'
+import { clearInfo } from '../../../redux/actions/infoActions'
+import { Icon } from '@iconify/react';
+import plusCircle from '@iconify/icons-fa-solid/plus-circle';
+import cogIcon from '@iconify/icons-fa-solid/cog';
+import trashAlt from '@iconify/icons-fa-solid/trash-alt';
 
 export class AdminCurators extends Component {
 
@@ -39,9 +41,14 @@ export class AdminCurators extends Component {
   }
 
   delCurator = (id) => {
-    window.scrollTo(0, 0)
-    this.props.clearInfo()
-    this.props.delCurator(id)
+    const areYouSure = window.confirm('Вы действительно хотите удалить этот элемент?')
+    if(areYouSure){
+      window.scrollTo(0, 0)
+      this.props.clearInfo()
+      this.props.delCurator(id)
+    } else {
+      console.log('Элемент не удален')
+    }
   }
 
   render() {
@@ -60,17 +67,17 @@ export class AdminCurators extends Component {
               <span aria-hidden="true">&times;</span>
             </button>
           </div> : null}
-        <div className="row no-gutters justify-content-between">
-          <h2>Кураторы</h2>
-          <Link to="/admin/curator/add">Добавить куратора<Icon icon={faPlusCircle} /></Link>
-          <div className="w-100" />
-          <table class="table table-hover">
+        <div className="row no-gutters align-items-center justify-content-between">
+          <h1> <Link to="/admin" style={{fontSize: "1em"}}><Icon icon={cogIcon} /></Link> Кураторы</h1>
+          <Link className="add_admin_button" to="/admin/curator/add">Добавить куратора<Icon icon={plusCircle} /></Link>
+        </div>
+          <table class="table table-sm table-bordered table-hover">
             <thead class="thead-dark">
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">ФИО</th>
                 <th scope="col">Группа</th>
-                <th scope="col" style={{ width: "50px", textAlign: "center" }}><Icon icon={faTrashAlt} /></th>
+                <th scope="col" style={{ width: "50px", textAlign: "center" }}><Icon icon={trashAlt} /></th>
                 {/* style={{width="50px"}} */}
               </tr>
             </thead>
@@ -80,18 +87,17 @@ export class AdminCurators extends Component {
                   return (
                     <tr key={index}>
                       <th scope="row">{index + 1}</th>
-                      <td name="FIO"><Link to={`/admin/curator/edit/${item._id}`}>{item.lastname + " " + item.firstname + " " + item.secondname}</Link></td>
+                      <td name="FIO"><Link to={`/admin/curator/edit/${item._id}`}>{`${item.lastname} ${item.firstname} ${item.secondname && item.secondname}`}</Link></td>
                       <td name="group">{item.group}</td>
                       <td name="del">
-                        <button type="button" className="btn" onClick={() => this.delCurator(item._id)}><Icon icon={faTrashAlt} /></button>
+                        <button type="button" className="btn" onClick={() => this.delCurator(item._id)}><Icon icon={trashAlt} color="red" /></button>
                       </td>
                     </tr>
                   )
                 }) : <p>Здесь пусто, добавьте куратора</p>
-                : <p>loading</p>}
+                : <p>Загрузка</p>}
             </tbody>
           </table>
-        </div>
       </div >
     )
   }

@@ -77,7 +77,7 @@ export const postDocument = ({
 
     const headers = {
         "Content-type": "multipart/form-data",
-        "token": sessionStorage.getItem("token")
+        "token": localStorage.getItem("token")
     }
 
     const formdata = new FormData()
@@ -129,7 +129,7 @@ export const patchDocument = (id, {
 
     const headers = {
         "Content-type": "multipart/form-data",
-        "token": sessionStorage.getItem("token")
+        "token": localStorage.getItem("token")
     }
 
     const formdata = new FormData()
@@ -174,7 +174,7 @@ export const delDocument = id => dispatch => {
 
     const config = {
         headers: {
-            token: sessionStorage.getItem("token")
+            token: localStorage.getItem("token")
         }
     }
 

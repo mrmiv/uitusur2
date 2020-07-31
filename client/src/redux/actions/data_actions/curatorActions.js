@@ -58,7 +58,7 @@ export const postCurator = ({ staff_id, firstname, lastname, secondname, group }
 
     const config = {
         headers: {
-            token: sessionStorage.getItem("token")
+            token: localStorage.getItem("token")
         }
     }
 
@@ -88,7 +88,7 @@ export const delCurator = id => dispatch => {
 
     const config = {
         headers: {
-            token: sessionStorage.getItem("token")
+            token: localStorage.getItem("token")
         }
     }
 
@@ -116,7 +116,7 @@ export const patchCurator = (id, { staff_id, firstname, lastname, secondname, gr
 
     const config = {
         headers: {
-            token: sessionStorage.getItem("token")
+            token: localStorage.getItem("token")
         }
     }
 

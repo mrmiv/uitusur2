@@ -68,7 +68,7 @@ export const postStaff = (Staff) => dispatch => {
     const config = {
         headers: {
             "Content-type": "application/json",
-            "token": sessionStorage.getItem("token")
+            "token": localStorage.getItem("token")
         }
     }
 
@@ -103,7 +103,7 @@ export const delStaff = (id) => dispatch => {
     })
 
     const config = {
-        headers: { "token": sessionStorage.getItem("token") }
+        headers: { "token": localStorage.getItem("token") }
     }
 
     // debugger
@@ -138,7 +138,7 @@ export const patchStaff = (id, Staff) => dispatch => {
     const config = {
         headers: {
             "Content-type": "application/json",
-            "token": sessionStorage.getItem("token")
+            "token": localStorage.getItem("token")
         }
     }
 

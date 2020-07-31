@@ -3,9 +3,10 @@ import { connect } from 'react-redux'
 import { clearInfo } from '../../../redux/actions/infoActions'
 import { getfeedback, delfeedback } from '../../../redux/actions/data_actions/AboutActions'
 
-import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
-import { faTrashAlt, faPlusCircle } from '@fortawesome/free-solid-svg-icons'
-import { Link, withRouter } from 'react-router-dom'
+import { Icon } from '@iconify/react';
+import plusCircle from '@iconify/icons-fa-solid/plus-circle';
+import cogIcon from '@iconify/icons-fa-solid/cog';
+import trashAlt from '@iconify/icons-fa-solid/trash-alt';import { Link, withRouter } from 'react-router-dom'
 
 export class QuizForm extends Component {
 
@@ -43,9 +44,14 @@ export class QuizForm extends Component {
   }
 
   delfeedback = id => {
-    this.props.clearInfo()
-    this.props.delfeedback(id)
-    this.props.getfeedback()
+    const areYouSure = window.confirm('Вы действительно хотите удалить этот элемент?')
+        if(areYouSure){
+            window.scrollTo(0, 0)
+            this.props.clearInfo()
+            this.props.delfeedback(id)
+        } else {
+            console.log('Элемент не удален')
+        }
   }
 
   render() {
@@ -65,18 +71,18 @@ export class QuizForm extends Component {
               <span aria-hidden="true">&times;</span>
             </button>
           </div> : null}
-        <div className="row no-gutters justify-content-between">
-          <h2>Отзывы о кафедре</h2>
-          <Link to="/admin/feedback/add">Добавить отзыв <Icon icon={faPlusCircle} /></Link>
-          <div className="w-100" />
-          <table className="table table-hover table-sm-responsive">
+        <div className="row no-gutters align-items-center justify-content-between">
+          <h1> <Link to="/admin" style={{fontSize: "1em"}}><Icon icon={cogIcon} /></Link> Отзывы о кафедре</h1>
+          <Link className="add_admin_button" to="/admin/feedback/add">Добавить отзыв <Icon icon={plusCircle} /></Link>
+        </div >
+          <table className="table table-sm table-bordered table-hover">
             <thead className="thead-dark">
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">ФИО</th>
                 <th scope="col">Должность</th>
                 <th scope="col">Образование</th>
-                <th scope="col" style={{ width: "50px", textAlign: "center" }}><Icon icon={faTrashAlt} /></th>
+                <th scope="col" style={{ width: "50px", textAlign: "center" }}><Icon icon={trashAlt} /></th>
               </tr>
             </thead>
             <tbody>
@@ -89,15 +95,14 @@ export class QuizForm extends Component {
                       <td name="post">{item.post}</td>
                       <td name="degree">{item.degree}</td>
                       <td name="del">
-                        <button type="button" className="btn" onClick={() => this.delfeedback(item._id)}><Icon icon={faTrashAlt} /></button>
+                        <button type="button" className="btn" onClick={() => this.delfeedback(item._id)}><Icon icon={trashAlt} color="red" /></button>
                       </td>
                     </tr>
                   )
                 })
-                : <p>loading</p>}
+                : <p>Загрузка</p>}
             </tbody>
           </table>
-        </div>
       </div>
     )
   }

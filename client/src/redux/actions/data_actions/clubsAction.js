@@ -46,7 +46,7 @@ export const delClub = (id) => (dispatch) => {
 	});
 
 	const config = {
-		headers: { token: sessionStorage.getItem("token") },
+		headers: { token: localStorage.getItem("token") },
 	};
 
 	axios
@@ -93,7 +93,7 @@ export const postClub = ({ name, path, image }) => (dispatch) => {
 
 	const headers = {
 		"Content-type": "multipart/form-data",
-		token: sessionStorage.getItem("token"),
+		token: localStorage.getItem("token"),
 	};
 
 	const formdata = new FormData();
@@ -130,7 +130,7 @@ export const patchClub = (id, { name, path }) => (dispatch) => {
 
 	const headers = {
 		"Content-type": "application/json",
-		token: sessionStorage.getItem("token"),
+		token: localStorage.getItem("token"),
 	};
 
 	let data = {};

@@ -34,7 +34,7 @@ export const updatequiz = quiz => dispatch => {
   const config = {
     headers: {
       "content-type": "application/json",
-      token: sessionStorage.getItem("token")
+      token: localStorage.getItem("token")
     }
   }
 
@@ -64,7 +64,7 @@ export const delquiz = () => dispatch => {
 
   const config = {
     headers: {
-      token: sessionStorage.getItem("token")
+      token: localStorage.getItem("token")
     }
   }
 

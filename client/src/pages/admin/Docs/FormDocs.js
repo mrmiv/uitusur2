@@ -7,6 +7,8 @@ import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faArrowAltCircleLeft } from "@fortawesome/free-solid-svg-icons";
 import { Link, Prompt, withRouter } from "react-router-dom";
 import CyrillicToTranslit from "cyrillic-to-translit-js";
+import { FormatDateToPost, DateMaskInput } from "../components/DateField";
+import { toDate } from "../../components/NewsList";
 
 export class NewsForm extends Component {
   state = {
@@ -49,7 +51,7 @@ export class NewsForm extends Component {
         this.setState({
           title: document.title,
           category: document.category,
-          date: document.date,
+          date: toDate(document.date,false,"-"),
           subcategory: document.subcategory,
           path: document.path,
           doc: document.document,
@@ -104,7 +106,7 @@ export class NewsForm extends Component {
       subcategory,
       doc,
       path,
-      date
+      date: FormatDateToPost(date)
     }
 
     if (id) {
@@ -164,17 +166,9 @@ export class NewsForm extends Component {
                   value={this.state.title}
                 />
               </div>
-              <div className="col form-group">
-                <label htmlFor="date-input">Дата утверждения</label>
-                <input
-                  onChange={this.changeInput}
-                  type="date"
-                  className="form-control"
-                  name="date"
-                  id="date-input"
-                  value={this.state.date}
-                />
-              </div>
+              <DateMaskInput id="date-input" name="date"
+                changeParentInput={this.changeInput}
+                value={this.state.date} label="Дата утверждени" col />
             </div>
             <div className="form-row">
               <div className="col form-group">

@@ -3,10 +3,12 @@ import { closeNavbar } from '../../../redux/actions/navbarActions'
 import { clearInfo } from '../../../redux/actions/infoActions'
 import { GetDocuments, delDocument } from '../../../redux/actions/docsActions'
 import { toDate } from '../../components/NewsList'
-import { connect } from 'react-redux'
-import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
-import { faPlusCircle, faTrashAlt, faMapPin } from '@fortawesome/free-solid-svg-icons'
 import { Link, withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { Icon } from '@iconify/react';
+import plusCircle from '@iconify/icons-fa-solid/plus-circle';
+import cogIcon from '@iconify/icons-fa-solid/cog';
+import trashAlt from '@iconify/icons-fa-solid/trash-alt';
 
 
 export class AdminDocs extends Component {
@@ -34,8 +36,15 @@ export class AdminDocs extends Component {
   }
 
   delDocument = id => {
-    this.props.delDocument(id)
-    this.props.GetDocuments()
+    const areYouSure = window.confirm('Вы действительно хотите удалить этот элемент?')
+    if(areYouSure){
+      window.scrollTo(0, 0)
+      this.props.clearInfo()
+      this.props.delDocument(id)
+    } else {
+      console.log('Элемент не удален')
+    }
+    
   }
 
   // setNewsType = e => {
@@ -62,12 +71,12 @@ export class AdminDocs extends Component {
               <span aria-hidden="true">&times;</span>
             </button>
           </div> : null}
-        <div className="row no-gutters justify-content-between">
-          <h2>Регламентирующие документы</h2>
-          <Link to="/admin/docs/form">Добавить документ/ссылку<Icon icon={faPlusCircle} /></Link>
-          <div className="w-100" />
-          {docslist &&
-            <table className="table table-hover table-sm-responsive">
+        <div className="row no-gutters align-items-center justify-content-between">
+          <h1>  <Link to="/admin" style={{fontSize: "1em"}}><Icon icon={cogIcon} /></Link> Регламентирующие документы</h1>
+          <Link className="add_admin_button" to="/admin/docs/form">Добавить документ/ссылку<Icon icon={plusCircle} /></Link>
+        </div>
+          {docslist && !isLoading ?
+            <table className="table table-sm table-bordered table-hover">
               <thead className="thead-dark">
                 <tr>
                   <th scope="col">#</th>
@@ -75,27 +84,25 @@ export class AdminDocs extends Component {
                   <th scope="col">Дата утверждения</th>
                   <th scope="col">Категория</th>
                   <th scope="col">Подкатегория</th>
-                  <th scope="col" style={{ width: "50px", textAlign: "center" }}> <Icon icon={faTrashAlt} /> </th>
+                  <th scope="col" style={{ width: "50px", textAlign: "center" }}> <Icon icon={trashAlt} /> </th>
                 </tr>
               </thead>
               <tbody>
-                {docslist && !isLoading ?
-                  docslist.map((item, index) => {
-                    return (<tr>
-                      <th scope="row">{index + 1}</th>
-                      <td name="title"><Link to={`/admin/docs/form/${item._id}`}>{item.title}</Link></td>
-                      <td name="date">{item.date ? toDate(item.date) : "-"}</td>
-                      <td name="category">{item.category}</td>
-                      <td name="date">{item.subcategory ? item.subcategory : "-"}</td>
-                      <td name="del">
-                        <button type="button" className="btn" onClick={() => this.delDocument(item._id)}><Icon icon={faTrashAlt} /></button>
-                      </td>
-                    </tr>)
-                  })
-                  : <p>loading</p>}
+                {docslist.map((item, index) => {
+                  return (<tr>
+                    <th scope="row">{index + 1}</th>
+                    <td name="title"><Link to={`/admin/docs/form/${item._id}`}>{item.title}</Link></td>
+                    <td name="date">{item.date ? toDate(item.date) : "-"}</td>
+                    <td name="category">{item.category}</td>
+                    <td name="date">{item.subcategory ? item.subcategory : "-"}</td>
+                    <td name="del">
+                      <button type="button" className="btn" onClick={() => this.delDocument(item._id)}><Icon icon={trashAlt} color="red"/></button>
+                    </td>
+                  </tr>)
+                })}
               </tbody>
-            </table>}
-        </div>
+            </table>
+            : <p>Загрузка</p>}
       </div>
     )
   }
