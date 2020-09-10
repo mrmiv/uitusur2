@@ -112,24 +112,9 @@ export class NewsList extends Component {
                             {!isLoading 
 
                             ? <Fragment>
-                                {NewsList.length !== 0 
+                                {(NewsList && NewsList.length !== 0)
                                     ? <Fragment>
-                                        <div className="news-list-grid">
-                                            {NewsList.map((news, index) => {
-                                            return (<Fragment key={index}>
-                                                <NewsInList
-                                                    pin={news.pin}
-                                                    id={news._id}
-                                                    title={news.title}
-                                                    url={news.translit_title}
-                                                    city={news.city}
-                                                    deadline={news.deadline}
-                                                    users={news.users}
-                                                    annotation={news.annotation}
-                                                    datetime={news.created_at} />
-                                                </Fragment>)
-                                            })}
-                                        </div>
+                                        <NewsListMap NewsList={NewsList}/>
                                         { page < Math.ceil(total/perPage) ? 
                                             <a className="more-link link-center" onClick={()=>this.getMoreNews(Number(page+1))}>
                                             ЕЩЕ НОВОСТИ</a> 
@@ -148,6 +133,25 @@ export class NewsList extends Component {
         )
     }
 
+}
+
+export const NewsListMap = ({NewsList}) => {
+    return <div className="news-list-grid">
+    {NewsList.map((news, index) => {
+    return (<Fragment key={index}>
+        <NewsInList
+            pin={news.pin}
+            id={news._id}
+            title={news.title}
+            url={news.translit_title}
+            city={news.city}
+            deadline={news.deadline}
+            users={news.users}
+            annotation={news.annotation}
+            datetime={news.created_at} />
+        </Fragment>)
+    })}
+</div>
 }
 
 const mapStateToProps = state => ({

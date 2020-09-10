@@ -5,7 +5,6 @@ import {
     SEARCH_FAIL,
     SEARCH_QUERY_SET } from '../types'
 import { returnInfo } from '../infoActions'
-import { set } from 'mongoose'
 
 export const setQuery = query => dispatch => {
 
@@ -23,11 +22,21 @@ export const Search = query => dispatch => {
         type: SEARCH_LOADING,
     })
 
+    const url = `/api/search`
+    const data = {query}
 
-    setTimeout(() => {
-        dispatch({
-            type: SEARCH_FAIL
+    axios.post(url, data)
+        .then(res=>{
+            dispatch({
+                type:SEARCH_SUCCESS,
+                payload: {result: res.data}
+            })
+            return res.data
         })
-    }, 1000);
-
+        .catch(err=>{
+            dispatch(returnInfo(err.response.data, err.response.status, "REQ_FAIL"));
+            dispatch({
+                type: SEARCH_FAIL
+            })
+        })
 }

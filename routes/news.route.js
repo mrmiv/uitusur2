@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
 	const type = req.query.type || null;
 
 	try {
-		if (type && !(type === 1 || 2 || 3 || 4)) {
+		if (type && !(type === 1 || 2 || 3)) {
 			return res.status(404).json({ message: "Категория новостей не найдена" });
 		}
 

@@ -100,9 +100,19 @@
         padding: 8px 16px;
         border-radius: 8px;
         box-shadow: 0 1px 2px #0002;
-        
+        *{
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);
+        }
         &:hover{
             background-color: #fffd;
+            .props-news-list{
+                p.prop-news{
+                    opacity: 1;
+                }
+            }
+            .news-annotation{
+                p{opacity: 1;}
+            }
         }
 
         &:active{
@@ -111,16 +121,18 @@
         }
 
         span.created-date-news{
-            opacity: 0.75;
+            opacity: 0.6;
+            font-size: 0.9em;
         }
 
         h2{
             font-weight: 500 !important;
-            font-size:1.3em;
+            font-size:1.5em;
             margin: 6px 0;
         }
         .props-news-list{
             p.prop-news{
+                opacity: 0.8;
                 padding: 0 16px 4px 0;
                 span{
                     font-weight: normal;
@@ -130,6 +142,7 @@
 
         .news-annotation{
             p{
+                opacity: 0.8;
                 font-size:16px;    
                 overflow-wrap: anywhere;
                 word-wrap: all;
