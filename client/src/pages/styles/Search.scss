@@ -1,3 +1,5 @@
+@use 'default';
+
 form#search-form{
     display: block;
     padding: 24px 0;
@@ -12,6 +14,44 @@ form#search-form{
         &:focus{
             outline: none;
             box-shadow: none;
+        }
+    }
+}
+
+#search-result{
+    h2.title-category-search{
+
+    }
+
+    div.link-to-param-page{
+        
+        display: inline-block;
+        margin: 4px 8px 4px 0;
+        background: #eee;
+        border-radius: 8px;
+        position: relative;
+
+        &:hover{
+            background: #e0e0e0;
+            a:after{
+                margin-left: 16px;
+            }
+        }
+
+        &:active{
+            background: #d2d2d2;
+        }
+
+        a{
+            padding: 8px 16px;
+            display: block;
+            color: default.$pink;
+            font-weight: 500;
+            text-decoration: none;
+            &:after{
+                content: "->";
+                margin-left: 8px;
+            }
         }
     }
 }

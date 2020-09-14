@@ -6,6 +6,7 @@ import { setQuery, Search } from '../redux/actions/data_actions/SearchActions'
 import { connect } from 'react-redux'
 import "./styles/Search.scss"
 import { NewsListMap } from './News'
+import { Link } from 'react-router-dom'
 
 export class SearchPage extends Component {
 
@@ -94,11 +95,9 @@ export class SearchPage extends Component {
             return notFoundText
         }
 
-        return <Fragment>
+        return <section id="search-result">
             
-{/* {params.map(param=>{
-                ?
-            })} */}
+            {(params.length !== 0) && this.returnParamPage(params)}
 
             {(news.length !== 0) && <section id="news">
                 <NewsListMap NewsList={news}/>
@@ -109,8 +108,47 @@ export class SearchPage extends Component {
             </section>}
 
             
-        </Fragment>
+        </section>
 
+    }
+
+    returnParamPage = (params) => {
+
+        const pageArray = Array.from(params, ({page}) => page);
+    
+        const uniqueParams = [...new Set(pageArray)];
+
+        const element = (link, name) => <ParamLinkToPage link={link} name={name}/>
+
+        return <Fragment>
+
+            <h2 className="title-category-search" style={{color:"#B21F66"}}>
+                Возможно, вы найдете то, что ищете, на предложенных страницах:
+            </h2>
+
+            {uniqueParams.map(page => {
+            switch (page) {
+                case 'Абитуриенту':
+                    return element('/abiturient', page);
+    
+                case 'О кафедре':
+                    return element('/about', page);;
+                    
+                case 'Бакалавриат':
+                    return element('/bakalavriat', page);
+    
+                case 'Магистратура':
+                    return element('/magistratura', page);
+    
+                case 'Поступающему Магистратура':
+                    return element('/abiturient-mag', page);
+    
+                default:
+                    break;
+            }
+        })}
+
+        </Fragment>
     }
 
     render() {
@@ -153,3 +191,13 @@ export default connect(
     mapStateToProps,
     {setQuery, Search}
 )(SearchPage)
+
+const ParamLinkToPage = ({link, name}) => {
+
+    return <div className="link-to-param-page">
+        <Link to={link}>
+            {name}
+        </Link>
+    </div>
+
+}
