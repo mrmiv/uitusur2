@@ -26,13 +26,16 @@ router.post('/', async (req, res) => {
         'firstname',
         'lastname',
         'secondname'])
+      .limit(8)
     const literatureData = await Literature.find({$or: [{description: q}, {title: q}, {category: q}, {author: q}]})
       .select([
         'title',
         'author',
         'category',
         'image'])
+      .limit(8)
     const clubData       = await Clubs.find({name: q})
+      .limit(8) 
     const newsData       = await News.find({$or: [{title: q}, {annotation: q}, {body: 'q'}]})
       .select([
         "title",

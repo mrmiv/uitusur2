@@ -3,7 +3,6 @@
 
 #news{
     padding: 20px 0;
-    background: #80808020;
     *{
         font-family: "Roboto", sans-serif;
     }
@@ -39,6 +38,7 @@
     }
 
     .news-list-grid{
+        max-width: 75%;
         display: grid;
         grid-gap: 8px;
         grid-auto-rows: minmax(auto, auto);
@@ -96,7 +96,7 @@
         grid-column-end: span 1;
         color:black;
         transition: 0.2s ease;
-        background-color: #fffb;
+        background-color:#80808010;
         padding: 8px 16px;
         border-radius: 8px;
         box-shadow: 0 1px 2px #0002;
@@ -104,7 +104,7 @@
             transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);
         }
         &:hover{
-            background-color: #fffd;
+            background-color: #80808020;
             .props-news-list{
                 p.prop-news{
                     opacity: 1;

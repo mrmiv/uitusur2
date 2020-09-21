@@ -69,14 +69,19 @@ export const GetMoreNews = (type, page = 1, perPage = 10) => (dispatch) => {
 		});
 };
 
-export const ReadNews = title => (dispatch) => {
+export const ReadNews = (field, value) => (dispatch) => {
 	dispatch({
 		type: NEWS_LOADING,
 	});
 
-	// get /literature/book/title
+	let url = 'read';
+
+	if (field === "id"){
+		url = 'read-by-id'
+	}
+
 	axios
-		.get(`/api/news/read/${title}`)
+		.get(`/api/news/${url}/${value}`)
 		.then((res) => {
 			dispatch({
 				type: GET_NEWS,

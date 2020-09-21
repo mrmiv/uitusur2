@@ -13,7 +13,7 @@ export default function AdminLiteratureRoutes(){
                 <AdminNews title="Новости - Кафедра управления инновациями"/>
                 {/* <Home title="Кафедра управления инновациями"/> */}
             </>))}/>
-            <Route path="/admin/news/form/:title" exact component={(()=>(<>
+            <Route path="/admin/news/form/:id" exact component={(()=>(<>
                 <FormNews title="Редактировать новость - Кафедра управления инновациями"/>
                 {/* <Home title="Кафедра управления инновациями"/> */}
             </>))}/>

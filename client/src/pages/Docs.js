@@ -82,7 +82,6 @@ export class Docs extends Component {
                             )
                         }) : <p>Загрузка...</p>}  
                     </div>
-                    {/* в цикле по категориям фильтровать дату по категории */}
                 </div>
             </section>
         </Fragment>

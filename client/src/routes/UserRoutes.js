@@ -207,8 +207,8 @@ function HomeRoutes({ auth }) {
                 })}
             </Switch>
             {/* Модальные окна */}
-            {background && <Route exact path="/about/staff/:id" component={StaffModal} />}
-            {background && <Route exact path="/literature/book/:id" component={BookModal}/>}
+            {background && <Route exact path="/staff/:id" component={StaffModal} />}
+            {background && <Route exact path="/book/:id" component={BookModal}/>}
         </div>
     )
 }

@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Fragment, PureComponent } from 'react'
 import store from '../store'
 import { closeNavbar } from '../redux/actions/navbarActions'
 import { setQuery, Search } from '../redux/actions/data_actions/SearchActions'
@@ -6,9 +6,11 @@ import { setQuery, Search } from '../redux/actions/data_actions/SearchActions'
 import { connect } from 'react-redux'
 import "./styles/Search.scss"
 import { NewsListMap } from './News'
+import { LiteratureList } from './Literature'
+import { StaffListMap } from './About'
 import { Link } from 'react-router-dom'
 
-export class SearchPage extends Component {
+export class SearchPage extends PureComponent {
 
     state = {
         query: "",
@@ -70,7 +72,7 @@ export class SearchPage extends Component {
         }
     }
 
-    returnResults = result => {
+    returnResults = () => {
 
         const {
             query,
@@ -99,14 +101,17 @@ export class SearchPage extends Component {
             
             {(params.length !== 0) && this.returnParamPage(params)}
 
-            {(news.length !== 0) && <section id="news">
-                <NewsListMap NewsList={news}/>
-            </section>}
+            {this.returnStaff(staff)}
+
+            {this.returnNews(news)}
             
             {(docs.length !==0) && <section id="docs">
-            
+                <h2>Регламентирующие нашлись, но пока не отображаются)))))))))))))))</h2>
             </section>}
 
+            {this.returnLiterature(literature)}
+
+            
             
         </section>
 
@@ -149,6 +154,51 @@ export class SearchPage extends Component {
         })}
 
         </Fragment>
+    }
+
+    returnNews = (news) => {
+        if (news && news.length === 0){
+            return
+        }
+        
+        const color="#DE7128"
+
+        return <section id="news" className="mt-2">
+            <h2 style={{color}}>Новости</h2>
+            <NewsListMap NewsList={news}/>
+            {(news.length === 6) && <Link to="/news"
+            style={{backgroundColor: color}} className="more-link">Перейти к новостям</Link>}
+        </section>
+    } 
+
+    returnLiterature = (literature) => {
+        if (literature && literature.length === 0){
+            return
+        }
+
+        const color="#DE7128"
+
+        return <section id="literature">
+            <h2 style={{color}}>Литература</h2>
+            <LiteratureList literatureList={literature}/>
+            {(literature.length === 8) && <Link to="/literature" 
+            style={{backgroundColor: color}} className="more-link">Перейти к литературе</Link>}
+        </section>
+    }
+
+    returnStaff = (staff) => {
+        if (staff && staff.length ===0){
+            return
+        }
+
+        const color="#DE7128"
+
+        return <section id="staff" className="mt-2">
+            <h2 style={{color}}>Сотрудники кафедры</h2>
+            <StaffListMap StaffList={staff}/>
+            {(staff.length === 8) && <Link to={{pathname:"/about", state:"staff"}} 
+            style={{backgroundColor: color}} className="more-link">Перейти к сотрудникам кафедры</Link>}
+        </section>
     }
 
     render() {

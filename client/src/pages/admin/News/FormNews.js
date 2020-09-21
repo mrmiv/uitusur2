@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { closeNavbar } from "../../../redux/actions/navbarActions";
 import { connect } from "react-redux";
 import { EditorArea } from '../components/Editor'
@@ -12,7 +12,7 @@ import { transliterate as tr, slugify } from 'transliteration';
 import { toDate } from "../../components/NewsList";
 import { FormatDateToPost, DateMaskInput } from "../components/DateField";
 
-export class NewsForm extends Component {
+export class NewsForm extends PureComponent {
 	state = {
 		id: "",
 		url: null,
@@ -44,14 +44,14 @@ export class NewsForm extends Component {
 
 	componentDidMount() {
 		document.title = this.props.title;
-		const title = this.props.match.params.title;
-		if (title) {
-			this.props.ReadNews(title);
+		const id = this.props.match.params.id;
+		if (id) {
+			this.props.ReadNews('id', id);
 		}
 	}
 
 	componentDidUpdate(prevProps, prevState) {
-		const url = this.props.match.params.title;
+		const url = this.props.match.params.id;
 		const { msg } = this.props.info;
 		if (url) {
 			if (url !== prevState.url) {
@@ -91,6 +91,7 @@ export class NewsForm extends Component {
 	changeInput = e => {
 		const field = e.target.name;
 		const value = e.target.value
+		console.log(field, value);
 		this.setState({ [field]: value });
 		if (!this.state.blocked) {
 			this.setState({ blocked: true });
@@ -159,6 +160,8 @@ export class NewsForm extends Component {
 			url,
 			id
 		} = this.state;
+
+		console.log(deadline);
 
 		let fields = {
 			title,
@@ -307,8 +310,8 @@ export class NewsForm extends Component {
 						</div>
 						<div className="form-row">
 							<DateMaskInput id="deadline-input" name="deadline"
-                                changeParentInput={this.changeInput}
-                                value={this.state.deadline} label="Крайний срок" col />
+								changeParentInput={this.changeInput}
+								value={this.state.deadline} label="Крайний срок" col />
 							<div className="col form-group">
 								<label htmlFor="doc-input">Вложения</label>
 								<input

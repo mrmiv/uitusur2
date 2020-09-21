@@ -1,4 +1,4 @@
-import React, { Component, useState, Fragment } from 'react'
+import React, { Component, useState, Fragment, memo } from 'react'
 import { connect } from 'react-redux'
 import { GetStaffList } from '../redux/actions/staffActions'
 import { useLocation, useParams, Link, withRouter } from 'react-router-dom'
@@ -112,17 +112,8 @@ export class About extends Component {
                     <section id="staff">
                         <div className="container-md container-fluid">
                             <h2>Сотрудники кафедры</h2>
-                            <div className="row no-gutters">
-                                {StaffList && StaffList.map((staffuser, index) => <Staff
-                                    key={staffuser._id}
-                                    id={staffuser._id}
-                                    index={staffuser.index}
-                                    firstname={staffuser.firstname}
-                                    lastname={staffuser.lastname}
-                                    secondname={staffuser.secondname}
-                                />)}
+                            {StaffList && <StaffListMap StaffList={StaffList}/>}
                             </div>
-                        </div>
                     </section>
                 </Fade>
                 {/* РАБОЧИЕ ПРОГРАММЫ ДИСЦИПЛИН */}
@@ -289,7 +280,7 @@ function Staff({ id, firstname, lastname, secondname }) {
     return (
         <div className="col_p col-md-4 col-lg-3 col-6">
             <Link className="StaffCard d-flex" to={{
-                pathname: `/about/staff/${id}`,
+                pathname: `/staff/${id}`,
                 state: { background: location }
             }}>
                 <div className="staff__photo"><Icon icon={faIdBadge} /></div>
@@ -303,3 +294,15 @@ function Staff({ id, firstname, lastname, secondname }) {
         </div>
     )
 }
+
+export const StaffListMap = memo(({StaffList})=>{
+    return  <div className="row no-gutters"> 
+    {StaffList.map((staffuser, index) => <Staff
+        key={staffuser._id}
+        id={staffuser._id}
+        index={index}
+        firstname={staffuser.firstname}
+        lastname={staffuser.lastname}
+        secondname={staffuser.secondname}
+    />)}</div> 
+})

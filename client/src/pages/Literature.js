@@ -1,4 +1,4 @@
-import React, { Component, Fragment, useState } from 'react'
+import React, { Component, Fragment, memo, useState } from 'react'
 import { connect } from 'react-redux'
 import store from '../store'
 import { closeNavbar } from '../redux/actions/navbarActions'
@@ -80,7 +80,8 @@ export class Literature extends Component {
 
     render() {
         const { Literature, isLoading } = this.props
-        const { LiteratureList, categoryFields, total,
+        const literatureList = Literature.LiteratureList
+        const { categoryFields, total,
             page, perPage, sort, filter, search } = Literature
         // const {search} = this.state
         return (
@@ -123,22 +124,9 @@ export class Literature extends Component {
                             </form>
                         </div>
                     </div>
-                    {!isLoading ?
-                        LiteratureList.length !== 0 ? <Fragment>
-                            <div className="row no-gutters literature__content">
-                                {LiteratureList.map((book, index) => {
-                                    return (
-                                        <Book key={index}
-                                            index={index}
-                                            id={book._id}
-                                            title={book.title}
-                                            author={book.author}
-                                            image={book.image}
-                                            category={book.category}
-                                        />
-                                    )
-                                })}
-                            </div>
+                    {!isLoading ? 
+                        literatureList.length !== 0 ? <Fragment>
+                            <LiteratureList literatureList={literatureList}/>
                             <div className="pagination">
                                 <Pagination
                                     activePage={page}
@@ -146,9 +134,8 @@ export class Literature extends Component {
                                     totalItemsCount={total}
                                     pageRangeDisplayed={5}
                                     itemClass="more-link"
-                                    hideFirstLastPages
                                     hideDisabled
-                                    onChange={this.Paginate.bind(this)} //this.Paginate.bind(this)
+                                    onChange={this.Paginate.bind(this)}
                                 />
                             </div>
                         </Fragment> : <p className="d-block mx-auto text-center mt-2">Книги не найдены :(</p>
@@ -169,7 +156,7 @@ export default withRouter(connect(
     { GetLiteraturePerPage }
 )(Literature))
 
-const Book = ({ title, author, image, category, id }) => {
+const Book = memo(({ title, author, image, category, id }) => {
 
     const len = title.length
     const start = 32
@@ -186,11 +173,10 @@ const Book = ({ title, author, image, category, id }) => {
             onMouseEnter={() => setVisibilityTitle(true)}
             onMouseLeave={() => setVisibilityTitle(false)}>
             <Link to={{
-                pathname: `/literature/book/${id}`,
+                pathname: `/book/${id}`,
                 state: { background: location }
             }}>
                 <div className="literature__bookInList" style={{ background: `url(${image}) no-repeat`, backgroundSize: "cover", backgroundPosition: "center" }}>
-                    {/* <div className="literature-list-image"  /> */}
                     <p className="bookInList__info">
                         <span className="info__category">{category[0].toUpperCase() + category.substr(1)}</span>
                         <span className="info__title">{
@@ -204,7 +190,24 @@ const Book = ({ title, author, image, category, id }) => {
             </Link>
         </div>
     )
-}
+})
+
+export const LiteratureList = memo(({literatureList}) => {
+    return <div className="row no-gutters literature__content">
+        {literatureList.map((book, index) => {
+            return (
+                <Book key={index}
+                    index={index}
+                    id={book._id}
+                    title={book.title}
+                    author={book.author}
+                    image={book.image}
+                    category={book.category}
+                />
+            )
+        })}
+        </div>
+})
 
 export function BookPage() {
     let { id } = useParams()

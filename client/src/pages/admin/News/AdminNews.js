@@ -127,7 +127,7 @@ export class AdminNews extends Component {
                         {NewsList && NewsList.map((item, index) => {
                                 return (<tr>
                                     <th scope="row">{index + 1}</th>
-                                    <td name="title"><Link to={`/admin/news/form/${item.translit_title}`}>{item.title}</Link></td>
+                                    <td name="title"><Link to={`/admin/news/form/${item._id}`}>{item.title}</Link></td>
                                     <td name="date">{toDate(item.created_at, true)}</td>
                                     <td name="pin" style={{cursor:"pointer", textAlign: "center"}} onClick={() => this.pinNews(item._id)}>
                                         <Icon icon={pushpinIcon} style={{opacity: item.pin ? 1 : '0.2' }}/>

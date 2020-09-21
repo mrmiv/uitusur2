@@ -3,6 +3,10 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import {NavLink} from 'react-router-dom'
 import './styles/News.scss'
+
+import { Icon } from '@iconify/react';
+import linkIcon from '@iconify/icons-flat-color-icons/link';
+
 // import {Modal} from '../components/Modal'
 import { closeNavbar } from '../redux/actions/navbarActions'
 import { GetNewsList, GetMoreNews } from '../redux/actions/newsActions'
@@ -53,7 +57,8 @@ export class NewsList extends Component {
 
         type: this.props.type || null,
 
-        msg: null
+        msg: null,
+        toggleNewsLinks: false
     }
 
     componentWillUnmount() {
@@ -89,26 +94,33 @@ export class NewsList extends Component {
     render() {
         // let newslist = this.props.news.NewsList
         // console.log(newslist);
-        const { page, perPage, toggleMenuIsVisible, type } = this.state
+        const { page, perPage, toggleMenuIsVisible, type, toggleNewsLinks } = this.state
         const { total, NewsList, isLoading } = this.props.news
         const { title } = this.props
         return (
             <Fragment>
                 {/* Список новостей */}
                 <section id="news">
-                    <div className="container-md container-fluid">
-                        <h1 data-menu-visible={toggleMenuIsVisible}
-                            onClick={()=>this.setState({toggleMenuIsVisible: !this.state.toggleMenuIsVisible})}>
-                                {title}
-                        </h1>
-                        <div id="toggle-news" data-visible={toggleMenuIsVisible}>
-                            <ul className="d-sm-flex">
-                                {type && <li><NavLink to='/news'>Все новости</NavLink></li>}
-                                {type !== 1 && <li><NavLink to='/news/announcements'>Объявления кафедры</NavLink></li>}
-                                {type !== 2 && <li><NavLink to='/news/grants'>Стипендии и гранты</NavLink></li>}
-                                {type !== 3 && <li><NavLink to='/news/conference'>Конференции</NavLink></li>}
-                            </ul>
-                        </div>
+                    <div className="container-md">
+                       <div className="d-flex justify-content-between">
+                            <div className="title-block-news">
+                                <h1 data-menu-visible={toggleMenuIsVisible}
+                                    onClick={()=>this.setState({toggleMenuIsVisible: !this.state.toggleMenuIsVisible})}>
+                                        {title}
+                                </h1>
+                                <div id="toggle-news" data-visible={toggleMenuIsVisible}>
+                                    <ul className="d-sm-flex">
+                                        {type && <li><NavLink to='/news'>Все новости</NavLink></li>}
+                                        {type !== 1 && <li><NavLink to='/news/announcements'>Объявления кафедры</NavLink></li>}
+                                        {type !== 2 && <li><NavLink to='/news/grants'>Стипендии и гранты</NavLink></li>}
+                                        {type !== 3 && <li><NavLink to='/news/conference'>Конференции</NavLink></li>}
+                                    </ul>
+                                </div>
+                            </div>
+                            <div className="news-links-block">
+                                <button style={{fontSize: "2em"}} className={`btn ${toggleNewsLinks ? `btn-active` : ``}`} title="Полезные ссылки"><Icon icon={linkIcon}/></button>
+                            </div>
+                       </div>
                             {!isLoading 
 
                             ? <Fragment>

@@ -6,6 +6,7 @@ const auth = require('../middleware/middleware.auth')
 
 const News = require("../models/News");
 
+
 // /news
 router.get("/", async (req, res) => {
 	// const {page, perpage} = req.params
@@ -53,24 +54,53 @@ router.get("/", async (req, res) => {
 	}
 });
 
-// news/read/:id
+/**
+ * Получение новости из БД по транслитному названию
+ */
 router.get("/read/:title", async (req, res) => {
 	const {title} = req.params;
-
+	
 	try {
-		const news = await News.findOne({translit_title: title});
+		
+		const news = await News.findOne({'translit_title': title});
 
 		if (!news) {
 			return res.status(404).json({ message: "Новость не найдена" });
 		}
 
 		return res.json(news);
+
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}
+
 });
 
-// News/
+/**
+ * Получение новости из БД, по id
+ */
+router.get("/read-by-id/:id", async (req, res) => {
+	const {id} = req.params;
+
+	try {
+		
+		const news = await News.findById(id);
+
+		if (!news) {
+			return res.status(404).json({ message: "Новость не найдена" });
+		}
+
+		return res.json(news);
+
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+
+});
+
+/**
+ * Создание новости в базе данных
+ */
 router.post("/", async (req, res) => {
 	const {
 		title,

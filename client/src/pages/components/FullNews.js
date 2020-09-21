@@ -27,7 +27,7 @@ export class FullNews extends Component {
     // didmount and req for id
     componentDidMount() {
         const {title} = this.state
-        this.props.ReadNews(title)
+        this.props.ReadNews('translit_title', title)
     }
 
     componentWillUnmount() {
