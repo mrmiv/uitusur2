@@ -6,6 +6,7 @@ const StaffSchema = new Schema({
     // Фамилия
     lastname: {
         type: String,
+        trim: true,
         required: [true, "Поле фамилия является обязательный"],
         minlength: [2, "Минимальная длина фамилии - 2 символа"],
         validate: {
@@ -19,6 +20,7 @@ const StaffSchema = new Schema({
     // Имя
     firstname: {
         type: String,
+        trim: true,
         required: [true, "Поле имя является обязательным"],
         minlength: [2, "Минимальная длина имени - 2 символа"],
         validate: {
@@ -32,6 +34,7 @@ const StaffSchema = new Schema({
     // Отчество
     secondname: {
         type: String,
+        trim: true,
         minlength: [2, "Минимальная длина отчества - 4 символа"],
         validate: {
             validator: function (name) {
@@ -41,15 +44,24 @@ const StaffSchema = new Schema({
         }
     },
 
+    fullname_url: {
+        type: String,
+        trim: true,
+        required: [true, "Поле имя является обязательным"],
+        unique: true
+    },
+
     // должность
     post: {
         type: String,
         required: true
     },
+
     // Уч.степень
     degree: {
         type: String
     },
+
     // Справочник
     path: {
         type: String,

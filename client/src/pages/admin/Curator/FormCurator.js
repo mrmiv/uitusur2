@@ -16,6 +16,7 @@ export class FormCurator extends Component {
     firstname: "",
     lastname: "",
     secondname: "",
+    staff_url: "",
     group: "",
     staff_id: "",
 
@@ -46,12 +47,17 @@ export class FormCurator extends Component {
       }
       const { curator } = this.props
 
+      if(!curator){
+        return
+      }
+
       if (curator !== prevProps.curator) {
 
         this.setState({
           firstname: curator.firstname,
           lastname: curator.lastname,
           secondname: curator.secondname,
+          staff_url: curator.staff_url,
           group: curator.group,
           staff_id: curator.staff_id,
         });
@@ -66,6 +72,7 @@ export class FormCurator extends Component {
     const field = e.target.name
 
     this.setState({ [field]: e.target.value })
+
     if (!this.state.blocked) {
       this.setState({ blocked: true })
     }
@@ -76,14 +83,15 @@ export class FormCurator extends Component {
     // this.setState({ [field]: e.target.value })
     const array = field.value.split(",")
     const staff_id = array[0]
-    const lastname = array[1]
-    const firstname = array[2]
+    const staff_url = array[1]
+    const lastname = array[2]
+    const firstname = array[3]
     let secondname = ""
-    if (array[3]) {
-      secondname = array[3]
+    if (array[4]) {
+      secondname = array[4]
     }
 
-    this.setState({ staff_id, firstname, lastname, secondname })
+    this.setState({ staff_id, staff_url, firstname, lastname, secondname })
   }
 
   submitForm = e => {
@@ -95,15 +103,17 @@ export class FormCurator extends Component {
     const {
       lastname,
       secondname,
-      staff_id,
       firstname,
+      staff_url,
+      staff_id,
       group } = this.state
 
     const Curator = {
       lastname,
       secondname,
-      staff_id,
       firstname,
+      staff_url,
+      staff_id,
       group
     }
 
@@ -149,12 +159,13 @@ export class FormCurator extends Component {
                 <label htmlFor="select-staff">Сотрудник</label>
                 {stafflist && <Fragment>
                   <select className="form-control" type="text" name="staff" id="select-staff"
-                    onChange={this.setCurator} value={[this.state.staff_id, this.state.lastname, this.state.firstname, this.state.secondname]}>
+                    onChange={this.setCurator} 
+                    value={[this.state.staff_id, this.state.staff_url, this.state.lastname, this.state.firstname, this.state.secondname]}>
                     <option defaultValue>Выберите сотрудника</option>
                     {stafflist.map((staff, index) => {
                       return <option key={index}
-                        value={[staff._id, staff.lastname, staff.firstname, staff.secondname]} >
-                        {staff.lastname + " " + staff.firstname + " " + staff.secondname}
+                        value={[staff._id, staff.fullname_url, staff.lastname, staff.firstname, staff.secondname]} >
+                        {`${staff.lastname} ${staff.firstname} ${staff.secondname}`}
                       </option>
                     })}}
               </select>

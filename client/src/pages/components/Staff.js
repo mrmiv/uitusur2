@@ -8,13 +8,12 @@ export class StaffPage extends Component {
 
     componentDidMount() {
         // load staff, update title
-        this.props.GetStaff(this.props.id)
+        this.props.GetStaff('translit_name', this.props.fullname_url)
         document.title = "Сотрудники кафедры - Кафедра управления инновациями"
     }
 
     render() {
         const { CurrentStaff,isLoading } = this.props.CurrentStaff
-        console.log(CurrentStaff,isLoading);
         return (
             !isLoading
                 ? CurrentStaff ? <div className="modal__staff">
@@ -22,27 +21,27 @@ export class StaffPage extends Component {
                         <h4>{`${CurrentStaff.lastname} ${CurrentStaff.firstname} ${CurrentStaff.secondname ? CurrentStaff.secondname : ''}`}</h4>
                         {CurrentStaff.post && <p>
                             <span style={{ fontWeight: "500" }}>
-                                Должность:
+                                Должность: 
                             </span>
-                            {' ' + CurrentStaff.post}
+                            {CurrentStaff.post}
                         </p>}
                         {CurrentStaff.degree && <p>
                             <span style={{ fontWeight: "500" }}>
-                                Ученая степень:
+                                Ученая степень: 
                             </span>
-                            {' ' + CurrentStaff.degree}
+                            {CurrentStaff.degree}
                         </p>}
                         {CurrentStaff.rank && <p>
                             <span style={{ fontWeight: "500" }}>
-                                Ученое звание:
+                                Ученое звание: 
                             </span>
-                            {' ' + CurrentStaff.rank}
+                            {CurrentStaff.rank}
                         </p>}
                         {CurrentStaff.worktime.length !== 0 &&
                         <Fragment>
                             <p>
                                 <span style={{ fontWeight: "500" }}>
-                                    Время консультаций:
+                                    Время консультаций: 
                                 </span>
                             </p>  
                             <table className="table table-responsive table-bordered">

@@ -6,7 +6,7 @@ import { postStaff, patchStaff, GetStaff } from '../../../redux/actions/staffAct
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import { faArrowAltCircleLeft, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { Link, Prompt, withRouter } from 'react-router-dom'
-
+import { transliterate as tr, slugify } from 'transliteration';
 
 export class StaffForm extends Component {
 
@@ -16,6 +16,7 @@ export class StaffForm extends Component {
         firstname: '',
         lastname: '',
         secondname: '',
+        fullname_url:'',
         post: '',
         degree: '',
         rank: '',
@@ -38,7 +39,7 @@ export class StaffForm extends Component {
         document.title = this.props.title
         const id = this.props.match.params.id
         if (id) {
-            this.props.GetStaff(id)
+            this.props.GetStaff('id', id)
         }
     }
 
@@ -52,15 +53,18 @@ export class StaffForm extends Component {
                 this.setState({ id })
             }
             const { CurrentStaff } = this.props.Staff
-            // console.log(CurrentStaff.firstname, prevProps.Staff.CurrentStaff.firstname);
+
+            if (!CurrentStaff){
+                return
+            }
 
             if (CurrentStaff !== prevProps.Staff.CurrentStaff) {
-                // console.log(CurrentStaff + " updated");
 
                 this.setState({
                     firstname: CurrentStaff.firstname,
                     lastname: CurrentStaff.lastname,
                     secondname: CurrentStaff.secondname,
+                    fullname_url: CurrentStaff.fullname_url,
                     post: CurrentStaff.post,
                     degree: CurrentStaff.degree,
                     path: CurrentStaff.path,
@@ -69,6 +73,7 @@ export class StaffForm extends Component {
                 });
             }
         }
+
         if (msg !== prevProps.info.msg) {
             this.setState({ msg })
         }
@@ -76,10 +81,31 @@ export class StaffForm extends Component {
 
     changeInput = e => {
         const field = e.target.name
-        this.setState({ [field]: e.target.value })
+        const value = e.target.value
+
+        this.setState({ [field]: value })
+
         if (!this.state.blocked) {
             this.setState({ blocked: true })
         }
+       
+    }
+
+    setFullnameUrl = () => {
+
+        if (this.state.fullname_url){
+            return
+        }
+
+        const {lastname, firstname, secondname} = this.state
+
+        const lastname_translit = slugify(lastname)
+        const firstname_translit = firstname.length  > 1 ? slugify(firstname[0])  : slugify(firstname)
+        const secondname_translit = secondname.length > 1 ? slugify(secondname[0]) : slugify(secondname)
+
+        this.setState({
+            fullname_url: `${lastname_translit}-${firstname_translit}${secondname_translit}`
+        })
     }
 
     addWorktime = () => {
@@ -108,8 +134,6 @@ export class StaffForm extends Component {
             }
         })
 
-        console.log(newworktime + 'new');
-
         this.setState({ worktime: newworktime })
 
     }
@@ -117,12 +141,15 @@ export class StaffForm extends Component {
     submitForm = e => {
         e.preventDefault()
         window.scrollTo(0, 0)
+
         this.props.clearInfo()
-        const id = this.state.id
+
+        const {id} = this.state
 
         const { firstname,
             secondname,
             lastname,
+            fullname_url,
             post,
             degree,
             path,
@@ -130,13 +157,14 @@ export class StaffForm extends Component {
             worktime } = this.state
 
         const Staff = {
-            firstname: firstname,
-            secondname: secondname,
-            lastname: lastname,
-            post: post,
-            degree: degree,
-            rank: rank,
-            path: path,
+            firstname,
+            secondname,
+            lastname,
+            fullname_url,
+            post,
+            degree,
+            rank,
+            path,
             worktime
         }
 
@@ -191,6 +219,11 @@ export class StaffForm extends Component {
                                 <input onChange={this.changeInput} type="text" className="form-control"
                                     name="secondname" id="secondname-input" placeholder="Иванович" value={this.state.secondname} />
                             </div>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="fullname_url-input">URL</label>
+                            <input onChange={this.changeInput} onFocus={this.setFullnameUrl} type="text" className="form-control"
+                                name="fullname_url" id="fullname_url-input" placeholder="ivanov-i-i" value={this.state.fullname_url} />
                         </div>
                         <div className="form-row">
                             <div className="col form-group">

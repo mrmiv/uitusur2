@@ -299,10 +299,12 @@ function Curator({ curator }) {
         <tr>
             <td>{curator.group}</td>
             <td><Link to={{
-                pathname: `/staff/${curator.staff_id}`,
+                pathname: `/staff/${curator.staff_url}`,
                 state: { background: location }
-            }}> <Icon style={{ color: "#354ED1", marginRight: "5px" }} icon={faHashtag} />
-                {curator.lastname + " " + curator.firstname[0] + ". " + curator.secondname[0] + "."}</Link></td>
+            }}> <Icon style={{ color: "#354ED1", marginRight: "4px" }} icon={faHashtag} />
+                {`${curator.lastname} ${curator.firstname[0]}. ${curator.secondname[0]}.`}
+                </Link>
+            </td>
         </tr>
     )
 }

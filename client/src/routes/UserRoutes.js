@@ -103,7 +103,7 @@ function HomeRoutes({ auth }) {
             },
             {
                 exact: true,
-                path: "/about/staff/:id",
+                path: "/staff/:fullname",
                 component: <StaffView />
             },
             {
@@ -207,7 +207,7 @@ function HomeRoutes({ auth }) {
                 })}
             </Switch>
             {/* Модальные окна */}
-            {background && <Route exact path="/staff/:id" component={StaffModal} />}
+            {background && <Route exact path="/staff/:fullname" component={StaffModal} />}
             {background && <Route exact path="/book/:id" component={BookModal}/>}
         </div>
     )

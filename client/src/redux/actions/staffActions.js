@@ -29,14 +29,19 @@ export const GetStaffList = () => dispatch => {
         })
 }
 
-export const GetStaff = (id) => dispatch => {
+export const GetStaff = (field, value) => dispatch => {
 
     dispatch({
         type: CURRENT_STAFF_LOADING
     })
 
-    // debugger
-    axios.get(`/api/staff/${id}`)
+    let url = '/get-by-id/'
+
+    if (field !== 'id'){
+        url = '/'
+    }
+
+    axios.get(`/api/staff${url}${value}`)
         .then(res => {
             dispatch({
                 type: GET_CURRENT_STAFF,

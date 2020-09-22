@@ -184,19 +184,19 @@ export default withRouter(connect(
 
 
 export function StaffView() {
-    let { id } = useParams()
+    let { fullname } = useParams()
 
     return <div className="container-md container-fluid">
-        <StaffPage id={id} />
+        <StaffPage fullname_url={fullname} />
     </div>
 }
 
 export function StaffModal() {
-    let { id } = useParams()
+    let { fullname } = useParams()
 
     return (
         <Modal>
-            <StaffPage id={id} />
+            <StaffPage fullname_url={fullname} />
         </Modal>
     )
 }
@@ -273,14 +273,14 @@ const FeedbackStaff = (props) => {
 }
 
 // СОТРУДНИК КАФЕДРЫ
-function Staff({ id, firstname, lastname, secondname }) {
+function Staff({ fullname_url, firstname, lastname, secondname }) {
 
     let location = useLocation()
 
     return (
         <div className="col_p col-md-4 col-lg-3 col-6">
             <Link className="StaffCard d-flex" to={{
-                pathname: `/staff/${id}`,
+                pathname: `/staff/${fullname_url}`,
                 state: { background: location }
             }}>
                 <div className="staff__photo"><Icon icon={faIdBadge} /></div>
@@ -304,5 +304,6 @@ export const StaffListMap = memo(({StaffList})=>{
         firstname={staffuser.firstname}
         lastname={staffuser.lastname}
         secondname={staffuser.secondname}
+        fullname_url={staffuser.fullname_url}
     />)}</div> 
 })

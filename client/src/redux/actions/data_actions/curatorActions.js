@@ -50,7 +50,7 @@ export const GetCurator = id => dispatch => {
         });
 }
 
-export const postCurator = ({ staff_id, firstname, lastname, secondname, group }) => dispatch => {
+export const postCurator = (curator) => dispatch => {
 
     dispatch({
         type: LOADING_REQ
@@ -62,9 +62,7 @@ export const postCurator = ({ staff_id, firstname, lastname, secondname, group }
         }
     }
 
-    const data = { staff_id, firstname, lastname, secondname, group }
-
-    axios.post(`/api/curator`, data, config)
+    axios.post(`/api/curator`, curator, config)
         .then(res => {
             // console.log("ACTION", res.data);
             dispatch(returnInfo(res.data, res.status, "REQ_SUCCESS"));
@@ -108,7 +106,7 @@ export const delCurator = id => dispatch => {
         });
 }
 
-export const patchCurator = (id, { staff_id, firstname, lastname, secondname, group }) => dispatch => {
+export const patchCurator = (id, curator) => dispatch => {
 
     dispatch({
         type: LOADING_REQ
@@ -120,9 +118,7 @@ export const patchCurator = (id, { staff_id, firstname, lastname, secondname, gr
         }
     }
 
-    const data = { staff_id, firstname, lastname, secondname, group }
-
-    axios.patch(`/api/curator/${id}`, data, config)
+    axios.patch(`/api/curator/${id}`, curator, config)
         .then(res => {
             // console.log("ACTION", res.data);
             dispatch(returnInfo(res.data, res.status, "REQ_SUCCESS"));

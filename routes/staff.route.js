@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
 
     try {
         await Staff.find()
-            .select(['firstname', 'lastname', 'secondname', 'post', 'degree'])
+            .select(['firstname', 'lastname', 'secondname', 'fullname_url'])
             .sort([['lastname', 1], ['firstname', 1], ['secondname', 1]])
             .then(data => res.json(data))
             .catch(err => res.status(400).json({ message: err.message }))
@@ -19,14 +19,39 @@ router.get('/', async (req, res) => {
     }
 })
 
-// /staff/:id
-router.get('/:id', async (req, res) => {
+/**
+ * Получение сотрудника по id
+ */
+router.get('/get-by-id/:id', async (req, res) => {
 
     const id = req.params.id
 
     try {
 
         const staff = await Staff.findById(id)
+
+        if (!staff) {
+            return res.status(404).json({ message: "Сотрудник не найден" })
+        }
+
+        res.json(staff)
+
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+})
+
+/**
+ * Получение сотрудника по translit-fullname 
+ * ivanon-ii
+ */
+router.get('/:fullname_url', async (req, res) => {
+
+    const {fullname_url} = req.params
+
+    try {
+
+        const staff = await Staff.findOne({fullname_url})
 
         if (!staff) {
             return res.status(404).json({ message: "Сотрудник не найден" })
@@ -46,6 +71,7 @@ router.post('/', auth, async (req, res) => {
         firstname,
         lastname,
         secondname,
+        fullname_url,
         post,
         degree,
         rank,
@@ -59,6 +85,7 @@ router.post('/', auth, async (req, res) => {
             firstname,
             lastname,
             secondname,
+            fullname_url,
             post,
             degree,
             rank,
@@ -66,28 +93,10 @@ router.post('/', auth, async (req, res) => {
             worktime
         })
 
-        // console.log(staff);
-
-        const exists = await Staff.findOne({ firstname, lastname, secondname, post, degree, rank, path })
-
-        if (exists) {
-            return res.status(400).json({ message: "Сотрудник уже существует" })
-        }
-
-        // console.log(staff);
-
-        try {
-            await staff.save()
-                .then(staff => res.status(201).json({ message: "Сотрудник успешно добавлен", staff }))
+        await staff.save()
+                .then(staff => res.json({ message: "Сотрудник успешно добавлен", staff }))
                 .catch(err => res.status(400).json({ message: err.message }))
-        } catch (error) {
-            error instanceof Error.ValidationError
-            return res.status(400).json({
-                message: "Проверьте введенные данные",
-                errors: error.message
-            })
-        }
-
+        
     } catch (error) {
         res.status(500).json({ message: error.message })
     }
@@ -120,25 +129,13 @@ router.patch('/:id', auth, async (req, res) => {
     const body = req.body
 
     try {
-        const staff = await Staff.findById(id)
 
-        if (!staff) {
-            return res.status(404).json({ message: "Сотрудник не найден" })
-        }
-
-        // console.log(body, body.rank);
-        staff.firstname = body.firstname
-        staff.lastname = body.lastname
-        staff.secondname = body.secondname
-        staff.rank = body.rank
-        staff.post = body.post
-        staff.degree = body.degree
-        staff.worktime = body.worktime
-        staff.path = body.path
-
-        await staff.save()
-            .then(staff => res.json({ message: "Сотрудник обновлен", staff }))
-
+        await Staff.findByIdAndUpdate(id, body)
+            .then(staff => res.json({ message: `Сотрудник ${staff.lastname} ${staff.firstname} обновлен`, staff }))
+            .catch(err=>{
+                return res.status(400).json({ message: err.message })
+            })
+            
     } catch (error) {
         res.status(500).json({ message: error.message })
     }

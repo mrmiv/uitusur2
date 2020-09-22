@@ -37,6 +37,11 @@ const CuratorSchema = new Schema({
         }
     },
 
+    staff_url:{
+        type: String,
+        required: [true, "Поле url является обязательным"],
+    },
+
     staff_id: {
         type: Types.ObjectId,
         required: true,

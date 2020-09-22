@@ -45,6 +45,7 @@ router.post('/', auth, async (req, res) => {
     firstname,
     lastname,
     secondname,
+    staff_url,
     group,
     staff_id
   } = req.body
@@ -55,38 +56,20 @@ router.post('/', auth, async (req, res) => {
       firstname,
       lastname,
       secondname,
+      staff_url,
       staff_id,
       group
     })
 
-    try {
-      await curator.validate(
-        { firstname, lastname, secondname, group },
-        ['firstname', 'lastname', 'secondname', 'group'])
-    } catch (error) {
-      // error instanceof Error.ValidationError
-      return res.status(400).json({
-        message: error.message
-      })
-    }
-    // console.log(curator);
     const exists = await Curator.findOne({ group })
 
     if (exists) {
       return res.status(400).json({ message: "Куратор для данной группы уже существует" })
     }
-    // console.log(curator);
-    try {
-      await curator.save()
-        .then(curator => res.status(201).json({ message: "Куратор успешно добавлен", curator }))
-        .catch(err => res.status(400).json({ message: err.message }))
-    } catch (error) {
-      error instanceof Error.ValidationError
-      return res.status(400).json({
-        message: "Проверьте введенные данные",
-        errors: error.message
-      })
-    }
+
+    await curator.save()
+      .then(curator => res.json({ message: `Куратор ${curator.lastname} ${curator.firstname} успешно добавлен для группы ${curator.group}`, curator }))
+      .catch(err => res.status(400).json({ message: err.message }))
 
   } catch (error) {
     res.status(500).json({ message: error.message })
@@ -120,6 +103,7 @@ router.patch('/:id', auth, async (req, res) => {
   const { firstname,
     lastname,
     secondname,
+    staff_url,
     group,
     staff_id } = req.body
 
@@ -131,14 +115,17 @@ router.patch('/:id', auth, async (req, res) => {
     }
 
     // console.log(body, body.rank);
+
+
     if (firstname) { curator.firstname = firstname }
     if (lastname) { curator.lastname = lastname }
     if (secondname) { curator.secondname = secondname }
+    if (staff_url) { curator.staff_url = staff_url }
     if (group) { curator.group = group }
     if (staff_id) { curator.staff_id = staff_id }
 
     await curator.save()
-      .then(curator => res.json({ message: "Куратор обновлен", curator }))
+      .then(curator => res.json({ message: `Куратор для группы ${curator.group} обновлен на ${curator.lastname} ${curator.firstname}`, curator }))
 
   } catch (error) {
     res.status(500).json({ message: error.message })
