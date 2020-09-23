@@ -8,7 +8,7 @@ import { faFileAlt } from '@fortawesome/free-solid-svg-icons'
 export class BookView extends Component{
 
     componentDidMount(){
-        this.props.GetCurrentBook(this.props.id)
+        this.props.GetCurrentBook('translit_title', this.props.translit_title)
     }
 
     // getdoc=docpath=>{

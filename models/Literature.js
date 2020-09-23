@@ -24,6 +24,14 @@ const LiteratureSchema = new Schema({
         }
     }, 
 
+    translit_title: {
+        type: String,
+        maxlength: 255,
+        minlength: 1,
+        required: [true, 'Поле заголовок является обязательным!'],
+        unique: true,
+    },
+
     // Авторы
     author:{
         type: String,

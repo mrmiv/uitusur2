@@ -56,14 +56,20 @@ export const GetLiteraturePerPage = (page = 1, perPage = 12, filter = null, sort
         })
 }
 
-export const GetCurrentBook = id => dispatch => {
+export const GetCurrentBook = (field, value) => dispatch => {
 
     dispatch({
         type: BOOK_LOADING
     })
 
+    let url = 'book-by-id'
+
+    if(field !== 'id'){
+        url = 'book'
+    }
+
     // get /literature/book/id
-    axios.get(`/api/literature/book/${id}`)
+    axios.get(`/api/literature/${url}/${value}`)
         .then(res => {
             dispatch({
                 type: GET_BOOK,

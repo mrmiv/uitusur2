@@ -7,6 +7,8 @@ import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import { faPlusCircle, faArrowAltCircleLeft, faBell } from '@fortawesome/free-solid-svg-icons'
 import { Link, Prompt, withRouter } from 'react-router-dom'
 import cyrillicToTranslit from 'cyrillic-to-translit-js'
+import { transliterate as tr, slugify } from 'transliteration';
+
 
 export class LiteratureForm extends Component {
 
@@ -15,6 +17,7 @@ export class LiteratureForm extends Component {
         id: null,
 
         title: '',
+        translit_title: '',
         description: '',
         annotation: '',
         category: '',
@@ -37,7 +40,7 @@ export class LiteratureForm extends Component {
         document.title = this.props.title
         const id = this.props.match.params.id
         if (id) {
-            this.props.GetCurrentBook(id)
+            this.props.GetCurrentBook('id', id)
         }
     }
 
@@ -54,6 +57,7 @@ export class LiteratureForm extends Component {
             if (Book !== prevProps.Book.Book) {
                 this.setState({
                     title: Book.title,
+                    translit_title: Book.translit_title,
                     description: Book.description,
                     annotation: Book.annotation,
                     category: Book.category,
@@ -72,7 +76,12 @@ export class LiteratureForm extends Component {
 
     changeInput = e => {
         const field = e.target.name
-        this.setState({ [field]: e.target.value })
+        const value = e.target.value
+
+        this.setState({ [field]: value })
+        if (field === 'title'){
+            this.setState({translit_title: slugify(value) })
+        }
         if (!this.state.blocked) {
             this.setState({ blocked: true })
         }
@@ -93,6 +102,7 @@ export class LiteratureForm extends Component {
         window.scrollTo(0, 0)
 
         let { title,
+            translit_title,
             description,
             annotation,
             category,
@@ -104,6 +114,7 @@ export class LiteratureForm extends Component {
 
         const Book = {
             title,
+            translit_title,
             description,
             annotation,
             category,
@@ -161,6 +172,12 @@ export class LiteratureForm extends Component {
                                 <input onChange={this.changeInput} required type="text" className="form-control"
                                     name="author" id="authorInput" placeholder="Пушкин А.С., Чехов А.П." value={this.state.author} />
                             </div>
+                        </div>
+                        <div className="form-group">
+                            <label HtmlFor="TranslitTitleInput">URL</label>
+                            <input onChange={this.changeInput} required type="text" className="form-control"
+                                name="translit_title" id="TranslitTitleInput" placeholder="osnovy-upravlencheskoi-deyatelnosti" 
+                                value={this.state.translit_title} />
                         </div>
                         <div className="form-row mt-2">
                             <div className="col form-group">

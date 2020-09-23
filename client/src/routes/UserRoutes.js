@@ -170,7 +170,7 @@ function HomeRoutes({ auth }) {
             },
             {
                 exact: true,
-                path: "/literature/book/:id",
+                path: "/book/:translit_title",
                 component:<BookPage />
             },
             {
@@ -208,7 +208,7 @@ function HomeRoutes({ auth }) {
             </Switch>
             {/* Модальные окна */}
             {background && <Route exact path="/staff/:fullname" component={StaffModal} />}
-            {background && <Route exact path="/book/:id" component={BookModal}/>}
+            {background && <Route exact path="/book/:translit_title" component={BookModal}/>}
         </div>
     )
 }

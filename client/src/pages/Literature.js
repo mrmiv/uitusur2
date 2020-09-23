@@ -37,28 +37,15 @@ export class Literature extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const { filter, sort, page, perPage, search } = this.props.Literature
-        const pp = prevProps.Literature
+        const { filter, sort, perPage, search } = this.props.Literature
         const state = this.state
-        const ps = prevState        
-        if (
-               filter !== state.filter
-            || sort !== state.sort
-            || page !== state.page
-            || search !== state.search
-            ){
-                console.log(
-                    "prevprops:", pp,
-                    {ppage: page,
-                    pperPage: perPage,
-                    psort: sort,
-                    pfilter: filter,
-                    psearch: search},
-                    "state:", state)
-                this.props.GetLiteraturePerPage(Number(state.page), perPage, state.filter, state.sort, state.search)
-            }
-            
-        // console.log(pl, filter, sort, page, perPage, search);
+        if ( filter !== state.filter || search !== state.search ){
+            this.Paginate(1)
+            this.props.GetLiteraturePerPage(1, perPage, state.filter, state.sort, state.search) 
+        }
+        if (sort !== state.sort){
+            this.props.GetLiteraturePerPage(Number(state.page), perPage, state.filter, state.sort, state.search) 
+        }
     }
 
     Paginate(page) {
@@ -156,7 +143,7 @@ export default withRouter(connect(
     { GetLiteraturePerPage }
 )(Literature))
 
-const Book = memo(({ title, author, image, category, id }) => {
+const Book = memo(({ title, author, image, category, translit_title }) => {
 
     const len = title.length
     const start = 32
@@ -173,7 +160,7 @@ const Book = memo(({ title, author, image, category, id }) => {
             onMouseEnter={() => setVisibilityTitle(true)}
             onMouseLeave={() => setVisibilityTitle(false)}>
             <Link to={{
-                pathname: `/book/${id}`,
+                pathname: `/book/${translit_title}`,
                 state: { background: location }
             }}>
                 <div className="literature__bookInList" style={{ background: `url(${image}) no-repeat`, backgroundSize: "cover", backgroundPosition: "center" }}>
@@ -199,6 +186,7 @@ export const LiteratureList = memo(({literatureList}) => {
                 <Book key={index}
                     index={index}
                     id={book._id}
+                    translit_title={book.translit_title}
                     title={book.title}
                     author={book.author}
                     image={book.image}
@@ -210,15 +198,15 @@ export const LiteratureList = memo(({literatureList}) => {
 })
 
 export function BookPage() {
-    let { id } = useParams()
+    let { translit_title } = useParams()
     return <div className="container-lg container-fluid">
-        <BookView id={id} />
+        <BookView translit_title={translit_title} />
     </div>
 }
 
 export function BookModal() {
-    let { id } = useParams()
+    let { translit_title } = useParams()
     return <Modal>
-        <BookView id={id} />
+        <BookView translit_title={translit_title} />
     </Modal>
 }
