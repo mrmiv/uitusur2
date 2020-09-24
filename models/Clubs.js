@@ -16,18 +16,6 @@ const ClubSchema = new Schema({
         }
     },
 
-    // Руководитель
-    // leader:{
-    //     type: String,
-    //     required: [true, "Поле руководитель является обязательным"],
-    //     validate:{
-    //         validator: function (name) {
-    //             return /^[а-яА-ЯёЁa-zA-Z0-9(\s)(\-)(\.)]+$/.test(name) // добавить тире
-    //         },
-    //         message: props => `${props.value} - Поле руководитель содержит недопустимые символы`
-    //     }
-    // },
-
     // ссылка
     path: String,
 
