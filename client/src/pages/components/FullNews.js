@@ -44,48 +44,74 @@ export class FullNews extends Component {
         }
     }
 
-    render() {
+    renderFullNews(){
         const { News } = this.state
         const { isLoading } = this.props.news
+
+        const LoadingElement = <p>Загрузка</p>
+
+        if (isLoading){
+            return LoadingElement
+        }
+
+        const NewsNotFound = <p>Такая новость не найдена</p>
+        if (!News){
+            return NewsNotFound
+        }
+
+        return <Fragment>
+        <div className="d-flex justify-content-between align-items-center">
+            <h1>{News.title}</h1>
+            {News.pin && <Icon icon={pushpinIcon} style={{fontSize: "1.75em"}}/>}
+        </div>
+        <div className="row no-gutters">
+            {/* для крнр */}
+            {News.users && <NewsProps
+                icon={<FontAwesomeIcon icon={faUsers} />} name={"Для кого"} text={News.users} />}
+            {/* крайний срок */}
+            {News.deadline && <NewsProps
+                icon={<Icon icon={alarmClock} />} name={News.type === 1 ? "Крайний срок" : "Крайний срок подачи документов"} text={toDate(News.deadline)} />}
+            {/* место проведения */}
+            {News.city && <NewsProps
+                icon={<Icon icon={cityscapeIcon} />} name={"Место проведения"} text={News.city} />}
+            {/* период действия или сроки результатов */}
+            {News.period && <NewsProps
+                icon={<Icon icon={spiralCalendar} />} name={"Период действия"} text={News.period} />}
+            {/* размер гранта */}
+            {News.grant && <NewsProps
+                icon={<Icon icon={trophyIcon} />} name={"Размер стипендии/гранта"} text={News.grant} />}
+            {/* сайт */}
+            {News.site && <NewsProps
+                icon={<Icon icon={linksymbolIcon} />} text={News.site} name={"Сайт"} link />}
+            </div>
+            <div className="text__news" dangerouslySetInnerHTML={{ __html: News.body }} />
+            {News.docs.length !== 0 && <div className="docs__news"><strong>Вложения:</strong><br />
+                {News.docs.map((doc, index) => {
+                    return (<a href={doc} key={index} target="_blank" rel="norefferer noopener">
+                        <Icon className="mr-3" size="lg" icon={documentAttach} /> {doc.substr(39)}
+                    </a>)
+                })}</div>}
+        </Fragment>
+    }
+
+    render() {
+        
         // console.log(this.props)
         return (
             <Fragment>
-                <div className="container-md container-fluid">
-                    <a onClick={() => this.props.history.goBack()}> Назад </a>
-                    <div id="fullnews">
-                        {!isLoading ?
-                            News ? <Fragment>
-                                <h1>{News.pin && <Icon icon={pushpinIcon} className="mr-2" />} {News.title}</h1>
-                                <div className="row no-gutters">
-                                    {/* для крнр */}
-                                    {News.users && <NewsProps
-                                        icon={<FontAwesomeIcon icon={faUsers} />} name={"Для кого"} text={News.users} />}
-                                    {/* крайний срок */}
-                                    {News.deadline && <NewsProps
-                                        icon={<Icon icon={alarmClock} />} name={News.type === 1 ? "Крайний срок" : "Крайний срок подачи документов"} text={toDate(News.deadline)} />}
-                                    {/* место проведения */}
-                                    {News.city && <NewsProps
-                                        icon={<Icon icon={cityscapeIcon} />} name={"Место проведения"} text={News.city} />}
-                                    {/* период действия или сроки результатов */}
-                                    {News.period && <NewsProps
-                                        icon={<Icon icon={spiralCalendar} />} name={"Период действия"} text={News.period} />}
-                                    {/* размер гранта */}
-                                    {News.grant && <NewsProps
-                                        icon={<Icon icon={trophyIcon} />} name={"Размер стипендии/гранта"} text={News.grant} />}
-                                    {/* сайт */}
-                                    {News.site && <NewsProps
-                                        icon={<Icon icon={linksymbolIcon} />} text={News.site} name={"Сайт"} link />}
-                                </div>
-                                <div className="text__news" dangerouslySetInnerHTML={{ __html: News.body }} />
-                                {News.docs.length !== 0 && <div className="docs__news"><strong>Вложения:</strong><br />
-                                    {News.docs.map((doc, index) => {
-                                        return (<a href={doc} key={index} target="_blank" rel="norefferer noopener">
-                                            <Icon className="mr-3" size="lg" icon={documentAttach} /> {doc.substr(39)}
-                                        </a>)
-                                    })}</div>}
-                            </Fragment>
-                                : <p>Такая новость не найдена :( </p>
-                            : "Загрузка"}
+                <div 
+                style={{
+                    position: "fixed",
+                    width: "100px",
+                    height: "100%",
+                    backgroundColor: "red",
+                    zIndex: "1",
+                    cursor: "pointer"
+                }}
+                onClick={() => this.props.history.goBack()}/> 
+                <div id="fullnews">
+                    <div className="container">
+                        {this.renderFullNews()}
                     </div>
                 </div>
             </Fragment>

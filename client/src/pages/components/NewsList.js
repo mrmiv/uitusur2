@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Icon } from '@iconify/react'
 import pushpinIcon from '@iconify/icons-fxemoji/pushpin'
@@ -12,15 +12,15 @@ export function toDate(datetime, time = false, sym = ".") {
     const date = new Date(datetime)
 
     let day = date.getDate()
-    if (day < 10) { day = "0" + day }
+    if (day < 10) { day = `0${day}` }
     let month = date.getMonth() + 1
-    if (month < 10) { month = "0" + month }
+    if (month < 10) { month = `0${month}` }
     const year = date.getFullYear()
     if (time) {
         let hour = date.getHours()
-        if (hour < 10) { hour = "0" + hour }
+        if (hour < 10) { hour = `0${hour}` }
         let minute = date.getMinutes()
-        if (minute < 10) { minute = "0" + minute }
+        if (minute < 10) { minute = `0${minute}` }
         return `${hour}:${minute} ${day}.${month}.${year}`
     }
     return `${day}${sym}${month}${sym}${year}`
@@ -44,7 +44,6 @@ export function NewsInList(props) {
                 <h2>{title}</h2>
 
                 <div className="row no-gutters props-news-list">
-                    {/* Для кого */}
                     {props.users &&
                         <div className="col-auto">
                             <p className="prop-news">
@@ -52,21 +51,12 @@ export function NewsInList(props) {
                             </p>
                         </div>
                     }
-                    {/* Дедлайн */}
                     {props.deadline &&
                         <div className="col-auto">
                             <p className="prop-news">
                                 <Icon icon={alarmClock} style={{ fontSize: "18px" }} /> <span>Крайний срок:</span> {toDate(props.deadline)}
                             </p>
                         </div>}
-                    {/* Размер гранта
-                {props.grant &&
-                <div className="col-auto">
-                    <p className="prop-news">
-                        <Icon icon={alarmClock} style={{fontSize: "18px"}}/> <span>Крайний срок:</span> {props.grant}
-                    </p>
-                </div>} */}
-                    {/* Сроки проведения */}
                     {props.period &&
                         <div className="col-auto">
                             <p className="prop-news">
