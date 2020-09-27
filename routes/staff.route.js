@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
 
     try {
         await Staff.find()
-            .select(['firstname', 'lastname', 'secondname', 'fullname_url'])
+            .select(['firstname', 'lastname', 'secondname', 'fullname_url','post','degree'])
             .sort([['lastname', 1], ['firstname', 1], ['secondname', 1]])
             .then(data => res.json(data))
             .catch(err => res.status(400).json({ message: err.message }))

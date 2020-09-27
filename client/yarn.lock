@@ -971,6 +971,11 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
+"@iconify/icons-bx@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@iconify/icons-bx/-/icons-bx-1.0.3.tgz#490206b3ded7f813be654b551c64548b08d7ebd6"
+  integrity sha512-CgqM+XcypQDRCmuTZj3SlbZUGr0uK69vFc7GeBfJUKBZW/yelZ35I6ot1tVpkF/UrQebpRGRDmOFGRp/3z/SnQ==
+
 "@iconify/icons-emojione-v1@^1.0.7":
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/@iconify/icons-emojione-v1/-/icons-emojione-v1-1.0.7.tgz#c29eb201347e79f131ee9f5aece6cc0d11333380"
@@ -981,10 +986,15 @@
   resolved "https://registry.yarnpkg.com/@iconify/icons-fa-solid/-/icons-fa-solid-1.0.10.tgz#b88387bb7cf1422198816efda2a191558685de2f"
   integrity sha512-brToelU5UL/9edUgdBcRPwaxGtU5CyyE8HaWXN9oToTaz3sC3eZETKuUrjN+TtuMBKVPFVNruiVX6ff4JNrYrw==
 
-"@iconify/icons-ion@^1.0.12":
-  version "1.0.12"
-  resolved "https://registry.yarnpkg.com/@iconify/icons-ion/-/icons-ion-1.0.12.tgz#5ccba4ad6b3ed1c7eb0467ab2888829e1547da02"
-  integrity sha512-l+Xxqf5c3oaCISb33IEysg20AwH+NiSF6QvH9Q28fMESGkE9sj9jjskbd49e6SlcqhG4ruNWiraGB305W5Tm2w==
+"@iconify/icons-ion@^1.0.13":
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/@iconify/icons-ion/-/icons-ion-1.0.13.tgz#f912ee32e50d03f438fde3965b72d78e2f79df5c"
+  integrity sha512-V48HCNL9UClZcswZOqiI7PDsy8fzatF5dEXs/ho+wM+I9c0RoLDZkjRVrd5nnX7jymwago+cRfiHIiLBGabsWQ==
+
+"@iconify/icons-raphael@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@iconify/icons-raphael/-/icons-raphael-1.0.5.tgz#86466ec894b2cadd231e5cdef312892e22d10828"
+  integrity sha512-XjZumKd53kGOpCrt1coqtu9tfHJ2msHPcFfXWYUNu1OSBJek0Ho67ay5+Xlg6OZSaaQADVTzAwhzzmYMigGfKA==
 
 "@iconify/icons-simple-icons@^1.0.31":
   version "1.0.31"

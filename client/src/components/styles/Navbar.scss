@@ -1,6 +1,10 @@
+@use '../../pages/styles/default.scss';
 $dblue: #080F36;
 $blue: #111D5E;
 $purple: #98248F;
+$lpink:#facfe5; 
+$mpink:#f2bad5; 
+$dpink:#eb9cc2; 
 $pink: #B21F66;
 $orange: #DE7128;
 $lorange: #EE9A2F;
@@ -30,148 +34,123 @@ $lgray: #c8d6e5;
 
 #sider{
     position: fixed;
+    display: grid;
+    grid-template: 60px 1fr 80px / 1fr 44px;
     height: 100%;
     top: 0;
-    left: -250px;
+    left: -300px;
     max-width: 300px;
-    width: 250px;
+    width: 300px;
     max-height: 100vh;
     transition: all 0.3s cubic-bezier(0.1, 0.9, 0.3, 1);
     -webkit-transition: all 0.3s cubic-bezier(0.1, 0.9, 0.3, 1);
-    background: $blue;
+    background: #eee;
     z-index: 1100;
     overflow: none auto;
     overflow-block: red;
 
-    .top-navbar-btns{
-        position: relative;
-        padding: 0 15px;
-        top: 15px;
+    span.close_nav, span.login_span{
+        cursor: pointer;
         align-items: center;
-        span.close_nav{
-            cursor: pointer;
-        }
-    
-        span.login_span{
-            cursor: pointer;
-        }
     }
-
-    
 
     &.open{
         left: 0;
     }
 
     .menu{
-        margin-top: 50px;
+        margin-top: 20px;
+        padding: 0 4px;
         padding-bottom: 20px;
-        font-weight: medium;
+        display: grid;
+        grid-gap: 4px;
+        grid-template: auto / 1fr 44px ;
+        grid-column: 1 / 3;
+        height: min-content;
 
         .link{
-            padding: 5px 10px 5px 15px;
-            display: list-item;
-            color: $lgray;
+            padding: 8px;
+            font-weight: 500;
+            border-radius: 10px;
+            grid-column: 1 / 3;
+            display: block;
+            color: default.$dark;
             text-decoration: none;
-            -webkit-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            -webkit-transition: all 0.3s ease;
+            transition: all 0.3s ease;
             align-items: center;
-            width: 100%;
 
-            &[aria-expanded="true"]{
-                span{
-                    transform: rotate(180deg);
-                    -moz-transform: rotate(180deg);
-                    -o-transform: rotate(180deg);
-                    -webkit-transform: rotate(180deg);
-                }
+            &:hover{
+                color: default.$pink
             }
 
-            
+            &:active{
+                background: $lpink;
+            }
 
-            // this is for news and degrees
-            span{
-                width: auto;
-                height: inherit;
-                transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-                -webkit-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-                margin-left: auto;
-
-                // border: 1px solid white;
-
-                img{
-                    width: 30px;
-                    height: 30px;
-                    padding: 2px;
-                }
+            &.link-with-submenu{
+                grid-column: 1 / 2;
             }
 
             &.active{
-                color: $blue;
-                box-shadow: 0px 0px 0px 100px rgba(255, 255, 255, 0.6) inset;
+                color: default.$pink;
+                background: $lpink;
                 transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
                 -webkit-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
                 &.sublink-not-active{
-                    box-shadow: unset;
-                    color: white
+                    color: default.$dark;
+                    &:hover{
+                        color: default.$pink
+                    }
+        
+                    &:active{
+                        background: $lpink;
+                    }
                 }
-                &:hover, &:active{
-                    box-shadow: 0px 0px 0px 100px rgba(255, 255, 255, 0.6) inset;
-                    color: $blue;
-
-                }
-                // box-shadow: -100px 0 100px 5px $blue inset,
-                //             50px 0 50px 0 rgba(245, 245, 245, 0.6) inset;
-                // background: linear-gradient(to left, transparent 50%, rgba(255, 255, 122554, 0.3)) ;
-                // background: -o-linear-gradient(to left, transparent 50%, rgba(255, 255, 255, 0.3)) ;
-                // background: -moz-linear-gradient(to left, transparent 50%, rgba(255, 255, 255, 0.3));
-                // background: -webkit-linear-gradient(to left, transparent 50%, rgba(255, 255, 255, 0.3));
-                // &:before{
-                //     content:" ";
-                //     position: relative;
-                //     height: 100%;
-                //     left: -15px;
-                //     background: white;
-                //     border: 1.5px solid white;
-                // }
-            }
-
-            &:hover{
-                color: white;
-                box-shadow: 0px 0px 0px 100px rgba(255, 255, 255, 0.2) inset;
-            }
-            &:active{
-                color: white;
-                box-shadow: 0px 0px 0px 100px rgba(255, 255, 255, 0.3) inset;
             }
         }
 
-        // this is for main link w// submenu
-        .collapse_links{
-            .open_sub{
-                width: auto;
-                height: inherit;
-                padding: 5px 10px 5px;
-                transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-                // border: 1px solid white;
+        .open_submenu_button{
+            width: 40px;
+            height: 40px;
+            margin: 0 auto;
+            background: $lpink;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            &:hover{
+                background: $mpink;
+            }
+            &:active{
+                background: $dpink;
+            }
+            // border: 1px solid white;
 
-                &[aria-expanded="true"]{
+            &[aria-expanded="true"]{
+                svg.arrow-more{
                     transform: rotate(180deg);
                 }
+            }
 
-                img{
-                    width: 30px;
-                    height: 30px;
-                    padding: 2px;
-                }
+            svg.arrow-more{
+                display: flex;
+                width: 30%;
+                height: inherit;
+                margin: 0 auto;
+                align-items: center;
+                transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             }
         }
 
         .submenu{
-            padding: 2px 0;
-            background: $dblue;
+            grid-column: 1 / 3;
+            border-radius: 10px;
+            color: white;
+            background: $lpink;
             a{
                 display: list-item;
+                &:active{
+                    background: $mpink;
+                }
             }
         }
     }
