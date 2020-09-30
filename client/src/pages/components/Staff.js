@@ -6,12 +6,18 @@ import { faLink } from '@fortawesome/free-solid-svg-icons';
 
 export class StaffPage extends Component {
 
-    componentDidMount() {
-        this.props.GetStaff('translit_name', this.props.fullname_url)
+    componentDidMount(){
+        
+        const {CurrentStaff} = this.props.CurrentStaff
+
+        if( !CurrentStaff || (CurrentStaff.fullname_url !== this.props.fullname_url) ){
+            this.props.GetStaff('translit_name', this.props.fullname_url)
+        }
+
         document.title = "Сотрудники кафедры - Кафедра управления инновациями"
     }
 
-    renderStaff(){
+    renderStaff = () => {
 
         const { CurrentStaff, isLoading } = this.props.CurrentStaff
         
@@ -20,6 +26,7 @@ export class StaffPage extends Component {
                 <span className="sr-only">Загрузка...</span>
             </div>
         </div>
+
         if (isLoading){
             return LoadingElement
         }
@@ -78,8 +85,8 @@ export class StaffPage extends Component {
                 <a href={CurrentStaff.path} rel="noopener noreferrer" target="_blank"> <Icon icon={faLink} /> Справочник</a>
             </div>
         </div>
+        
         return CurrentStaffElement
-
     }
 
     render() {

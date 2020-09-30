@@ -13,7 +13,8 @@ const StaffListState = {
 
 const CurrentStaffState = {
     CurrentStaff: null,
-    isLoading: false
+    isLoading: false,
+    LastCurrentStaff: ''
 }
 
 export default combineReducers({
@@ -50,10 +51,10 @@ function CurrentStaffReducer(state = CurrentStaffState, action) {
                 isLoading: true
             }
         case GET_CURRENT_STAFF:
-            // console.log(action.payload.CurrentStaff);
             return {
                 ...state,
                 CurrentStaff: action.payload.CurrentStaff,
+                LastCurrentStaff: action.payload.LastCurrentStaff,
                 isLoading: false
             }
         default:

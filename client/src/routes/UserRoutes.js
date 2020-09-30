@@ -69,10 +69,9 @@ export default connect(
 function HomeRoutes({ auth }) {
 
     const location = useLocation()
-    let background = location.state && location.state.background
+    const background = location.state && location.state.background
 
     const getRoute = ({path, exact, component, noScroll}) => {
-        
 
         const route = <Route path={path} exact={exact} component={(()=><Fragment>
                 {!noScroll && <ScrollToTop/>}
@@ -119,7 +118,7 @@ function HomeRoutes({ auth }) {
             {
                 exact: true,
                 path: "/news/grants",
-                component: <News type={2} title="Стипендии и гранты" />
+                component: <News type={2} title="Стипендии, конкурсы и гранты" />
             },
             {
                 exact: true,
@@ -206,7 +205,7 @@ function HomeRoutes({ auth }) {
                     component: <PageNotFound status={404} />
                 })}
             </Switch>
-            {/* Модальные окна */}
+
             {background && <Route exact path="/staff/:fullname" component={StaffModal} />}
             {background && <Route exact path="/book/:translit_title" component={BookModal}/>}
         </div>

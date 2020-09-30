@@ -42,6 +42,15 @@
         grid-gap: 8px;
         grid-auto-rows: minmax(auto, auto);
         grid-auto-flow: dense;
+
+        @media screen and (max-width: 1200px){
+            &.one-column-list{
+                .news-with-annotation{
+                    grid-column-end: span 1;
+                }
+            }
+        }
+
     }
 
     #toggle-news{
@@ -166,6 +175,7 @@
         }
 
     }
+
     .link-center{
         display: block;
         width: fit-content;
@@ -254,9 +264,18 @@
                     background:  #80808040
                 }
             }
-
         }
-
     }
 
+    @media screen and (max-width: 567px){
+        .news-list-element, #news-links-list{
+            grid-column: span 2;
+        }
+        #news-links-list{
+            grid-row: 1 / 2;
+        }
+        .news-list-element{
+            grid-row: 2 / 3;
+        }
+    }
 }

@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component, Fragment, memo } from 'react'
 import store from '../store'
 
 import { connect } from 'react-redux'
@@ -121,7 +121,7 @@ export class Student extends Component {
                     <section id="studyplan">
                         <div className="container-md container-fluid">
                             <div className="text-center">
-                                <h2>Учебный график на 2019 - 2020 учебный год</h2>
+                                <h2>Учебный график на 2020 - 2021 учебный год</h2>
                                 <div className="choose_field mt-2">
                                     {sp_btns.map((btn, index) => {
                                         return (<button type="button" index={index}
@@ -282,18 +282,21 @@ export default withRouter(connect(
     { GetAllCurators, getCourseSP, getClubs, getSP }
 )(Student))
 
-const Club = ({ name, image }) => {
+const Club = memo(({ name, image }) => {
     return (
         <div className="card_club">
             <img src={image} class="card_club__img" alt={name} />
             <p className="card_club__body"><strong>{name}</strong></p>
         </div>
     )
-}
+})
 
 function Curator({ curator }) {
 
     let location = useLocation()
+
+    const secondname = curator.secondname ? `${curator.secondname[0]}.` : ''
+    const fullname = `${curator.lastname} ${curator.firstname[0]}. ${secondname}`
 
     return (
         <tr>
@@ -302,7 +305,7 @@ function Curator({ curator }) {
                 pathname: `/staff/${curator.staff_url}`,
                 state: { background: location }
             }}> <Icon style={{ color: "#354ED1", marginRight: "4px" }} icon={faHashtag} />
-                {`${curator.lastname} ${curator.firstname[0]}. ${curator.secondname[0]}.`}
+                {fullname}
                 </Link>
             </td>
         </tr>

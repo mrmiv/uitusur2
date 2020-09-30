@@ -1,9 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { closeNavbar } from '../redux/actions/navbarActions'
 import { GetDocuments } from '../redux/actions/docsActions'
-import Fade from 'react-reveal/Fade'
-import documentwithtextIcon from '@iconify/icons-fxemoji/documentwithtext';
-import { Icon } from "@iconify/react"
 import { connect } from 'react-redux'
 import './styles/Docs.scss'
 import { toDate } from './components/NewsList'
@@ -20,67 +17,124 @@ export class Docs extends Component {
     }
 
     scrollTo = (cat) => {
-        // console.log(cat);
         let el = document.getElementById(cat)
         let offsetTop = el.offsetTop
         window.scrollTo({
-            top: offsetTop - 160,
+            top: offsetTop - 150,
             behavior: 'smooth'
         })
+
+        el.style.backgroundColor = '#bbc'
+        setTimeout(() => {
+            el.style.backgroundColor = '#fff'
+        }, 1000);
+    }
+
+    returnCategories(){
+
+        const {isLoading, categories} = this.props
+
+        if(isLoading || categories.length === 0){
+            return <Fragment/>
+        }
+
+        const categoryHashLink = (category, index) => <a key={index} className="document-hash-link" 
+            onClick={() => this.scrollTo(category)}> {`${category[0].toUpperCase()}${category.substr(1)}`}</a>
+
+        return categories.map((cat, index) => {
+            return categoryHashLink(cat, index)
+        })
+
+    }
+
+    returnDocumentByCategory(category){
+
+        const {docslist} = this.props
+
+        const docsByCat = docslist.filter((doc) => {
+            return doc.category === category
+        })
+
+        let docsBySubcategory = {
+            "Без подкатегории": []
+        }
+
+        docsByCat.map((doc) => {
+
+            const s = doc.subcategory
+
+            if (!s){
+                docsBySubcategory["Без подкатегории"].push(doc)
+                return
+            }
+
+            if(docsBySubcategory.hasOwnProperty(s)){
+                docsBySubcategory[s].push(doc)
+            } else {
+                docsBySubcategory[s] = [doc]
+            }
+
+            return
+
+        })
+
+        const subcategories = Object.keys(docsBySubcategory)
+
+        return subcategories.map((key, index) => {
+
+            const docsArray = docsBySubcategory[key]
+            const subcategory_name = key === "Без подкатегории" ? null : <h4>{`${key[0].toUpperCase()}${key.substr(1)}`}</h4>
+
+            if (docsArray.length === 0){
+                return <Fragment key={index}/>
+            }
+            
+            return <Fragment key={index} index={index}>
+                {subcategory_name}
+                <div className="row no-gutters">
+                    {docsArray.map((doc, index) => {
+                        return <Document doc={doc} key={index} index={index}/>
+                    })}
+                </div>
+            </Fragment>
+        })
+
+    }
+
+    returnDocumentsList(){
+
+        const {isLoading, categories, docslist} = this.props
+
+        const LoadingElement = <p>Загрузка</p>
+
+        if(isLoading || categories.length === 0){
+            return LoadingElement
+        }
+
+        if(docslist.length === 0){
+            return <p>Регламентирующие документы не найдены</p>
+        }
+
+        return categories.map((category, index) => {
+            return <div id={category} key={index} index={index} class="scroll-container">
+                <h2>{`${category[0].toUpperCase()}${category.substr(1)}`}</h2>
+                {this.returnDocumentByCategory(category)}
+            </div>
+        })
+
     }
 
     render() {
-        const { docslist, categories, subcategories, isLoading } = this.props.Docs
         return (<Fragment>
-            {/* ЗАГОЛОВОК */}
             <section id="documents_list">
                 <div className="container">
-                <h1>Регламентирующие документы</h1>
-                <nav id="categories-scroll-list">
-                    {!isLoading && categories && categories.map(cat => {
-                        return <a key={cat} className="document-hash-link" onClick={() => this.scrollTo(cat)}> {cat[0].toUpperCase() + cat.substr(1)}</a>
-                        })}
-                </nav>
-                <hr/>
-                <div id="documents-scroll-list">
-                    {!isLoading ? (categories && subcategories && docslist) &&
-                        categories.map((cat, index) => {
-                            return (
-                                <Fragment key={index}>
-                                    <h2 id={cat}>{cat[0].toUpperCase() + cat.substr(1)}</h2>
-                                    {(docslist.find((doc) => {
-                                        return doc.category === cat && !doc.subcategory
-                                    })) ? <div className="row no-gutters">
-                                            {docslist.map((doc) => {
-                                                if (doc.category === cat && !doc.subcategory) {
-                                                    return <div key={index} className="col-sm-6 col-12">
-                                                        <Document cat title={doc.title} path={doc.path} document={doc.document} date={doc.date} />
-                                                    </div>
-                                                }
-                                            })}</div>
-                                        : null}
-                                    {subcategories.map((subcat, index) => {
-                                        if (docslist.find((item) => {
-                                            return item.category === cat && item.subcategory === subcat
-                                        })) {
-                                            return (<Fragment key={index}>
-                                                <h4>{subcat[0].toUpperCase() + subcat.substr(1)}</h4>
-                                                <div className="row no-gutters">
-                                                    {docslist.map((doc, index) => {
-                                                        if (doc.category === cat && doc.subcategory === subcat) {
-                                                            return <div key={index} className="col-sm-6 col-12">
-                                                                <Document title={doc.title} path={doc.path} document={doc.document} date={doc.date} />
-                                                            </div>
-                                                        }
-                                                    })}
-                                                </div>
-                                            </Fragment>
-                                            )
-                                        }
-                                    })}
-                                </Fragment>
-                            )
-                        }) : <p>Загрузка...</p>}  
+                    <h1 class="h1">Регла&shy;мен&shy;ти&shy;рующие доку&shy;менты</h1>
+                    <nav id="categories-scroll-list">
+                        {this.returnCategories()}
+                    </nav>
+                    <hr/>
+                    <div id="documents-scroll-list">
+                        {this.returnDocumentsList()}
                     </div>
                 </div>
             </section>
@@ -90,7 +144,9 @@ export class Docs extends Component {
 }
 
 const mapStateToProps = state => ({
-    Docs: state.api.docs.docslist,
+    isLoading: state.api.docs.docslist.isLoading,
+    categories: state.api.docs.docslist.categories,
+    docslist: state.api.docs.docslist.docslist,
 })
 
 export default connect(
@@ -101,10 +157,13 @@ export default connect(
 const Document = connect(
     state=>({domain: state.location.domain})
     ,null
-    )(({ title, cat, path, document, date, domain }) => {
-    return (
-        <a href={document ? `http://${domain}${document}` : path }
-            className={`document-link ${cat ? 'w-cat' : ''}`}
+    )(({doc, index, domain}) => {
+
+    const { title, subcategory, category, path, document, date } = doc
+
+    return <div className="col-sm-6 col-12">
+        <a index={index} href={document ? `http://${domain}${document}` : path }
+            className={`document-link ${subcategory ? '' : 'w-cat'}`}
             target="_blank" rel="noopener noreferrer"
         >
             <div className="text-indoc">
@@ -112,5 +171,5 @@ const Document = connect(
                 {date && <small>Дата утверждения: {toDate(date)}</small>}
             </div>
         </a>
-    )
+    </div>
 })

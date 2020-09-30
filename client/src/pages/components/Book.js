@@ -1,11 +1,11 @@
-import React, {Component, Fragment} from 'react'
+import React, {Component, PureComponent} from 'react'
 import {connect} from 'react-redux'
 import {GetCurrentBook} from '../../redux/actions/literatureActions'
 import { FontAwesomeIcon as Icon} from '@fortawesome/react-fontawesome'
 import { faFileAlt } from '@fortawesome/free-solid-svg-icons'
 // import Axios from 'axios'
 
-export class BookView extends Component{
+export class BookView extends PureComponent{
 
     componentDidMount(){
         this.props.GetCurrentBook('translit_title', this.props.translit_title)
@@ -48,10 +48,6 @@ export class BookView extends Component{
                         <h4>{Book.title}</h4>
                         <p className="__category">{Book.category && Book.category[0].toUpperCase() + Book.category.substr(1)}</p>
                         <p className="__authors"><span>{Book.author}</span></p>
-                        <p className="__keywords"><span>Ключевые слова</span>
-                        <br/>{Book.keywords && Book.keywords.map(keyword=>{
-                            return <i className="book__keyword">{keyword} </i>
-                        })}</p>
                         <p>
                             <span>Библиографическое описание</span><br/>
                             {Book.description}

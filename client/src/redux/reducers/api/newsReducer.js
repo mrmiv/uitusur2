@@ -11,6 +11,7 @@ import { combineReducers } from 'redux';
 
 const NewsState = {
     total: 1,
+    type: null,
     NewsList: [],
     isLoading: false
 }
@@ -38,6 +39,7 @@ function NewsReducer(state = NewsState, action) {
             return {
                 ...state,
                 total: action.payload.total,
+                type: action.payload.type,
                 NewsList: action.payload.NewsList,
                 isLoading: false
             }
@@ -47,6 +49,7 @@ function NewsReducer(state = NewsState, action) {
             return {
                 ...state,
                 total: action.payload.total,
+                type: action.payload.type,
                 NewsList: [...state.NewsList, ...action.payload.NewsList],
                 isLoading: false
             }

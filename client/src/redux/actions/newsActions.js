@@ -30,6 +30,7 @@ export const GetNewsList = (type='', page = 1, perPage = 10) => (dispatch) => {
 				payload: {
 					NewsList: res.data.data,
 					total: res.data.pages,
+					type
 				},
 			});
 			return res.data;
@@ -57,6 +58,7 @@ export const GetMoreNews = (type, page = 1, perPage = 10) => (dispatch) => {
 				payload: {
 					NewsList: res.data.data,
 					total: res.data.pages,
+					type
 				},
 			});
 			return res.data;

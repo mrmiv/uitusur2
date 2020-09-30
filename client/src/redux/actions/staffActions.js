@@ -14,7 +14,6 @@ export const GetStaffList = () => dispatch => {
 
     axios.get('/api/staff')
         .then(res => {
-            // console.log(res.data)
             dispatch({
                 type: GET_STAFF_LIST,
                 payload: { StaffList: res.data }
@@ -45,7 +44,10 @@ export const GetStaff = (field, value) => dispatch => {
         .then(res => {
             dispatch({
                 type: GET_CURRENT_STAFF,
-                payload: { CurrentStaff: res.data }
+                payload: { 
+                    CurrentStaff: res.data,
+                    LastCurrentStaff: value
+                }
             })
             return res.data
         })

@@ -34,8 +34,11 @@ export class NewsList extends PureComponent {
         document.title = this.props.title + " - Кафедра управления инновациями"
 
         const {type, page, perPage} = this.state
+        const p = this.props.news
 
-        this.props.GetNewsList(type, page, perPage)
+        if(( type !== p.type ) || p.NewsList.length === 0){
+            this.props.GetNewsList(type, page, perPage)
+        }
     }
 
     getMoreNews(page){
@@ -47,6 +50,7 @@ export class NewsList extends PureComponent {
     renderNewsList(){
         
         const { NewsList, isLoading } = this.props.news
+        const { toggleNewsLinks } = this.state 
 
         const LoadingElement = <p>Загрузка</p>
 
@@ -59,7 +63,7 @@ export class NewsList extends PureComponent {
             return NewsNotFound
         }
 
-        const NewsListElement = <NewsListMap NewsList={NewsList}/>
+        const NewsListElement = <NewsListMap NewsList={NewsList} toggleNewsLinks={toggleNewsLinks}/>
 
         return <Fragment>
             {NewsListElement}
@@ -102,8 +106,8 @@ export class NewsList extends PureComponent {
         return (
             <Fragment>
                 <section id="news">
-                    <div className="container">
-                       <div className="d-flex justify-content-between">
+                    <div className="container-md">
+                       <div className="d-flex justify-content-between align-items-end">
                             <div className="title-block-news">
                                 <h1 data-menu-visible={toggleMenuIsVisible}
                                     onClick={()=>this.setState({toggleMenuIsVisible: !this.state.toggleMenuIsVisible})}>
@@ -113,7 +117,7 @@ export class NewsList extends PureComponent {
                                     <ul className="d-sm-flex">
                                         {type && <li><NavLink to='/news'>Все новости</NavLink></li>}
                                         {type !== 1 && <li><NavLink to='/news/announcements'>Объявления кафедры</NavLink></li>}
-                                        {type !== 2 && <li><NavLink to='/news/grants'>Стипендии и гранты</NavLink></li>}
+                                        {type !== 2 && <li><NavLink to='/news/grants'>Стипендии, конкурсы и гранты</NavLink></li>}
                                         {type !== 3 && <li><NavLink to='/news/conference'>Конференции</NavLink></li>}
                                     </ul>
                                 </div>
@@ -142,8 +146,11 @@ export class NewsList extends PureComponent {
     }
 }
 
-export const NewsListMap = memo(({NewsList}) => {
-    return <div className="news-list-grid">
+export const NewsListMap = memo(({NewsList, toggleNewsLinks}) => {
+
+    const setColumnClass = toggleNewsLinks ? 'one-column-list' : ''  
+
+    return <div className={`news-list-grid ${setColumnClass}`}>
         {NewsList.map((news, index) => {
         return (<Fragment key={index}>
             <NewsInList

@@ -299,8 +299,8 @@ export class NewsForm extends PureComponent {
 									<option name="Объявления кафедры" value={"1"}>
 										Объявления кафедры
 									</option>
-									<option name="Стипендии и гранты" value={"2"}>
-										Стипендии и гранты
+									<option name="Стипендии, конкурсы и гранты" value={"2"}>
+										Стипендии, конкурсы и гранты
 									</option>
 									<option name="Конференции" value={"3"}>
 										Конференции

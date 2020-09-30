@@ -29,18 +29,27 @@ export class About extends Component {
 
     componentDidMount() {
         document.title = this.props.title
-        this.props.GetDataAbout()
-        this.props.GetStaffList()
-        this.props.getfeedback()
+        
+        const {RPDList, StaffList, FeedbackList, location} = this.props
 
-        const loc = this.props.location.state
-        // console.log(loc);
-        if (loc){
+        if(!RPDList || RPDList.length === 0){
+            this.props.GetDataAbout()
+        }
+
+        if(!StaffList || StaffList.length === 0){
+            this.props.GetStaffList()
+        }
+
+        if(!FeedbackList || FeedbackList.length === 0){
+            this.props.getfeedback()
+        }
+
+        if (location.state){
             setTimeout(() => {  
-                const el = document.getElementById(loc)
+                const el = document.getElementById(location.state)
                 if(el){
                     window.scrollTo({
-                        top: document.getElementById(loc).offsetTop - 80,
+                        top: el.offsetTop - 80,
                         behavior: "smooth" 
                     })
                 }
@@ -48,27 +57,41 @@ export class About extends Component {
         }
     }
 
-    componentDidUpdate(prevProps) {
-        const { RPDList } = this.props
-        // console.log(this.props);
-        if (RPDList !== prevProps.RPDList) {
-            this.setState({ RPDList: RPDList.RPDList })
-        }
-    }
-
     componentWillUnmount() {
         this.props.closeNavbar()
     }
 
-    //РЕНДЕР
+    renderRPDList(){
+        const {RPDList} = this.props
+
+        if(!RPDList){
+            return <Fragment/>
+        }
+
+        return RPDList.map(disp => {
+            return <a
+                href={disp.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`order-${disp.id} order-md-${disp.ord} col-md-5`}
+                key={disp.id}>
+                    <DispCard
+                        num={disp.num}
+                        name={disp.name}
+                        profile={disp.profile}
+                        color={disp.color}
+                        type={disp.type}
+                        link={disp.link} />
+                </a>
+        })
+
+    }
+
     render() {
-        const { RPDList } = this.state
-        // console.log(this.state);
-        const { StaffList, FeedbackList } = this.props
+        const { StaffList, FeedbackList, RPDList } = this.props
 
         return (
             <Fragment>
-                {/* ЗАГОЛОВОК */}
                 <Fade>
                     <section id="title_main" className="about">
                         <div className="container-md container-fluid bg_th" style={{ height: "inherit" }}>
@@ -87,7 +110,6 @@ export class About extends Component {
                         </div>
                     </section>
                 </Fade>
-                {/* <Icon icon={faArrowCircleDown}/> */}
                 <img className="arrow_down" onClick={()=>{
                     window.scrollTo({top: window.innerHeight-40, behavior: 'smooth'})
                 }} src="/svg/DOWN_ARROW.svg" alt="Листать вниз"/>
@@ -122,24 +144,7 @@ export class About extends Component {
                         <div className="container-md container-fluid">
                             <h2 className="text-center">Рабочие программы дисциплин</h2>
                             <div className="row no-gutters align-items-center justify-content-around row-cols-md-2 row-cols-1">
-                                {RPDList && RPDList.map(disp => {
-                                    return (
-                                        <a
-                                            href={disp.link}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className={`order-${disp.id} order-md-${disp.ord} col-md-5`}
-                                            key={disp.id}>
-                                            <DispCard
-                                                num={disp.num}
-                                                name={disp.name}
-                                                profile={disp.profile}
-                                                color={disp.color}
-                                                type={disp.type}
-                                                link={disp.link} />
-                                        </a>
-                                    )
-                                })}
+                                {this.renderRPDList()}
                             </div>
                         </div>
                     </section>
@@ -173,7 +178,7 @@ const mapStateToProps = state => ({
     StaffList: state.api.staff.StaffList.StaffList,
     FeedbackList: state.api.feedback.FeedbackList,
     params_list: state.param.params_list,
-    RPDList: state.api.rpd
+    RPDList: state.api.rpd.RPDList
 })
 
 export default withRouter(connect(

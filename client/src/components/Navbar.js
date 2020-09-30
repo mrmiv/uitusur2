@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import store from '../store'
 import { logout } from '../redux/actions/authActions'
 import { NavLink, Link } from 'react-router-dom'
@@ -19,7 +19,7 @@ import documentAttach from '@iconify/icons-ion/document-attach';
 import booksIcon from '@iconify/icons-raphael/books';
 import questionCircle from '@iconify/icons-fa-solid/question-circle';
 
-export class Navbar extends Component {
+export class Navbar extends PureComponent {
 
     CloseNavbar = () => {
         this.props.closeNavbar()
