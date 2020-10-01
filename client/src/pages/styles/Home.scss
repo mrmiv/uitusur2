@@ -167,48 +167,6 @@ h2{
     h2{
         color: default.$pink
     }
-    .quote-staff{
-        width: 100%;
-        height: inherit;
-        border-radius: 15px;
-        padding: 20px;
-        margin: 10px;
-        box-shadow: 0 4px 6px default.$shadow;
-        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        -o-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        -moz-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        -webkit-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-
-        &:hover{
-            box-shadow: 0 6px 8px default.$shadow;
-            -webkit-transform: scale(1.025);
-            transform: scale(1.025);
-            -o-transform: scale(1.025);
-            -moz-transform: scale(1.025);
-        }
-
-        .quote-staff__info{
-
-            .quote-staff__info__img{
-                margin-right: 20px;
-                font-size: 80px;
-                width: auto;
-            }
-            p{
-                width: 100%;
-            }
-
-            .quote-staff__info__icon{
-                font-size: 24px;
-                opacity: 0.7
-            }
-        }
-
-        .quote-staff__quote{
-            margin-top: 10px;
-            text-align: justify;
-        }
-    }
 
     .more-link{
         background: linear-gradient(default.$pink, default.$purple);

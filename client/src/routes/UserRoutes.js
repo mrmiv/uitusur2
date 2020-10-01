@@ -1,4 +1,4 @@
-import React, { Component, useEffect, Suspense, lazy, useState, Fragment } from 'react'
+import React, { PureComponent, useEffect, Suspense, lazy, useState, Fragment } from 'react'
 import { Route, Switch, useLocation, Redirect } from 'react-router-dom'
 
 import { LoadingScreen } from '../components/LoadingScreen'
@@ -40,7 +40,7 @@ const Developing = lazy(() => import('../components/Dev'))
 const SearchPage = lazy(() => import('../pages/Search'))
 const PageNotFound = lazy(() => import('../components/PageNotFound'))
 
-export class Routes extends Component {
+export class Routes extends PureComponent {
 
     render() {
         return (
@@ -71,14 +71,17 @@ function HomeRoutes({ auth }) {
     const location = useLocation()
     const background = location.state && location.state.background
 
-    const getRoute = ({path, exact, component, noScroll}) => {
+    const getRoute = (route, index) => {
 
-        const route = <Route path={path} exact={exact} component={(()=><Fragment>
+        const {path, exact, component, noScroll} = route
+
+        const routeComponent = <Route path={path} exact={exact} key={index} index={index} 
+            component={(()=><Fragment>
                 {!noScroll && <ScrollToTop/>}
                 {component}
             </Fragment>)}/>
 
-        return route
+        return routeComponent
     }
 
     const getAllRoutes = () => {
@@ -197,7 +200,7 @@ function HomeRoutes({ auth }) {
         <div id="content">
             <Switch location={background || location}>
                 {getAllRoutes().map((route, index)=>{
-                    return getRoute(route)
+                    return getRoute(route, index)
                 })}
                 {auth && <Route path="/admin" component={(() => (<AdminRoutes />))} />}
                 {getRoute({
@@ -208,6 +211,7 @@ function HomeRoutes({ auth }) {
 
             {background && <Route exact path="/staff/:fullname" component={StaffModal} />}
             {background && <Route exact path="/book/:translit_title" component={BookModal}/>}
+            
         </div>
     )
 }

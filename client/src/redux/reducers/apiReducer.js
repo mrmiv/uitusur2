@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 import staffReducer from './api/staffReducer'
 import { CMKReducer, FeedbackReducer, RPDReducer } from './data/AboutReducer'
-import { DegreeReducer, QuoteReducer } from './data/HomeReducer'
+import { DegreeReducer } from './data/HomeReducer'
 import { StudyPlanReducer, CuratorsReducer, ClubsReducer } from './data/StudentReducer'
 import LiteratureReducer from './api/literatureReducer'
 import newsReducer from './api/newsReducer'
@@ -15,7 +15,6 @@ export default combineReducers({
     feedback: FeedbackReducer, // Отзывы выпускников
     rpd: RPDReducer, // Рабочие программы дисциплин
     degree: DegreeReducer, // Направления подготовки
-    quotes: QuoteReducer, // Цитаты сотрудников
     studyplan: StudyPlanReducer, // Учебный план
     curators: CuratorsReducer, // Кураторы студентов
     clubs: ClubsReducer,    // Внеучебная деятельность

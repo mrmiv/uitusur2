@@ -253,8 +253,6 @@ export class Navbar extends PureComponent {
                             return this.getLinkComponent(link,index)
                         })}
                     </div>
-                    {isAuthenticated ? <Link className="btn btn-danger" role="button"
-                        to='/' onClick={() => { store.dispatch(logout()) }}>Выйти</Link> : null}
                 </div>
             </Fragment>
         )

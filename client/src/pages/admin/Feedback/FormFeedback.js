@@ -7,6 +7,7 @@ import { clearInfo } from '../../../redux/actions/infoActions'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import { faArrowAltCircleLeft } from '@fortawesome/free-solid-svg-icons'
 import { Link, Prompt, withRouter } from 'react-router-dom'
+import { EditorArea } from '../components/Editor';
 
 export class FormFeedback extends Component {
 
@@ -17,6 +18,9 @@ export class FormFeedback extends Component {
     post: "",
     degree: "",
     text: "",
+    isActive: false,
+    type: 1,
+    color: "",
 
     blocked: false,
     msg: null
@@ -48,9 +52,12 @@ export class FormFeedback extends Component {
 
         this.setState({
           name: feedback.name,
+          isActive: feedback.isActive,
+          type: feedback.type,
           text: feedback.text,
           post: feedback.post,
-          degree: feedback.degree
+          degree: feedback.degree,
+          color: feedback.color
         });
       }
     }
@@ -79,13 +86,16 @@ export class FormFeedback extends Component {
     window.scrollTo(0, 0)
     this.props.clearInfo()
 
-    const { name, text, post, degree, id } = this.state
+    const { name, text, post, degree, id, isActive, type, color} = this.state
 
     const Feedback = {
       name: name.trim(),
       text,
       post: post.trim(),
-      degree: degree.trim()
+      degree: degree.trim(),
+      isActive,
+      type,
+      color
     }
 
     if (id) {
@@ -96,8 +106,11 @@ export class FormFeedback extends Component {
   }
 
   render() {
+
     const { msg } = this.state
     const { isLoading } = this.props
+    const buttonName = this.state.id ? "Обновить отзыв" : "Добавить отзыв"
+
     return (
       <div className="container-md container-fluid">
         <Prompt
@@ -117,6 +130,7 @@ export class FormFeedback extends Component {
               <span aria-hidden="true">&times;</span>
             </button>
           </div> : null}
+
         <div className="row no-gutters justify-content-between">
           <Link to="/admin/feedback"><Icon icon={faArrowAltCircleLeft} size="lg" /> Назад</Link>
           <form id="feedback_form" className="w-100 mt-3" onSubmit={this.submitForm}>
@@ -124,6 +138,27 @@ export class FormFeedback extends Component {
               <label htmlFor="name-input">ФИО</label>
               <input onChange={this.changeInput} type="text" className="form-control"
                 name="name" id="name-input" placeholder="Иванов Иван Иванович" value={this.state.name} />
+            </div>
+            <div className="form-row">
+              <div className="col form-group">
+                <label htmlFor="color-input">Цвет отзыва</label>
+                <select className="form-control" id="color-input" name="color" 
+                  onChange={this.changeInput} value={this.state.color} style={{backgroundColor: this.state.color, color: "white"}}>
+                  <option value="#DE7128" style={{color: "#DE7128" }}>Оранжевый</option>
+                  <option value="#0F8455" style={{color: "#0F8455" }}>Мятный</option>
+                  <option value="#354ED1" style={{color: "#354ED1" }}>Синий</option>
+                  <option value="#B21F66" style={{color: "#B21F66" }}>Розовый</option>
+                  <option value="#98248F" style={{color: "#98248F" }}>Пурпурный</option>
+                </select>
+              </div>
+              <div className="col form-group">
+                <label htmlFor="type-input">Тип отзыва</label>
+                <select className="form-control" id="type-input" name="type" 
+                  onChange={this.changeInput} value={this.state.type} >
+                  <option value={1}>Отзывы о кафедре</option>
+                  <option value={2}>Цитаты сотрудников</option>
+                </select>
+              </div>
             </div>
             <div className="form-row">
               <div className="col form-group">
@@ -137,32 +172,30 @@ export class FormFeedback extends Component {
                   name="post" id="post-input" placeholder="Менеджер по продажам" value={this.state.post} />
               </div>
             </div>
-            <div className="form-group">
-              <label htmlFor="body-input">Отзыв</label>
-              <Editor
-                initialValue={this.state.text}
-                init={{
-                  height: 400,
-                  menubar: true,
-                  plugins: [
-                    "advlist autolink lists link charmap print preview anchor",
-                    "searchreplace visualblocks code",
-                    "insertdatetime table paste code help wordcount",
-                  ],
-                  style_formats: [
-                    { title: 'button', inline: 'button', class: "more-link" }
-                  ],
-                  toolbar:
-                    "undo redo | formatselect | bold italic backcolor |alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | table insertfile image link media mediaembed pageembed | preview help",
-                }}
-                onEditorChange={this.changeBody}
-                id="body-input"
-              />
+            
+            <EditorArea value={this.state.text} changeParentBody={this.changeBody}/>
+
+            <div className="justify-content-end align-items-center form-row">
+              
+              <div className="form-group col-auto">
+                  <div className="form-check">
+                    <input type="checkbox" id="isActive" name="isActive" 
+                    className="form-check-input" onChange={()=>this.setState({isActive: !this.state.isActive})} checked={this.state.isActive}/>
+                    <label htmlFor="isActive" className="form-check-label">Отобразить на странице</label>
+                  </div>
+                </div>
+              <div className="col-auto">
+                <button className="btn btn-success mr-0" type="submit"
+                  disabled={isLoading}>{buttonName}</button>
+              </div>
+  
             </div>
-            <div className="w-100 mt-2 text-right">
+
+            {/* <div className="w-100 mt-2 text-right">
+              
               <button className="btn btn-success mr-0" type="submit"
-                disabled={isLoading}>{this.state.id ? "Обновить отзыв" : "Добавить отзыв"}</button>
-            </div>
+                disabled={isLoading}>{buttonName}</button>
+            </div> */}
           </form>
         </div>
       </div>

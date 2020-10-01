@@ -1,4 +1,4 @@
-import React, { Component, useState, Fragment, memo } from 'react'
+import React, { PureComponent, useState, Fragment, memo } from 'react'
 import { connect } from 'react-redux'
 import { GetStaffList } from '../redux/actions/staffActions'
 import { useLocation, useParams, Link, withRouter } from 'react-router-dom'
@@ -19,18 +19,17 @@ import { GetDataAbout, getfeedback } from '../redux/actions/data_actions/AboutAc
 import interprice_img from './img/ENTERPRICES.svg';
 import history_img from './img/HISTORY_PHOTO.jpg';
 
-export class About extends Component {
+export class About extends PureComponent{
 
     state = {
         params_list: null,
-        FeedbackList: this.props.FeedbackList.FeedbackList,
         RPDList: this.props.RPDList.RPDList
     }
 
     componentDidMount() {
         document.title = this.props.title
         
-        const {RPDList, StaffList, FeedbackList, location} = this.props
+        const {RPDList, StaffList, FeedbackList, FeedbackType, location} = this.props
 
         if(!RPDList || RPDList.length === 0){
             this.props.GetDataAbout()
@@ -40,8 +39,8 @@ export class About extends Component {
             this.props.GetStaffList()
         }
 
-        if(!FeedbackList || FeedbackList.length === 0){
-            this.props.getfeedback()
+        if(!FeedbackList || FeedbackList.length === 0 || FeedbackType !== 1){
+            this.props.getfeedback(1, true)
         }
 
         if (location.state){
@@ -53,7 +52,8 @@ export class About extends Component {
                         behavior: "smooth" 
                     })
                 }
-            }, 300);
+            }, 300)
+            
         }
     }
 
@@ -114,60 +114,49 @@ export class About extends Component {
                     window.scrollTo({top: window.innerHeight-40, behavior: 'smooth'})
                 }} src="/svg/DOWN_ARROW.svg" alt="Листать вниз"/>
                 {/* ИСТОРИЯ КАФЕДРЫ */}
+                <div className="container">
                 <Fade>
                     <section id="history_about">
-                        <div className="container">
-                            <div className="row no-gutters align-items-center">
-                                <div className="col-lg-6 col-md-7 title_about_history ">
-                                    <h2>История кафедры</h2>
-                                    <HistoryText />
-                                </div>
-                                <div className="col-lg-6 col-md-5 img_about_history text-right">
-                                    <img src={history_img} alt="История кафедры" />
-                                </div>
+                        <div className="row no-gutters align-items-center">
+                            <div className="col-lg-6 col-md-7 title_about_history ">
+                                <h2>История кафедры</h2>
+                                <HistoryText />
+                            </div>
+                            <div className="col-lg-6 col-md-5 img_about_history text-right">
+                                <img src={history_img} alt="История кафедры" />
                             </div>
                         </div>
                     </section>
                 </Fade>
                 {/* СОТРУДНИКИ КАФЕДРЫ */}
-                <Fade>
-                    <section id="staff">
-                        <div className="container-md container-fluid">
-                            <h2>Сотрудники кафедры</h2>
-                            {StaffList && <StaffListMap StaffList={StaffList}/>}
-                            </div>
-                    </section>
-                </Fade>
+                <section id="staff">
+                    <h2>Сотрудники кафедры</h2>
+                    {StaffList && <StaffListMap StaffList={StaffList}/>}
+                </section>
                 {/* РАБОЧИЕ ПРОГРАММЫ ДИСЦИПЛИН */}
                 <Fade>
                     <section id="disciplines">
-                        <div className="container-md container-fluid">
-                            <h2 className="text-center">Рабочие программы дисциплин</h2>
-                            <div className="row no-gutters align-items-center justify-content-around row-cols-md-2 row-cols-1">
-                                {this.renderRPDList()}
-                            </div>
+                        <h2 className="text-center">Рабочие программы дисциплин</h2>
+                        <div className="row no-gutters align-items-center justify-content-around row-cols-md-2 row-cols-1">
+                            {this.renderRPDList()}
                         </div>
                     </section>
                 </Fade>
                 {/* ОТЗЫВЫ ОТ ПРЕДПРИЯТИЙ */}
                 <Fade>
                     <section id="feedback_inter">
-                        <div className="container-md container-fluid">
-                            <h2 className="text-center">Отзывы о кафедре</h2>
-                            <div className="row no-gutters">
-                                {/* {console.log(typeof(feedback))} */}
-                                {FeedbackList && FeedbackList.map((res, index) => {
-                                    return <FeedbackStaff
-                                        key={index}
-                                        name={res.name}
-                                        post={res.post}
-                                        degree={res.degree}
-                                        text={res.text} />
-                                })}
-                            </div>
+                        <h2 className="text-center">Отзывы о кафедре</h2>
+                        <div className="row no-gutters">
+                        {FeedbackList && FeedbackList.map((feedback, index) => {
+                            return <FeedbackComponent
+                                key={index}
+                                index={index}
+                                feedback={feedback} />
+                        })}
                         </div>
                     </section>
                 </Fade>
+                </div>
                 <ParamsList page="О кафедре"/>
             </Fragment>
         )
@@ -177,6 +166,7 @@ export class About extends Component {
 const mapStateToProps = state => ({
     StaffList: state.api.staff.StaffList.StaffList,
     FeedbackList: state.api.feedback.FeedbackList,
+    FeedbackType: state.api.feedback.FeedbackType,
     params_list: state.param.params_list,
     RPDList: state.api.rpd.RPDList
 })
@@ -247,38 +237,43 @@ const DispCard = (props) => {
 }
 
 // ОТЗЫВ
-const FeedbackStaff = (props) => {
+export const FeedbackComponent = memo(({feedback}) => {
+
+    const {text, name, post, degree, color} = feedback
+
     const length = 160
-    const [Expand, setExpand] = useState(props.text.length < length);
-    const text = Expand ? props.text : props.text.substr(0, length) + "..."
+    const [Expand, setExpand] = useState(text.length < length);
+    const textExpand = Expand ? text : text.substr(0, length) + "..."
+
     return (
         <div className="col-md-6">
             <div className="row no-gutters">
                 <div className="quote-staff">
-                    {/* img and name :after(quote) | quote */}
                     <div className="quote-staff__info d-flex">
-                        <Icon className="quote-staff__info__img" style={{ color: "#354ED1" }} icon={faIdBadge} />
+                        <Icon className="quote-staff__info__img" style={{ color: color ? color : "#354ED1" }} icon={faIdBadge} />
                         <p className="quote-staff__info__name">
-                            <strong>{props.name}</strong>
-                            <br />
-                            {props.post}
-                            <br />
-                            {props.degree}
+                            <strong>{name}</strong>
+                            {post && <Fragment><br/>{post}</Fragment> }
+                            {degree && <Fragment><br/>{degree}</Fragment> }
                         </p>
-                        <Icon className="quote-staff__info__icon" style={{ color: "#354ED1" }} icon={faQuoteRight} />
+                        <Icon className="quote-staff__info__icon" style={{ color: color ? color : "#354ED1" }} icon={faQuoteRight} />
                     </div>
                     <div className="quote-staff__quote__block">
-                        <div className="quote-staff__quote" dangerouslySetInnerHTML={{ __html: text }} />
-                        {props.text.length > length && <strong className="open-feedback"><a onClick={() => setExpand(!Expand)}>{Expand ? "Свернуть" : "Показать полностью"}</a></strong>}
+                        <div className="quote-staff__quote" dangerouslySetInnerHTML={{ __html: textExpand }} />
+                        {text.length > length && <strong className="open-feedback" style={{ color: color ? color : "#354ED1" }}>
+                            <a onClick={() => setExpand(!Expand)}>{Expand ? "Свернуть" : "Показать полностью"}</a>
+                        </strong>}
                     </div>
                 </div>
             </div>
         </div>
     )
-}
+})
 
 // СОТРУДНИК КАФЕДРЫ
-function Staff({ fullname_url, firstname, lastname, secondname }) {
+function Staff({staff}) {
+
+    const { fullname_url, firstname, lastname, secondname } = staff
 
     let location = useLocation()
 
@@ -303,12 +298,8 @@ function Staff({ fullname_url, firstname, lastname, secondname }) {
 export const StaffListMap = memo(({StaffList})=>{
     return  <div className="row no-gutters"> 
     {StaffList.map((staffuser, index) => <Staff
-        key={staffuser._id}
-        id={staffuser._id}
+        key={index}
         index={index}
-        firstname={staffuser.firstname}
-        lastname={staffuser.lastname}
-        secondname={staffuser.secondname}
-        fullname_url={staffuser.fullname_url}
+        staff={staffuser}
     />)}</div> 
 })

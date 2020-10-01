@@ -15,6 +15,7 @@ import clipboardList from '@iconify/icons-fa-solid/clipboard-list';
 import documentwithtextIcon from '@iconify/icons-fxemoji/documentwithtext';
 import googleanalyticsIcon from '@iconify/icons-simple-icons/googleanalytics'
 import uploadIcon from '@iconify/icons-fa-solid/upload';
+import { logout } from '../../redux/actions/authActions'
 
 export class AdminHome extends Component {
 
@@ -86,7 +87,8 @@ export class AdminHome extends Component {
 
         return (
             <div className="container-md container-fluid">
-                <h2>Панель администратора</h2>
+                <h1>Панель администратора <Link className="btn btn-danger" to='/' 
+                    onClick={() => { this.props.logout() }}>Выйти</Link></h1>
                 {/* <a role="button" className="btn btn-info" href="https://metrika.yandex.ru/dashboard?id=62465179" target="blank" rel="norefferer noopener">Статистика</a> */}
                 <div className="row no-gutters">
                     <div className="col-xl-2 col-md-3 col-sm-4 col-6 mt-2">
@@ -115,7 +117,7 @@ export class AdminHome extends Component {
 
 export default withRouter(connect(
     null,
-    { closeNavbar }
+    { closeNavbar, logout }
 )(AdminHome))
 
 function NavCard({ path, icon, name }) {

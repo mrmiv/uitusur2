@@ -1,4 +1,5 @@
 @use 'default';
+@use 'animations';
 
 #title_main.about{
     background: linear-gradient(default.$lblue, default.$blue);
@@ -99,62 +100,62 @@
     }
 }
 
+.quote-staff{
+    width: 100%;
+    height: inherit;
+    border-radius: 15px;
+    padding: 20px;
+    margin: 10px;
+    box-shadow: 0 4px 8px default.$shadow;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    -webkit-transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    *{
+        -webkit-transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    &:hover{
+        box-shadow: 0 6px 10px default.$shadow;
+        -webkit-transform: scale(1.025);
+        transform: scale(1.025);
+    }
+
+    .quote-staff__info{
+
+        .quote-staff__info__img{
+            margin-right: 20px;
+            font-size: 80px;
+            width: auto;
+        }
+        p{
+            width: 100%;
+        }
+
+        .quote-staff__info__icon{
+            font-size: 24px;
+            opacity: 0.7
+        }
+    }
+
+    .quote-staff__quote__block{
+        .quote-staff__quote{
+            margin-top: 10px;
+            text-align: justify;
+        }
+        .open-feedback{
+            cursor: pointer;
+            color: default.$lblue;
+            &:hover{
+                color: default.$blue;
+            }
+        }
+    }
+}
+
 #feedback_inter{
     margin-top: 80px;
     h2{
         color: default.$lblue;
-    }
-    .quote-staff{
-        width: 100%;
-        height: inherit;
-        border-radius: 15px;
-        padding: 20px;
-        margin: 10px;
-        box-shadow: 0 4px 8px default.$shadow;
-        transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        -webkit-transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        *{
-            -webkit-transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        &:hover{
-            box-shadow: 0 6px 10px default.$shadow;
-            -webkit-transform: scale(1.025);
-            transform: scale(1.025);
-        }
-
-        .quote-staff__info{
-
-            .quote-staff__info__img{
-                margin-right: 20px;
-                font-size: 80px;
-                width: auto;
-            }
-            p{
-                width: 100%;
-            }
-
-            .quote-staff__info__icon{
-                font-size: 24px;
-                opacity: 0.7
-            }
-        }
-
-        .quote-staff__quote__block{
-            .quote-staff__quote{
-                margin-top: 10px;
-                text-align: justify;
-            }
-            .open-feedback{
-                cursor: pointer;
-                color: default.$lblue;
-                &:hover{
-                    color: default.$blue;
-                }
-            }
-        }
-        
     }
 }
 

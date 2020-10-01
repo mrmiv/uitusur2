@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { GET_RPD, GET_FEEDBACK, GET_ONE_FEEDBACK } from './types'
+import { GET_RPD, GET_FEEDBACK, GET_ONE_FEEDBACK, GET_QUOTE } from './types'
 import { LOADING_REQ, REQ_FAIL, REQ_SUCCESS } from '../types'
 import { returnInfo } from '../infoActions'
 
@@ -8,7 +8,6 @@ export const GetDataAbout = () => dispatch => {
     // debugger
     axios.get('/json/disciplines.json')
         .then(res => {
-            // console.log("ACTION", res.data[id]);
 
             dispatch({
                 type: GET_RPD,
@@ -21,18 +20,32 @@ export const GetDataAbout = () => dispatch => {
         })
 }
 
-export const getfeedback = () => dispatch => {
+export const getfeedback = (type, isActive) => dispatch => {
 
     dispatch({
         type: LOADING_REQ
     })
 
-    axios.get('/api/feedback')
+    let query = ``
+
+    if (type || isActive){
+        const type_query = type ? `type=${type}` : ''
+        const isActive_query = isActive ? `isActive=${isActive}` : ''
+
+        query = `?${type_query}&${isActive_query}`
+    }
+
+    const url = `/api/feedback${query}`
+
+    axios.get(url)
         .then(res => {
             // console.log("ACTION", res.data[id]);
             dispatch({
                 type: GET_FEEDBACK,
-                payload: { FeedbackList: res.data }
+                payload: { 
+                    FeedbackList: res.data, 
+                    type 
+                }
             })
             return res.data
         })
@@ -51,7 +64,7 @@ export const get_onefeedback = id => dispatch => {
         type: LOADING_REQ
     })
 
-    axios.get(`/api/feedback/${id}`)
+    axios.get(`/api/feedback/item/${id}`)
         .then(res => {
             // console.log("ACTION", res.data[id]);
             dispatch({
@@ -68,7 +81,7 @@ export const get_onefeedback = id => dispatch => {
         });
 }
 
-export const postfeedback = ({ name, text, post, degree }) => dispatch => {
+export const postfeedback = (feedback) => dispatch => {
 
     dispatch({
         type: LOADING_REQ
@@ -80,9 +93,7 @@ export const postfeedback = ({ name, text, post, degree }) => dispatch => {
         }
     }
 
-    const data = { name, text, post, degree }
-
-    axios.post('/api/feedback', data, config)
+    axios.post('/api/feedback', feedback, config)
         .then((res) => {
             dispatch(returnInfo(res.data, res.status, "REQ_SUCCESS"));
             dispatch({
@@ -98,7 +109,7 @@ export const postfeedback = ({ name, text, post, degree }) => dispatch => {
 
 }
 
-export const patchfeedback = (id, { name, text, post, degree }) => dispatch => {
+export const patchfeedback = (id, feedback) => dispatch => {
 
     dispatch({
         type: LOADING_REQ
@@ -110,9 +121,7 @@ export const patchfeedback = (id, { name, text, post, degree }) => dispatch => {
         }
     }
 
-    const data = { name, text, post, degree }
-
-    axios.patch(`/api/feedback/${id}`, data, config)
+    axios.patch(`/api/feedback/${id}`, feedback, config)
         .then((res) => {
             dispatch(returnInfo(res.data, res.status, "REQ_SUCCESS"));
             dispatch({

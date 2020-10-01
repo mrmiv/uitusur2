@@ -6,9 +6,10 @@ import { getfeedback, delfeedback } from '../../../redux/actions/data_actions/Ab
 import { Icon } from '@iconify/react';
 import plusCircle from '@iconify/icons-fa-solid/plus-circle';
 import cogIcon from '@iconify/icons-fa-solid/cog';
-import trashAlt from '@iconify/icons-fa-solid/trash-alt';import { Link, withRouter } from 'react-router-dom'
+import trashAlt from '@iconify/icons-fa-solid/trash-alt';
+import { Link, withRouter } from 'react-router-dom'
 
-export class QuizForm extends Component {
+export class AdminFeedback extends Component {
 
   state = {
     msg: null,
@@ -21,23 +22,7 @@ export class QuizForm extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     const { msg } = this.props.info
-    const id = this.props.match.params.id
-    if (id) {
-
-      if (id !== prevState.id) {
-        this.setState({ id })
-      }
-      const { feedback } = this.props
-
-      if (feedback !== prevProps.feedback) {
-        this.setState({
-          name: feedback.name,
-          post: feedback.post,
-          text: feedback.text,
-          degree: feedback.degree,
-        });
-      }
-    }
+    
     if (msg !== prevProps.info.msg) {
       this.setState({ msg })
     }
@@ -50,7 +35,7 @@ export class QuizForm extends Component {
             this.props.clearInfo()
             this.props.delfeedback(id)
         } else {
-            console.log('Элемент не удален')
+            console.error('Элемент не удален')
         }
   }
 
@@ -82,6 +67,8 @@ export class QuizForm extends Component {
                 <th scope="col">ФИО</th>
                 <th scope="col">Должность</th>
                 <th scope="col">Образование</th>
+                <th scope="col">Тип</th>
+                <th scope="col">Активен</th>
                 <th scope="col" style={{ width: "50px", textAlign: "center" }}><Icon icon={trashAlt} /></th>
               </tr>
             </thead>
@@ -94,6 +81,8 @@ export class QuizForm extends Component {
                       <td name="name"><Link to={`/admin/feedback/edit/${item._id}`}>{item.name}</Link></td>
                       <td name="post">{item.post}</td>
                       <td name="degree">{item.degree}</td>
+                      <td name="type">{item.type === 1 ? "Отзыв" : "Цитата"}</td>
+                      <td name="isActive">{item.isActive ? "да" : "нет"}</td>
                       <td name="del">
                         <button type="button" className="btn" onClick={() => this.delfeedback(item._id)}><Icon icon={trashAlt} color="red" /></button>
                       </td>
@@ -121,4 +110,4 @@ export default withRouter(connect(
     delfeedback,
     clearInfo
   }
-)(QuizForm))
+)(AdminFeedback))

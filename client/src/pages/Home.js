@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { PureComponent, Fragment, memo } from 'react'
 import './styles/Home.scss'
 import './styles/default.scss'
 import Fade from 'react-reveal/Fade'
@@ -13,12 +13,13 @@ import clubs_img from './img/DANCING.svg';
 import { GetDataHome } from '../redux/actions/data_actions/HomeAction'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { FeedbackComponent } from './About'
+import { getfeedback } from '../redux/actions/data_actions/AboutActions'
 
-export class Home extends Component {
+export class Home extends PureComponent {
 
     state = {
-        DegreeList: this.props.Degree.DegreeList,
-        QuoteList: this.props.Quote.QuoteList,
+        DegreeList: this.props.Degree.DegreeList
     }
 
     componentWillUnmount() {
@@ -28,21 +29,60 @@ export class Home extends Component {
     componentDidMount() {
         document.title = this.props.title
         this.props.GetDataHome()
+
+        const {FeedbackList, FeedbackType} = this.props
+
+        if(!FeedbackList || FeedbackList.length === 0 || FeedbackType !== 2){
+            this.props.getfeedback(2, true)
+        }
     }
 
     componentDidUpdate(prevProps) {
-        const { Degree, Quote } = this.props
+        const { Degree } = this.props
 
         if (Degree !== prevProps.Degree) {
             this.setState({ DegreeList: Degree.DegreeList })
-        } else if (Quote !== prevProps.Quote) {
-            this.setState({ QuoteList: Quote.QuoteList })
+        } 
+    }
+
+    renderQuotes(){
+
+        const {FeedbackList} = this.props
+
+        if(!FeedbackList){
+            return <Fragment/>
         }
+
+        return <Fade>
+            <section id="staffs_home">
+                <div className="container-md container-fluid">
+                    <div className="title_staffs text-center">
+                        <h2>Сотрудники кафедры</h2>
+                    </div>
+                    <div className="row no-gutters justify-content-center">
+                        {FeedbackList.map((quote, index) => {
+                            return <FeedbackComponent
+                                    key={index}
+                                    index={index}
+                                    feedback={quote}
+                                />
+                        })}
+                    </div>
+                    <div className="d-block text-center">
+                        <Link className="more-link" to={{
+                                pathname: '/about',
+                                state: 'staff'
+                            }}>Все сотрудники</Link>
+                    </div>
+                </div>
+            </section>
+        </Fade>
+
     }
 
     render() {
 
-        const { DegreeList, QuoteList } = this.state
+        const { DegreeList } = this.state
 
         // СТРАНИЦА
         return (
@@ -66,20 +106,11 @@ export class Home extends Component {
                                                 <p>Модель «Тройной спирали» показывает включение во взаимодействие определенных институтов на каждом этапе создания инновационного продукта. На начальном этапе генерации знаний взаимодействуют власть и университет, затем в ходе трансфера технологий университет сотрудничает с бизнесом, а на рынок результат выводится совместно властью и бизнесом.</p>
                                             </div>
                                         </div>
-                                        {/* <a className="carousel-control-prev" href="#carouselTitle" role="button" data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Предыдущий</span>
-                        </a>
-                        <a className="carousel-control-next" href="#carouselTitle" role="button" data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Следующий</span>
-                        </a> */}
                                     </div>
                                 </div>
                                 <div className="col-md-4 col-12">
                                     <div className="triple_helix">
                                         <TripleHelix/>
-                                        {/* <img className="triple_helix_svg" src={tripleHelix_img} alt="Тройная спираль" /> */}
                                     </div>
                                 </div>
                             </div>
@@ -165,35 +196,7 @@ export class Home extends Component {
                         </div>
                     </section>
                 </Fade>
-                {/* СОТРУДНИКИ КАФЕДРЫ */}
-                <Fade>
-                    <section id="staffs_home">
-                        <div className="container-md container-fluid">
-                            <div className="row no-gutters justify-content-center">
-                                <div className="title_staffs text-center">
-                                    <h2>Сотрудники кафедры</h2>
-                                </div>
-                                <div className="w-100" />
-                                {QuoteList && QuoteList.map(staff => {
-                                    return (
-                                        <QuoteStaff
-                                            key={staff.id}
-                                            firstName={staff.firstName}
-                                            lastName={staff.lastName}
-                                            post={staff.post}
-                                            photo={staff.photo}
-                                            quote={staff.quote}
-                                            color={staff.color}
-                                        />)
-                                })}
-                                <Link className="more-link" to={{
-                                    pathname: '/about',
-                                    state: 'staff'
-                                }}>Все сотрудники</Link>
-                            </div>
-                        </div>
-                    </section>
-                </Fade>
+                {this.renderQuotes()}
                 {/* ТРУДОУСТРОЙСТВО */}
                 <Fade>
                     <section id="work_home">
@@ -225,12 +228,13 @@ export class Home extends Component {
 
 const mapStateToProps = state => ({
     Degree: state.api.degree,
-    Quote: state.api.quotes
+    FeedbackList: state.api.feedback.FeedbackList,
+    FeedbackType: state.api.feedback.type
 })
 
 export default connect(
     mapStateToProps,
-    { GetDataHome }
+    { GetDataHome, getfeedback }
 )(Home)
 
 const GPO_Text_Collapse = () => {
@@ -293,32 +297,33 @@ export const CardDegree = (props) => {
 }
 
 // ЦИТАТЫ СОТРУДНИКОВ (ЭЛЕМЕНТ)
-const QuoteStaff = (props) => {
+const QuoteStaff = memo(({quote}) => {
+
+    const {color, name, post, degree, text} = quote
+
     return (
         <div className="col-md-6">
             <div className="row no-gutters">
                 <div className="quote-staff">
-                    {/* img and name :after(quote) | quote */}
                     <div className="quote-staff__info d-flex">
-                        <Icon className="quote-staff__info__img" style={{ color: props.color }} icon={faIdBadge} />
+                        <Icon className="quote-staff__info__img" style={{ color }} icon={faIdBadge} />
                         <p className="quote-staff__info__name">
-                            <strong>{props.lastName} <br /> {props.firstName}</strong>
+                            <strong>{name}</strong>
                             <br />
-                            {props.post}
+                            {post}
                         </p>
-                        <Icon className="quote-staff__info__icon" style={{ color: props.color }} icon={faQuoteRight} />
+                        <Icon className="quote-staff__info__icon" style={{ color }} icon={faQuoteRight} />
                     </div>
                     <p className="quote-staff__quote">
-                        {props.quote}
+                        {text}
                     </p>
                 </div>
             </div>
         </div>
     )
-}
+})
 
-const TripleHelix = () => {
-
+const TripleHelix = memo(() => {
     return(
         <svg width="345" height="370" viewBox="0 0 345 370" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g filter="url(#filter0_d)">
@@ -378,4 +383,4 @@ const TripleHelix = () => {
         </svg>
 
     )
-}
+})
