@@ -12,7 +12,6 @@ const RPDState = {
 
 const FeedbackState = {
     FeedbackList: [],
-    type: null,
     Feedback: {},
     isLoading: false
 }
@@ -44,7 +43,6 @@ export function FeedbackReducer(state = FeedbackState, action) {
             return {
                 ...state,
                 FeedbackList: action.payload.FeedbackList,
-                type: action.payload.type,
                 isLoading: false
             }
         case GET_ONE_FEEDBACK:

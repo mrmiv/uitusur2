@@ -4,8 +4,6 @@ import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
 import QuizForm from './QuizForm'
 
-import './AdminIndex.scss'
-
 import { Icon } from '@iconify/react'
 import userTie from '@iconify/icons-fa-solid/user-tie'
 import fanIcon from '@iconify/icons-fa-solid/fan';
@@ -65,6 +63,11 @@ export class AdminHome extends Component {
                 path: 'feedback',
                 name: 'Отзывы о кафедре',
                 icon: <Icon color={"red"} icon={userTie} />
+            },
+            {
+                path: 'news-links',
+                name: 'Полезные ссылки',
+                icon: <Icon color={"orange"} icon={userTie} />
             },
             {
                 path: 'uploadfiles',

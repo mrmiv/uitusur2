@@ -165,7 +165,7 @@ export class FormCurator extends Component {
                     {stafflist.map((staff, index) => {
                       return <option key={index}
                         value={[staff._id, staff.fullname_url, staff.lastname, staff.firstname, staff.secondname]} >
-                        {`${staff.lastname} ${staff.firstname} ${staff.secondname}`}
+                        {`${staff.lastname} ${staff.firstname} ${staff.secondname && staff.secondname}`}
                       </option>
                     })}}
               </select>

@@ -1,9 +1,8 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import { getActiveParamsOnpage } from '../../redux/actions/data_actions/paramActions'
-import Fade from 'react-reveal/Fade'
 import { connect } from 'react-redux'
 
-class ParamsList extends Component{
+class ParamsList extends PureComponent{
 
     state={
         params_onpage: null
@@ -27,9 +26,9 @@ class ParamsList extends Component{
         const {params_onpage} = this.state
         return(
             params_onpage && params_onpage.map((param, index)=>{                    
-                return <Fade key={index}>
+                return <div key={param._id}>
                    <ParamComponent param={param} index={index}/>
-                </Fade>
+                </div>
             })
         )
     }

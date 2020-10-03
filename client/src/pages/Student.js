@@ -8,7 +8,7 @@ import './styles/Student.scss'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import { faHashtag } from '@fortawesome/free-solid-svg-icons'
 import { toDate } from './components/NewsList'
-import Fade from 'react-reveal/Fade'
+
 // import {Modal} from '../components/Modal'
 import { closeNavbar } from '../redux/actions/navbarActions'
 import { GetAllCurators } from '../redux/actions/data_actions/curatorActions'
@@ -91,8 +91,7 @@ export class Student extends Component {
 
         return (
             <Fragment>
-                {/* ЗАГОЛОВОК */}
-                <Fade>
+
                     <section id="title_main" className="student">
                         <div className="container-md container-fluid bg_th" style={{ height: "inherit" }}>
                             <div className="row no-gutters align-items-center justify-content-between" style={{ height: "inherit" }}>
@@ -115,9 +114,7 @@ export class Student extends Component {
                             </div>
                         </div>
                     </section>
-                </Fade>
-                {/* УЧЕБНЫЙ ГРАФИК */}
-                <Fade>
+                    
                     <section id="studyplan">
                         <div className="container-md container-fluid">
                             <div className="text-center">
@@ -135,7 +132,6 @@ export class Student extends Component {
                                     <img src={dashboard_img} alt="Учебный план" />
                                     :
                                     <div className="table_plan table-responsive mt-3">
-                                        {/* <button type="button" className="btn btn-danger" onClick={()=>this.onBack()}>&times;</button> */}
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
@@ -185,9 +181,7 @@ export class Student extends Component {
                             </div>
                         </div>
                     </section>
-                </Fade>
-                {/* ТРУДОУСТРОЙСТВО */}
-                <Fade>
+
                     <section id="work">
                         <div className="container-md container-fluid">
                             <div className="row no-gutters justify-content-between align-items-center">
@@ -216,9 +210,7 @@ export class Student extends Component {
                             </div>
                         </div>
                     </section>
-                </Fade>
-                {/* КУРАТОРЫ */}
-                <Fade>
+
                     <section id="curator">
                         <div className="container-md container-fluid">
                             <div className="row no-gutters justify-content-center align-items-center">
@@ -241,9 +233,7 @@ export class Student extends Component {
                             </div>
                         </div>
                     </section>
-                </Fade>
-                {/* ВНЕУЧЕБНАЯ ДЕЯТЕЛЬНОСТЬ */}
-                <Fade>
+
                     <section id="clubs">
                         <div className="container-md container-fluid">
                             <div className="row no-gutters">
@@ -264,7 +254,7 @@ export class Student extends Component {
                             </div>
                         </div>
                     </section>
-                </Fade>
+
             </Fragment>
         )
     }

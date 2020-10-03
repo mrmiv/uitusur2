@@ -8,7 +8,6 @@ import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import { faIdBadge, faQuoteRight } from '@fortawesome/free-solid-svg-icons'
 
 import './styles/About.scss'
-import Fade from 'react-reveal/Fade'
 
 import { Modal } from '../components/Modal'
 import StaffPage from './components/Staff'
@@ -29,7 +28,7 @@ export class About extends PureComponent{
     componentDidMount() {
         document.title = this.props.title
         
-        const {RPDList, StaffList, FeedbackList, FeedbackType, location} = this.props
+        const {RPDList, StaffList, FeedbackList, location} = this.props
 
         if(!RPDList || RPDList.length === 0){
             this.props.GetDataAbout()
@@ -39,8 +38,8 @@ export class About extends PureComponent{
             this.props.GetStaffList()
         }
 
-        if(!FeedbackList || FeedbackList.length === 0 || FeedbackType !== 1){
-            this.props.getfeedback(1, true)
+        if(!FeedbackList || FeedbackList.length === 0){
+            this.props.getfeedback(true)
         }
 
         if (location.state){
@@ -87,76 +86,82 @@ export class About extends PureComponent{
 
     }
 
+    renderFeedback(){
+
+        const { FeedbackList } = this.props
+
+        if (!FeedbackList || FeedbackList.length === 0){
+            return <Fragment/>
+        }
+
+        const FeedbackListFilter = FeedbackList.filter(feedback => feedback.type === 1)
+
+        return <section id="feedback_inter">
+            <h2 className="text-center">Отзывы о кафедре</h2>
+            <div className="row no-gutters">
+            {FeedbackListFilter.map((feedback, index) => {
+                return <FeedbackComponent
+                    key={index}
+                    index={index}
+                    feedback={feedback} />
+            })}
+            </div>
+        </section>
+    }
+
     render() {
-        const { StaffList, FeedbackList, RPDList } = this.props
+        const { StaffList } = this.props
 
         return (
             <Fragment>
-                <Fade>
-                    <section id="title_main" className="about">
-                        <div className="container-md container-fluid bg_th" style={{ height: "inherit" }}>
-                            <div className="row no-gutters align-items-center" style={{ height: "inherit" }}>
-                                <div className="col-md-5 offset-md-1 text-center title_text">
-                                    <h1 className="title">О кафедре</h1>
-                                    <p>Кафедра является структурным подразделением Факультета инновационных технологий.
-                            Заведующий кафедрой — доцент, кандидат физико-математических наук <span style={{ color: "#DE7128" }}>Нариманова Гуфана Нурлабековна</span>.</p>
-                                </div>
-                                <div className="col-md-4 col-12 offset-md-1 ">
-                                    <div className="triple_helix">
-                                        <img className="triple_helix_svg" src={interprice_img} alt="О кафедре" />
-                                    </div>
+                <section id="title_main" className="about">
+                    <div className="container-md container-fluid bg_th" style={{ height: "inherit" }}>
+                        <div className="row no-gutters align-items-center" style={{ height: "inherit" }}>
+                            <div className="col-md-5 offset-md-1 text-center title_text">
+                                <h1 className="title">О кафедре</h1>
+                                <p>Кафедра является структурным подразделением Факультета инновационных технологий.
+                        Заведующий кафедрой — доцент, кандидат физико-математических наук <span style={{ color: "#DE7128" }}>Нариманова Гуфана Нурлабековна</span>.</p>
+                            </div>
+                            <div className="col-md-4 col-12 offset-md-1 ">
+                                <div className="triple_helix">
+                                    <img className="triple_helix_svg" src={interprice_img} alt="О кафедре" />
                                 </div>
                             </div>
                         </div>
-                    </section>
-                </Fade>
-                <img className="arrow_down" onClick={()=>{
-                    window.scrollTo({top: window.innerHeight-40, behavior: 'smooth'})
-                }} src="/svg/DOWN_ARROW.svg" alt="Листать вниз"/>
+                    </div>
+                </section>
+            <img className="arrow_down" onClick={()=>{
+                window.scrollTo({top: window.innerHeight-40, behavior: 'smooth'})
+            }} src="/svg/DOWN_ARROW.svg" alt="Листать вниз"/>
                 {/* ИСТОРИЯ КАФЕДРЫ */}
-                <div className="container">
-                <Fade>
-                    <section id="history_about">
-                        <div className="row no-gutters align-items-center">
-                            <div className="col-lg-6 col-md-7 title_about_history ">
-                                <h2>История кафедры</h2>
-                                <HistoryText />
-                            </div>
-                            <div className="col-lg-6 col-md-5 img_about_history text-right">
-                                <img src={history_img} alt="История кафедры" />
-                            </div>
+            <div className="container">
+                <section id="history_about">
+                    <div className="row no-gutters align-items-center">
+                        <div className="col-lg-6 col-md-7 title_about_history ">
+                            <h2>История кафедры</h2>
+                            <HistoryText />
                         </div>
-                    </section>
-                </Fade>
-                {/* СОТРУДНИКИ КАФЕДРЫ */}
+                        <div className="col-lg-6 col-md-5 img_about_history text-right">
+                            <img src={history_img} alt="История кафедры" />
+                        </div>
+                    </div>
+                </section>
+                
                 <section id="staff">
                     <h2>Сотрудники кафедры</h2>
                     {StaffList && <StaffListMap StaffList={StaffList}/>}
                 </section>
-                {/* РАБОЧИЕ ПРОГРАММЫ ДИСЦИПЛИН */}
-                <Fade>
-                    <section id="disciplines">
-                        <h2 className="text-center">Рабочие программы дисциплин</h2>
-                        <div className="row no-gutters align-items-center justify-content-around row-cols-md-2 row-cols-1">
-                            {this.renderRPDList()}
-                        </div>
-                    </section>
-                </Fade>
-                {/* ОТЗЫВЫ ОТ ПРЕДПРИЯТИЙ */}
-                <Fade>
-                    <section id="feedback_inter">
-                        <h2 className="text-center">Отзывы о кафедре</h2>
-                        <div className="row no-gutters">
-                        {FeedbackList && FeedbackList.map((feedback, index) => {
-                            return <FeedbackComponent
-                                key={index}
-                                index={index}
-                                feedback={feedback} />
-                        })}
-                        </div>
-                    </section>
-                </Fade>
-                </div>
+
+                <section id="disciplines">
+                    <h2 className="text-center">Рабочие программы дисциплин</h2>
+                    <div className="row no-gutters align-items-center justify-content-around row-cols-md-2 row-cols-1">
+                        {this.renderRPDList()}
+                    </div>
+                </section>
+
+                {this.renderFeedback()}
+
+            </div>
                 <ParamsList page="О кафедре"/>
             </Fragment>
         )

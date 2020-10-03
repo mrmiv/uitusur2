@@ -13,8 +13,8 @@ router.get('/', async (req, res) => {
 
   let query = {}
 
-  if (type && (type === 1 || 2 || 3)){
-    query.type = type
+  if (type && (parseInt(type) === 1 || 2 || 3)){
+    query.type = parseInt(type)
   }
 
   try {

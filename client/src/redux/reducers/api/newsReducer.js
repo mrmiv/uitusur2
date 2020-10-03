@@ -3,8 +3,9 @@ import {
     NEWS_LOADING,
     GET_NEWS,
     MORE_NEWSLIST,
-    REQ_FAIL,
-    REQ_SUCCESS,
+    NEWS_LINKS_LOADING,
+    GET_NEWS_LINKS,
+    GET_ONE_NEWS_LINK,
     LOADING_REQ
 } from "../../actions/types"
 import { combineReducers } from 'redux';
@@ -21,6 +22,13 @@ const OneNewsState = {
     isLoading: false
 }
 
+const NewsLinksState = {
+    NewsLinksList: [],
+    NewsLink: {},
+    type: null,
+    isLoading: false,
+}
+
 function NewsReducer(state = NewsState, action) {
     switch (action.type) {
         case LOADING_REQ:
@@ -28,14 +36,7 @@ function NewsReducer(state = NewsState, action) {
                 ...state,
                 isLoading: true
             }
-        case REQ_FAIL:
-        case REQ_SUCCESS:
-            return {
-                ...state,
-                isLoading: false
-            }
         case GET_NEWSLIST:
-            // console.log(state)
             return {
                 ...state,
                 total: action.payload.total,
@@ -44,8 +45,6 @@ function NewsReducer(state = NewsState, action) {
                 isLoading: false
             }
         case MORE_NEWSLIST:
-            // console.log(state.NewsList)
-            // console.log([...state.NewsList, action.payload.NewsList])
             return {
                 ...state,
                 total: action.payload.total,
@@ -76,7 +75,32 @@ function OneNewsReducer(state = OneNewsState, action) {
     }
 }
 
+function NewsLinksReduсer(state = NewsLinksState, action){
+    switch (action.type) {
+        case NEWS_LINKS_LOADING:
+            return {
+                ...state,
+                isLoading: true
+            }
+        case GET_NEWS_LINKS:
+            return {
+                ...state,
+                NewsLinksList: action.payload.NewsLinksList,
+                isLoading: false
+            }
+        case GET_ONE_NEWS_LINK:
+            return {
+                ...state,
+                NewsLink: action.payload.NewsLink,
+                isLoading: false
+            }
+        default:
+            return { ...state, isLoading: false }
+    }
+}
+
 export default combineReducers({
     newslist: NewsReducer,
-    news: OneNewsReducer
+    news: OneNewsReducer,
+    newslinks: NewsLinksReduсer
 })

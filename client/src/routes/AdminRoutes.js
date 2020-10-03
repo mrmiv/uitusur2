@@ -1,7 +1,9 @@
-import React, { lazy, Fragment } from 'react'
+import React, { lazy } from 'react'
 import { Route } from 'react-router-dom'
+import '../pages/admin/AdminIndex.scss'
 
 const AdminLiteratureRoutes = lazy(() => import('../pages/admin/Literature'))
+const AdminNewsLinksRoutes = lazy(() => import('../pages/admin/NewsLinks'))
 const AdminParamRoutes = lazy(() => import('../pages/admin/Param/'))
 const AdminStaffRoutes = lazy(() => import('../pages/admin/Staff'))
 const AdminNewsRoutes = lazy(() => import('../pages/admin/News'))
@@ -30,6 +32,7 @@ export default function AdminRoutes() {
             <AdminDocsRoutes />
             <AdminFeedbackRoutes />
             <AdminFilesRoutes />
+            <AdminNewsLinksRoutes/>
         </section>
     )
 }

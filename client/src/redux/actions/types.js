@@ -40,12 +40,16 @@ export const SET_LITERATURE_PAGE = "SET_LITERATURE_PAGE"
 export const SET_LITERATURE_SORT = "SET_LITERATURE_SORT"
 export const SET_LITERATURE_KEYWORDS = "SET_LITERATURE_KEYWORDS"
 
-
 // Новости
 export const GET_NEWSLIST = "GET_NEWSLIST"
 export const NEWS_LOADING = "NEWS_LOADING"
 export const GET_NEWS = "GET_NEWS"
 export const MORE_NEWSLIST = "MORE_NEWSLIST"
+
+// Ссылки в новостях
+export const NEWS_LINKS_LOADING = "NEWS_LINKS_LOADING"
+export const GET_NEWS_LINKS = "GET_NEWS_LINKS"
+export const GET_ONE_NEWS_LINK = "GET_ONE_NEWS_LINK"
 
 // Регламентирующие документы
 export const GET_DOCUMENTS_LIST = "GET_DOCUMENTS_LIST"

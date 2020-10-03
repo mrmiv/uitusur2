@@ -20,7 +20,7 @@ export const GetDataAbout = () => dispatch => {
         })
 }
 
-export const getfeedback = (type, isActive) => dispatch => {
+export const getfeedback = (isActive, type) => dispatch => {
 
     dispatch({
         type: LOADING_REQ
@@ -32,7 +32,7 @@ export const getfeedback = (type, isActive) => dispatch => {
         const type_query = type ? `type=${type}` : ''
         const isActive_query = isActive ? `isActive=${isActive}` : ''
 
-        query = `?${type_query}&${isActive_query}`
+        query = `?${isActive_query}&${type_query}`
     }
 
     const url = `/api/feedback${query}`
@@ -44,7 +44,6 @@ export const getfeedback = (type, isActive) => dispatch => {
                 type: GET_FEEDBACK,
                 payload: { 
                     FeedbackList: res.data, 
-                    type 
                 }
             })
             return res.data
