@@ -10,7 +10,7 @@ import linkIcon from '@iconify/icons-flat-color-icons/link';
 import { closeNavbar } from '../redux/actions/navbarActions'
 import { GetNewsList, GetMoreNews } from '../redux/actions/newsActions'
 import { NewsInList } from './components/NewsList'
-import {NewsLinksList} from './components/NewsLinks'
+import NewsLinksList from './components/NewsLinks'
 // import Pagination from "react-js-pagination";
 
 export class NewsList extends PureComponent {
@@ -92,6 +92,31 @@ export class NewsList extends PureComponent {
         return ShowMoreNewsButton 
     }
 
+    renderNewsLinksButton(){
+        const { newsLinks, newsLinksIsLoading } = this.props
+        const { type, toggleNewsLinks } = this.state
+
+        const {isLoading} = this.props.news 
+
+        if (!type){
+            return <Fragment/>
+        }
+
+        const disabled = (newsLinksIsLoading || isLoading) || (!newsLinks) || (newsLinks.length === 0)
+
+        return <div className="news-links-block">
+            <button style={{
+                fontSize: "1.6em",
+                borderRadius: "24px",
+                backgroundColor: toggleNewsLinks ? "#c8d6e5" : "white"
+            }} 
+            disabled={disabled}
+            onClick={!disabled && this.setVisibleNewsLinks}
+            className={`more-link ${disabled ? 'disabled' : ''}`}
+            title="Полезные ссылки"><Icon icon={linkIcon}/></button>
+        </div>
+    }
+
     setVisibleNewsLinks = () => {
         const {toggleNewsLinks} = this.state
         this.setState({toggleNewsLinks: !toggleNewsLinks})
@@ -122,16 +147,7 @@ export class NewsList extends PureComponent {
                                     </ul>
                                 </div>
                             </div>
-                            <div className="news-links-block">
-                                <button style={{
-                                    fontSize: "1.6em",
-                                    borderRadius: "24px",
-                                    backgroundColor: toggleNewsLinks ? "#c8d6e5" : "white"
-                                }} 
-                                onClick={this.setVisibleNewsLinks}
-                                className="more-link" 
-                                title="Полезные ссылки"><Icon icon={linkIcon}/></button>
-                            </div>
+                            {this.renderNewsLinksButton()}
                        </div>
                         <div id="news-grid" className={class_for_news_links}>
                             <NewsLinksList isVisible={toggleNewsLinks} type={type}/>
@@ -170,6 +186,8 @@ export const NewsListMap = memo(({NewsList, toggleNewsLinks}) => {
 
 const mapStateToProps = state => ({
     news: state.api.news.newslist,
+    newsLinks: state.api.news.newslinks.NewsLinksList,
+    newsLinksIsLoading: state.api.news.newslinks.isLoading,
 })
 
 export default connect(
