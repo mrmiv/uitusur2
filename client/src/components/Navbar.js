@@ -1,12 +1,10 @@
 import React, { PureComponent, Fragment } from 'react'
-import store from '../store'
-import { logout } from '../redux/actions/authActions'
-import { NavLink, Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { closeNavbar } from '../redux/actions/navbarActions'
 import './styles/Navbar.scss'
 import { connect } from 'react-redux';
 
-import { Icon } from '@iconify/react';
+import { Icon, InlineIcon } from '@iconify/react';
 import newspaperSharp from '@iconify/icons-ion/newspaper-sharp';
 import bxsHome from '@iconify/icons-bx/bxs-home';
 import informationCircle from '@iconify/icons-ion/information-circle';
@@ -162,14 +160,14 @@ export class Navbar extends PureComponent {
         </div>
 
         const main_link = <NavLink className={`link ${submenu ? 'link-with-submenu' : ''}`} exact={exact} to={to}>
-            {link.icon && <Icon icon={link.icon} inline/>} {name}</NavLink>
+            {link.icon && <InlineIcon icon={link.icon}/>} {name}</NavLink>
 
         const link_element = <Fragment>
             {submenu ?
                 <Fragment>
                     {main_link}
                     <a
-                        className={`open_submenu_button`}
+                        className={`open_submenu_button d-flex justify-content-center`}
                         data-toggle="collapse"
                         data-target={`#${link_id}`}
                         href={`#${link_id}`}
@@ -199,8 +197,10 @@ export class Navbar extends PureComponent {
                 <div id="sider" className={isOpen}>
                     <div className="d-flex align-items-center" style={{marginLeft: "4px"}}>
                         <span className="login_span">
-                            <NavLink  to="/login">
-                                <Icon inline icon={bxsUserCircle} style={{fontSize: "1.5em"}}/> 
+                            <NavLink  to="/login" style={{
+                                color: "#354ED1"
+                            }}>
+                                <InlineIcon icon={bxsUserCircle} style={{fontSize: "1.5em"}}/> 
                                 {isAuthenticated ? 'Админ' : 'Войти'}
                             </NavLink>
                         </span>

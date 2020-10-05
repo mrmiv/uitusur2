@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { closeNavbar } from '../../../redux/actions/navbarActions'
 import { clearInfo } from '../../../redux/actions/infoActions'
 import { GetNewsList, delNews, pinNews } from '../../../redux/actions/newsActions'

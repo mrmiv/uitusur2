@@ -5,7 +5,7 @@ import { closeNavbar } from '../../redux/actions/navbarActions'
 import { ReadNews } from '../../redux/actions/newsActions'
 import { toDate } from './NewsList'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Icon } from '@iconify/react'
+import { Icon, InlineIcon } from '@iconify/react'
 import '../styles/News.scss'
 
 import { faUsers } from '@fortawesome/free-solid-svg-icons'
@@ -16,6 +16,7 @@ import cityscapeIcon from '@iconify/icons-twemoji/cityscape';
 import trophyIcon from '@iconify/icons-twemoji/trophy';
 import linksymbolIcon from '@iconify/icons-fxemoji/linksymbol';
 import spiralCalendar from '@iconify/icons-twemoji/spiral-calendar';
+import arrowBackCircle from '@iconify/icons-ion/arrow-back-circle';
 
 export class FullNews extends Component {
 
@@ -60,8 +61,10 @@ export class FullNews extends Component {
         }
 
         return <Fragment>
-        <div className="d-flex justify-content-between align-items-center">
-            <h1>{News.title}</h1>
+        <div className="d-flex justify-content-between align-items-center mt-1">
+            <h1 style={{
+                fontFamily: "Roboto, sans-serif"
+            }}>{News.title}</h1>
             {News.pin && <Icon icon={pushpinIcon} style={{fontSize: "1.75em"}}/>}
         </div>
         <div className="row no-gutters">
@@ -87,7 +90,7 @@ export class FullNews extends Component {
             <div className="text__news" dangerouslySetInnerHTML={{ __html: News.body }} />
             {News.docs.length !== 0 && <div className="docs__news"><strong>Вложения:</strong><br />
                 {News.docs.map((doc, index) => {
-                    return (<a href={doc} key={index} target="_blank" rel="norefferer noopener">
+                    return (<a href={doc} key={index} target="_blank" rel="noopener noreferrer">
                         <Icon className="mr-3" size="lg" icon={documentAttach} /> {doc.substr(39)}
                     </a>)
                 })}</div>}
@@ -99,18 +102,19 @@ export class FullNews extends Component {
         // console.log(this.props)
         return (
             <Fragment>
-                <div 
-                style={{
-                    position: "fixed",
-                    width: "100px",
-                    height: "100%",
-                    backgroundColor: "red",
-                    zIndex: "1",
-                    cursor: "pointer"
-                }}
-                onClick={() => this.props.history.goBack()}/> 
                 <div id="fullnews">
                     <div className="container">
+                        <button className="more-link" title="Назад" 
+                            style={{
+                                backgroundColor: "#354ED1",
+                                fontSize: "1.25em",
+                                padding: "4px",
+                                width: "40px",
+                                height: "40px"
+                            }}
+                            onClick={()=>this.props.history.goBack()}>
+                            <InlineIcon icon={arrowBackCircle}/>
+                        </button>
                         {this.renderFullNews()}
                     </div>
                 </div>
@@ -131,7 +135,7 @@ function NewsProps({ icon, text, link, name }) {
     return (
         <div className="pt-2 pb-2 mr-5">
             <span>{icon}</span> {link ?
-                <a href={text} target="_blank" rel="norefferer noopener">{name}</a>
+                <a href={text} target="_blank" rel="noopener noreferrer">{name}</a>
                 : <Fragment><strong>{name}</strong>: {text}</Fragment>}
         </div>
     )

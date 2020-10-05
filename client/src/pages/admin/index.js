@@ -1,81 +1,15 @@
-import React, { Component } from 'react'
+import React, { Fragment, PureComponent } from 'react'
 import { closeNavbar } from '../../redux/actions/navbarActions'
 import { connect } from 'react-redux'
-import { Link, withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import QuizForm from './QuizForm'
 
 import { Icon } from '@iconify/react'
-import userTie from '@iconify/icons-fa-solid/user-tie'
-import fanIcon from '@iconify/icons-fa-solid/fan';
-import newspaperIcon from '@iconify/icons-emojione-v1/newspaper'
-import booksIcon from '@iconify/icons-fxemoji/books'
-import clipboardList from '@iconify/icons-fa-solid/clipboard-list';
-import documentwithtextIcon from '@iconify/icons-fxemoji/documentwithtext';
+
 import googleanalyticsIcon from '@iconify/icons-simple-icons/googleanalytics'
 import uploadIcon from '@iconify/icons-fa-solid/upload';
-import { logout } from '../../redux/actions/authActions'
 
-export class AdminHome extends Component {
-
-    state = {
-        navigation: [
-            {
-                path: 'param',
-                name: 'Заголовки',
-                icon: <Icon icon={documentwithtextIcon} />
-            },
-            {
-                path: 'news',
-                name: 'Новости',
-                icon: <Icon icon={newspaperIcon} />
-            },
-            {
-                path: 'staff',
-                name: 'Сотрудники',
-                icon: <Icon icon={userTie} />
-            },
-            {
-                path: 'literature',
-                name: 'Литература',
-                icon: <Icon icon={booksIcon} />
-            },
-            {
-                path: 'clubs',
-                name: 'Клубы',
-                icon: <Icon color={"orange"} icon={fanIcon} />
-            },
-            {
-                path: 'studyplan',
-                name: 'Учебный план',
-                icon: <Icon color={"green"} icon={clipboardList} />
-            },
-            {
-                path: 'curator',
-                name: 'Кураторы',
-                icon: <Icon color={"pink"} icon={userTie} />
-            },
-            {
-                path: 'docs',
-                name: 'Регл. документы',
-                icon: <Icon icon={documentwithtextIcon} />
-            },
-            {
-                path: 'feedback',
-                name: 'Отзывы о кафедре',
-                icon: <Icon color={"red"} icon={userTie} />
-            },
-            {
-                path: 'news-links',
-                name: 'Полезные ссылки',
-                icon: <Icon color={"orange"} icon={userTie} />
-            },
-            {
-                path: 'uploadfiles',
-                name: 'Загрузить файл',
-                icon: <Icon icon={uploadIcon} />
-            }
-        ]
-    }
+export class AdminHome extends PureComponent {
 
     componentWillUnmount() {
         this.props.closeNavbar()
@@ -86,17 +20,16 @@ export class AdminHome extends Component {
     }
 
     render() {
-        const { navigation } = this.state
 
-        return (
+        return ( <Fragment>
             <div className="container-md container-fluid">
-                <h1>Панель администратора <Link className="btn btn-danger" to='/' 
-                    onClick={() => { this.props.logout() }}>Выйти</Link></h1>
+                <h1>Панель администратора</h1>
+                
                 {/* <a role="button" className="btn btn-info" href="https://metrika.yandex.ru/dashboard?id=62465179" target="blank" rel="norefferer noopener">Статистика</a> */}
                 <div className="row no-gutters">
                     <div className="col-xl-2 col-md-3 col-sm-4 col-6 mt-2">
                         <a className="link-boxfor-navcard" 
-                        ref="noopener norefferer" target="_blank"
+                        target="_blank" rel="noopener norefferer"
                         href="https://metrika.yandex.ru/dashboard?id=62465179">
                             <div className="nav-admin-card">
                                 <span className="icon-nav-card" ><Icon icon={googleanalyticsIcon} /></span>
@@ -105,36 +38,15 @@ export class AdminHome extends Component {
                             </div>
                         </a>
                     </div>
-                    {navigation.map((item, index) => {
-                        return (<NavCard key={index}
-                            path={item.path}
-                            icon={item.icon}
-                            name={item.name} />)
-                    })}
                     <QuizForm />
                 </div>
             </div>
+        </Fragment>
         )
     }
 }
 
 export default withRouter(connect(
     null,
-    { closeNavbar, logout }
+    { closeNavbar }
 )(AdminHome))
-
-function NavCard({ path, icon, name }) {
-
-    return (
-        <div className="col-xl-2 col-md-3 col-sm-4 col-6 mt-2">
-            <Link className="link-boxfor-navcard" to={`/admin/${path}`}>
-                <div className="nav-admin-card">
-                    <span className="icon-nav-card" >{icon}</span>
-                    <br />
-                    <u>{name}</u>
-                </div>
-            </Link>
-        </div>
-    )
-
-}

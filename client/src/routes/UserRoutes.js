@@ -230,8 +230,7 @@ export const PageUpButton = () => {
 
     const [visible, setvisible] = useState(false)
 
-    window.onscroll = function (scrolled) {
-        var scrolled = 0
+    window.onscroll = function(scrolled = 0) {
         scrolled = window.scrollY
         scrolled > window.innerHeight / 2 ? setvisible(true) : setvisible(false)
     }

@@ -1,4 +1,4 @@
-import React, { Fragment, Component } from 'react'
+import React, { Component } from 'react'
 import { Editor } from "@tinymce/tinymce-react";
 
 export class EditorArea extends Component{

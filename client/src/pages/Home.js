@@ -221,7 +221,7 @@ export default connect(
     { GetDataHome, getfeedback }
 )(Home)
 
-const GPO_Text_Collapse = () => {
+const GPO_Text_Collapse = memo(() => {
     return (
         <Fragment>
             <p>
@@ -251,7 +251,7 @@ const GPO_Text_Collapse = () => {
             <br/>
         </Fragment>
     )
-}
+})
 
 // НАПРАВЛЕНИЯ ПОДГОТОВКИ
 export const CardDegree = (props) => {

@@ -13,11 +13,11 @@ export default function AdminLiteratureRoutes(){
                 <AdminNews title="Новости - Кафедра управления инновациями"/>
                 {/* <Home title="Кафедра управления инновациями"/> */}
             </>))}/>
-            <Route path="/admin/news/form/:id" exact component={(()=>(<>
+            <Route path="/admin/news/edit/:id" exact component={(()=>(<>
                 <FormNews title="Редактировать новость - Кафедра управления инновациями"/>
                 {/* <Home title="Кафедра управления инновациями"/> */}
             </>))}/>
-            <Route path="/admin/news/form" exact component={(()=>(<>
+            <Route path="/admin/news/add" exact component={(()=>(<>
                 <FormNews title="Добавить новость - Кафедра управления инновациями"/>
                 {/* <Home title="Кафедра управления инновациями"/> */}
             </>))}/>

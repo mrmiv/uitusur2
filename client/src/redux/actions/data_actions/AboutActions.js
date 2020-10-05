@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { GET_RPD, GET_FEEDBACK, GET_ONE_FEEDBACK, GET_QUOTE } from './types'
+import { GET_RPD, GET_FEEDBACK, GET_ONE_FEEDBACK } from './types'
 import { LOADING_REQ, REQ_FAIL, REQ_SUCCESS } from '../types'
 import { returnInfo } from '../infoActions'
 

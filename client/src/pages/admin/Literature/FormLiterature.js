@@ -4,10 +4,10 @@ import { connect } from 'react-redux'
 import { clearInfo } from '../../../redux/actions/infoActions'
 import { postLiterature, GetCurrentBook, patchLiterature } from '../../../redux/actions/literatureActions'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
-import { faPlusCircle, faArrowAltCircleLeft, faBell } from '@fortawesome/free-solid-svg-icons'
+import { faArrowAltCircleLeft } from '@fortawesome/free-solid-svg-icons'
 import { Link, Prompt, withRouter } from 'react-router-dom'
 import cyrillicToTranslit from 'cyrillic-to-translit-js'
-import { transliterate as tr, slugify } from 'transliteration';
+import { transliterate as slugify } from 'transliteration';
 
 
 export class LiteratureForm extends Component {

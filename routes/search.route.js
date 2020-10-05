@@ -19,7 +19,7 @@ router.post('/', async (req, res) => {
       return res.status(400).json({ message: "Вы ничего не ввели в поисковой запрос!" })
     }
 
-    const q = { $regex: `.*${query.length < 5 ? query : query.substr(0, query.length-3)}.*`, $options: 'i' }
+    const q = { $regex: `.*${query.length < 6 ? query : query.substr(0, query.length-3)}.*`, $options: 'i' }
 
     const staffData      = await Staff.find({$or:[{firstname: q}, { lastname: q }, { secondname: q }, { post: q }]})
       .select([
@@ -50,6 +50,7 @@ router.post('/', async (req, res) => {
       ])
       .limit(6)
     const docData        = await Doc.find({$or: [{title: q}, {category: q}, {subcategory: q}]})
+      .limit(10)
     const paramData      = await Param.find({text: q, isActive: true})
       .select(['page'])
 

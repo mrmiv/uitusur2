@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react'
+import React, { PureComponent } from 'react'
 import { closeNavbar } from '../../../redux/actions/navbarActions'
 import { connect } from 'react-redux'
 import { getOneNewsLink, postNewsLink, patchNewsLink } from '../../../redux/actions/newsLinksActions'

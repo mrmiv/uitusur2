@@ -8,7 +8,7 @@ import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faArrowAltCircleLeft } from "@fortawesome/free-solid-svg-icons";
 import { Link, Prompt, withRouter } from "react-router-dom";
 import CyrillicToTranslit from "cyrillic-to-translit-js";
-import { transliterate as tr, slugify } from 'transliteration';
+import { transliterate as slugify } from 'transliteration';
 import { toDate } from "../../components/NewsList";
 import { FormatDateToPost, DateMaskInput } from "../components/DateField";
 

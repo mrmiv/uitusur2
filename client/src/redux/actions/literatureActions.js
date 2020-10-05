@@ -7,9 +7,6 @@ import {
     REQ_SUCCESS,
     REQ_FAIL,
     SET_LITERATURE_FILTER,
-    SET_LITERATURE_PAGE,
-    SET_LITERATURE_SORT,
-    SET_LITERATURE_KEYWORDS,
 } from './types'
 
 import axios from 'axios'

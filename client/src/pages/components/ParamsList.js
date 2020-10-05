@@ -9,16 +9,16 @@ class ParamsList extends PureComponent{
     }
 
     componentDidMount(){
-        const {page} = this.props
-        this.props.getActiveParamsOnpage(page)
+        const {page, params_list} = this.props
+        if (params_list.length === 0){
+            this.props.getActiveParamsOnpage(page)
+        }
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps) {
         const { params_list,page } = this.props
-        if((params_list !== prevProps.params_list) ){
-            if (params_list.length!==0){
-                this.setState({params_onpage: params_list.filter(param=>param.page === page)})
-            }
+        if((params_list !== prevProps.params_list) && params_list.length !== 0 ){
+            this.setState({params_onpage: params_list.filter(param=>param.page === page)})
         }
     }
 

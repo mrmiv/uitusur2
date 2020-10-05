@@ -2,13 +2,14 @@ import React, { Fragment, PureComponent } from 'react'
 import store from '../store'
 import { closeNavbar } from '../redux/actions/navbarActions'
 import { setQuery, Search } from '../redux/actions/data_actions/SearchActions'
-// import { getquiz } from '../redux/actions/data_actions/SearchActions'
+
 import { connect } from 'react-redux'
 import "./styles/Search.scss"
 import { NewsListMap } from './News'
 import { LiteratureList } from './Literature'
 import { StaffListMap } from './About'
 import { Link } from 'react-router-dom'
+import { Document } from './Docs'
 
 export class SearchPage extends PureComponent {
 
@@ -75,7 +76,6 @@ export class SearchPage extends PureComponent {
     returnResults = () => {
 
         const {
-            query,
             clubs, 
             docs, 
             literature, 
@@ -84,7 +84,7 @@ export class SearchPage extends PureComponent {
             staff
         } = this.state
 
-        const notFoundText = <p>К сожалению, по вашему запросу <code>{query}</code> ничего не найдено :(</p>
+        const notFoundText = <p>К сожалению, по вашему запросу ничего не найдено :(</p>
 
         if (
             clubs.length ===0 &&
@@ -105,13 +105,9 @@ export class SearchPage extends PureComponent {
 
             {this.returnNews(news)}
             
-            {(docs.length !==0) && <section id="docs">
-                <h2>Регламентирующие нашлись, но пока не отображаются)))))))))))))))</h2>
-            </section>}
+            {this.returnDocuments(docs)}
 
             {this.returnLiterature(literature)}
-
-            
             
         </section>
 
@@ -132,24 +128,23 @@ export class SearchPage extends PureComponent {
             </h2>
 
             {uniqueParams.map(page => {
-            switch (page) {
-                case 'Абитуриенту':
-                    return element('/abiturient', page);
-    
-                case 'О кафедре':
-                    return element('/about', page);;
-                    
-                case 'Бакалавриат':
-                    return element('/bakalavriat', page);
-    
-                case 'Магистратура':
-                    return element('/magistratura', page);
-    
-                case 'Поступающему Магистратура':
-                    return element('/abiturient-mag', page);
-    
-                default:
-                    break;
+                switch (page) {
+                    case 'Абитуриенту':
+                        return element('/abiturient', page);
+        
+                    case 'О кафедре':
+                        return element('/about', page);;
+                        
+                    case 'Бакалавриат':
+                        return element('/bakalavriat', page);
+        
+                    case 'Магистратура':
+                        return element('/magistratura', page);
+        
+                    case 'Поступающему Магистратура':
+                        return element('/abiturient-mag', page);
+                    default:
+                        return
             }
         })}
 
@@ -164,7 +159,7 @@ export class SearchPage extends PureComponent {
         const color="#DE7128"
 
         return <section id="news" className="mt-2">
-            <h2 style={{color}}>Новости</h2>
+            <h2 className="title-category-search" style={{color}}>Новости</h2>
             <NewsListMap NewsList={news}/>
             {(news.length === 6) && <Link to="/news"
             style={{backgroundColor: color}} className="more-link">Перейти к новостям</Link>}
@@ -179,7 +174,7 @@ export class SearchPage extends PureComponent {
         const color="#DE7128"
 
         return <section id="literature">
-            <h2 style={{color}}>Литература</h2>
+            <h2 className="title-category-search" style={{color}}>Литература</h2>
             <LiteratureList literatureList={literature}/>
             {(literature.length === 8) && <Link to="/literature" 
             style={{backgroundColor: color}} className="more-link">Перейти к литературе</Link>}
@@ -194,10 +189,37 @@ export class SearchPage extends PureComponent {
         const color="#DE7128"
 
         return <section id="staff" className="mt-2">
-            <h2 style={{color}}>Сотрудники кафедры</h2>
+            <h2 className="title-category-search" style={{color}}>Сотрудники кафедры</h2>
             <StaffListMap StaffList={staff}/>
             {(staff.length === 8) && <Link to={{pathname:"/about", state:"staff"}} 
             style={{backgroundColor: color}} className="more-link">Перейти к сотрудникам кафедры</Link>}
+        </section>
+    }
+
+    returnDocuments = (docs) => {
+
+        if (!docs || docs.length === 0){
+            return <Fragment/>
+        }
+
+        const color = "#2871DE"
+
+        const subcategories = [... new Set(docs.map(doc => doc.subcategory))]
+        
+        return <section id="documents_list">
+            <h2 className="title-category-search">Регламентирующие документы</h2>
+            {subcategories.map((subcategory, index) => {
+                return <Fragment key={index}>
+                    <h4> {subcategory ? `${subcategory[0].toUpperCase()}${subcategory.substr(1)}` : "Прочие документы"} </h4>
+                    <div className="row no-gutters">
+                        {docs.map((doc, index) => {
+                            return (doc.subcategory === subcategory) && <Document doc={doc} index={index}/>
+                        })}
+                    </div>
+                </Fragment>
+            })}
+            {(docs.length >= 8) && <Link to="/documents" 
+            style={{backgroundColor: color}} className="more-link">Перейти к регламетирущим документам</Link>}
         </section>
     }
 

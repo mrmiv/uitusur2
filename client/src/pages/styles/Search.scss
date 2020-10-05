@@ -20,11 +20,15 @@ form#search-form{
 
 #search-result{
     h2.title-category-search{
-
+        font-size: 1.75em;
+        font-family: "Nunito", sans-serif !important;
+        @media screen and (max-width: 576px){
+            font-size: 1.5em;
+        }
     }
 
     div.link-to-param-page{
-        
+
         display: inline-block;
         margin: 4px 8px 4px 0;
         background: #eee;
@@ -33,9 +37,6 @@ form#search-form{
 
         &:hover{
             background: #e0e0e0;
-            a:after{
-                margin-left: 16px;
-            }
         }
 
         &:active{
@@ -43,14 +44,17 @@ form#search-form{
         }
 
         a{
-            padding: 8px 16px;
-            display: block;
+            padding: 4px 12px 4px 2px;
+            display: flex;
+            align-items: center;
             color: default.$pink;
             font-weight: 500;
             text-decoration: none;
-            &:after{
-                content: "->";
-                margin-left: 8px;
+            &:before{
+                color: default.$pink;
+                content: url('https://api.iconify.design/gg:format-slash.svg?height=24');
+                vertical-align: -0.125em;
+                height: 1.5em;
             }
         }
     }

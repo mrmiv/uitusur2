@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { closeNavbar } from '../../../redux/actions/navbarActions'
 import { connect } from 'react-redux'
-import { Editor } from "@tinymce/tinymce-react";
 import { get_onefeedback, patchfeedback, postfeedback } from '../../../redux/actions/data_actions/AboutActions'
 import { clearInfo } from '../../../redux/actions/infoActions'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'

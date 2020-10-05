@@ -74,7 +74,7 @@ export class Docs extends Component {
                 docsBySubcategory[s] = [doc]
             }
 
-            return
+            return 
 
         })
 
@@ -154,12 +154,12 @@ export default connect(
     { closeNavbar, GetDocuments }
 )(Docs)
 
-const Document = connect(
+export const Document = connect(
     state=>({domain: state.location.domain})
     ,null
     )(({doc, index, domain}) => {
 
-    const { title, subcategory, category, path, document, date } = doc
+    const { title, subcategory, path, document, date } = doc
 
     return <div className="col-sm-6 col-12">
         <a index={index} href={document ? `http://${domain}${document}` : path }

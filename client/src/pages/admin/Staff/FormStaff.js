@@ -284,7 +284,7 @@ export class StaffForm extends Component {
                             </div>}
                         <div className="w-100 mt-2 text-right">
                             <button className="btn btn-success mr-0" type="submit"
-                                disabled={this.state.loading}>{this.state.id ? "Обновить сотрудника" : "Добавить сотрудника"}</button>
+                                disabled={isLoading}>{this.state.id ? "Обновить сотрудника" : "Добавить сотрудника"}</button>
                         </div>
                     </form>
                 </div>

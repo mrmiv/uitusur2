@@ -1,10 +1,15 @@
-import React, { Component, Fragment } from 'react'
+import React, { Fragment, PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { GetStaff } from '../../redux/actions/staffActions';
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome';
 import { faLink } from '@fortawesome/free-solid-svg-icons';
 
-export class StaffPage extends Component {
+export class StaffPage extends PureComponent {
+
+    state = {
+        CurrentStaff: {},
+        isLoading: false
+    }
 
     componentDidMount(){
         
@@ -17,9 +22,23 @@ export class StaffPage extends Component {
         document.title = "Сотрудники кафедры - Кафедра управления инновациями"
     }
 
+    componentDidUpdate(prevProps){
+        const { CurrentStaff, isLoading } = this.props.CurrentStaff
+        const prevCurrentStaff = prevProps.CurrentStaff.CurrentStaff
+        const prevIsLoading = prevProps.CurrentStaff.CurrentStaff
+
+        if (isLoading !== prevIsLoading){
+            this.setState({isLoading})
+        }
+
+        if (CurrentStaff !== prevCurrentStaff){
+            this.setState({CurrentStaff})
+        }
+    }
+
     renderStaff = () => {
 
-        const { CurrentStaff, isLoading } = this.props.CurrentStaff
+        const { CurrentStaff, isLoading } = this.state
         
         const LoadingElement = <div className="text-center">
             <div className="spinner-border" style={{ width: "3rem", height: "3rem" }} role="status">
@@ -31,11 +50,7 @@ export class StaffPage extends Component {
             return LoadingElement
         }
 
-        if (!CurrentStaff){
-            return <Fragment/>
-        }
-
-        const CurrentStaffElement = <div className="modal__staff">
+        const CurrentStaffElement = CurrentStaff ? <div className="modal__staff">
             <div className="modal__staff__info">
                 <h4>{`${CurrentStaff.lastname} ${CurrentStaff.firstname} ${CurrentStaff.secondname ? CurrentStaff.secondname : ''}`}</h4>
                 {CurrentStaff.post && <p>
@@ -56,7 +71,7 @@ export class StaffPage extends Component {
                     </span>
                     {CurrentStaff.rank}
                 </p>}
-                {CurrentStaff.worktime.length !== 0 &&
+                {CurrentStaff.worktime && CurrentStaff.worktime.length !== 0 &&
                 <Fragment>
                     <p>
                         <span style={{ fontWeight: "500" }}>
@@ -84,7 +99,7 @@ export class StaffPage extends Component {
                 </Fragment>}
                 <a href={CurrentStaff.path} rel="noopener noreferrer" target="_blank"> <Icon icon={faLink} /> Справочник</a>
             </div>
-        </div>
+        </div> : <p>Сотрудник не найден</p>
         
         return CurrentStaffElement
     }

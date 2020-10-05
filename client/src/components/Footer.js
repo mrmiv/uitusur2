@@ -6,6 +6,23 @@ import { faCogs } from '@fortawesome/free-solid-svg-icons'
 
 export default class Footer extends Component {
 
+  componentDidMount(){
+
+    const fullHeight = window.outerHeight
+
+    const footerElement = document.getElementById("footer")
+
+    const footerHeight = footerElement.offsetHeight
+    const footerOffsetTop = footerElement.offsetTop
+
+    const freeSpace = fullHeight - footerHeight
+
+    if(footerOffsetTop < freeSpace - 60){
+      footerElement.style.marginTop=`${freeSpace-footerOffsetTop}px`
+    }
+
+  }
+  
   render() {
     return (
       <footer id="footer">

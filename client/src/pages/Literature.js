@@ -69,7 +69,7 @@ export class Literature extends Component {
         const { Literature, isLoading } = this.props
         const literatureList = Literature.LiteratureList
         const { categoryFields, total,
-            page, perPage, sort, filter, search } = Literature
+            page, perPage, sort, filter } = Literature
         // const {search} = this.state
         return (
             <div id="literature">
@@ -93,7 +93,7 @@ export class Literature extends Component {
                                 <select id="Filter" className="form-control" onChange={this.ChangeInput} value={filter} name="filter">
                                     <option selected value="">Все</option>
                                     {categoryFields && categoryFields.map((item, index) => {
-                                        return (<option key={index} value={item}>{item[0].toUpperCase() + item.substr(1)}</option>)
+                                        return (<option key={index} value={item}>{`${item[0].toUpperCase()}${item.substr(1)}`}</option>)
                                     })}
                                 </select>
                             </div>

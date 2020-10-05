@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { getOneClub, postClub, patchClub } from '../../../redux/actions/data_actions/clubsAction'
 import { clearInfo } from '../../../redux/actions/infoActions'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
-import { faArrowAltCircleLeft, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+import { faArrowAltCircleLeft } from '@fortawesome/free-solid-svg-icons'
 import { Link, Prompt, withRouter } from 'react-router-dom'
 import cyrillicToTranslit from 'cyrillic-to-translit-js'
 
