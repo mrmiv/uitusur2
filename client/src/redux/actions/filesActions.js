@@ -8,7 +8,13 @@ export const getfiles = () => dispatch => {
     type: LOADING_REQ
   })
 
-  axios.get('/api/files')
+  const config = {
+    headers: {
+      token: localStorage.getItem("token")
+    }
+  }
+
+  axios.get('/api/files', config)
     .then(res => {
       // console.log("ACTION", res.data[id]);
       dispatch({

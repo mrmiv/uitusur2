@@ -56,3 +56,23 @@
 .add_admin_button{
     color: #0F8455
 }
+
+.files-list{
+    padding: 4px;
+    .file-item{
+        padding: 4px 8px;
+        margin-top: 2px;
+        background: whitesmoke;
+        border-radius: 8px;
+    }
+    .file-error{
+        &:after{
+            content: url('https://api.iconify.design/bx:bxs-error-circle.svg?height=24&color=red');
+            vertical-align: -0.125em;
+            position: absolute;
+            right: 4px;
+        }
+        position: relative;
+        background: rgb(232, 198, 198);
+    }
+}

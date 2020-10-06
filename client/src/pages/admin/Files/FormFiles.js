@@ -3,13 +3,14 @@ import { connect } from 'react-redux'
 import { clearInfo } from '../../../redux/actions/infoActions'
 import { postfile } from '../../../redux/actions/filesActions'
 import CyrillicToTranslit from "cyrillic-to-translit-js";
-
+import { FileField } from '../components/FileFieled';
+import { MessageAlert } from '../components/MessageAlert';
+ 
 export class FormFiles extends Component {
 
   state = {
-    file: null,
-    msg: null,
-    active: false
+    files: null,
+    msg: null
   }
 
   componentDidUpdate(prevProps) {
@@ -20,12 +21,12 @@ export class FormFiles extends Component {
   }
 
   handeFile = (e) => {
-    let file = e.target.files[0];
-    Object.defineProperty(file, "name", {
-      writable: true,
-      value: CyrillicToTranslit().transform(file["name"], "_"),
-    });
-    this.setState({ file });
+    // let file = e.target.files[0];
+    // Object.defineProperty(file, "name", {
+    //   writable: true,
+    //   value: CyrillicToTranslit().transform(file["name"], "_"),
+    // });
+    this.setState({ files: e.target.files });
   };
 
   postfile = e => {
@@ -38,22 +39,12 @@ export class FormFiles extends Component {
 
   render() {
     const { isLoading } = this.props
-    const { msg, active } = this.state
+    const { msg } = this.state
 
     return (
       <div className="w-100 mt-3">
-        {msg ?
-          <div className={`alert 
-        ${this.props.info.id === "REQ_FAIL" ? 'alert-danger' : null}
-        ${this.props.info.id === "REQ_SUCCESS" ? 'alert-success' : null} alert-dismissible fade show`} role="alert">
-            {this.props.info.id === "REQ_FAIL" && <strong>Ошибка! </strong>}
-            {this.props.info.id === "REQ_SUCCESS" && <strong>Успех! </strong>}
-            {msg.message}
-            <button type="button" className="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div> : null}
-        {active ? <form onSubmit={this.postfile} className="pt-2">
+        <MessageAlert msg={msg} id={this.props.info.id}/>
+        {/* <form onSubmit={this.postfile} className="pt-2">
           <div className="form-row">
             <div className="col form-group">
               <input type="file" className="form-control-file"
@@ -62,7 +53,8 @@ export class FormFiles extends Component {
             <button disabled={isLoading} type="submit" role="button"
               className="btn btn-success mr-0">Добавить файл</button>
           </div>
-        </form> : <a onClick={() => this.setState({ active: true })} className="btn btn-info w-100 text-center">Добавить файл</a>}
+        </form> */}
+        <FileField handleParentFiles={this.handeFile} id="files" name="files-input" multiple={false}/>
       </div>
     )
   }

@@ -9,10 +9,9 @@ const News = require("../models/News");
 
 // /news
 router.get("/", async (req, res) => {
-	// const {page, perpage} = req.params
+	
 	const page = Number(req.query.page) || 1;
 	const perpage = Number(req.query.perpage) || 10;
-	// console.log(page, perpage);
 	const type = req.query.type || null;
 
 	try {

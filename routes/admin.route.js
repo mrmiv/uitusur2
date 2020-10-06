@@ -45,7 +45,6 @@ router.post('/register',auth, async (req, res) => {
             })
         }
 
-        // кодировка пароля
         const hashedPassword = await bcrypt.hash(password, 12)
         admin = new Admin({email, password: hashedPassword})
 

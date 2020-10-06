@@ -53,7 +53,7 @@ export class AdminCurators extends Component {
   }
 
   render() {
-    const { curators } = this.props
+    const { curators, isLoading } = this.props
     const { msg } = this.state
     return (
       <div className="container-md container-fluid">
@@ -76,8 +76,8 @@ export class AdminCurators extends Component {
               </tr>
             </thead>
             <tbody>
-              {curators ?
-                curators.length !== 0 ? curators.map((item, index) => {
+              {isLoading ?
+                (curators && curators.length !== 0) ? curators.map((item, index) => {
                   return (
                     <tr key={index}>
                       <th scope="row">{index + 1}</th>
