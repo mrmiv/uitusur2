@@ -6,10 +6,11 @@ import { toDate } from '../../components/NewsList'
 import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
 import Pagination from "react-js-pagination";
+import { MessageAlert } from '../components/MessageAlert'
 
 import { Icon } from '@iconify/react';
 import plusCircle from '@iconify/icons-fa-solid/plus-circle';
-import cogIcon from '@iconify/icons-fa-solid/cog';
+import bxsEdit from '@iconify/icons-bx/bxs-edit';
 import trashAlt from '@iconify/icons-fa-solid/trash-alt';
 import pushpinIcon from '@iconify/icons-fxemoji/pushpin';
 
@@ -86,20 +87,10 @@ export class AdminNews extends Component {
 
         return (
             <div className="container-md container-fluid">
-                {msg ?
-                    <div className={`alert 
-                ${this.props.info.id === "REQ_FAIL" ? 'alert-danger' : null}
-                ${this.props.info.id === "REQ_SUCCESS" ? 'alert-success' : null} alert-dismissible fade show`} role="alert">
-                        {this.props.info.id === "REQ_FAIL" && <strong>Ошибка! </strong>}
-                        {this.props.info.id === "REQ_SUCCESS" && <strong>Успех! </strong>}
-                        {msg.message}.
-                <button type="button" className="close" data-dismiss="alert" onClick={() => this.props.clearInfo()} aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div> : null}
+                <MessageAlert msg={msg} id={this.props.info.id}/>
                 <div className="row no-gutters justify-content-between align-items-center">
-                    <h1><Link to="/admin" style={{fontSize: "1em"}}><Icon icon={cogIcon} /></Link> Новости кафедры</h1>
-                    <Link className="add_admin_button" to="/admin/news/form">Добавить новость<Icon icon={plusCircle} /></Link>
+                    <h1>Новости кафедры</h1>
+                    <Link className="add_admin_button" to="/admin/news/add">Добавить новость <Icon icon={plusCircle} /></Link>
                 </div>
                 <form>
                     <div className="form-row align-items-center">
@@ -120,6 +111,7 @@ export class AdminNews extends Component {
                             <th scope="col">Заголовок</th>
                             <th scope="col">Дата создания</th>
                             <th scope="col" style={{ width: "50px", textAlign: "center" }}> <Icon icon={pushpinIcon} /> </th>
+                            <th scope="col" style={{ width: "50px", textAlign: "center" }}> <Icon icon={bxsEdit} /> </th>
                             <th scope="col" style={{ width: "50px", textAlign: "center" }}> <Icon icon={trashAlt} /> </th>
                         </tr>
                     </thead>
@@ -127,10 +119,13 @@ export class AdminNews extends Component {
                         {NewsList && NewsList.map((item, index) => {
                                 return (<tr>
                                     <th scope="row">{index + 1}</th>
-                                    <td name="title"><Link to={`/admin/news/form/${item._id}`}>{item.title}</Link></td>
+                                    <td name="title">{item.title}</td>
                                     <td name="date">{toDate(item.created_at, true)}</td>
                                     <td name="pin" style={{cursor:"pointer", textAlign: "center"}} onClick={() => this.pinNews(item._id)}>
                                         <Icon icon={pushpinIcon} style={{opacity: item.pin ? 1 : '0.2' }}/>
+                                    </td>
+                                    <td name="edit" style={{textAlign: "center"}} >
+                                        <Link title="Редактировать" to={`/admin/news/edit/${item._id}`}><Icon icon={bxsEdit} color="green"/></Link>
                                     </td>
                                     <td name="del">
                                         <button type="button" className="btn"

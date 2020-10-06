@@ -4,13 +4,13 @@ import { connect } from "react-redux";
 import { EditorArea } from '../components/Editor'
 import { clearInfo } from "../../../redux/actions/infoActions";
 import { ReadNews, postNews, patchNews } from "../../../redux/actions/newsActions";
-import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
-import { faArrowAltCircleLeft } from "@fortawesome/free-solid-svg-icons";
+
 import { Link, Prompt, withRouter } from "react-router-dom";
 import CyrillicToTranslit from "cyrillic-to-translit-js";
 import { transliterate as slugify } from 'transliteration';
 import { toDate } from "../../components/NewsList";
 import { FormatDateToPost, DateMaskInput } from "../components/DateField";
+import { MessageAlert } from "../components/MessageAlert";
 
 export class NewsForm extends PureComponent {
 	state = {
@@ -210,32 +210,9 @@ export class NewsForm extends PureComponent {
 					when={this.state.blocked}
 					message={() => `Вы действительно хотите покинуть эту страницу?`}
 				/>
-				{msg ? (
-					<div
-						className={`alert 
-                ${this.props.info.id === "REQ_FAIL" ? "alert-danger" : null}
-                ${
-							this.props.info.id === "REQ_SUCCESS" ? "alert-success" : null
-							} alert-dismissible fade show`}
-						role="alert"
-					>
-						{this.props.info.id === "REQ_FAIL" && <strong>Ошибка! </strong>}
-						{this.props.info.id === "REQ_SUCCESS" && <strong>Успех! </strong>}
-						{msg.message}.
-						<button
-							type="button"
-							className="close"
-							data-dismiss="alert"
-							aria-label="Close"
-						>
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-				) : null}
+				<MessageAlert msg={msg} id={this.props.info.id}/>
 				<div className="row no-gutters justify-content-between">
-					<Link to="/admin/news">
-						<Icon icon={faArrowAltCircleLeft} size="lg" /> Назад
-					</Link>
+					<Link to="/admin/news">Назад</Link>
 					<form className="w-100 mt-3" onSubmit={this.submitForm}>
 						<div className="form-group">
 							<label htmlFor="title-input">Заголовок</label>

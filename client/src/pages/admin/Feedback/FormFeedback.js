@@ -3,10 +3,9 @@ import { closeNavbar } from '../../../redux/actions/navbarActions'
 import { connect } from 'react-redux'
 import { get_onefeedback, patchfeedback, postfeedback } from '../../../redux/actions/data_actions/AboutActions'
 import { clearInfo } from '../../../redux/actions/infoActions'
-import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
-import { faArrowAltCircleLeft } from '@fortawesome/free-solid-svg-icons'
 import { Link, Prompt, withRouter } from 'react-router-dom'
 import { EditorArea } from '../components/Editor';
+import { MessageAlert } from '../components/MessageAlert'
 
 export class FormFeedback extends Component {
 
@@ -118,20 +117,11 @@ export class FormFeedback extends Component {
             `Вы действительно хотите покинуть эту страницу?`
           }
         />
-        {msg ?
-          <div className={`alert 
-                ${this.props.info.id === "REQ_FAIL" ? 'alert-danger' : null}
-                ${this.props.info.id === "REQ_SUCCESS" ? 'alert-success' : null} alert-dismissible fade show`} role="alert">
-            {this.props.info.id === "REQ_FAIL" && <strong>Ошибка! </strong>}
-            {this.props.info.id === "REQ_SUCCESS" && <strong>Успех! </strong>}
-            {msg.message}.
-                <button type="button" className="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div> : null}
+        
+        <MessageAlert msg={msg} id={this.props.info.id}/>
 
         <div className="row no-gutters justify-content-between">
-          <Link to="/admin/feedback"><Icon icon={faArrowAltCircleLeft} size="lg" /> Назад</Link>
+          <Link to="/admin/feedback">Назад</Link>
           <form id="feedback_form" className="w-100 mt-3" onSubmit={this.submitForm}>
             <div className="form-group">
               <label htmlFor="name-input">ФИО</label>
@@ -142,12 +132,12 @@ export class FormFeedback extends Component {
               <div className="col form-group">
                 <label htmlFor="color-input">Цвет отзыва</label>
                 <select className="form-control" id="color-input" name="color" 
-                  onChange={this.changeInput} value={this.state.color} style={{backgroundColor: this.state.color, color: "white"}}>
-                  <option value="#DE7128" style={{color: "#DE7128" }}>Оранжевый</option>
-                  <option value="#0F8455" style={{color: "#0F8455" }}>Мятный</option>
-                  <option value="#354ED1" style={{color: "#354ED1" }}>Синий</option>
-                  <option value="#B21F66" style={{color: "#B21F66" }}>Розовый</option>
-                  <option value="#98248F" style={{color: "#98248F" }}>Пурпурный</option>
+                  onChange={this.changeInput} value={this.state.color}>
+                  <option value="#DE7128" style={{backgroundColor: "#DE7128" }}>Оранжевый</option>
+                  <option value="#0F8455" style={{backgroundColor: "#0F8455" }}>Мятный</option>
+                  <option value="#354ED1" style={{backgroundColor: "#354ED1" }}>Синий</option>
+                  <option value="#B21F66" style={{backgroundColor: "#B21F66" }}>Розовый</option>
+                  <option value="#98248F" style={{backgroundColor: "#98248F" }}>Пурпурный</option>
                 </select>
               </div>
               <div className="col form-group">

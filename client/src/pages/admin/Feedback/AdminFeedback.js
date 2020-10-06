@@ -5,9 +5,13 @@ import { getfeedback, delfeedback } from '../../../redux/actions/data_actions/Ab
 
 import { Icon } from '@iconify/react';
 import plusCircle from '@iconify/icons-fa-solid/plus-circle';
-import cogIcon from '@iconify/icons-fa-solid/cog';
 import trashAlt from '@iconify/icons-fa-solid/trash-alt';
+import bxsEdit from '@iconify/icons-bx/bxs-edit';
+import eyeSlash from '@iconify/icons-fa-solid/eye-slash';
+import eyeIcon from '@iconify/icons-fa-solid/eye';
+
 import { Link, withRouter } from 'react-router-dom'
+import { MessageAlert } from '../components/MessageAlert';
 
 export class AdminFeedback extends Component {
 
@@ -45,19 +49,11 @@ export class AdminFeedback extends Component {
 
     return (
       <div className="container-md container-fluid">
-        {msg ?
-          <div className={`alert 
-        ${this.props.info.id === "REQ_FAIL" ? 'alert-danger' : null}
-        ${this.props.info.id === "REQ_SUCCESS" ? 'alert-success' : null} alert-dismissible fade show`} role="alert">
-            {this.props.info.id === "REQ_FAIL" && <strong>Ошибка! </strong>}
-            {this.props.info.id === "REQ_SUCCESS" && <strong>Успех! </strong>}
-            {msg.message}.
-        <button type="button" className="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div> : null}
+
+        <MessageAlert msg={msg} id={this.props.info.id}/>
+
         <div className="row no-gutters align-items-center justify-content-between">
-          <h1> <Link to="/admin" style={{fontSize: "1em"}}><Icon icon={cogIcon} /></Link> Отзывы о кафедре</h1>
+          <h1>Отзывы о кафедре</h1>
           <Link className="add_admin_button" to="/admin/feedback/add">Добавить отзыв <Icon icon={plusCircle} /></Link>
         </div >
           <table className="table table-sm table-bordered table-hover">
@@ -69,6 +65,7 @@ export class AdminFeedback extends Component {
                 <th scope="col">Образование</th>
                 <th scope="col">Тип</th>
                 <th scope="col">Активен</th>
+                <th scope="col" style={{ width: "50px", textAlign: "center" }}> <Icon icon={bxsEdit} /> </th>
                 <th scope="col" style={{ width: "50px", textAlign: "center" }}><Icon icon={trashAlt} /></th>
               </tr>
             </thead>
@@ -78,11 +75,14 @@ export class AdminFeedback extends Component {
                   return (
                     <tr key={index}>
                       <th scope="row">{index + 1}</th>
-                      <td name="name"><Link to={`/admin/feedback/edit/${item._id}`}>{item.name}</Link></td>
+                      <td name="name">{item.name}</td>
                       <td name="post">{item.post}</td>
                       <td name="degree">{item.degree}</td>
                       <td name="type">{item.type === 1 ? "Отзыв" : "Цитата"}</td>
-                      <td name="isActive">{item.isActive ? "да" : "нет"}</td>
+                      <td name="isActive"><Icon icon={item.isActive ? eyeIcon : eyeSlash}/></td>
+                      <td>
+                        <Link title="Редактировать" className="btn" to={`/admin/feedback/edit/${item._id}`}><Icon icon={bxsEdit} color="green"/></Link>
+                      </td>
                       <td name="del">
                         <button type="button" className="btn" onClick={() => this.delfeedback(item._id)}><Icon icon={trashAlt} color="red" /></button>
                       </td>

@@ -1,12 +1,13 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { closeNavbar } from '../../../redux/actions/navbarActions'
 import { connect } from 'react-redux'
 import { clearInfo } from '../../../redux/actions/infoActions'
 import { postStaff, patchStaff, GetStaff } from '../../../redux/actions/staffActions'
-import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
-import { faArrowAltCircleLeft, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+import { Icon } from '@iconify/react';
+import trashAlt from '@iconify/icons-fa-solid/trash-alt';
 import { Link, Prompt, withRouter } from 'react-router-dom'
 import { transliterate as tr, slugify } from 'transliteration';
+import { MessageAlert } from '../components/MessageAlert'
 
 export class StaffForm extends Component {
 
@@ -189,19 +190,9 @@ export class StaffForm extends Component {
                         `Вы действительно хотите покинуть эту страницу?`
                     }
                 />
-                {msg ?
-                    <div className={`alert 
-                ${this.props.info.id === "REQ_FAIL" ? 'alert-danger' : null}
-                ${this.props.info.id === "REQ_SUCCESS" ? 'alert-success' : null} alert-dismissible fade show`} role="alert">
-                        {this.props.info.id === "REQ_FAIL" && <strong>Ошибка! </strong>}
-                        {this.props.info.id === "REQ_SUCCESS" && <strong>Успех! </strong>}
-                        {msg.message}.
-                <button type="button" className="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div> : null}
+                <MessageAlert msg={msg} id={this.props.info.id}/>
                 <div className="row no-gutters justify-content-between">
-                    <Link to="/admin/staff"><Icon icon={faArrowAltCircleLeft} size="lg" /> Назад</Link>
+                    <Link to="/admin/staff">Назад</Link>
                     <form className="w-100 mt-3" onSubmit={this.submitForm}>
                         <div className="form-row">
                             <div className="col form-group">
@@ -250,17 +241,17 @@ export class StaffForm extends Component {
                             </div>
                         </div>
                         {this.state.worktime.length !== 0 &&
-                            <>
+                            <Fragment>
                                 <label>Консультации:</label>
                                 {this.state.worktime.map((form, index) => {
                                     return (<div key={index} className="d-flex">
                                         <WorktimeForm time={form.time} place={form.place} week={form.week} />
                                         <button className="btn btn-danger ml-2"
                                             onClick={() => this.removeWorktime(form.week)}
-                                            style={{ height: "50%" }}><Icon icon={faTrashAlt} size="lg" /></button>
+                                            style={{ height: "50%" }}><Icon icon={trashAlt} size="lg" /></button>
                                     </div>)
                                 })}
-                            </>}
+                            </Fragment>}
                         {this.state.worktime.length < 7 &&
                             <div className="w-100">
                                 <div className="form-row">

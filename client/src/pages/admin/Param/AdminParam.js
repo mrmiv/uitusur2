@@ -7,10 +7,11 @@ import { Link } from 'react-router-dom'
 
 import { Icon } from '@iconify/react';
 import plusCircle from '@iconify/icons-fa-solid/plus-circle';
-import cogIcon from '@iconify/icons-fa-solid/cog';
+import bxsEdit from '@iconify/icons-bx/bxs-edit';
 import trashAlt from '@iconify/icons-fa-solid/trash-alt';
 import eyeIcon from '@iconify/icons-fa-solid/eye';
 import eyeSlash from '@iconify/icons-fa-solid/eye-slash';
+import { MessageAlert } from '../components/MessageAlert'
 
 export class AdminParam extends Component {
 
@@ -88,8 +89,11 @@ export class AdminParam extends Component {
           <Icon icon={item.isActive ? eyeIcon : eyeSlash}/>
         </th>
         <td name="page">{item.page}</td>
-        <td name="title"><Link to={`/admin/param/edit/${item._id}`}>{item.title}</Link></td>
+        <td name="title">{item.title}</td>
         <td name="order" style={{textAlign: "center" }}>{item.order}</td>
+        <td>
+          <Link title="Редактировать" className="btn" to={`/admin/param/edit/${item._id}`}><Icon icon={bxsEdit} color="green"/></Link>
+        </td>
         <td name="del">
           <button type="button" className="btn" onClick={() => this.delParam(item._id)}><Icon icon={trashAlt} color="red"/></button>
         </td>
@@ -98,19 +102,11 @@ export class AdminParam extends Component {
 
     return (
       <div className="container-md container-fluid">
-        {msg ?
-          <div className={`alert 
-                ${this.props.info.id === "REQ_FAIL" ? 'alert-danger' : null}
-                ${this.props.info.id === "REQ_SUCCESS" ? 'alert-success' : null} alert-dismissible fade show`} role="alert">
-            {this.props.info.id === "REQ_FAIL" && <strong>Ошибка! </strong>}
-            {this.props.info.id === "REQ_SUCCESS" && <strong>Успех! </strong>}
-            {msg.message}
-            <button type="button" className="close" data-dismiss="alert" onClick={() => this.props.clearInfo()} aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div> : null}
+        
+        <MessageAlert msg={msg} id={this.props.info.id}/>
+
         <div className="row no-gutters  align-items-center justify-content-between">
-          <h1> <Link to="/admin" style={{fontSize:"1em"}}><Icon icon={cogIcon} /></Link> Заголовки</h1>
+          <h1>Заголовки</h1>
           <Link className="add_admin_button" to="/admin/param/add">Добавить заголовок <Icon icon={plusCircle} /></Link>
         </div>
         <form>
@@ -142,6 +138,7 @@ export class AdminParam extends Component {
                 <th scope="col">Страница</th>
                 <th scope="col">Заголовок</th>
                 <th scope="col" style={{textAlign: "center"}}>Порядок</th>
+                <th scope="col" style={{ width: "50px", textAlign: "center" }}> <Icon icon={bxsEdit} /> </th>
                 <th scope="col" style={{ width: "50px", textAlign: "center" }}><Icon icon={trashAlt} /></th>
                 {/* style={{width="50px"}} */}
               </tr>

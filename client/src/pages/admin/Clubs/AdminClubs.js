@@ -9,6 +9,7 @@ import { Icon } from '@iconify/react';
 import plusCircle from '@iconify/icons-fa-solid/plus-circle';
 import cogIcon from '@iconify/icons-fa-solid/cog';
 import trashAlt from '@iconify/icons-fa-solid/trash-alt';
+import { MessageAlert } from '../components/MessageAlert'
 
 export class AdminClubs extends Component{
 
@@ -49,17 +50,9 @@ export class AdminClubs extends Component{
         const {msg} = this.state
         return(
             <div className="container-md container-fluid">
-                {msg ? 
-                <div className={`alert 
-                ${this.props.info.id === "REQ_FAIL"? 'alert-danger': null}
-                ${this.props.info.id === "REQ_SUCCESS" ? 'alert-success': null} alert-dismissible fade show`} role="alert">
-                    {this.props.info.id === "REQ_FAIL" && <strong>Ошибка! </strong> }
-                    {this.props.info.id === "REQ_SUCCESS" && <strong>Успех! </strong>}
-                    {msg.message}
-                <button type="button" className="close" data-dismiss="alert" onClick={()=>this.props.clearInfo()} aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                </div> : null}
+                
+                <MessageAlert msg={msg} id={this.props.info.id}/>
+
                 <div className="row no-gutters align-items-center justify-content-between">
                     <h1> <Link to="/admin" style={{fontSize: "1em"}}><Icon icon={cogIcon} /></Link> Внеучебная деятельность</h1>
                     <Link className="add_admin_button" to="/admin/clubs/add">Добавить клуб <Icon icon={plusCircle} /></Link>

@@ -93,7 +93,7 @@ export default class AdminRoutes extends PureComponent {
 
     render(){
 
-        const {navigation, navigationIsRolled} = this.state
+        const {navigation} = this.state
 
         return (
             <section id="admin">
