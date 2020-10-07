@@ -1,5 +1,9 @@
 import React, { Fragment, PureComponent } from 'react'
 import Files from "react-butterfiles";
+import { slugify } from 'transliteration';
+
+import { Icon } from '@iconify/react';
+import trashAlt from '@iconify/icons-fa-solid/trash-alt';
 
 export class FileField extends PureComponent{
 
@@ -8,9 +12,33 @@ export class FileField extends PureComponent{
     errors: []
   }
 
-  handleFiles = e => {
-    this.setState({errors: []})
-    this.props.handleParentFiles(e)
+  componentDidUpdate(prevProps, prevState){
+    const {files} = this.state
+
+    if (files !== prevState.files){
+      this.props.handleParentFiles(files)
+    }
+  }
+
+  handleFiles = files => {
+
+    function transiterateFilename(file){
+      Object.defineProperty(file, "name", {
+        writable: true,
+        value: slugify(file.name, { separator: '-' }),
+      })
+      return file
+    }
+
+    this.setState({files: files.map( file => transiterateFilename(file)), errors: []})
+  }
+
+  deleteFile = file => {
+    this.setState(state => { return {files: state.files.filter( f => f !== file ), errors: []}})
+  }
+
+  hideError = error => {
+    this.setState(state => { return {...state, errors: state.errors.filter( e => e !== error )}})
   }
 
   onError = errors => {
@@ -45,10 +73,9 @@ export class FileField extends PureComponent{
 
     return <Fragment>
       <Files
-        onChange={this.handleFiles}
         name={name}
         id={id}
-        multiple={true}
+        multiple={multiple}
         maxSize="15mb"
         multipleMaxSize="15mb"
         multipleMaxCount={4}
@@ -70,10 +97,13 @@ export class FileField extends PureComponent{
             >
               <ol className="files-list">
                 {this.state.files.map(file => (
-                  <li className="file-item" key={file.name}>{file.name}</li>
+                  <div className="file-item d-flex justify-content-between align-items-center">
+                    <li key={file.name}> {file.name} </li>
+                    <button className="btn btn-danger" style={{borderRadius: "8px"}} title="Удалить файл" onClick={(() => this.deleteFile(file))}><Icon inlone icon={trashAlt}/></button>
+                  </div>
                 ))}
                 {this.state.errors.map(error => (
-                  <li className="file-item file-error" key={error.id}>
+                  <li title="Нажмите, чтобы скрыть ошибку" style={{cursor: "pointer"}} onClick={() => this.hideError(error)} className="file-item file-error" key={error.id}>
                     {error.file ? <span> {error.file.name} - {error.type}</span> : error.type}
                   </li>
                 ))}

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { LOADING_REQ, REQ_FAIL, REQ_SUCCESS, GET_FILES } from './types'
+import { LOADING_REQ, REQ_FAIL, REQ_SUCCESS, GET_FILES, UPLOAD_FILE, DELETE_FILE } from './types'
 import { returnInfo } from './infoActions'
 
 export const getfiles = () => dispatch => {
@@ -31,36 +31,46 @@ export const getfiles = () => dispatch => {
     });
 }
 
-export const postfile = file => dispatch => {
+export const postfile = (file, filePath) => dispatch => {
 
   dispatch({
     type: LOADING_REQ
   })
 
-  const config = {
-    headers: {
-      "content-type": "multipart/formdata",
-      token: localStorage.getItem("token")
-    }
+  const headers = {
+    "content-type": "multipart/form-data",
+    token: localStorage.getItem("token")
   }
 
-  const data = new FormData()
-  data.append("file", file)
+  let formdata = new FormData()
+  formdata.append("file", file)
+  formdata.append("filePath", filePath)
 
-  axios.post(`/api/files`, data, config)
-    .then(res => {
-      // console.log("ACTION", res.data);
-      dispatch(returnInfo(res.data, res.status, "REQ_SUCCESS"));
-      dispatch({
-        type: REQ_SUCCESS,
-      });
+  axios({
+    url: `/api/files`,
+    method: "POST",
+    headers,
+    data: formdata,
+  })
+  .then(res => {
+    dispatch(returnInfo(res.data, res.status, "REQ_SUCCESS"));
+    dispatch({
+      type: REQ_SUCCESS,
     })
-    .catch((err) => {
-      dispatch(returnInfo(err.response.data, err.response.status, "REQ_FAIL"));
-      dispatch({
-        type: REQ_FAIL,
-      });
+    return res.data
+  })
+  .then(data => {
+    dispatch({
+      type: UPLOAD_FILE,
+      payload: { file: data.file }
+    })
+  })
+  .catch((err) => {
+    dispatch(returnInfo(err.response.data, err.response.status, "REQ_FAIL"));
+    dispatch({
+      type: REQ_FAIL,
     });
+  });
 }
 
 export const delfile = id => dispatch => {
@@ -80,7 +90,14 @@ export const delfile = id => dispatch => {
       dispatch(returnInfo(res.data, res.status, "REQ_SUCCESS"));
       dispatch({
         type: REQ_SUCCESS,
-      });
+      })
+      return res.data
+    })
+    .then(data =>{
+      dispatch({
+        type: DELETE_FILE,
+        payload: { id: data.file._id}
+      })
     })
     .catch((err) => {
       dispatch(returnInfo(err.response.data, err.response.status, "REQ_FAIL"));

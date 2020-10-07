@@ -2,14 +2,13 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { clearInfo } from '../../../redux/actions/infoActions'
 import { postfile } from '../../../redux/actions/filesActions'
-import CyrillicToTranslit from "cyrillic-to-translit-js";
 import { FileField } from '../components/FileFieled';
 import { MessageAlert } from '../components/MessageAlert';
  
 export class FormFiles extends Component {
 
   state = {
-    files: null,
+    file: null,
     msg: null
   }
 
@@ -20,41 +19,36 @@ export class FormFiles extends Component {
     }
   }
 
-  handeFile = (e) => {
-    // let file = e.target.files[0];
-    // Object.defineProperty(file, "name", {
-    //   writable: true,
-    //   value: CyrillicToTranslit().transform(file["name"], "_"),
-    // });
-    this.setState({ files: e.target.files });
-  };
+  handeFile = file => {
+    this.setState({ file })
+  }
 
   postfile = e => {
     e.preventDefault()
+
     this.props.clearInfo()
+
     const { file } = this.state
-    // console.log(file);
-    this.props.postfile(file)
+    const filePath = "other"
+
+    this.props.postfile(file[0].src.file, filePath)
   }
 
   render() {
     const { isLoading } = this.props
-    const { msg } = this.state
+    const { msg, file } = this.state
+
+    const disabled = isLoading || ! file
 
     return (
       <div className="w-100 mt-3">
         <MessageAlert msg={msg} id={this.props.info.id}/>
-        {/* <form onSubmit={this.postfile} className="pt-2">
-          <div className="form-row">
-            <div className="col form-group">
-              <input type="file" className="form-control-file"
-                onChange={this.handeFile} id="file-input" name="file" />
-            </div>
-            <button disabled={isLoading} type="submit" role="button"
-              className="btn btn-success mr-0">Добавить файл</button>
-          </div>
-        </form> */}
         <FileField handleParentFiles={this.handeFile} id="files" name="files-input" multiple={false}/>
+        <button disabled={disabled} className={`d-block mx-auto more-link ${disabled ? 'disabled' : ''}`}
+          onClick={this.postfile}
+          style={{backgroundColor: "green", color: "white"}}>
+          Подтвердить загрузку файлов
+        </button>
       </div>
     )
   }

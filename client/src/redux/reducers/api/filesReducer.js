@@ -1,6 +1,8 @@
 import {
+  DELETE_FILE,
   GET_FILES,
-  LOADING_REQ
+  LOADING_REQ,
+  UPLOAD_FILE
 } from '../../actions/types'
 
 const FilesState = {
@@ -19,6 +21,18 @@ export default function (state = FilesState, action) {
       return {
         files: action.payload.files,
         isLoading: false
+      }
+    }
+    case UPLOAD_FILE: {
+      return {
+        ...state,
+        files: [ action.payload.file, ...state.files ]
+      }
+    }
+    case DELETE_FILE: {
+      return {
+        ...state,
+        files: state.files.filter( file => file._id !== action.payload.id)
       }
     }
     default:

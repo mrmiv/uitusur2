@@ -2,9 +2,9 @@ import React, { Fragment, Component } from 'react'
 import { getfiles, delfile } from '../../../redux/actions/filesActions'
 import { clearInfo } from '../../../redux/actions/infoActions'
 import { connect } from 'react-redux'
-import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
-
+import { Icon } from '@iconify/react';
+import trashAlt from '@iconify/icons-fa-solid/trash-alt';
+import copyIcon from '@iconify/icons-fa-solid/copy';
 
 export class AdminFiles extends Component {
 
@@ -29,6 +29,11 @@ export class AdminFiles extends Component {
     }
   }
 
+  copyPath = path => {
+    navigator.clipboard.writeText(path)
+      .then(()=> alert("Ссылка скопирована"))
+  }
+
   render() {
 
     const { files } = this.props
@@ -40,8 +45,8 @@ export class AdminFiles extends Component {
             <th scope="col">#</th>
             <th scope="col">Название</th>
             <th scope="col">Ссылка</th>
-            <th scope="col" style={{ width: "50px", textAlign: "center" }}><Icon icon={faTrashAlt} /></th>
-            {/* style={{width="50px"}} */}
+            <th scope="col" style={{ width: "50px", textAlign: "center" }}><Icon icon={copyIcon} /></th>
+            <th scope="col" style={{ width: "50px", textAlign: "center" }}><Icon icon={trashAlt} /></th>
           </tr>
         </thead>
         <tbody>
@@ -51,9 +56,10 @@ export class AdminFiles extends Component {
                 <tr key={index}>
                   <th scope="row">{index + 1}</th>
                   <td name="name">{item.name}</td>
-                  <td name="link">{item.file}</td>
+                  <td name="link"><a href={item.file} target="_blank" rel="noopener norefferer">{item.file}</a></td>
+                  <td name="copy"><button title="Копировать ссылку" className="btn" onClick={()=>this.copyPath(item.path)}><Icon icon={copyIcon} color="blue" /></button></td>
                   <td name="del">
-                    <button type="button" className="btn" onClick={() => this.delfile(item._id)}><Icon icon={faTrashAlt} /></button>
+                    <button title="Удалить" className="btn" onClick={() => this.delfile(item._id)}><Icon icon={trashAlt} color="red"/></button>
                   </td>
                 </tr>
               )

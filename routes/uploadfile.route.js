@@ -1,7 +1,8 @@
 const { Router } = require("express");
 const router = Router();
 const fs = require("fs");
-const auth = require("../middleware/middleware.auth")
+const auth = require("../middleware/middleware.auth");
+const deleteFile = require("../middleware/middleware.deleteFile");
 const fileUpload = require("../middleware/middleware.fileUpload");
 const multipleFileUpload = require("../middleware/middleware.multipleFileUpload");
 const dbFile = require('../models/dbFile')
@@ -11,6 +12,7 @@ router.get("/", auth, async (req, res) => {
   try {
 
     await dbFile.find()
+      .sort([['created', -1], ['name',1]])
       .then(data => res.json(data))
 
   } catch (error) {
@@ -26,7 +28,7 @@ router.post("/", [auth, fileUpload], async (req, res) => {
     
     const file = new dbFile({ name, file: path })
     await file.save()
-      .then( savedFile => res.json({message: `Файл ${savedFile.name} добавлен`, path: savedFile.file}) )
+      .then( savedFile => res.json({message: `Файл ${savedFile.name} добавлен`, file: savedFile}) )
 
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -76,14 +78,10 @@ router.delete("/:id", auth, async (req, res) => {
       return res.status(404).json({ message: `Файл с id ${id} не найден` })
     }
 
-    fs.unlink(`${file.file.substr(1)}`, (err) => {
-      if (err) {
-        return res.status(400).json({ message: "Файл не удален. " + err })
-      }
-    })
+    await deleteFile(res, file.file)
 
     await file.delete()
-      .then(q => res.json({ message: `Файл ${q.name} удален.` }))
+      .then(q => res.json({ message: `Файл ${q.name} удален.`, file: q }))
 
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -100,9 +98,7 @@ router.delete("/", auth, async (req, res) => {
       return res.status(400).json({message: "Путь для удаления не найден"})
     }
 
-    fs.unlink(filePath.substr(1), (err) => {
-      if (err) { return res.status(400).json({message: `Файл не был удален. Ошбика: ${err}`})}
-    })
+    
 
     res.json({message: "Файл удален"})
 

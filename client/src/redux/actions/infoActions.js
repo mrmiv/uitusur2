@@ -1,16 +1,14 @@
 import {GET_INFO, CLEAR_INFO} from '../actions/types';
 
-// RETURN ERRORS
-
-export const returnInfo =(msg, status, id=null) => {
+export const returnInfo = (msg = "Что-то пошло не так", status = 400, id=null) => {
     return {
         type: GET_INFO,
-        payload: {msg: msg, status, id}
+        payload: {msg, status, id}
     }
 }
 
 // CLEAR ERRORS
-export const clearInfo =() => {
+export const clearInfo = () => {
     return {
         type: CLEAR_INFO,
     }

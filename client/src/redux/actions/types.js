@@ -58,6 +58,9 @@ export const DOCS_LOADING = "DOCS_LOADING"
 export const GET_DOC = "GET_DOC"
 // другие файлы
 export const GET_FILES = "GET_FILES"
+export const UPLOAD_FILE = "UPLOAD_FILE"
+export const DELETE_FILE = "DELETE_FILE"
+
 
 // Опрос
 export const GET_QUIZ = "GET_QUIZ"

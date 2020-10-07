@@ -1,10 +1,10 @@
-const fs = require("fs");
 
 module.exports = (req, res, next) =>{
   try {
-      
-    const files = req.files
-    const { filePath } = req.body
+
+    if(!req.files){
+      return res.status(400).json({message: "Вы не прикрепили файл"})
+    }
 
     function s4() {
       return Math.floor((1 + Math.random()) * 0x10000)
@@ -12,17 +12,15 @@ module.exports = (req, res, next) =>{
         .substring(1);
     }
 
-    if(!files){
-      return res.status(400).json({message: "Вы не прикрепили файл"})
-    }
-
     const filePaths = ["other", "other/clubs", "literature", "literature/images", "news", "docs"]
 
+    const { filePath } = req.body
+    
     if((!filePath in filePaths)){
       return res.status(400).json({message: "Некорректно указан путь файла. Попробуйте еще раз"})
     }
 
-    const {file} = files
+    const { file } = req.files
 
     if(!file){
       return res.status(500).json({message: "Ошибка сервера. Не найден прикрепленный файл."})
