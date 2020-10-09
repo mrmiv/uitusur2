@@ -45,8 +45,7 @@ export const GetStaff = (field, value) => dispatch => {
             dispatch({
                 type: GET_CURRENT_STAFF,
                 payload: { 
-                    CurrentStaff: res.data,
-                    LastCurrentStaff: value
+                    CurrentStaff: res.data
                 }
             })
             return res.data
@@ -70,6 +69,7 @@ export const postStaff = (Staff) => dispatch => {
         dispatch({
             type: REQ_FAIL
         })
+        return
     }
 
     const config = {
@@ -85,9 +85,6 @@ export const postStaff = (Staff) => dispatch => {
         if (Staff[item].length !== 0) { data[item] = Staff[item] }
     }
 
-    // console.log(data);
-
-    // debugger
     axios.post(`/api/staff`, data, config)
         .then(res => {
             dispatch(returnInfo(res.data, res.status, 'REQ_SUCCESS'))

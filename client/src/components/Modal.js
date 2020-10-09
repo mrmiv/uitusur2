@@ -1,5 +1,7 @@
 import React, { Fragment, PureComponent } from 'react'
 import { withRouter } from 'react-router-dom'
+import { Icon } from '@iconify/react'
+import closeCircleSharp from '@iconify/icons-ion/close-circle-sharp';
 
 export const Modal = withRouter(class ModalComponent extends PureComponent{
   
@@ -43,7 +45,7 @@ export const Modal = withRouter(class ModalComponent extends PureComponent{
         >
         </div>
         <div className="modal_window">
-        <div id="close-modal-btn" role='button' onClick={this.back}><span >&times;</span></div>
+        <div id="close-modal-btn" onClick={this.back}><Icon color="red" icon={closeCircleSharp}/></div>
           {children}
         </div>
         </Fragment>

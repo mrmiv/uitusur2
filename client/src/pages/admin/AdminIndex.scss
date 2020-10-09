@@ -8,6 +8,7 @@
     #admin-navigation{
         height: 100%;
         padding: 4px;
+        background: #dae9f5;
         .admin-link{
             color: default.$lblue;
             width: 100%;
@@ -62,8 +63,11 @@
     .file-item{
         padding: 4px 8px;
         margin-top: 2px;
-        background: whitesmoke;
+        background: lightgreen;
         border-radius: 8px;
+        &.old-file-item{
+            background: whitesmoke;
+        }
     }
     .file-error{
         &:after{

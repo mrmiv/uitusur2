@@ -10,7 +10,7 @@ export class EditorArea extends Component{
     render(){
         return(
             <div className="form-group">
-                <label htmlFor="body-input">Сообщение</label>
+                <label htmlFor="body-input">Сообщение *</label>
                 <Editor
                 value={this.props.value}
                 init={{

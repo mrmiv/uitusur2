@@ -1,39 +1,47 @@
 import React, { Fragment, PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { GetStaff } from '../../redux/actions/staffActions';
-import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome';
-import { faLink } from '@fortawesome/free-solid-svg-icons';
+import { Icon } from '@iconify/react'
+import linkIcon from '@iconify/icons-fa-solid/link';
+import copyIcon from '@iconify/icons-fa-solid/copy';
 
 export class StaffPage extends PureComponent {
 
     state = {
-        CurrentStaff: {},
+        CurrentStaff: null,
         isLoading: false
     }
 
     componentDidMount(){
+        document.title = "Сотрудники кафедры - Кафедра управления инновациями"
         
-        const {CurrentStaff} = this.props.CurrentStaff
+        const {CurrentStaff} = this.props
 
         if( !CurrentStaff || (CurrentStaff.fullname_url !== this.props.fullname_url) ){
             this.props.GetStaff('translit_name', this.props.fullname_url)
+        } else {
+            this.setState({CurrentStaff})
         }
 
-        document.title = "Сотрудники кафедры - Кафедра управления инновациями"
     }
 
     componentDidUpdate(prevProps){
-        const { CurrentStaff, isLoading } = this.props.CurrentStaff
-        const prevCurrentStaff = prevProps.CurrentStaff.CurrentStaff
-        const prevIsLoading = prevProps.CurrentStaff.CurrentStaff
+        const { CurrentStaff ,isLoading } = this.props
 
-        if (isLoading !== prevIsLoading){
+        if (isLoading !== prevProps.isLoading){
             this.setState({isLoading})
         }
 
-        if (CurrentStaff !== prevCurrentStaff){
+        if(CurrentStaff !== prevProps.CurrentStaff){
             this.setState({CurrentStaff})
         }
+
+    }
+
+    copyStaffPost = () => {
+        const staff = this.state.CurrentStaff
+        navigator.clipboard.writeText(`${staff.post}${staff.degree ? `, ${staff.degree}` : ''}`)
+            .then(()=> alert("Должность скопирована"))
     }
 
     renderStaff = () => {
@@ -57,19 +65,22 @@ export class StaffPage extends PureComponent {
                     <span style={{ fontWeight: "500" }}>
                         Должность: 
                     </span>
-                    {CurrentStaff.post}
+                    {" " + CurrentStaff.post}
+                    <a title="Копировать должность" style={{cursor: "pointer", marginLeft: "4px"}} onClick={this.copyStaffPost}>
+                        <Icon inline color="#354ED1" icon={copyIcon} />
+                    </a>
                 </p>}
                 {CurrentStaff.degree && <p>
                     <span style={{ fontWeight: "500" }}>
                         Ученая степень: 
                     </span>
-                    {CurrentStaff.degree}
+                    {" " + CurrentStaff.degree}
                 </p>}
                 {CurrentStaff.rank && <p>
                     <span style={{ fontWeight: "500" }}>
                         Ученое звание: 
                     </span>
-                    {CurrentStaff.rank}
+                    {" " + CurrentStaff.rank}
                 </p>}
                 {CurrentStaff.worktime && CurrentStaff.worktime.length !== 0 &&
                 <Fragment>
@@ -97,7 +108,7 @@ export class StaffPage extends PureComponent {
                         </tbody>
                     </table>                          
                 </Fragment>}
-                <a href={CurrentStaff.path} rel="noopener noreferrer" target="_blank"> <Icon icon={faLink} /> Справочник</a>
+                <a href={CurrentStaff.path} rel="noopener noreferrer" target="_blank"> <Icon icon={linkIcon} inline color="#354ED1"/> Справочник</a>
             </div>
         </div> : <p>Сотрудник не найден</p>
         
@@ -110,7 +121,8 @@ export class StaffPage extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-    CurrentStaff: state.api.staff.CurrentStaff,
+    CurrentStaff: state.api.staff.CurrentStaff.CurrentStaff,
+    isLoading: state.api.staff.CurrentStaff.isLoading,
 })
 
 export default connect(

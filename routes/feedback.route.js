@@ -56,7 +56,7 @@ router.delete('/:id', auth, async (req, res) => {
   try {
 
     await Feedback.findByIdAndDelete(id)
-      .then(q => res.json({ message: `Отзыв от ${q.name} удален` }))
+      .then( () => res.json({ message: `Отзыв удален` }))
       .catch(err => res.status(400).json({ message: err.message }))
 
   } catch (error) {

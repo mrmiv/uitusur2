@@ -53,15 +53,15 @@ router.post("/upload-file", [auth, fileUpload], async (req, res) => {
  * @params filePath, files (папка, в которую сохранить файлы, файлы)
  * @return Array of Objects (Массив с путями файлов и их названиями)
  */
-router.post("/upload-files", [auth, multipleFileUpload], async (req, res) => {
-  try {
+// router.post("/upload-files", [auth, multipleFileUpload], async (req, res) => {
+//   try {
     
-    res.json({message: "Файлы успешно загружены", files: req.filesURLs})
+//     res.json({message: "Файлы успешно загружены", files: req.filesURLs})
 
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-})
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// })
 
 /**
  * @description Удалить ссылку на файл из бд
@@ -98,9 +98,9 @@ router.delete("/", auth, async (req, res) => {
       return res.status(400).json({message: "Путь для удаления не найден"})
     }
 
-    
+    await deleteFile(res, filePath)
 
-    res.json({message: "Файл удален"})
+    return res.json({message: "Файл удален"})
 
   } catch (error) {
     res.status(500).json({ message: error.message });

@@ -12,7 +12,6 @@ import axios from "axios";
 import { returnInfo } from "./infoActions";
 
 export const GetNewsList = (type='', page = 1, perPage = 10) => (dispatch) => {
-	// get /literature/?page=1&?perPage=12?category=all&?sort=asc
 
 	dispatch({
 	    type: LOADING_REQ
@@ -23,7 +22,6 @@ export const GetNewsList = (type='', page = 1, perPage = 10) => (dispatch) => {
 	axios
 		.get(url)
 		.then((res) => {
-			// console.log(res.data);
 
 			dispatch({
 				type: GET_NEWSLIST,
@@ -115,8 +113,8 @@ export const postNews = ({
 	period,
 	grant,
 	pin,
-	send_to_email,
-}) => (dispatch) => {
+}) => dispatch => {
+
 	dispatch({
 		type: LOADING_REQ,
 	});
@@ -124,6 +122,7 @@ export const postNews = ({
 	const headers = {
 		"content-type": "multipart/form-data",
 		token: localStorage.getItem("token"),
+		"filepath": "news"
 	};
 
 	const formdata = new FormData();
@@ -132,41 +131,24 @@ export const postNews = ({
 	formdata.append("translit_title", translit_title);
 	formdata.append("body", body);
 	formdata.append("type", type);
-
-	if (site) {
-		formdata.append("site", site);
-	}
-	if (deadline) {
-		formdata.append("deadline", deadline);
-	}
-	if (city) {
-		formdata.append("city", city);
-	}
-	if (users) {
-		formdata.append("users", users);
-	}
-	if (period) {
-		formdata.append("period", period);
-	}
-	if (grant) {
-		formdata.append("grant", grant);
-	}
-	if (annotation) {
-		formdata.append("annotation", annotation);
-	}
 	formdata.append("pin", pin);
-	formdata.append("send_to_email", send_to_email);
 
-	// console.log(doc);
+	if (site) {formdata.append("site", site)}
+	if (deadline) {formdata.append("deadline", deadline)}
+	if (city) {formdata.append("city", city)}
+	if (users) {formdata.append("users", users)}
+	if (period) {formdata.append("period", period)}
+	if (grant) {formdata.append("grant", grant)}
+	if (annotation) {formdata.append("annotation", annotation)}
+	// formdata.append("send_to_email", send_to_email);
 
 	if (doc) {
-		for (let i = 0; i < doc.length; i++) {
-			// console.log(doc[i] + "ЭТО I ФАЙЛ");
-			formdata.append("doc", doc[i]);
-		}
+		doc.forEach((file, index) => {
+			formdata.append(`file[${index}]`, file)
+		})
 	}
 
-	// get /literature/book/id
+	
 	axios({
 		url: "/api/news",
 		method: "POST",
@@ -174,19 +156,18 @@ export const postNews = ({
 		data: formdata,
 	})
 		.then((res) => {
-			// console.log(res);
 			dispatch(returnInfo(res.data, res.status, "REQ_SUCCESS"));
 			dispatch({
 				type: REQ_SUCCESS,
-			});
+			})
 		})
 		.catch((err) => {
 			dispatch(returnInfo(err.response.data, err.response.status, "REQ_FAIL"));
 			dispatch({
 				type: REQ_FAIL,
-			});
-		});
-};
+			})
+		})
+}
 
 export const delNews = (id, type='', page=1, perPage=15) => dispatch => {
 
@@ -211,23 +192,29 @@ export const delNews = (id, type='', page=1, perPage=15) => dispatch => {
 				type: REQ_FAIL,
 			});
 		});
-};
+}
 
-export const patchNews = (id, {
-	title,
-	translit_title,
-	annotation,
-	site,
-	type,
-	deadline,
-	body,
-	city,
-	doc,
-	users,
-	period,
-	grant,
-	pin,
-}) => (dispatch) => {
+export const patchNews = (id, News, oldDocs) => (dispatch) => {
+	dispatch({
+		type: LOADING_REQ,
+	});
+
+	const {
+		title,
+		translit_title,
+		annotation,
+		site,
+		type,
+		deadline,
+		body,
+		city,
+		doc,
+		users,
+		period,
+		grant,
+		pin,
+	} = News
+
 	dispatch({
 		type: LOADING_REQ,
 	});
@@ -235,6 +222,7 @@ export const patchNews = (id, {
 	const headers = {
 		"content-type": "multipart/form-data",
 		token: localStorage.getItem("token"),
+		"filepath": "news"
 	};
 
 	const formdata = new FormData();
@@ -243,35 +231,24 @@ export const patchNews = (id, {
 	formdata.append("translit_title", translit_title);
 	formdata.append("body", body);
 	formdata.append("type", type);
-
-	if (site) {
-		formdata.append("site", site);
-	}
-	if (deadline) {
-		formdata.append("deadline", deadline);
-	}
-	if (city) {
-		formdata.append("city", city);
-	}
-	if (users) {
-		formdata.append("users", users);
-	}
-	if (period) {
-		formdata.append("period", period);
-	}
-	if (grant) {
-		formdata.append("grant", grant);
-	}
 	formdata.append("pin", pin);
 
+	if (site) {formdata.append("site", site)}
+	if (deadline) {formdata.append("deadline", deadline)}
+	if (city) {formdata.append("city", city)}
+	if (users) {formdata.append("users", users)}
+	if (period) {formdata.append("period", period)}
+	if (grant) {formdata.append("grant", grant)}
+	if (annotation) {formdata.append("annotation", annotation)}
+	// formdata.append("send_to_email", send_to_email);
+	formdata.append("oldDocs", JSON.stringify(oldDocs))
+
 	if (doc) {
-		formdata.append("doc", doc);
-	}
-	if (annotation) {
-		formdata.append("annotation", annotation);
+		doc.forEach((file, index) => {
+			formdata.append(`file[${index}]`, file)
+		})
 	}
 
-	// get /literature/book/id
 	axios({
 		url: `/api/news/read/${id}`,
 		method: "PATCH",
@@ -279,7 +256,6 @@ export const patchNews = (id, {
 		data: formdata,
 	})
 		.then((res) => {
-			// console.log(res);
 			dispatch(returnInfo(res.data, res.status, "REQ_SUCCESS"));
 			dispatch({
 				type: REQ_SUCCESS,
@@ -291,7 +267,7 @@ export const patchNews = (id, {
 				type: REQ_FAIL,
 			});
 		});
-};
+}
 
 export const pinNews = (id, type='', page = 1, perPage = 10) => dispatch => {
 
@@ -299,22 +275,21 @@ export const pinNews = (id, type='', page = 1, perPage = 10) => dispatch => {
 		headers: {
 			token: localStorage.getItem("token"),
 		}
-	};
+	}
 
 	axios
 		.put(`/api/news/read/pin/${id}`, null, config)
 		.then((res) => {
-			// console.log(res);
 			dispatch(returnInfo(res.data, res.status, "REQ_SUCCESS"));
 			dispatch({
 				type: REQ_SUCCESS,
-			});
+			})
 			dispatch(GetNewsList(type, page, perPage))
 		})
 		.catch((err) => {
 			dispatch(returnInfo(err.response.data, err.response.status, "REQ_FAIL"));
 			dispatch({
 				type: REQ_FAIL,
-			});
-		});
+			})
+		})
 }

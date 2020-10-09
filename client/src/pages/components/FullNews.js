@@ -90,13 +90,13 @@ export class FullNews extends Component {
             <div className="text__news" dangerouslySetInnerHTML={{ __html: News.body }} />
             {News.docs.length !== 0 && <div className="docs__news"><strong>Вложения:</strong><br />
                 {News.docs.map((doc, index) => {
-                    return (<a href={doc} key={index} target="_blank" rel="noopener noreferrer">
-                        <Icon className="mr-3" size="lg" icon={documentAttach} /> {doc.substr(39)}
+                    return (<a href={doc.path ? doc.path : doc || "#"} key={index} target="_blank" rel="noopener noreferrer">
+                        <Icon className="mr-3" size="lg" icon={documentAttach} /> {doc.name? doc.name : `Вложение ${index}`}
                     </a>)
                 })}</div>}
         </Fragment>
     }
-
+ 
     render() {
         
         // console.log(this.props)

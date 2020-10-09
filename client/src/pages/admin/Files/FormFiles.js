@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { clearInfo } from '../../../redux/actions/infoActions'
 import { postfile } from '../../../redux/actions/filesActions'
-import { FileField } from '../components/FileFieled';
+import { FileField } from '../components/FileField';
 import { MessageAlert } from '../components/MessageAlert';
  
 export class FormFiles extends Component {

@@ -47,8 +47,8 @@ const StaffSchema = new Schema({
     fullname_url: {
         type: String,
         trim: true,
-        required: [true, "Поле имя является обязательным"],
-        unique: true
+        unique: true,
+        required: [true, "Поле имя является обязательным"]
     },
 
     // должность

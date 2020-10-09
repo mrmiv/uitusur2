@@ -6,11 +6,11 @@ import { clearInfo } from "../../../redux/actions/infoActions";
 import { ReadNews, postNews, patchNews } from "../../../redux/actions/newsActions";
 
 import { Link, Prompt, withRouter } from "react-router-dom";
-import CyrillicToTranslit from "cyrillic-to-translit-js";
 import { transliterate as slugify } from 'transliteration';
 import { toDate } from "../../components/NewsList";
 import { FormatDateToPost, DateMaskInput } from "../components/DateField";
 import { MessageAlert } from "../components/MessageAlert";
+import { FileField } from "../components/FileField";
 
 export class NewsForm extends PureComponent {
 	state = {
@@ -29,6 +29,8 @@ export class NewsForm extends PureComponent {
 		period: "",
 		grant: "",
 		doc: null,
+
+		oldDocs: null,
 
 		pin: false,
 		send_to_email: false,
@@ -53,32 +55,33 @@ export class NewsForm extends PureComponent {
 	componentDidUpdate(prevProps, prevState) {
 		const url = this.props.match.params.id;
 		const { msg } = this.props.info;
-		if (url) {
-			if (url !== prevState.url) {
-				this.setState({ url });
-			}
-			const { News } = this.props.news;
+		// console.log(this.state.doc, this.state.oldDocs);
+		if (url && url !== prevState.url) {
+			this.setState({ url });
+		}
 
-			if (News !== prevProps.news.News) {
-				this.setState({
-					title: News.title,
-					translit_title: News.translit_title,
-					annotation: News.annotation,
-					body: News.body,
-					type: String(News.type),
-					site: News.site,
-					city: News.city,
-					deadline: toDate(News.deadline),
-					users: News.users,
-					grant: News.grant,
-					pin: News.pin,
-					period: News.period,
-					id: News._id
-				});
-			}
+		if (url && this.props.news.News !== prevProps.news.News) {
+
+			const {News} = this.props.news
+
+			this.setState({
+				title: News.title,
+				translit_title: News.translit_title,
+				annotation: News.annotation,
+				body: News.body,
+				type: News.type,
+				site: News.site,
+				city: News.city,
+				deadline: News.deadline ? toDate(News.deadline) : "",
+				users: News.users,
+				oldDocs: News.docs,
+				grant: News.grant,
+				pin: News.pin,
+				period: News.period,
+				id: News._id
+			});
 		}
 		if (msg !== prevProps.info.msg) {
-			// console.log(msg);
 			this.setState({ msg });
 		}
 	}
@@ -91,7 +94,6 @@ export class NewsForm extends PureComponent {
 	changeInput = e => {
 		const field = e.target.name;
 		const value = e.target.value
-		console.log(field, value);
 		this.setState({ [field]: value });
 		if (!this.state.blocked) {
 			this.setState({ blocked: true });
@@ -100,7 +102,7 @@ export class NewsForm extends PureComponent {
 
 	changeTitleAndTranslit = e => {
 		const value = e.target.value
-		const translit_value = slugify(value)
+		const translit_value = slugify(value, { replace: {' ' : '-'}})
 
 		this.setState({ 
 			title: value,
@@ -116,24 +118,20 @@ export class NewsForm extends PureComponent {
 		this.setState({ [field]: e.target.checked });
 	};
 
-	handeFile = (e) => {
-		let files = e.target.files;
-		for (let i = 0; i < files.length; i++) {
-			console.log(files[i]);
-			Object.defineProperty(files[i], "name", {
-				writable: true,
-				value: CyrillicToTranslit().transform(files[i]["name"], "-"),
-			});
-		}
+	handeFile = (files) => {
 		this.setState({ doc: files });
 	};
+
+	deleteOldFile = file => {
+		this.setState(state => {return { oldDocs: state.oldDocs.filter(doc => doc._id !== file._id) }})
+	}
 
 	changeBody = (body) => {
 		this.setState({ body });
 		if (!this.state.blocked) {
 			this.setState({ blocked: true });
 		}
-	};
+	}
 
 	submitForm = (e) => {
 		e.preventDefault();
@@ -155,15 +153,12 @@ export class NewsForm extends PureComponent {
 			doc,
 
 			pin,
-			send_to_email,
-
+			oldDocs,
 			url,
 			id
 		} = this.state;
 
-		console.log(deadline);
-
-		let fields = {
+		let News = {
 			title,
 			translit_title,
 			annotation,
@@ -171,39 +166,34 @@ export class NewsForm extends PureComponent {
 			doc,
 			body,
 			pin,
-			send_to_email,
 			type,
-			deadline: FormatDateToPost(deadline)
+			deadline: deadline ? FormatDateToPost(deadline) : ''
 		};
 
-		// console.log("this is docs",doc);
-
-		if (type === "2") {
+		if (type === 2) {
 			// стипендии и гранты
-			fields.city = city;
-			fields.grant = grant;
-			fields.period = period;
-		} else if (type === "3") {
+			News.city = city;
+			News.grant = grant;
+			News.period = period;
+		} else if (type === 3) {
 			// конференции
-			fields.city = city;
-			fields.site = site;
-			fields.period = period;
+			News.city = city;
+			News.site = site;
+			News.period = period;
 		}
 
-		// console.log(fields);
-		const News = fields;
-		// console.log(Staff);
-
 		if (url) {
-			// console.log(fields);
-			this.props.patchNews(id, News)
+			this.props.patchNews(id, News, oldDocs)
 		} else {
 			this.props.postNews(News);
 		}
-	};
+	}
 
 	render() {
-		const { type, msg, isLoading } = this.state;
+		const { type, title, translit_title, body, msg } = this.state
+		const {isLoading} = this.props.news
+		const disabledButton = !title || !translit_title || !body || !type || isLoading
+
 		return (
 			<div className="container-md container-fluid">
 				<Prompt
@@ -215,8 +205,9 @@ export class NewsForm extends PureComponent {
 					<Link to="/admin/news">Назад</Link>
 					<form className="w-100 mt-3" onSubmit={this.submitForm}>
 						<div className="form-group">
-							<label htmlFor="title-input">Заголовок</label>
+							<label htmlFor="title-input">Заголовок *</label>
 							<input
+								required
 								onChange={this.changeTitleAndTranslit}
 								type="text"
 								className="form-control"
@@ -227,9 +218,9 @@ export class NewsForm extends PureComponent {
 							/>
 						</div>
 						<div className="form-group">
-							<label htmlFor="translit-title-input">Транслитом / URL</label>
+							<label htmlFor="translit-title-input">URL *</label>
 							<input
-								disabled
+								required
 								type="text"
 								className="form-control"
 								name="translit_title"
@@ -251,6 +242,29 @@ export class NewsForm extends PureComponent {
 						</div>
 						<div className="form-row">
 							<div className="col form-group">
+								<label htmlFor="type-input">Категория *</label>
+								<select
+									required
+									onChange={this.changeInput}
+									type="text"
+									value={this.state.type}
+									className="form-control"
+									name="type"
+									id="type-input"
+								>
+									{!type && <option defaultValue>Выберите категорию...</option>}
+									<option name="Объявления кафедры" value={1}>
+										Объявления кафедры
+									</option>
+									<option name="Стипендии, конкурсы и гранты" value={2}>
+										Стипендии, конкурсы и гранты
+									</option>
+									<option name="Конференции" value={3}>
+										Конференции
+									</option>
+								</select>
+							</div>
+							<div className="col form-group">
 								<label htmlFor="users-input">Для кого</label>
 								<input
 									onChange={this.changeInput}
@@ -262,44 +276,9 @@ export class NewsForm extends PureComponent {
 									value={this.state.users}
 								/>
 							</div>
-							<div className="col form-group">
-								<label htmlFor="type-input">Категория</label>
-								<select
-									onChange={this.changeInput}
-									type="text"
-									value={this.state.type}
-									className="form-control"
-									name="type"
-									id="type-input"
-								>
-									{!type && <option defaultValue>Выберите категорию...</option>}
-									<option name="Объявления кафедры" value={"1"}>
-										Объявления кафедры
-									</option>
-									<option name="Стипендии, конкурсы и гранты" value={"2"}>
-										Стипендии, конкурсы и гранты
-									</option>
-									<option name="Конференции" value={"3"}>
-										Конференции
-									</option>
-								</select>
-							</div>
-						</div>
-						<div className="form-row">
 							<DateMaskInput id="deadline-input" name="deadline"
 								changeParentInput={this.changeInput}
 								value={this.state.deadline} label="Крайний срок" col />
-							<div className="col form-group">
-								<label htmlFor="doc-input">Вложения</label>
-								<input
-									type="file"
-									onChange={this.handeFile}
-									multiple
-									className="form-control-file"
-									name="doc"
-									id="doc-input"
-								/>
-							</div>
 						</div>
 						{type && type !== "1" && (
 							<div className="form-row">
@@ -362,9 +341,12 @@ export class NewsForm extends PureComponent {
 							</div>
 						)}
 						<EditorArea value={this.state.body} changeParentBody={this.changeBody}/>
-						<div className="w-100 mt-2 d-flex justify-content-between align-items-bottom">
-							<div>
-								<div className="form-group form-check">
+
+						<FileField handleParentFiles={this.handeFile} deleteOldFile={this.deleteOldFile} 
+						id="docs" files={this.state.oldDocs} label="вложения" name="docs-input" multiple={true}/>
+
+						<div className="mt-2 d-flex justify-content-end align-items-center">
+								{/* <div className="form-group form-check">
 									<input
 										type="checkbox"
 										className="form-check-input"
@@ -376,25 +358,24 @@ export class NewsForm extends PureComponent {
 									<label className="form-check-label" htmlFor="sendemail">
 										Уведомить по почте
 									</label>
-								</div>
-								<div className="form-group form-check">
-									<input
-										type="checkbox"
-										className="form-check-input"
-										id="pin"
-										checked={this.state.pin}
-										name="pin"
-										onChange={this.changeCheckbox}
-									/>
-									<label className="form-check-label" htmlFor="pin">
-										Закрепить новость
-									</label>
-								</div>
+								</div> */}
+							<div className="form-group form-check" style={{margin: "0 16px"}}>
+								<input
+									type="checkbox"
+									className="form-check-input"
+									id="pin"
+									checked={this.state.pin}
+									name="pin"
+									onChange={this.changeCheckbox}
+								/>
+								<label className="form-check-label" htmlFor="pin">
+									Закрепить новость
+								</label>
 							</div>
 							<button
-								className="btn btn-success mr-0 h-50"
+								className="btn btn-success"
 								type="submit"
-								disabled={isLoading}
+								disabled={disabledButton}
 							>
 								{this.state.url ? "Обновить новость" : "Добавить новость"}
 							</button>
@@ -411,8 +392,8 @@ const mapStateToProps = (state) => ({
 	info: state.info,
 });
 
-export default withRouter(
-	connect(mapStateToProps, { closeNavbar, clearInfo, ReadNews, postNews, patchNews })(
-		NewsForm
-	)
-);
+export default withRouter(connect(
+	mapStateToProps, 
+	{ closeNavbar, clearInfo, ReadNews, postNews, patchNews })
+	(NewsForm)
+)

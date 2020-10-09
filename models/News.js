@@ -83,7 +83,20 @@ const NewsSchema = new Schema({
     grant: { type: String, trim: true },//grants
 
     // Вложения
-    docs: { type: [String] }
+    docs: { 
+        type: [{
+            name: {
+                type: String,
+                required: true,
+                trim: true
+            },
+            path: {
+                type: String,
+                required: true,
+                trim: true
+            }
+        }]
+    }
 
 }, { autoIndex: false, versionKey: false })
 

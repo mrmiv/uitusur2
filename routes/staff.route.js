@@ -81,21 +81,25 @@ router.post('/', auth, async (req, res) => {
 
     try {
 
-        const staff = new Staff({
-            firstname,
-            lastname,
-            secondname,
-            fullname_url,
-            post,
-            degree,
-            rank,
-            path,
-            worktime
-        })
+    const exists = await Staff.findOne({fullname_url, path}).exec()
+    
+    if(exists){return res.status(400).json({message: `Сотрудник с таким URL или справочником уже существует`})}
+        
+    const staff = new Staff({
+        firstname,
+        lastname,
+        secondname,
+        fullname_url,
+        post,
+        degree,
+        rank,
+        path,
+        worktime
+    })
 
-        await staff.save()
-                .then(staff => res.json({ message: "Сотрудник успешно добавлен", staff }))
-                .catch(err => res.status(400).json({ message: err.message }))
+    await staff.save()
+        .then(staff => res.json({ message: "Сотрудник успешно добавлен", staff }))
+        .catch(err => res.status(400).json({ message: err.message }))
         
     } catch (error) {
         res.status(500).json({ message: error.message })

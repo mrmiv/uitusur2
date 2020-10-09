@@ -8,29 +8,26 @@ import trashAlt from '@iconify/icons-fa-solid/trash-alt';
 export class FileField extends PureComponent{
 
   state = {
+    oldFiles: [],
     files: [],
     errors: []
   }
 
   componentDidUpdate(prevProps, prevState){
-    const {files} = this.state
+    const {files, oldFiles} = this.state
+    const {props} = this
 
-    if (files !== prevState.files){
+    if (props.files && (props.files !== oldFiles)){
+      this.setState({oldFiles: props.files})
+    }
+
+    if ((files !== prevState.files) && (files !== props.files)){
       this.props.handleParentFiles(files)
     }
   }
 
   handleFiles = files => {
-
-    function transiterateFilename(file){
-      Object.defineProperty(file, "name", {
-        writable: true,
-        value: slugify(file.name, { separator: '-' }),
-      })
-      return file
-    }
-
-    this.setState({files: files.map( file => transiterateFilename(file)), errors: []})
+    this.setState(state => {return {files: [...state.files, ...files.map( file => file.src.file)], errors: []}})
   }
 
   deleteFile = file => {
@@ -38,7 +35,11 @@ export class FileField extends PureComponent{
   }
 
   hideError = error => {
-    this.setState(state => { return {...state, errors: state.errors.filter( e => e !== error )}})
+    this.setState(state => { return {errors: state.errors.filter( e => e !== error )}})
+  }
+
+  sendDeleteFile = file => {
+    this.props.deleteOldFile(file)
   }
 
   onError = errors => {
@@ -70,6 +71,7 @@ export class FileField extends PureComponent{
   render(){
 
     const {label, id, name, accept, multiple} = this.props
+    const {oldFiles} = this.state
 
     return <Fragment>
       <Files
@@ -78,9 +80,9 @@ export class FileField extends PureComponent{
         multiple={multiple}
         maxSize="15mb"
         multipleMaxSize="15mb"
-        multipleMaxCount={4}
+        multipleMaxCount={10}
         accept={accept || ["application/pdf", "image/jpg","image/jpeg"]}
-        onSuccess={files => this.setState({files})}
+        onSuccess={files => this.handleFiles(files)}
         onError={errors => this.onError(errors)}
       >
         {({browseFiles, getDropZoneProps}) => {
@@ -96,10 +98,15 @@ export class FileField extends PureComponent{
               })}
             >
               <ol className="files-list">
-                {this.state.files.map(file => (
+                {oldFiles && oldFiles.map((file, index) => (<div className="file-item old-file-item d-flex justify-content-between align-items-center">
+                  <li key={file.name || `Неопознанный документ ${index + 1}`}> {file.name || `Неопознанный документ ${index + 1}`} </li>
+                  <a className="btn btn-danger" style={{borderRadius: "8px"}} title="Удалить файл" onClick={(() => this.sendDeleteFile(file))}><Icon color="white" inline icon={trashAlt}/></a>
+                </div>
+                ))}
+                {this.state.files.map((file, index) => (
                   <div className="file-item d-flex justify-content-between align-items-center">
-                    <li key={file.name}> {file.name} </li>
-                    <button className="btn btn-danger" style={{borderRadius: "8px"}} title="Удалить файл" onClick={(() => this.deleteFile(file))}><Icon inlone icon={trashAlt}/></button>
+                    <li key={file.name || `Неопознанный документ ${index + 1}`}> {file.name || `Неопознанный документ ${index + 1}`} </li>
+                    <a className="btn btn-danger" style={{borderRadius: "8px"}} title="Удалить файл" onClick={(() => this.deleteFile(file))}><Icon color="white" inline icon={trashAlt}/></a>
                   </div>
                 ))}
                 {this.state.errors.map(error => (
@@ -109,9 +116,9 @@ export class FileField extends PureComponent{
                 ))}
               </ol>
             </div>
-            <div className="d-flex align-items-center mt-2">Или нажмите <button className="more-link" 
+            <div className="d-flex align-items-center mt-2">Или нажмите <a className="more-link" 
               style={{background: "#26358c", color: "white", padding: "4px 8px", margin: "0 4px" }} 
-              onClick={browseFiles}> на эту кнопку </button> чтобы выбрать файлы.</div>
+              onClick={browseFiles}> на эту кнопку </a> чтобы выбрать файлы.</div>
           </div>
         }}
       </Files>
