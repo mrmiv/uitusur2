@@ -2,9 +2,7 @@ const { Router } = require("express");
 const router = Router();
 const fs = require("fs");
 const auth = require("../middleware/middleware.auth");
-const deleteFile = require("../middleware/middleware.deleteFile");
 const fileUpload = require("../middleware/middleware.fileUpload");
-const multipleFileUpload = require("../middleware/middleware.multipleFileUpload");
 const dbFile = require('../models/dbFile')
 
 router.get("/", auth, async (req, res) => {
@@ -28,7 +26,7 @@ router.post("/", [auth, fileUpload], async (req, res) => {
     
     const file = new dbFile({ name, file: path })
     await file.save()
-      .then( savedFile => res.json({message: `Файл ${savedFile.name} добавлен`, file: savedFile}) )
+      .then( savedFile => res.json({message: `Файл ${savedFile.name || ''} добавлен`, file: savedFile}) )
 
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -75,37 +73,42 @@ router.delete("/:id", auth, async (req, res) => {
     const file = await dbFile.findById(id)
 
     if (!file) {
-      return res.status(404).json({ message: `Файл с id ${id} не найден` })
+      return res.status(404).json({ message: `Файл с таким id не найден` })
     }
 
-    await deleteFile(res, file.file)
+    const path = file.file.substr(1)
+    const filesErrors = []
+
+    fs.unlink(path, (err) => {
+      if (err) { filesErrors.push({message: `Файл не был удален`, error: err})}
+    })
 
     await file.delete()
-      .then(q => res.json({ message: `Файл ${q.name} удален.`, file: q }))
+      .then(q => res.json({ message: `Ссылка на файл ${q.name || ''} удалена. ${filesErrors.length === 0 ? '' : 'Возникли ошибки при удалении файлов'}`, file: q, errors: filesErrors }))
 
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
-router.delete("/", auth, async (req, res) => {
+// router.delete("/", auth, async (req, res) => {
   
-  const {filePath} = req.body
+//   const {filePath} = req.body
 
-  try {
+//   try {
     
-    if(!filePath){
-      return res.status(400).json({message: "Путь для удаления не найден"})
-    }
+//     if(!filePath){
+//       return res.status(400).json({message: "Путь для удаления не найден"})
+//     }
 
-    await deleteFile(res, filePath)
+//     await deleteFile(res, filePath)
 
-    return res.json({message: "Файл удален"})
+//     return res.json({message: "Файл удален"})
 
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-})
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// })
 
 
 module.exports = router;

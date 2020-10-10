@@ -1,23 +1,27 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
+import { CSSTransition } from 'react-transition-group';
 
 export class LoadingScreen extends Component {
 
-  viewRef = React.createRef()
+  state = {
+    mounted: false
+  }
 
-  componentWillUnmount(){
-    this.viewRef.current.style.opacity = 0;
+  componentDidMount(){
+    this.setState({mounted: true})
   }
 
   render(){
-    return (
-      <div ref={this.viewRef} id="LoadingScreen">
+    return <CSSTransition
+        in={this.state.mounted}
+        timeout={300}
+        unmountOnExit
+        appear={true}
+        classNames="loading-screen"
+      >
+        <div id="LoadingScreen" className="loading-screen">
           <div className="LoadingSpinner"/>
-          {/* <p><strong>Кафедра<br/> УИ</strong></p> */}
-          {/* <img src="/svg/FIT_LOGO_NAV.svg" alt="Загрузка..."/> */}
-      </div>
-    )
+        </div>
+      </CSSTransition>
   }
-
-  
-
 }

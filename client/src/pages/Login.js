@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { closeNavbar } from '../redux/actions/navbarActions'
 
 import PropTypes from 'prop-types'
@@ -72,17 +72,22 @@ export class Login extends Component {
     }
 
     render() {
+
+        const {loading} = this.props 
+        const {email, password} = this.state
+
+        const disabled = loading || !(email && password)
+
         return (
             <section id="Login">
             <div className="container-md container-fluid">
                 <h1 className="text-center mb-3">Вход в систему</h1>
                 <div className="row no-gutters justify-content-center">
                     {this.state.msg &&
-                        <div className="alert alert-danger alert-dismissible fade show w-75" role="alert">
+                        <div className="alert alert-danger alert-dismissible fade show col-md-8 col-12" role="alert">
                             <span> {this.state.msg} </span>
                         </div>}
-                    <div className="w-100" />
-                    <form onSubmit={this.onSubmit} className="w-75">
+                    <form onSubmit={this.onSubmit} className="col-md-8 col-12">
                         <div className="form-group row">
                             <label for="inputEmail" className="col-sm-2 col-form-label">Email</label>
                             <div className="col-sm-10">
@@ -112,13 +117,16 @@ export class Login extends Component {
                             <button
                                 className="btn btn-info"
                                 type="submit"
-                                disabled={this.state.loading}
+                                disabled={disabled}
+                                style={{
+                                    cursor: disabled ? "not-allowed" : "pointer"
+                                }}
                             >
                                 {this.state.loading ?
                                     <div className="spinner-border spinner-border-sm" role="status">
                                         <span className="sr-only">Загрузка...</span>
                                     </div>
-                                    : <>Войти <FontAwesomeIcon icon={faSignInAlt} /></>}
+                                    : <Fragment>Войти <FontAwesomeIcon icon={faSignInAlt} /></Fragment>}
                             </button>
                         </div>
                     </form>

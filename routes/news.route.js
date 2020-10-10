@@ -274,6 +274,7 @@ router.patch("/read/:id", [auth, multipleFileUpload], async (req, res) => {
 		};
 
 		const oldNewsDocs = JSON.parse(oldDocs)
+		const filesErrors = []
 
 		if(oldNewsDocs && oldNewsDocs.length !== 0){
 
@@ -282,7 +283,7 @@ router.patch("/read/:id", [auth, multipleFileUpload], async (req, res) => {
 			if(filesToDelete.length !== 0){
 				filesToDelete.forEach( path => {			
 					fs.unlink(path.substr(1), (err) => {
-							if (err) { return res.status(400).json({message: `Файл не был удален. Ошбика: ${err.message}`})}
+						if (err) { filesErrors.push({message: `Файл не был удален`, error: err})}
 					})
 				})
 			}

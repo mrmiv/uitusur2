@@ -19,26 +19,22 @@ export class FormFiles extends Component {
     }
   }
 
-  handeFile = file => {
-    this.setState({ file })
+  handeFile = files => {
+    this.setState({ file: files[0] })
   }
 
   postfile = e => {
     e.preventDefault()
-
     this.props.clearInfo()
-
     const { file } = this.state
-    const filePath = "other"
-
-    this.props.postfile(file[0].src.file, filePath)
+    this.props.postfile(file)
   }
 
   render() {
     const { isLoading } = this.props
     const { msg, file } = this.state
 
-    const disabled = isLoading || ! file
+    const disabled = isLoading || !file
 
     return (
       <div className="w-100 mt-3">

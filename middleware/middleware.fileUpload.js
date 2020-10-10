@@ -14,9 +14,8 @@ module.exports = (req, res, next) =>{
 
     const filePaths = ["other", "other/clubs", "literature", "literature/images", "news", "docs"]
 
-    const { filePath } = req.body
-    
-    if((!filePath in filePaths)){
+    const { filepath } = req.headers
+    if(!(filePaths.find( filepath => filepath === filepath))){
       return res.status(400).json({message: "Некорректно указан путь файла. Попробуйте еще раз"})
     }
 
@@ -26,7 +25,7 @@ module.exports = (req, res, next) =>{
       return res.status(500).json({message: "Ошибка сервера. Не найден прикрепленный файл."})
     }
 
-    const path = `uploads/${filePath}/${`${s4()}-${s4()}`}-${file.name}` 
+    const path = `uploads/${filepath}/${`${s4()}-${s4()}`}-${file.name}` 
 
     file.mv(path, function (err) {
       if (err) {

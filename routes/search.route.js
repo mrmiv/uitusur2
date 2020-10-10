@@ -1,6 +1,5 @@
 const { Router } = require('express')
 const router = Router()
-const auth = require('../middleware/middleware.auth')
 
 const Staff = require('../models/Staff')
 const Literature = require('../models/Literature')
@@ -25,14 +24,16 @@ router.post('/', async (req, res) => {
       .select([
         'firstname',
         'lastname',
-        'secondname'])
+        'secondname',
+        'fullname_url'])
       .limit(8)
     const literatureData = await Literature.find({$or: [{description: q}, {title: q}, {category: q}, {author: q}]})
       .select([
         'title',
         'author',
         'category',
-        'image'])
+        'image',
+        'translit_title'])
       .limit(8)
     const clubData       = await Clubs.find({name: q})
       .limit(8) 

@@ -25,7 +25,7 @@ export class AdminFiles extends Component {
       this.props.delfile(id)
 
     } else {
-        console.log('Элемент не удален')
+      console.log('Элемент не удален')
     }
   }
 
@@ -57,14 +57,14 @@ export class AdminFiles extends Component {
                   <th scope="row">{index + 1}</th>
                   <td name="name">{item.name}</td>
                   <td name="link"><a href={item.file} target="_blank" rel="noopener norefferer">{item.file}</a></td>
-                  <td name="copy"><button title="Копировать ссылку" className="btn" onClick={()=>this.copyPath(item.path)}><Icon icon={copyIcon} color="blue" /></button></td>
+                  <td name="copy"><button title="Копировать ссылку" className="btn" onClick={()=>this.copyPath(item.file)}><Icon icon={copyIcon} color="blue" /></button></td>
                   <td name="del">
                     <button title="Удалить" className="btn" onClick={() => this.delfile(item._id)}><Icon icon={trashAlt} color="red"/></button>
                   </td>
                 </tr>
               )
             })
-            : <p>loading</p>}
+            : <p>Загрузка</p>}
         </tbody>
       </table>
     </Fragment>

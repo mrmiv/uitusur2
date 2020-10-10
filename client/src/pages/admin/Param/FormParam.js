@@ -127,10 +127,11 @@ export class FormParam extends Component {
   }
 
   render() {
-    const { msg } = this.state
-    // console.log(this.state);
-    
+    const { msg, title, text, page } = this.state
     const { isLoading } = this.props    
+
+    const buttonDisabled = isLoading || !(title && text && page)
+
     return (
       <div className="container-md container-fluid">
         <Prompt
@@ -213,25 +214,18 @@ export class FormParam extends Component {
 
             <EditorArea value={this.state.text} changeParentBody={this.changeBody}/>
 
-            <div className="justify-content-end align-items-center form-row">
-              
-            <div className="form-group col-auto">
-                <div className="form-check">
-                  <input type="checkbox" id="activity" name="active" 
-                  className="form-check-input" onChange={()=>this.setState({active: !this.state.active})} checked={this.state.active}/>
-                  <label htmlFor="activity" className="form-check-label">Отобразить на странице</label>
-                </div>
+            <div className="d-flex justify-content-end align-items-center">
+              <div className="form-check mr-3">
+                <input type="checkbox" id="activity" name="active" 
+                className="form-check-input" onChange={()=>this.setState({active: !this.state.active})} checked={this.state.active}/>
+                <label htmlFor="activity" className="form-check-label">Отобразить на странице</label>
               </div>
-            <div className="col-auto">
-              <button className="btn btn-success mr-0" type="submit"
-                disabled={isLoading}>{this.state.id ? "Обновить заголовок" : "Добавить заголовок"}</button>
-            </div>
-
+              <button className="btn btn-success" type="submit"
+                disabled={buttonDisabled}>{this.state.id ? "Обновить заголовок" : "Добавить заголовок"}</button>
             </div>
           </form>
 
           <section id="preview-param">
-            <h1>Предпросмотр</h1>
             <hr/>
             <ParamComponent
               param={{

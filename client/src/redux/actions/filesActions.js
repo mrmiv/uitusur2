@@ -39,12 +39,12 @@ export const postfile = (file, filePath) => dispatch => {
 
   const headers = {
     "content-type": "multipart/form-data",
-    token: localStorage.getItem("token")
+    token: localStorage.getItem("token"),
+    "filepath": "other"
   }
 
   let formdata = new FormData()
   formdata.append("file", file)
-  formdata.append("filePath", filePath)
 
   axios({
     url: `/api/files`,

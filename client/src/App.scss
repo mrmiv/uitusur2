@@ -31,8 +31,15 @@ $lgray: #c8d6e5;
     right: 0;
     background: radial-gradient($pink, $purple);
     z-index: 1300;
-    opacity:1;
-    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);
+    transition: all 0.3s ease;
+    
+    &.loading-screen-enter, &.loading-screen-exit-active {
+        opacity: 0
+    }
+    
+    &.loading-screen-enter-active, &.loading-screen-enter-done,  &.loading-screen-exit {
+        opacity: 1
+    }
 
     .LoadingSpinner{
         position: absolute;

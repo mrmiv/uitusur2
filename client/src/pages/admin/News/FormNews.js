@@ -6,7 +6,7 @@ import { clearInfo } from "../../../redux/actions/infoActions";
 import { ReadNews, postNews, patchNews } from "../../../redux/actions/newsActions";
 
 import { Link, Prompt, withRouter } from "react-router-dom";
-import { transliterate as slugify } from 'transliteration';
+import { transliterate as tr, slugify } from 'transliteration';
 import { toDate } from "../../components/NewsList";
 import { FormatDateToPost, DateMaskInput } from "../components/DateField";
 import { MessageAlert } from "../components/MessageAlert";
@@ -72,7 +72,7 @@ export class NewsForm extends PureComponent {
 				type: News.type,
 				site: News.site,
 				city: News.city,
-				deadline: News.deadline ? toDate(News.deadline) : "",
+				deadline: News.deadline ? toDate(News.deadline, false, "-") : "",
 				users: News.users,
 				oldDocs: News.docs,
 				grant: News.grant,
@@ -89,7 +89,7 @@ export class NewsForm extends PureComponent {
 	setNewsType = (e) => {
 		const type = e.target.value;
 		this.setState({ type });
-	};
+	}
 
 	changeInput = e => {
 		const field = e.target.name;
@@ -98,18 +98,27 @@ export class NewsForm extends PureComponent {
 		if (!this.state.blocked) {
 			this.setState({ blocked: true });
 		}
-	};
+	}
 
 	changeTitleAndTranslit = e => {
 		const value = e.target.value
-		const translit_value = slugify(value, { replace: {' ' : '-'}})
+		const translit_value = slugify(value, { replace: {' ' : '-', '<': '', '>' : ''}, allowedChars: 'a-zA-Z0-9-_'})
 
 		this.setState({ 
 			title: value,
 			translit_title: translit_value
-		});
+		})
+
 		if (!this.state.blocked) {
 			this.setState({ blocked: true });
+		}
+	}
+
+	changeTranslitTitle = e => {
+		const translit_title = e.target.value
+		const regex = /^[a-z0-9-]+$/
+		if(regex.test(translit_title)) {
+			this.setState({translit_title})
 		}
 	}
 
@@ -226,6 +235,7 @@ export class NewsForm extends PureComponent {
 								name="translit_title"
 								id="translit-title-input"
 								placeholder="ivan-ivanon-vstupil-v-profsouz-tusura"
+								onChange={this.changeTranslitTitle}
 								value={this.state.translit_title}
 							/>
 						</div>

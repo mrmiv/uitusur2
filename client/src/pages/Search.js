@@ -29,10 +29,22 @@ export class SearchPage extends PureComponent {
     componentDidMount() {
         document.title = this.props.title
         document.getElementById("search-input").focus()
+
+        const { result } = this.props
+        if(result){
+            this.setState({
+                clubs:      result.clubData,
+                docs:       result.docData,
+                literature: result.literatureData,
+                news:       result.newsData, 
+                params:     result.paramData, 
+                staff:      result.staffData
+            })
+        }
     }
 
     componentDidUpdate(prevProps){
-        // const {clubs, docs, literature, news, params, staff} = this.state
+
         const {result} = this.props
 
         if(result && (prevProps.result !== result)){
@@ -225,7 +237,7 @@ export class SearchPage extends PureComponent {
 
     render() {
         const { SearchIsLoading, result } = this.props
-        const {first_submited, query} = this.state
+        const { first_submited, query} = this.state
         return (
             <Fragment>
                 <div className="container">
@@ -243,10 +255,9 @@ export class SearchPage extends PureComponent {
                         />
                     </form>
 
-                    {first_submited && 
-                        (SearchIsLoading ? <p>Подождите, ваш запрос обрабатывается...</p>
-                            : (result && this.returnResults(result))
-                        )
+                    {SearchIsLoading 
+                        ? <p>Подождите, ваш запрос обрабатывается...</p>
+                        : (result && this.returnResults(result))
                     }
                 </div>
             </Fragment>
