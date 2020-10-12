@@ -28,6 +28,7 @@ const LiteratureSchema = new Schema({
         type: String,
         maxlength: 255,
         minlength: 1,
+        lowercase: true,
         required: [true, 'Поле заголовок является обязательным!'],
         unique: true,
     },
@@ -84,29 +85,8 @@ const LiteratureSchema = new Schema({
 
     path:{
         type: String,
-        unique: true,
-        validate:{
-            validator: function(path){
-                return /^((https|http)?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/.test(path)
-            },
-            message: props => `${props.value} - Поле path содержит недопустимые символы`
-        }
+        unique: true
     },
-
-    // // Ключевые слова
-    // keywords:{
-    //     type: [{
-    //         type: String,
-    //         minlength: 1,
-    //         maxlength: 60,
-    //         validate:{
-    //             validator: function (word) {
-    //                 return /^[а-яА-ЯёЁa-zA-Z0-9]+$/.test(word)
-    //             },
-    //             message: props => `${props.value} - Ключевые слова содержат недопустимые символы`
-    //         }
-    //     }] // it may be authors, main theme, category and other
-    // }
 
 }, {autoIndex:false, versionKey: false})
 

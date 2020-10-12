@@ -1,15 +1,12 @@
 const { Router, query } = require("express");
-const mailer = require("../middleware/middleware.mail");
+// const mailer = require("../middleware/middleware.mail");
 const router = Router();
 const fs = require("fs");
 const auth = require('../middleware/middleware.auth')
 
 const News = require("../models/News");
 const multipleFileUpload = require("../middleware/middleware.multipleFileUpload");
-const deleteFile = require("../middleware/middleware.deleteFile");
 
-
-// /news
 router.get("/", async (req, res) => {
 	
 	const page = Number(req.query.page) || 1;
@@ -53,7 +50,7 @@ router.get("/", async (req, res) => {
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}
-});
+})
 
 /**
  * Получение новости из БД по транслитному названию
@@ -174,7 +171,7 @@ router.post("/", [auth, multipleFileUpload],  async (req, res) => {
 
 /**
  * @param id
- * Удаление новости по id
+ * @description Удаление новости по id
  */
 router.delete("/read/:id", auth, async (req, res) => {
 	const id = req.params.id;
@@ -304,7 +301,7 @@ router.patch("/read/:id", [auth, multipleFileUpload], async (req, res) => {
 		news.pin = pin
 
 		await news.save()
-			.then(i => res.json({ message: `Новость ${i.title || ''} обновлена`}))
+			.then(i => res.json({ message: `Новость ${i.title ? i.title : ''} обновлена`}))
 			.catch((err) => res.status(400).json({ message: `Новость не обновлена. Ошибка: ${err.message}` }))
 
 	} catch (error) {

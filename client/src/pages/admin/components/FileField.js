@@ -27,7 +27,12 @@ export class FileField extends PureComponent{
   }
 
   handleFiles = files => {
-    this.setState(state => {return {files: [...state.files, ...files.map( file => file.src.file)], errors: []}})
+
+    const {state} = this
+
+    const filesToState = this.props.multiple ? [...state.files, ...files.map( file => file.src.file)] : files.map(file => file.src.file)
+
+    this.setState({files: filesToState, errors: []})
   }
 
   deleteFile = file => {
@@ -70,8 +75,11 @@ export class FileField extends PureComponent{
 
   render(){
 
-    const {label, id, name, accept, multiple} = this.props
+    const {label, id, name, accept, multiple, width} = this.props
     const {oldFiles} = this.state
+    // console.log(this.props, this.state);
+
+    const undefinedFileName = index =>  this.props.undefinedFileName ? `${this.props.undefinedFileName} ${index}` : `Безымянный файл ${index}`
 
     return <Fragment>
       <Files
@@ -91,7 +99,7 @@ export class FileField extends PureComponent{
             <div
               {...getDropZoneProps({
                 style: {
-                  width: "100%",
+                  width: width || "100%",
                   minHeight: 200,
                   border: "2px lightgray dashed"
                 }
@@ -99,13 +107,13 @@ export class FileField extends PureComponent{
             >
               <ol className="files-list">
                 {oldFiles && oldFiles.map((file, index) => (<div className="file-item old-file-item d-flex justify-content-between align-items-center">
-                  <li key={file.name || `Неопознанный документ ${index + 1}`}> {file.name || `Неопознанный документ ${index + 1}`} </li>
+                  <li key={file.name ? file.name : undefinedFileName(index + 1)}> {file.name ? file.name : undefinedFileName(index + 1)} </li>
                   <a className="btn btn-danger" style={{borderRadius: "8px"}} title="Удалить файл" onClick={(() => this.sendDeleteFile(file))}><Icon color="white" inline icon={trashAlt}/></a>
                 </div>
                 ))}
                 {this.state.files.map((file, index) => (
                   <div className="file-item d-flex justify-content-between align-items-center">
-                    <li key={file.name || `Неопознанный документ ${index + 1}`}> {file.name || `Неопознанный документ ${index + 1}`} </li>
+                    <li key={file.name ? file.name : undefinedFileName(index + 1)}> {file.name ? file.name : undefinedFileName(index + 1)} </li>
                     <a className="btn btn-danger" style={{borderRadius: "8px"}} title="Удалить файл" onClick={(() => this.deleteFile(file))}><Icon color="white" inline icon={trashAlt}/></a>
                   </div>
                 ))}
@@ -115,6 +123,7 @@ export class FileField extends PureComponent{
                   </li>
                 ))}
               </ol>
+              
             </div>
             <div className="d-flex align-items-center mt-2">Или нажмите <a className="more-link" 
               style={{background: "#26358c", color: "white", padding: "4px 8px", margin: "0 4px" }} 

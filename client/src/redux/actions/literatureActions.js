@@ -84,23 +84,26 @@ export const GetCurrentBook = (field, value) => dispatch => {
         })
 }
 
-export const postLiterature = data => dispatch => {
+export const postLiterature = Book => dispatch => {
 
     dispatch({
         type: LOADING_REQ
     })
 
-    const headers = {
-        "token": localStorage.getItem("token")
+    const config = {
+        headers : {
+            "content-type": 'multipart-formdata',
+            "token": localStorage.getItem("token")
+        }
     }
 
-    // get /literature/book/id
-    axios({
-        url: '/api/literature',
-        method: 'POST',
-        headers,
-        data
+    const formdata = new FormData()
+    // console.log(News);
+    Object.keys(Book).map( key => {
+        formdata.append (key, Book[key])        
     })
+
+    axios.post('/api/literature', formdata, config)
         .then(res => {
             dispatch(returnInfo(res.data, res.status, 'REQ_SUCCESS'))
             dispatch({
@@ -115,23 +118,26 @@ export const postLiterature = data => dispatch => {
         })
 }
 
-export const patchLiterature = (id, data) => dispatch => {
+export const patchLiterature = (id, Book) => dispatch => {
 
     dispatch({
         type: LOADING_REQ
     })
 
-    const headers = {
+    const config = {
+        headers : {
+        "content-type": 'multipart-formdata',
         "token": localStorage.getItem("token")
+        }
     }
 
-    // get /literature/book/id
-    axios({
-        url: `/api/literature/book/${id}`,
-        method: 'PATCH',
-        headers,
-        data
+    const formdata = new FormData()
+
+    Object.keys(Book).map( key => {
+        formdata.append (key, Book[key])
     })
+
+    axios.patch(`/api/literature/book/${id}`, formdata, config)
         .then(res => {
             dispatch(returnInfo(res.data, res.status, 'REQ_SUCCESS'))
             dispatch({

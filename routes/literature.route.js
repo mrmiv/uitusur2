@@ -6,8 +6,12 @@ const auth = require('../middleware/middleware.auth')
 const Literature = require('../models/Literature')
 
 /**
- * Получить список всех книг постранично
- * params: page, perPage, sort, category, search 
+ * @description Получить список всех книг постранично
+ * @param page
+ * @param perPage 
+ * @param sort
+ * @param category
+ * @param search 
  */
 router.get('/', async (req, res) => {
 
@@ -59,7 +63,8 @@ router.get('/', async (req, res) => {
 })
 
 /** 
- * Получить книгу по id
+ * @param id
+ * @description Получить книгу по id
  */
 router.get('/book-by-id/:id', async (req, res) => {
 
@@ -76,7 +81,8 @@ router.get('/book-by-id/:id', async (req, res) => {
 
 
 /** 
- * Получить книгу по translit_title
+ * @param translit_title
+ * @description Получить книгу по translit_title
  */
 router.get('/book/:translit_title', async (req, res) => {
 
@@ -92,7 +98,7 @@ router.get('/book/:translit_title', async (req, res) => {
 })
 
 /**
- * Добавить книгу в БД
+ *  @description Добавить книгу в БД
  */
 router.post('/', auth, async (req, res) => {
 
@@ -105,19 +111,29 @@ router.post('/', auth, async (req, res) => {
         annotation,
         path
     } = req.body
-
-    if (!title) { return res.status(400).json({ message: "Поле заголовок является обязательным" }) }
-    if (!author) { return res.status(400).json({ message: "Поле авторы является обязательным" }) }
-    if (!category) { return res.status(400).json({ message: "Поле категория является обязательным" }) }
-
-    const { doc, image } = req.files
-
-    if (!image) { return res.status(400).json({ message: "Вы не прикрепили изображение" })}
-    
-    if (!doc){ return res.status(400).json({ message: "Вы не прикрепили оглавление" })}
-
-    try {
         
+    function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+          .toString(16)
+          .substring(1);
+      }
+
+      try {
+
+        const image = req.files['image']
+        if (!title) { return res.status(400).json({ message: "Поле заголовок является обязательным" }) }
+        if (!author) { return res.status(400).json({ message: "Поле авторы является обязательным" }) }
+        if (!category) { return res.status(400).json({ message: "Поле категория является обязательным" }) }
+        if (!description) { return res.status(400).json({ message: "Поле библиографическое описание является обязательным" }) }
+        if (!annotation) { return res.status(400).json({ message: "Поле аннотация является обязательным" }) }
+        if (!image) { return res.status(400).json({ message: "Вы не прикрепили изображение" })}
+
+        const exists = await Literature.findOne({ $or: [{translit_title},  {title}] })
+
+        if (exists) {return res.status(400).json({ message: "Книга c таким названием / URL уже существует" })}
+
+        const imagePath = `uploads/literature/images/${s4()}-${s4()}-${image.name}`
+
         const Book = new Literature({
             title,
             author,
@@ -125,34 +141,28 @@ router.post('/', auth, async (req, res) => {
             category,
             description,
             annotation,
-            image: `/uploads/literature/images/${image.name}`,
-            doc: `/uploads/literature/${doc.name}`
+            image: `/${imagePath}`,
         })
 
-        if (path) {
-            Book.path = path
+        const filesErrors = []
+        if (path) {Book.path = path}
+        
+        image.mv(imagePath, function (err) {
+            if (err) {return res.status(400).json({ message: `Ошибка при прикреплении изображения: ${err}` })}
+        })
+
+        const doc = req.files['doc']
+        
+        if (doc){
+
+            const docPath = `uploads/literature/${doc.name}`
+            doc.mv(docPath, function (err) {
+                if (err) {filesErrors.push({ message: `Ошибка при прикреплении документа ${doc.name}: ${err}` })}
+            })
+            Book.doc = `/${docPath}`
         }
-
-        const exists = await Literature.findOne({ $or: [{translit_title}, {image: Book.image}, {doc: Book.doc}] })
-
-        if (exists) {
-            return res.status(400).json({ message: "Книга уже существует" })
-        }
-
-        doc.mv(`uploads/literature/${doc.name}`, function (err) {
-            if (err) {
-                return res.status(400).json({ message: "Ошибка при прикреплении документа: " + err });
-            }
-        })
-
-        image.mv(`uploads/literature/images/${image.name}`, function (err) {
-            if (err) {
-                return res.status(400).json({ message: "Ошибка при прикреплении изображения: " + err });
-            }
-        })
-
         await Book.save()
-            .then(() => res.json({ message: "Книга успешно добавлена" }))
+            .then(() => res.json({ message: `Книга успешно добавлена. ${filesErrors.length === 0 ? '' : filesErrors[0].message}` }))
             .catch(err => res.status(400).json({ message: err.message }))
 
     } catch (error) {
@@ -161,41 +171,33 @@ router.post('/', auth, async (req, res) => {
 })
 
 /**
- * Удалить книгу
+ * @description Удалить книгу
  */
 router.delete('/book/:id', auth, async (req, res) => {
 
     const {id} = req.params
 
     try {
-        const Book = await Literature.findById(id)
-            .select['_id']
 
-        if (!Book) {
-            return res.status(400).json({ message: "Книга с введенным id не существует" })
-        }
+        const Book = await Literature.findById(id)
+        if (!Book) {return res.status(400).json({ message: "Книга с введенным id не существует" })}
 
         const { image, doc } = Book
 
-        try {
-            fs.unlink(`${doc.substr(1)}`, (err) => {
-                if (err) {
-                    console.error("Оглавление не было удалено" + err)
-                }
-            })
+        const filesErrors = []
 
-            fs.unlink(`${image.substr(1)}`, (err) => {
-                if (err) {
-                    console.error("Изображение не было удалено" + err)
-                }
+        if (doc){
+            fs.unlink(doc.substr(1), (err) => {
+                if (err) {filesErrors.push({ message: `Ошибка при удалении оглавления`, error: err })}
             })
-
-        } catch (err) {
-            console.error(err)
         }
 
+        fs.unlink(image.substr(1), (err) => {
+            if (err) {filesErrors.push({ message: `Ошибка при удалении изображения.`, error: err })}
+        })
+
         await Book.delete()
-            .then(() => res.json({ message: "Книга удалена" }))
+            .then(() => res.json({ message: `Книга удалена. ${filesErrors.length === 0 ? '' : filesErrors.map( err => err.message)}` }))
 
     } catch (error) {
         res.status(500).json({ message: error.message })
@@ -203,15 +205,88 @@ router.delete('/book/:id', auth, async (req, res) => {
 })
 
 /**
- * Обновить книгу по id
+ * @param id
+ * @description Обновить книгу по id
  */
 router.patch('/book/:id', auth, async (req, res) => {
 
     const {id} = req.params
 
+    const {title,
+        translit_title,
+        author,
+        category,
+        description,
+        annotation,
+        path} = req.body
+
     try {
-        await Literature.findByIdAndUpdate(id, req.body)
-            .then(book => res.json({ message: `Книга ${book.title} успешно обновлена` }))
+        
+		const Book = await Literature.findById(id)
+		if (!Book){ return res.status(404).json({message: `Книга с таким id не найдена`}) }
+
+        if (!title) { return res.status(400).json({ message: "Поле заголовок является обязательным" }) }
+        if (!author) { return res.status(400).json({ message: "Поле авторы является обязательным" }) }
+        if (!category) { return res.status(400).json({ message: "Поле категория является обязательным" }) }
+        if (!description) { return res.status(400).json({ message: "Поле библиографическое описание является обязательным" }) }
+        if (!annotation) { return res.status(400).json({ message: "Поле аннотация является обязательным" }) }
+
+        const filesErrors = []
+
+        if (req.files){
+            const {doc, image} = req.files
+
+            function s4() {
+                return Math.floor((1 + Math.random()) * 0x10000)
+                    .toString(16)
+                    .substring(1);
+            }
+
+            function updateFile(file, filepath) {
+                file.mv(filepath, function (err) {
+                    if (err) {
+                        filesErrors.push({ message: `Ошибка при прикреплении документа ${file.name}.`, error: err })
+                        return false
+                    }
+                })
+                return true
+            }
+
+            function deleteFile(path) {
+                fs.unlink(path.substr(1), (err) => {
+                    if (err) { filesErrors.push({message: `Файл не был удален`, error: err})}
+                })
+            }
+            
+            if(image){
+                const imagepath = `uploads/literature/images/${s4()}-${s4()}-${image.name}`
+
+                if (updateFile(image, imagepath)){
+                    deleteFile(Book.image)
+                    Book.image = `/${imagepath}`
+                }
+            }
+
+            if(doc){
+                const docpath = `uploads/literature/${s4()}-${s4()}-${doc.name}`
+                
+                if (updateFile(doc, docpath)){
+                    deleteFile(Book.doc)
+                    Book.doc = `/${docpath}`
+                }
+            }
+        }
+	
+        Book.title = title
+        Book.translit_title = translit_title
+        Book.path = path
+        Book.category = category
+        Book.author = author
+        Book.description = description
+        Book.annotation = annotation
+
+        await Book.save()
+            .then(book => res.json({ message: `Книга ${book.title ? book.title : ''} успешно обновлена. ${filesErrors.length === 0 ? '' : `Возникли ошибки при обновлении вложений: ${filesErrors.map( err => err.message)}`}` }))
             .catch(err => res.status(400).json({message: err.message }))
 
     } catch (error) {
