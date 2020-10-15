@@ -77,7 +77,8 @@ export const postDocument = ({
 
     const headers = {
         "Content-type": "multipart/form-data",
-        "token": localStorage.getItem("token")
+        "token": localStorage.getItem("token"),
+        "filepath": 'docs'
     }
 
     const formdata = new FormData()
@@ -129,6 +130,7 @@ export const patchDocument = (id, {
     const headers = {
         "Content-type": "multipart/form-data",
         "token": localStorage.getItem("token")
+        "filepath": 'docs'
     }
 
     const formdata = new FormData()
