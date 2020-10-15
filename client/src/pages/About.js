@@ -264,7 +264,7 @@ export const FeedbackComponent = memo(({feedback}) => {
                         <Icon className="quote-staff__info__icon" style={{ color: color ? color : "#354ED1" }} icon={faQuoteRight} />
                     </div>
                     <div className="quote-staff__quote__block">
-                        <div className="quote-staff__quote" dangerouslySetInnerHTML={{ __html: textExpand }} />
+                        <div className="quote-staff__quote html-adaptive" dangerouslySetInnerHTML={{ __html: textExpand }} />
                         {text.length > length && <strong className="open-feedback" style={{ color: color ? color : "#354ED1" }}>
                             <a onClick={() => setExpand(!Expand)}>{Expand ? "Свернуть" : "Показать полностью"}</a>
                         </strong>}

@@ -87,7 +87,7 @@ export class FullNews extends Component {
             {News.site && <NewsProps
                 icon={<Icon icon={linksymbolIcon} />} text={News.site} name={"Сайт"} link />}
             </div>
-            <div className="text__news" dangerouslySetInnerHTML={{ __html: News.body }} />
+            <div className="text__news html-adaptive" dangerouslySetInnerHTML={{ __html: News.body }} />
             {News.docs.length !== 0 && <div className="docs__news"><strong>Вложения:</strong><br />
                 {News.docs.map((doc, index) => {
                     return (<a href={doc.path ? doc.path : doc || "#"} key={index} target="_blank" rel="noopener noreferrer">
@@ -98,8 +98,6 @@ export class FullNews extends Component {
     }
  
     render() {
-        
-        // console.log(this.props)
         return (
             <Fragment>
                 <div id="fullnews">

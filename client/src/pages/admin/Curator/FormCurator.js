@@ -39,29 +39,23 @@ export class FormCurator extends Component {
   componentDidUpdate(prevProps, prevState) {
     const id = this.props.match.params.id
     const { msg } = this.props.info
-
-    if (id) {
-      if (id !== prevState.id) {
-        this.setState({ id })
-      }
-      const { curator } = this.props
-
-      if(!curator){
-        return
-      }
-
-      if (curator !== prevProps.curator) {
-
-        this.setState({
-          firstname: curator.firstname,
-          lastname: curator.lastname,
-          secondname: curator.secondname,
-          staff_url: curator.staff_url,
-          group: curator.group,
-          staff_id: curator.staff_id,
-        });
-      }
+    const { curator } = this.props
+    
+    if (id && (id !== prevState.id)) {
+      this.setState({ id })
     }
+
+    if (id && (curator !== prevProps.curator)) {
+      this.setState({
+        firstname: curator.firstname,
+        lastname: curator.lastname,
+        secondname: curator.secondname,
+        staff_url: curator.staff_url,
+        group: curator.group,
+        staff_id: curator.staff_id,
+      })
+    }
+
     if (msg !== prevProps.info.msg) {
       this.setState({ msg })
     }
@@ -79,17 +73,13 @@ export class FormCurator extends Component {
 
   setCurator = e => {
     const field = e.target;
-    // this.setState({ [field]: e.target.value })
+
     const array = field.value.split(",")
     const staff_id = array[0]
     const staff_url = array[1]
     const lastname = array[2]
     const firstname = array[3]
-    let secondname = ""
-    if (array[4]) {
-      secondname = array[4]
-    }
-
+    const secondname = array[4] ? array[4] : null
     this.setState({ staff_id, staff_url, firstname, lastname, secondname })
   }
 
@@ -109,7 +99,7 @@ export class FormCurator extends Component {
 
     const Curator = {
       lastname,
-      secondname,
+      secondname: secondname ? secondname : null,
       firstname,
       staff_url,
       staff_id,
@@ -120,11 +110,6 @@ export class FormCurator extends Component {
       this.props.patchCurator(id, Curator)
     } else {
       this.props.postCurator(Curator)
-    }
-
-    if (this.props.info.id === "REQ_SUCCESS") {
-      this.setState({ blocked: false })
-      document.getElementById("curator_form").reset()
     }
   }
 
@@ -156,7 +141,7 @@ export class FormCurator extends Component {
                     {stafflist.map((staff, index) => {
                       return <option key={index}
                         value={[staff._id, staff.fullname_url, staff.lastname, staff.firstname, staff.secondname]} >
-                        {`${staff.lastname} ${staff.firstname} ${staff.secondname && staff.secondname}`}
+                        {`${staff.lastname} ${staff.firstname} ${staff.secondname ? staff.secondname : ''}`}
                       </option>
                     })}}
               </select>

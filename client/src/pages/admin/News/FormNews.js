@@ -218,6 +218,7 @@ export class NewsForm extends PureComponent {
 								onChange={this.changeTitleAndTranslit}
 								type="text"
 								className="form-control"
+								maxLength={128}
 								name="title"
 								id="title-input"
 								placeholder="Иван Иванов вступил в профсоюз ТУСУРа"
@@ -230,6 +231,7 @@ export class NewsForm extends PureComponent {
 								required
 								type="text"
 								className="form-control"
+								maxLength={128}
 								name="translit_title"
 								id="translit-title-input"
 								placeholder="ivan-ivanon-vstupil-v-profsouz-tusura"
@@ -240,7 +242,7 @@ export class NewsForm extends PureComponent {
 						<div className="form-group">
 							<label htmlFor="annotation-input">Аннотация</label>
 							<textarea
-								maxLength="255"
+								maxLength={255}
 								onChange={this.changeInput}
 								className="form-control"
 								name="annotation"

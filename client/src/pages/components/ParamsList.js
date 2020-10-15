@@ -49,13 +49,13 @@ export function ParamComponent({param, index}) {
         {param.img ? 
         <div className="row no-gutters justify-content-between align-content-center">
             <div className="col-md-6">
-                <div className={`text-param-onpage param-onpage__${index} ${index % 2 ===0 ? '' : 'text-right'}`} dangerouslySetInnerHTML={{ __html: param.text }}/>
+                <div className={`text-param-onpage param-onpage__${index} html-adaptive ${index % 2 === 0 ? '' : 'text-right'}`} dangerouslySetInnerHTML={{ __html: param.text }}/>
             </div>
             <div className={`col-md-6 ${index % 2 === 0 ? 'text-right' : 'order-md-first' }`}>
                 <img className="img-param-onpage img_block" src={param.img} alt={param.title}/>
             </div>
         </div> : 
-        <div className={`text-param-onpage param-onpage__${index}`} dangerouslySetInnerHTML={{ __html: param.text }}/>}
+        <div className={`text-param-onpage param-onpage__${index} html-adaptive`} dangerouslySetInnerHTML={{ __html: param.text }}/>}
     </div>
 </section>
 }

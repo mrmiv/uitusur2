@@ -35,37 +35,17 @@
             // list-style: none;
             cursor: pointer;
             &:hover{
-                transform: scale(1.05);
+                transform: scale(1.03);
             }
             &:active{
                 transform: scale(0.97);
             }
-            // &:after{
-            //     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            //     -webkit-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            //     -o-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            //     -moz-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            //     content:"\0279C";
-            //     opacity: 0.2;
-            //     margin-left: 8px;
-            // }
-            // &:hover{
-            //     &:after{
-            //         opacity: 1;
-            //         margin-left: 16px;
-            //     }
-            // }
-            // &:active{
-            //     &:after{
-            //         margin-left: 24px;
-            //     }
-            // }
         }
     }
 }
 
 #studyplan{
-    scroll-margin-top: 100px;
+    scroll-margin-top: 60px;
     h2{
         color: default.$pink
     }
@@ -73,11 +53,11 @@
         height: auto;
         button{
             margin: 3px;
-            width: 140px;
-            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            -webkit-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            -o-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            -moz-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 120px;
+            transition: all 0.2s ease;
+            -webkit-transition: all 0.2s ease;
+            -o-transition: all 0.2s ease;
+            -moz-transition: all 0.2s ease;
             color: default.$purple;
             font-weight: 500;
             border: 2px solid #98248FAA;
@@ -90,10 +70,6 @@
                 background: linear-gradient(#B21F6680, #98248F80);
             }
             &.active{
-                transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-                -webkit-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-                -o-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-                -moz-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
                 transform: none;
                 color: white;
                 background: linear-gradient(default.$pink, default.$purple);
@@ -110,7 +86,7 @@
 
         .table_plan{
             text-align: right;
-            
+
             table{
                 text-align: center;
                 border-color: default.$lblue;
@@ -136,6 +112,9 @@
 
     .curator_img{
         width: 100%;
+        @media screen and (max-width: 768px) {
+            display: none;
+        }
         img{
             width: inherit;
         }
@@ -159,36 +138,42 @@
 }
 
 #clubs{
-    margin-top: 80px;
+    margin-top: 60px;
     scroll-margin-top: 100px;
     h2{color: default.$orange}
 
     .card_club{
-        margin: 5px;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(42, 42, 42, 0.2);
-        padding: 5px;
-        /* width: 100%; */
-        /* max-width: 140px; */
-        min-height: 150px;
-        height: auto;
-        max-height: 220px;
+        margin: 0.25rem;
+        height: 160px;
+        border-radius: 12px;
+        box-shadow: 0 2px 4px default.$shadow;
+        padding: 0.3em 0.5em;
         transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         -webkit-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
 
         img.card_club__img{
-            display: block;
+            transition: all 0.3s ease;
+            position: absolute;
+            object-fit: cover;
+            left: 0;
+            right: 0;
+            top: 0;
+            border-radius: 12px;
             margin: 0 auto;
             text-align: center;
-            border-radius: 5px;
-            width: auto;
-            max-width: 100%;
+            width: 100%;
             height: 100%;
-            max-height: 120px;
+            z-index: -1;
         }
         
         p.card_club__body{
-            text-align: center;
+            transition: all 0.3s ease;
+            text-align: left;
+            visibility: hidden;
+            opacity: 0;
+            color: white;
+            z-index: 1;
         }
 
         &:hover{
@@ -197,6 +182,13 @@
             -moz-transform: translateY(-2px);
             -webkit-transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(42, 42, 42, 0.2);
+            img.card_club__img{
+                filter: brightness(0.25);
+            }
+            p.card_club__body{
+                opacity: 1;
+                visibility: visible;
+            }
         }
 
         &:active{
@@ -205,6 +197,13 @@
             -moz-transform: scale(0.97);
             box-shadow: 0 1px 2px rgba(42, 42, 42, 0.2);
             -webkit-transform: scale(0.97);
+            img.card_club__img{
+                filter: brightness(0.25);
+            }
+            p.card_club__body{
+                opacity: 1;
+                visibility: visible;
+            }
         }
 
     }

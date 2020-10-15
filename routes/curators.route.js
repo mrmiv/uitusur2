@@ -4,7 +4,11 @@ const auth = require('../middleware/middleware.auth')
 
 const Curator = require('../models/Curator')
 
-// /curator
+/**
+ * @url /api/curator
+ * @method GET
+ * @description Получить всех кураторов
+ */
 router.get('/', async (req, res) => {
 
   try {
@@ -18,10 +22,15 @@ router.get('/', async (req, res) => {
   }
 })
 
-// /curator/:id
+/**
+ * @url /api/curator/:id
+ * @method GET
+ * @description Получить куратора по id
+ * @param id
+ */
 router.get('/:id', async (req, res) => {
 
-  const id = req.params.id
+  const {id} = req.params
 
   try {
 
@@ -31,14 +40,18 @@ router.get('/:id', async (req, res) => {
       return res.status(404).json({ message: "Куратор не найден" })
     }
 
-    res.json(curator)
+    return res.json(curator)
 
   } catch (error) {
     res.status(500).json({ message: error.message })
   }
 })
 
-// curator/
+/**
+ * @url /api/curator
+ * @method POST
+ * @description Добавить куратора
+ */
 router.post('/', auth, async (req, res) => {
 
   const {
@@ -52,23 +65,25 @@ router.post('/', auth, async (req, res) => {
 
   try {
 
-    const curator = new Curator({
-      firstname,
-      lastname,
-      secondname,
-      staff_url,
-      staff_id,
-      group
-    })
-
     const exists = await Curator.findOne({ group })
 
     if (exists) {
       return res.status(400).json({ message: "Куратор для данной группы уже существует" })
     }
 
+    const curator = new Curator({
+      firstname,
+      lastname,
+      secondname: secondname ? secondname : null,
+      staff_url,
+      staff_id,
+      group
+    })
+
+    console.log(curator)
+
     await curator.save()
-      .then(curator => res.json({ message: `Куратор ${curator.lastname} ${curator.firstname} успешно добавлен для группы ${curator.group}`, curator }))
+      .then(curator => res.json({ message: `Куратор ${curator.lastname} ${curator.firstname} успешно добавлен для группы ${curator.group}` }))
       .catch(err => res.status(400).json({ message: err.message }))
 
   } catch (error) {
@@ -76,7 +91,12 @@ router.post('/', auth, async (req, res) => {
   }
 })
 
-// curator/:id
+/**
+ * @url /api/curator/:id
+ * @method DELETE
+ * @param id
+ * @description Удалить куратора по id 
+ */
 router.delete('/:id', auth, async (req, res) => {
 
   const id = req.params.id
@@ -84,19 +104,24 @@ router.delete('/:id', auth, async (req, res) => {
   try {
     const curator = await Curator.findById(id)
 
-
     if (!curator) {
       return res.status(404).json({ message: "Куратор не найден" })
     }
 
     await curator.delete()
-      .then(() => res.status(201).json({ message: "Куратор удален" }))
+      .then(() => res.json({ message: "Куратор удален" }))
 
   } catch (error) {
     res.status(500).json({ message: error.message })
   }
 })
 
+/**
+ * @url /api/curator/:id
+ * @method PATCH
+ * @param id
+ * @description Редактировать куратора по id 
+ */
 router.patch('/:id', auth, async (req, res) => {
 
   const id = req.params.id
@@ -114,18 +139,15 @@ router.patch('/:id', auth, async (req, res) => {
       return res.status(404).json({ message: "Куратор не найден" })
     }
 
-    // console.log(body, body.rank);
-
-
-    if (firstname) { curator.firstname = firstname }
-    if (lastname) { curator.lastname = lastname }
-    if (secondname) { curator.secondname = secondname }
-    if (staff_url) { curator.staff_url = staff_url }
-    if (group) { curator.group = group }
-    if (staff_id) { curator.staff_id = staff_id }
+    curator.firstname = firstname
+    curator.lastname = lastname
+    curator.secondname = secondname ? secondname : null
+    curator.staff_url = staff_url
+    curator.group = group
+    curator.staff_id = staff_id
 
     await curator.save()
-      .then(curator => res.json({ message: `Куратор для группы ${curator.group} обновлен на ${curator.lastname} ${curator.firstname}`, curator }))
+      .then(curator => res.json({ message: `Куратор для группы ${curator.group} обновлен на ${curator.lastname} ${curator.firstname}` }))
 
   } catch (error) {
     res.status(500).json({ message: error.message })

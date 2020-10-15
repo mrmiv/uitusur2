@@ -148,10 +148,10 @@ export class SearchPage extends PureComponent {
                         return element('/about', page);;
                         
                     case 'Бакалавриат':
-                        return element('/bakalavriat', page);
+                        return element('/student/bakalavriat', page);
         
                     case 'Магистратура':
-                        return element('/magistratura', page);
+                        return element('/student/magistratura', page);
         
                     case 'Поступающему Магистратура':
                         return element('/abiturient-mag', page);

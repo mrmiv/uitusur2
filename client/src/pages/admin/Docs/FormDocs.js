@@ -65,10 +65,16 @@ export class NewsForm extends Component {
   }
 
   changeInput = (e) => {
-    const field = e.target.name;
-    this.setState({ [field]: e.target.value });
+    const field = e.target.name
+    const value = e.target.value
+    this.setState({ [field]: value })
+
+    if (field === "path"){
+      this.setState({path: value, oldDoc: null, doc: null})
+    }
+
     if (!this.state.blocked) {
-      this.setState({ blocked: true });
+      this.setState({ blocked: true })
     }
   };
 
@@ -187,7 +193,7 @@ export class NewsForm extends Component {
                 className="form-control"
                 name="path"
                 id="path-input"
-                disabled={this.state.doc}
+                disabled={this.state.doc || this.state.oldDoc}
                 placeholder="https://..."
                 value={this.state.path}
               />

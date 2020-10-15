@@ -128,20 +128,19 @@ export class Student extends Component {
                                 </div>
                             </div>
                             <div className="year_choose w-75 text-center">
-                                {!StudyPlan ?
-                                    <img src={dashboard_img} alt="Учебный план" />
-                                    :
-                                    <div className="table_plan table-responsive mt-3">
-                                        <table class="table table-bordered">
+                                {!StudyPlan 
+                                    ?<img src={dashboard_img} alt="Учебный план" />
+                                    :<div className="table_plan mt-3">
+                                        <table class="table table-sm table-bordered">
                                             <thead>
                                                 <tr>
                                                     {StudyPlan.slice(0, 1).map(sp => {
                                                         return (<Fragment>
                                                             <th scope="col">Группа</th>
-                                                            {sp.exam && sp.exam.from && sp.exam.to ? <th scope="col">Экзамены</th> : null}
-                                                            {sp.practic && sp.practic.type && sp.practic.from && sp.practic.to ? <th scope="col">Практика</th> : null}
-                                                            {sp.gia && sp.gia.from && sp.gia.to ? <th scope="col">ГИА</th> : null}
-                                                            {sp.weekend && sp.weekend.from && sp.weekend.to ? <th scope="col">Каникулы</th> : null}
+                                                            {(sp.exam && sp.exam.from && sp.exam.to) && <th scope="col">Экзамены</th>}
+                                                            {sp.practic && sp.practic.type && sp.practic.from && sp.practic.to && <th scope="col">Практика</th>}
+                                                            {sp.gia && sp.gia.from && sp.gia.to && <th scope="col">ГИА</th>}
+                                                            {sp.weekend && sp.weekend.from && sp.weekend.to && <th scope="col">Каникулы</th>}
                                                         </Fragment>)
                                                     })}
                                                 </tr>
@@ -150,28 +149,28 @@ export class Student extends Component {
                                                 {StudyPlan.map((sp, index) => {
                                                     return (<tr key={index}>
                                                         <td>{sp.group}</td>
-                                                        {sp.exam && sp.exam.from && sp.exam.to ?
+                                                        {(sp.exam && sp.exam.from && sp.exam.to) &&
                                                             <td>
                                                                 <strong>c</strong> {toDate(sp.exam.from)}<br />
                                                                 <strong>по</strong> {toDate(sp.exam.to)}
-                                                            </td> : null}
-                                                        {sp.practic && sp.practic.type && sp.practic.from && sp.practic.to ?
+                                                            </td>}
+                                                        {(sp.practic && sp.practic.type && sp.practic.from && sp.practic.to) &&
                                                             <td>
                                                                 {sp.practic.type}<br />
                                                                 <strong>c</strong> {toDate(sp.practic.from)}<br />
                                                                 <strong>по</strong> {toDate(sp.practic.to)}
-                                                            </td> : null}
-                                                        {sp.gia && sp.gia.from && sp.gia.to ?
+                                                            </td>}
+                                                        {(sp.gia && sp.gia.from && sp.gia.to) &&
                                                             <td>
                                                                 <strong>c</strong> {toDate(sp.gia.from)}
                                                                 <br />
                                                                 <strong>по</strong> {toDate(sp.gia.to)}
-                                                            </td> : null}
-                                                        {sp.weekend && sp.weekend.from && sp.weekend.to ?
+                                                            </td>}
+                                                        {(sp.weekend && sp.weekend.from && sp.weekend.to) &&
                                                             <td>
                                                                 <strong>c</strong> {toDate(sp.weekend.from)}
                                                                 <br /><strong>по</strong> {toDate(sp.weekend.to)}
-                                                            </td> : null}
+                                                            </td>}
                                                     </tr>)
                                                 })}
                                             </tbody>
@@ -213,11 +212,10 @@ export class Student extends Component {
 
                     <section id="curator">
                         <div className="container-md container-fluid">
+                            <h2> Кураторы студентов</h2>
                             <div className="row no-gutters justify-content-center align-items-center">
-                                <h2> Кураторы студентов</h2>
-                                <div className="w-100" />
-                                <div className="col-md-4 curator_img">
-                                    <img src={curator_img} alt="Кураторы групп" />
+                                <div className="col-md-4">
+                                    <div className="curator_img"><img src={curator_img} alt="Кураторы групп" /></div>
                                 </div>
                                 <table className="table table-bordered col-md-8">
                                     <thead>

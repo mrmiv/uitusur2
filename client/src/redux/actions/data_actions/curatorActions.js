@@ -120,7 +120,6 @@ export const patchCurator = (id, curator) => dispatch => {
 
     axios.patch(`/api/curator/${id}`, curator, config)
         .then(res => {
-            // console.log("ACTION", res.data);
             dispatch(returnInfo(res.data, res.status, "REQ_SUCCESS"));
             dispatch({
                 type: REQ_SUCCESS,
