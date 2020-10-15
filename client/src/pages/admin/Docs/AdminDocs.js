@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { closeNavbar } from '../../../redux/actions/navbarActions'
 import { clearInfo } from '../../../redux/actions/infoActions'
 import { GetDocuments, delDocument } from '../../../redux/actions/docsActions'
@@ -12,7 +12,7 @@ import bxsEdit from '@iconify/icons-bx/bxs-edit';
 import { MessageAlert } from '../components/MessageAlert'
 
 
-export class AdminDocs extends Component {
+export class AdminDocs extends PureComponent {
 
   state = {
     category: null,
@@ -48,33 +48,44 @@ export class AdminDocs extends Component {
     
   }
 
-  // setNewsType = e => {
-  //   this.props.clearInfo()
-  //   const type = e.target.value
-  //   this.setState({ type })
-  //   this.props.GetNewsList(type)
-  // }
+  setDocumentType = e => {
+    this.props.clearInfo()
+    const category = e.target.value
+    this.setState({ category })
+    this.props.GetDocuments(category)
+  }
 
   render() {
     const { msg } = this.state
-    const { docslist, isLoading } = this.props
+    const { docslist, isLoading, categories } = this.props
 
     return (
       <div className="container-md container-fluid">
         
         <MessageAlert msg={msg} id={this.props.info.id}/>
 
-        <div className="row no-gutters align-items-center justify-content-between">
+        <div className="d-flex align-items-center justify-content-between">
           <h1>Регламентирующие документы</h1>
           <Link className="add_admin_button" to="/admin/docs/add">Добавить документ/ссылку <Icon icon={plusCircle} /></Link>
         </div>
+        <form>
+          <div className="form-row">
+            <div className="form-group col-auto">
+              <select disabled={categories.length === 0} onChange={this.setDocumentType} className="form-control">
+                <option defaultValue value="">Все</option>
+                {categories && categories.map( (cat, index) => {
+                  return <option key={index} value={cat}>{cat}</option>
+                })}
+              </select>
+            </div>
+          </div>
+        </form>
           {docslist && !isLoading ?
             <table className="table table-sm table-bordered table-hover">
               <thead className="thead-dark">
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">Название</th>
-                  <th scope="col">Дата утверждения</th>
                   <th scope="col">Категория</th>
                   <th scope="col">Подкатегория</th>
                   <th scope="col" style={{ width: "50px", textAlign: "center" }}> <Icon icon={bxsEdit} /> </th>
@@ -86,7 +97,6 @@ export class AdminDocs extends Component {
                   return (<tr>
                     <th scope="row">{index + 1}</th>
                     <td name="title">{item.title}</td>
-                    <td name="date">{item.date ? toDate(item.date) : "-"}</td>
                     <td name="category">{item.category}</td>
                     <td name="date">{item.subcategory ? item.subcategory : "-"}</td>
                     <td name="edit">
@@ -107,6 +117,7 @@ export class AdminDocs extends Component {
 
 const mapStateToProps = state => ({
   docslist: state.api.docs.docslist.docslist,
+  categories: state.api.docs.docslist.categories,
   isLoading: state.api.docs.docslist.isLoading,
   info: state.info
 })

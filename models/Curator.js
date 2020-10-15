@@ -26,16 +26,7 @@ const CuratorSchema = new Schema({
         }
     },
     // отчество
-    secondname: {
-        type: String,
-        required: [true, "Поле отчество является обязательным"],
-        validate: {
-            validator: function (name) {
-                return /^[а-яА-ЯёЁa-zA-Z0-9(\s)(\-\."!№_:?,)]+$/.test(name) // добавить тире
-            },
-            message: props => `${props.value} - Поле отчество содержит недопустимые символы`
-        }
-    },
+    secondname: String,
 
     staff_url:{
         type: String,

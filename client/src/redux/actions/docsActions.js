@@ -10,15 +10,16 @@ import {
 import axios from 'axios'
 import { returnInfo } from './infoActions';
 
-export const GetDocuments = () => dispatch => {
+export const GetDocuments = (category) => dispatch => {
 
     dispatch({
         type: DOCS_LOADING
     })
 
-    axios.get('/api/docs')
+    const query = category ? `?category=${category}` : '' 
+
+    axios.get(`/api/docs${query}`)
         .then(res => {
-            // console.log(res.data);
             dispatch({
                 type: GET_DOCUMENTS_LIST,
                 payload: {
@@ -43,7 +44,6 @@ export const GetDocument = (id) => dispatch => {
         type: DOC_LOADING
     })
 
-    // get /literature/book/id
     axios.get(`/api/docs/${id}`)
         .then(res => {
             dispatch({
@@ -91,9 +91,8 @@ export const postDocument = ({
     formdata.append('title', title)
     formdata.append('category', category)
     formdata.append('subcategory', subcategory)
-    if (date) { formdata.append('date', date) }
+    formdata.append('date', date)
 
-    // psot /docs/id
     axios({
         url: '/api/docs',
         method: 'POST',
@@ -143,9 +142,8 @@ export const patchDocument = (id, {
     formdata.append('title', title)
     formdata.append('category', category)
     formdata.append('subcategory', subcategory)
-    if (date) { formdata.append('date', date) }
+    formdata.append('date', date)
 
-    // psot /docs/id
     axios({
         url: `/api/docs/${id}`,
         method: 'PATCH',
@@ -178,7 +176,6 @@ export const delDocument = id => dispatch => {
         }
     }
 
-    // debugger
     axios.delete(`/api/docs/${id}`, config)
         .then(res => {
             dispatch(returnInfo(res.data, res.status, 'REQ_SUCCESS'))

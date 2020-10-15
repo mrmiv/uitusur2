@@ -3,12 +3,11 @@ import { closeNavbar } from "../../../redux/actions/navbarActions";
 import { connect } from "react-redux";
 import { clearInfo } from "../../../redux/actions/infoActions";
 import { GetDocument, patchDocument, postDocument } from "../../../redux/actions/docsActions";
-import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
-import { faArrowAltCircleLeft } from "@fortawesome/free-solid-svg-icons";
 import { Link, Prompt, withRouter } from "react-router-dom";
-import CyrillicToTranslit from "cyrillic-to-translit-js";
 import { FormatDateToPost, DateMaskInput } from "../components/DateField";
 import { toDate } from "../../components/NewsList";
+import { FileField } from "../components/FileField";
+import { MessageAlert } from "../components/MessageAlert";
 
 export class NewsForm extends Component {
   state = {
@@ -20,6 +19,7 @@ export class NewsForm extends Component {
     subcategory: "",
     path: "",
     doc: null,
+    oldDoc: null,
 
     blocked: false,
     msg: null
@@ -39,28 +39,28 @@ export class NewsForm extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const id = this.props.match.params.id;
-    const { msg } = this.props.info;
-    if (id) {
-      if (id !== prevState.id) {
-        this.setState({ id });
-      }
-      const { document } = this.props;
 
-      if (document !== prevProps.document) {
-        this.setState({
-          title: document.title,
-          category: document.category,
-          date: toDate(document.date,false,"-"),
-          subcategory: document.subcategory,
-          path: document.path,
-          doc: document.document,
-        });
-      }
+    const id = this.props.match.params.id
+    const { msg } = this.props.info
+    const { document } = this.props
+
+    if (id !== prevState.id) {
+      this.setState({ id })
     }
+
+    if (this.state.id && document !== prevProps.document) {
+      this.setState({
+        title: document.title,
+        category: document.category,
+        date: document.date ? toDate(document.date, false ,"-") : "",
+        subcategory: document.subcategory,
+        path: document.path,
+        oldDoc: document.document,
+      })
+    }
+
     if (msg !== prevProps.info.msg) {
-      // console.log(msg);
-      this.setState({ msg });
+      this.setState({ msg })
     }
   }
 
@@ -72,33 +72,33 @@ export class NewsForm extends Component {
     }
   };
 
-  handeFile = (e) => {
-    let file = e.target.files[0];
-    if (file) {
-      Object.defineProperty(file, "name", {
-        writable: true,
-        value: CyrillicToTranslit().transform(file["name"], "_"),
-      })
-      this.setState({ doc: file });
-    } else {
-      this.setState({ doc: null })
-    }
+  handeFile = files => {
+
+    this.setState({doc: files[0], path: ""})
+
     if (!this.state.blocked) {
       this.setState({ blocked: true });
     }
-  };
 
-  submitForm = (e) => {
-    e.preventDefault();
-    this.props.clearInfo();
-    window.scrollTo(0, 0);
+  }
+
+  deleteOldFile = file => {
+		this.setState({oldDoc: null})
+  }
+
+  submitForm = e => {
+
+    e.preventDefault()
+    this.props.clearInfo()
+    window.scrollTo(0, 0)
+
     const { id,
       title,
       category,
       subcategory,
       doc,
       path,
-      date } = this.state;
+      date } = this.state
 
     const Doc = {
       title,
@@ -106,52 +106,34 @@ export class NewsForm extends Component {
       subcategory,
       doc,
       path,
-      date: FormatDateToPost(date)
+      date: date ? FormatDateToPost(date) : ''
     }
 
     if (id) {
-      // console.log(fields);
       this.props.patchDocument(id, Doc)
     } else {
-      this.props.postDocument(Doc);
+      this.props.postDocument(Doc)
     }
   };
 
   render() {
-    const { msg } = this.state;
+
+    const { msg, title, doc, path, category } = this.state;
     const { isLoading } = this.props
+
+    const buttonDisabled = isLoading || (!title && !category && (!path || !doc))
+
     return (
       <div className="container-md container-fluid">
         <Prompt
           when={this.state.blocked}
           message={() => `Вы действительно хотите покинуть эту страницу?`}
         />
-        {msg ? (
-          <div
-            className={`alert 
-                ${this.props.info.id === "REQ_FAIL" ? "alert-danger" : null}
-                ${
-              this.props.info.id === "REQ_SUCCESS" ? "alert-success" : null
-              } alert-dismissible fade show`}
-            role="alert"
-          >
-            {this.props.info.id === "REQ_FAIL" && <strong>Ошибка! </strong>}
-            {this.props.info.id === "REQ_SUCCESS" && <strong>Успех! </strong>}
-            {msg.message}.
-            <button
-              type="button"
-              className="close"
-              data-dismiss="alert"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-        ) : null}
+        
+        <MessageAlert msg={msg} id={this.props.info.id}/>
+
         <div className="row no-gutters justify-content-between">
-          <Link to="/admin/docs">
-            <Icon icon={faArrowAltCircleLeft} size="lg" /> Назад
-					</Link>
+          <Link to="/admin/docs">Назад</Link>
           <form className="w-100 mt-3" onSubmit={this.submitForm}>
             <div className="form-row">
               <div className="col form-group">
@@ -197,49 +179,34 @@ export class NewsForm extends Component {
               </div>
             </div>
 
-            <div className="form-row">
-              <div className="col form-group">
-                <label htmlFor="path-input">Ссылка</label>
-                <input
-                  onChange={this.changeInput}
-                  type="text"
-                  className="form-control"
-                  name="path"
-                  id="path-input"
-                  disabled={this.state.doc}
-                  placeholder="https://..."
-                  value={this.state.path}
-                />
-              </div>
-              <div className="col form-group">
-                <label htmlFor="doc-input">Документ</label>
-                {!this.state.id ? <input
-                  onChange={this.handeFile}
-                  type="file"
-                  accept=".doc, .docx, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, .pdf"
-                  className="form-control-file"
-                  name="doc"
-                  id="doc-input"
-                  disabled={this.state.path}
-                /> : <input
-                    onChange={this.changeInput}
-                    type="text"
-                    className="form-control"
-                    name="doc"
-                    id="doc-input"
-                    disabled={true}
-                    value={this.state.doc}
-                  />}
-              </div>
+            <div className="form-group">
+              <label htmlFor="path-input">Ссылка</label>
+              <input
+                onChange={this.changeInput}
+                type="text"
+                className="form-control"
+                name="path"
+                id="path-input"
+                disabled={this.state.doc}
+                placeholder="https://..."
+                value={this.state.path}
+              />
             </div>
 
-            <button
-              className="btn btn-success mr-0"
-              type="submit"
-              disabled={isLoading}
-            >
-              {this.state.id ? "Обновить документ" : "Добавить документ"}
-            </button>
+            <FileField handleParentFiles={this.handeFile} deleteOldFile={this.deleteOldFile} width="100%" 
+              accept=".doc, .docx, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, .pdf"
+              id="imageFileInput" files={this.state.oldDoc ? [this.state.oldDoc] : []} label="документ" 
+              undefinedFileName={this.state.title} name="doc-input" multiple={false}/>
+
+            <div className="d-flex justify-content-end mt-3">
+              <button
+                className="btn btn-success"
+                type="submit"
+                disabled={buttonDisabled}
+              >
+                {this.state.id ? "Обновить документ" : "Добавить документ"}
+              </button>
+            </div>
           </form>
         </div>
       </div>

@@ -132,7 +132,7 @@ export class NewsForm extends PureComponent {
 	};
 
 	deleteOldFile = file => {
-		this.setState(state => {return { oldDocs: state.oldDocs.filter(doc => doc._id !== file._id) }})
+		this.setState(state => {return { oldDocs: state.oldDocs.filter(doc => doc !== file) }})
 	}
 
 	changeBody = (body) => {
@@ -179,13 +179,11 @@ export class NewsForm extends PureComponent {
 			deadline: deadline ? FormatDateToPost(deadline) : ''
 		};
 
-		if (type === 2) {
-			// стипендии и гранты
+		if (type === "2") {
 			News.city = city;
 			News.grant = grant;
 			News.period = period;
-		} else if (type === 3) {
-			// конференции
+		} else if (type === "3") {
 			News.city = city;
 			News.site = site;
 			News.period = period;
@@ -194,7 +192,7 @@ export class NewsForm extends PureComponent {
 		if (url) {
 			this.props.patchNews(id, News, oldDocs)
 		} else {
-			this.props.postNews(News);
+			this.props.postNews(News)
 		}
 	}
 

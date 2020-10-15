@@ -6,6 +6,7 @@ const DocSchema = new Schema({
     title: {
         type: String,
         required: true,
+        maxlength: 255,
         unique: true,
         validate: {
             validator: function (name) {

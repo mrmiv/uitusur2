@@ -20,6 +20,7 @@ const NewsSchema = new Schema({
 
     translit_title: {
         type: String,
+        maxlength: 255,
         required: [true, 'Поле URL является обязательным!'],
         unique: true,
         trim: true,
@@ -59,15 +60,7 @@ const NewsSchema = new Schema({
     // Сайт
     site: {
         type: String,
-        validate: {
-            validator: function (path) {
-                if(!path){
-                    return
-                }
-                return /^((https|http)?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/.test(path)
-            },
-            message: props => `${props.value} - Поле сайт содержит недопустимые символы`
-        }
+        trim:true
     }, //conf
     // Место проведения
     city: { type: String, trim: true },//grants, conf

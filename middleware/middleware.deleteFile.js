@@ -1,17 +1,21 @@
 const fs = require("fs");
 
-module.exports = (res, filePath) =>{
+module.exports = (filePath) =>{
   try {
 
+    let error
+
     if(!filePath){
-      return res.status(400).json({message: "Ошибка сервера. Файл не удален. Не найден путь к файлу."})
+      return error = {message: "Ошибка сервера. Файл не удален. Не найден путь к файлу."}
     }
     
-    const path = filePath.substr(1) 
+    const path = filePath.substr(1)
 
     fs.unlink(path, (err) => {
-      if (err) { return res.status(400).json({message: `Файл не был удален. Ошбика: ${err}`})}
+      if (err) { return error = {message: `Файл не был удален. Ошбика: ${err}`} }
     })
+
+    return false
 
   } catch (error) {
       res.status(500).json({message: error.message})
