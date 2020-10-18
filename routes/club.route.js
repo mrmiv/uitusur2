@@ -2,9 +2,15 @@ const {Router} = require('express')
 const router = Router()
 const fs = require('fs')
 const auth = require('../middleware/middleware.auth')
+const deleteFile = require('../middleware/middleware.deleteFile')
+const multipleFileUpload = require('../middleware/middleware.multipleFileUpload')
 const Club = require('../models/Clubs')
 
-// /club
+/**
+ * @url /api/clubs/
+ * @method GET
+ * @description получить все клубы
+ */
 router.get('/', async (req, res) => {
     
     try {
@@ -18,10 +24,15 @@ router.get('/', async (req, res) => {
     }
 })
 
-// /club/:id
+/**
+ * @url /api/clubs/:id
+ * @method GET
+ * @description получить клуб по id
+ * @param id
+ */
 router.get('/:id', async (req, res) => {
 
-    const id = req.params.id
+    const {id} = req.params
 
     try {
         const club = await Club.findById(id)
@@ -30,15 +41,19 @@ router.get('/:id', async (req, res) => {
             return res.status(404).json({message: "Клуб не найден"})
         }
 
-        res.json(club)
+        return res.json(club)
 
     } catch (error) {
         res.status(500).json({message:error.message})
     }
 })
 
-// club/
-router.post('/',auth, async (req, res) => {
+/**
+ * @url /api/clubs/
+ * @method POST
+ * @description добавить клуб
+ */
+router.post('/', [auth, multipleFileUpload], async (req, res) => {
 
     const {
         name,
@@ -52,55 +67,44 @@ router.post('/',auth, async (req, res) => {
             path
         })
 
-        // console.log(club);
+        if(!name){return res.status(400).json({message: "Поле название является обязательным"})}
+        if(!path){return res.status(400).json({message: "Поле ссылка является обязательным"})}
+
         const exists = await Club.findOne({name})
 
         if (exists){
-            return res.status(400).json({message: "Клуб уже существует"})
+            return res.status(400).json({message: "Клуб с таким названием уже существует"})
         }
 
-        const {image} = req.files
+        const image = req.filesURLs[0]
 
-        if(!image){
-            return res.status(400).json({message: "Вы не прикрепили изображение"})
-        }
+        if(!image){return res.status(400).json({message: "Вы не прикрепили изображение"})}
 
-        image.mv(`uploads/other/clubs/${image.name}`, function(err){
-            if (err){
-                return res.status(500).json({message: "Ошибка при прикреплении изображения: "+ err});
-            }
-        })
+        club.image = image.path
 
-        club.image = `/uploads/other/clubs/${image.name}`
-        // console.log(club);
-        try{
-            await club.save()
-            .then(club => res.status(201).json({message:"Клуб успешно добавлен", club}) )
+        await club.save()
+            .then(club => res.json({message: `Клуб "${club.name ? club.name : ''}" успешно добавлен`}) )
             .catch(err => res.status(400).json({message: err.message}))
-        } catch (error){
-            error instanceof Error.ValidationError
-            return res.status(400).json({
-                message: "Проверьте введенные данные",
-                errors: error.message
-            })
-        }
 
     } catch (error) {
         res.status(500).json({message:error.message})
     }
 })
 
-// club/:id
-router.delete('/:id',auth, async (req, res) => {
+/**
+ * @url /api/clubs/
+ * @method DELETE
+ * @description удалить клуб по id
+ * @param id
+ */
+router.delete('/:id', auth, async (req, res) => {
 
-    const id = req.params.id
+    const {id} = req.params
     
     try {
         const club = await Club.findById(id)
 
-        if(!club){
-            return res.status(404).json({message: "Клуб не найден"})
-        }
+        if(!club){return res.status(404).json({message: "Клуб не найден"})}
 
         await club.delete()
             .then(()=> res.json({message: "Клуб удален"}))
@@ -110,9 +114,9 @@ router.delete('/:id',auth, async (req, res) => {
     }
 })
 
-router.patch('/:id',auth, async (req, res) => {
+router.patch('/:id', [auth, multipleFileUpload], async (req, res) => {
 
-    const id = req.params.id
+    const {id} = req.params
     const body = req.body
 
     try {
@@ -122,12 +126,22 @@ router.patch('/:id',auth, async (req, res) => {
             return res.status(404).json({message: "Клуб не найден"})
         }
 
-        // console.log(body, body.rank);
+        const image = req.filesURLs[0]
+        const errors = []
+
+        if(image){
+            const deleted = deleteFile(club.image)
+            if (deleted.message){
+                return errors.push(deleted.message)
+            }
+            club.image = image.path
+        }
+
         club.name = body.name
         club.path = body.path
 
         await club.save()
-            .then(club => res.json({message: "Клуб обновлен", club}))
+            .then(club => res.json({message: `Клуб "${club.name ? club.name : ''}" обновлен. ${errors.length === 0 ? '' : errors.map( err => err.message)}`}))
 
     } catch (error) {
         res.status(500).json({message:error.message})

@@ -24,9 +24,9 @@ router.get('/', async (req, res) => {
     let query = {}
     
     if (search){ 
-        const q = search.length > 5 ? search.slice(0, -3) : search 
-        const reg = {$regex: `.*${q}.*`}
-        query.$or = [{category: reg}, {annotation: reg}, {title: reg}, {author: reg}, {category:reg}]
+        const q = search.length > 6 ? search.slice(0, -3) : search 
+        const reg = {$regex: `.*${q}.*`, $options: 'i' }
+        query.$or = [{category: reg}, {description: reg}, {annotation: reg}, {title: reg}, {author: reg}]
     }
 
     if (category){
@@ -34,7 +34,6 @@ router.get('/', async (req, res) => {
     }
 
     try {
-        // console.log(query);
         await Literature.find(query)
             .select(['title', 'translit_title', 'author', 'category', 'image'])
             .sort([['title', sort], ['author', 1], ['category', 1]])
@@ -218,7 +217,8 @@ router.patch('/book/:id', auth, async (req, res) => {
         category,
         description,
         annotation,
-        path} = req.body
+        path, 
+        oldDoc} = req.body
 
     try {
         
@@ -232,6 +232,9 @@ router.patch('/book/:id', auth, async (req, res) => {
         if (!annotation) { return res.status(400).json({ message: "Поле аннотация является обязательным" }) }
 
         const filesErrors = []
+        if (!oldDoc){
+            Book.doc = null
+        }
 
         if (req.files){
             const {doc, image} = req.files

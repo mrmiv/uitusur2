@@ -58,33 +58,44 @@
         line-height: 0;
         visibility: hidden;
         opacity:0;
-        transition: line-height 0.4s ease, 
+        transition: line-height 0.2s ease, 
                     opacity 0.1s ease,
                     visibility 0.1s ease;
-        ul{
-            li{
-                margin: 0 16px 0 0;
-                a{
-                    font-size: 1.3em;
-                    font-weight: 500;
-                    color: #0008;
-                    transition: color 0.3s ease;
-                    &:hover{
-                        color: #000b;
+        &.toggle-news-type{
+            &.toggle-news-type-enter, &.toggle-news-type-exit-active {
+                line-height: 0;
+                visibility: hidden;
+                opacity:0;
+            }
+            
+            &.toggle-news-type-enter-active, &.toggle-news-type-enter-done,  &.toggle-news-type-exit {
+                line-height: unset;
+                visibility: visible;
+                opacity: 1;
+            }
+
+            ul{
+                margin-bottom: 0;
+                overflow: hidden;
+                li{
+                    margin: 0 16px 0 0;
+                    a{
+                        font-size: 1.3em;
+                        font-weight: 500;
+                        color: #0008;
+                        transition: color 0.3s ease;
+                        &:hover{
+                            color: #000b;
+                        }
+                        &:active{
+                            color: #000f;
+                        }
                     }
-                    &:active{
-                        color: #000f;
+                    &:before{
+                        content: none
                     }
-                }
-                &:before{
-                    content: none
                 }
             }
-        }
-        &[data-visible="true"]{
-            line-height: unset;
-            visibility: visible;
-            opacity: 1
         }
     }
 
@@ -235,6 +246,7 @@
 }
 
 #news-grid{
+    margin-top: 1em;
     display: grid;
     grid-template-columns: 1fr;
     grid-gap: 8px;

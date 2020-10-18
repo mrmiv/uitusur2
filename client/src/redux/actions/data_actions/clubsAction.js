@@ -4,7 +4,6 @@ import axios from "axios";
 import { LOADING_REQ, REQ_FAIL, REQ_SUCCESS } from "../types";
 import { returnInfo } from "../infoActions";
 
-// Клубы
 export const getClubs = () => (dispatch) => {
 	dispatch({
 		type: LOADING_REQ,
@@ -16,29 +15,16 @@ export const getClubs = () => (dispatch) => {
 			dispatch({
 				type: GET_CLUBS,
 				payload: { ClubsList: res.data },
-			});
+			})
 			return res.data;
 		})
 		.catch((err) => {
-			dispatch(returnInfo(err.response.data, err.response.status, "REQ_FAIL"));
+			dispatch(returnInfo(err.response.data, err.response.status, "REQ_FAIL"))
 			dispatch({
 				type: REQ_FAIL,
-			});
-		});
-};
-
-// export const postClubs = () => dispatch => {
-//     axios.post('/api/clubs')
-//         .then(res => {
-//             dispatch({
-//                 type: GET_CLUBS,
-//                 payload: {ClubsList: res.data}
-//             })
-//             return res.data})
-//         .catch(err => {
-//             console.error(err);
-//     })
-//     }
+			})
+		})
+}
 
 export const delClub = (id) => (dispatch) => {
 	dispatch({
@@ -52,23 +38,23 @@ export const delClub = (id) => (dispatch) => {
 	axios
 		.delete(`/api/clubs/${id}`, config)
 		.then((res) => {
-			dispatch(returnInfo(res.data, res.status, "REQ_SUCCESS"));
+			dispatch(returnInfo(res.data, res.status, "REQ_SUCCESS"))
 			dispatch({
 				type: REQ_SUCCESS,
-			});
+			})
 		})
 		.catch((err) => {
-			dispatch(returnInfo(err.response.data, err.response.status, "REQ_FAIL"));
+			dispatch(returnInfo(err.response.data, err.response.status, "REQ_FAIL"))
 			dispatch({
 				type: REQ_FAIL,
-			});
-		});
-};
+			})
+		})
+}
 
 export const getOneClub = (id) => (dispatch) => {
 	dispatch({
 		type: LOADING_REQ,
-	});
+	})
 
 	axios
 		.get(`/api/clubs/${id}`)
@@ -76,33 +62,32 @@ export const getOneClub = (id) => (dispatch) => {
 			dispatch({
 				type: GET_CLUB,
 				payload: { Club: res.data }
-			});
+			})
 		})
 		.catch((err) => {
-			dispatch(returnInfo(err.response.data, err.response.status, "REQ_FAIL"));
+			dispatch(returnInfo(err.response.data, err.response.status, "REQ_FAIL"))
 			dispatch({
 				type: REQ_FAIL,
-			});
-		});
-};
+			})
+		})
+}
 
 export const postClub = ({ name, path, image }) => (dispatch) => {
 	dispatch({
 		type: LOADING_REQ,
-	});
+	})
 
 	const headers = {
 		"Content-type": "multipart/form-data",
 		token: localStorage.getItem("token"),
-	};
+	}
 
-	const formdata = new FormData();
+	const formdata = new FormData()
 
-	formdata.append("name", name);
-	formdata.append("path", path);
-	formdata.append("image", image);
+	formdata.append("name", name)
+	formdata.append("path", path)
+	formdata.append("image", image)
 
-	// get /literature/book/id
 	axios({
 		url: "/api/clubs",
 		method: "POST",
@@ -110,20 +95,20 @@ export const postClub = ({ name, path, image }) => (dispatch) => {
 		data: formdata,
 	})
 		.then((res) => {
-			dispatch(returnInfo(res.data, res.status, "REQ_SUCCESS"));
+			dispatch(returnInfo(res.data, res.status, "REQ_SUCCESS"))
 			dispatch({
 				type: REQ_SUCCESS,
-			});
+			})
 		})
 		.catch((err) => {
-			dispatch(returnInfo(err.response.data, err.response.status, "REQ_FAIL"));
+			dispatch(returnInfo(err.response.data, err.response.status, "REQ_FAIL"))
 			dispatch({
 				type: REQ_FAIL,
-			});
-		});
-};
+			})
+		})
+}
 
-export const patchClub = (id, { name, path }) => (dispatch) => {
+export const patchClub = (id, Club) => (dispatch) => {
 	dispatch({
 		type: LOADING_REQ,
 	});
@@ -133,30 +118,29 @@ export const patchClub = (id, { name, path }) => (dispatch) => {
 		token: localStorage.getItem("token"),
 	};
 
-	let data = {};
-	if (name) {
-		data.name = name;
-	}
-	if (path) {
-		data.path = path;
-	}
+	const {name, path, image} = Club
+
+	const formdata = new FormData()
+	formdata.append("name", name)
+	formdata.append("path", path)
+	formdata.append("image", image)
 
 	axios({
 		url: `/api/clubs/${id}`,
 		method: "PATCH",
 		headers,
-		data: data,
+		data: formdata
 	})
 		.then((res) => {
-			dispatch(returnInfo(res.data, res.status, "REQ_SUCCESS"));
+			dispatch(returnInfo(res.data, res.status, "REQ_SUCCESS"))
 			dispatch({
 				type: REQ_SUCCESS,
-			});
+			})
 		})
 		.catch((err) => {
-			dispatch(returnInfo(err.response.data, err.response.status, "REQ_FAIL"));
+			dispatch(returnInfo(err.response.data, err.response.status, "REQ_FAIL"))
 			dispatch({
 				type: REQ_FAIL,
-			});
-		});
-};
+			})
+		})
+}

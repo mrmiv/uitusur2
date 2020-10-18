@@ -4,6 +4,7 @@ import { GetDocuments } from '../redux/actions/docsActions'
 import { connect } from 'react-redux'
 import './styles/Docs.scss'
 import { toDate } from './components/NewsList'
+import ScrollContainer from 'react-indiana-drag-scroll'
 
 export class Docs extends Component {
 
@@ -24,7 +25,7 @@ export class Docs extends Component {
             behavior: 'smooth'
         })
 
-        el.style.backgroundColor = '#bbc'
+        el.style.backgroundColor = '#ccd'
         setTimeout(() => {
             el.style.backgroundColor = '#fff'
         }, 1000);
@@ -130,7 +131,9 @@ export class Docs extends Component {
                 <div className="container">
                     <h1 class="h1">Регла&shy;мен&shy;ти&shy;рующие доку&shy;менты</h1>
                     <nav id="categories-scroll-list">
-                        {this.returnCategories()}
+                        <ScrollContainer vertical={false}>
+                            <div className="d-flex p-2">{this.returnCategories()}</div>
+                        </ScrollContainer>
                     </nav>
                     <hr/>
                     <div id="documents-scroll-list">

@@ -173,8 +173,6 @@ router.patch('/:id', [auth, multipleFileUpload], async (req, res) => {
 
         const { document } = doc
         const newDoc = req.filesURLs[0]
-        
-        if (!path && !newDoc) { return res.status(400).json({ message: "Прикрепите файл или ссылку!" }) }
 
         function deleteOldDocument(oldDocument) {
             if (oldDocument) {
@@ -187,12 +185,12 @@ router.patch('/:id', [auth, multipleFileUpload], async (req, res) => {
 
         if (newDoc) {
             doc.document = newDoc.path
-            doc.path = null
-            deleteOldDocument(document)
+            doc.path = null 
+            if (document){deleteOldDocument(document)}
         } else if (path){
             doc.path = path
             doc.document = null
-            deleteOldDocument(document)
+            if (document){deleteOldDocument(document)}
         }
 
         doc.title = title

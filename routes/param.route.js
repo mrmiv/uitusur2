@@ -6,17 +6,7 @@ const Param = require('../models/Param')
 
 async function changeOrder(newOrder, oldOrder, paramPage){
 
-  if (newOrder < 1){
-    return {message: `Порядок отображения заголовка не может быть меньше 0!`}
-  }
-
-  const orderLength = await Param.find({page: paramPage}).countDocuments()
-
-  if (newOrder > orderLength) {
-    return {message: `Порядок отображения заголовка для данной страницы должен быть меньше или равен ${orderLength}`}
-  }
-
-  if(newOrder && newOrder !== oldOrder){
+  if(newOrder && (newOrder !== oldOrder)){
     if (newOrder > oldOrder){
 
       await Param.updateMany({
@@ -38,21 +28,9 @@ async function changeOrder(newOrder, oldOrder, paramPage){
     }
   }
 
-  return false
-
 }
 
 async function updateOrdersOnPage(page, order, method){
-
-  if (order < 1){
-    return {message: `Порядок отображения заголовка не может быть меньше 0!`}
-  }
-
-  const orderLength = await Param.find({page}).countDocuments()
-
-  if (order > orderLength) {
-    return {message: `Порядок отображения заголовка для данной страницы должен быть меньше или равен ${orderLength}`}
-  }
 
   await Param.updateMany({
     page, 
@@ -60,8 +38,6 @@ async function updateOrdersOnPage(page, order, method){
   }, {
     $inc:{ order: method === 'post' ? 1 : -1 }
   })
-
-  return false
 
 }
 
@@ -157,10 +133,7 @@ router.post('/', auth, async (req, res) => {
 
     const param = new Param({ title, page, text, isActive, order, img })
 
-    const updated = await updateOrdersOnPage(page, order, 'post')
-    if (updated.message){
-      return res.status(400).json({message: updated.message})
-    }
+    await updateOrdersOnPage(page, order, 'post')
 
     await param.save()
       .then(param => res.json({ message: "Заголовок успешно добавлен", param }))
@@ -185,10 +158,7 @@ router.delete('/:id', auth, async (req, res) => {
       return res.status(404).json({ message: "Заголовок не найден" })
     }
 
-    const updated = await updateOrdersOnPage(param.page, param.order, 'delete')
-    if (updated.message){
-      return res.status(400).json({message: updated.message})
-    }
+    await updateOrdersOnPage(param.page, param.order, 'delete')
 
     await param.delete()
       .then(() => res.json({ message: "Заголовок удален" }))
@@ -211,7 +181,7 @@ router.put('/:id', async (req,res) => {
 
   try{
     
-    if(!order && !isActive){
+    if(!order && (isActive === null)){
       return res.status(400).json({message: "Не задан порядок отображения или статус активности. Попробуйте еще раз"})
     } 
 
@@ -221,15 +191,12 @@ router.put('/:id', async (req,res) => {
       return res.status(404).json({ message: "Заголовок не найден" })
     }
 
-    const updated = await changeOrder(order, param.order, param.page)
-
-    if(updated.message){
-      return res.status(400).json({message: updated.message})
+    if((order !== param.order) && order){
+      await changeOrder(order, param.order, param.page)
+      param.order = order
     }
-
-    param.order = order
     
-    if((isActive !== param.isActive) && isActive){
+    if((isActive !== param.isActive) && (isActive !== null)){
       param.isActive = isActive
     }
 
@@ -264,24 +231,36 @@ router.patch('/:id', async (req, res) => {
 
     const exists = await Param.findOne({title, page})
 
-    if (exists && (exists !== param)){
+    if (exists && ((exists.title !== param.title) && (exists.page !== param.page))){
       return res.status(400).json({ message: "Заголовок с таким названием на данной странице уже существует" })
     }
 
-    param.page = page
+    const isSetNewOrder = (page === param.page) && order && (order !== param.order)
+    const isSetNewPage = page && (page !== param.page)
+
+    if(isSetNewOrder){
+      await changeOrder(order, param.order, param.page)
+      param.order = order
+    }
+
+    if(isSetNewPage){
+      // Удалить с предыдущей страницы и изменить порядок остальных
+      await updateOrdersOnPage(param.page, param.order, 'delete')
+
+      // добавить на новую страницу и изменить порядрк остальных
+      await updateOrdersOnPage(page, order, 'post')
+
+      param.order = order 
+      param.page = page
+    }
+    
     param.title = title
     param.text = text
     param.isActive = isActive
     param.img = img ? img : null
 
-    const updated = await changeOrder(order, param.order, param.page)
-    if(updated.message){
-      return res.status(400).json({message: updated.message})
-    }
-    param.order = order
-
     await param.save()
-      .then(param => res.json({ message: "Заголовок обновлен", param }))
+      .then(param => res.json({ message: "Заголовок обновлен" }))
 
   } catch (error) {
     res.status(500).json({ message: error.message })

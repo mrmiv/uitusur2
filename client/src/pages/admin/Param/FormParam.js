@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { closeNavbar } from '../../../redux/actions/navbarActions'
 import { connect } from 'react-redux'
 import { EditorArea } from '../components/Editor'
-import { getParam, patchParam, postParam,getPageParam } from '../../../redux/actions/data_actions/paramActions'
+import { getParam, patchParam, postParam, getPageParam } from '../../../redux/actions/data_actions/paramActions'
 import { clearInfo } from '../../../redux/actions/infoActions'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import { faArrowAltCircleLeft } from '@fortawesome/free-solid-svg-icons'
@@ -18,9 +18,9 @@ export class FormParam extends Component {
     title: "",
     text: "",
     page: "О кафедре",
-    active: false,
-    order: 0,
-    image: "",
+    isActive: false,
+    order: 1,
+    img: "",
 
     order_length: null,
 
@@ -47,24 +47,21 @@ export class FormParam extends Component {
   componentDidUpdate(prevProps, prevState) {
     const id = this.props.match.params.id
     const { msg } = this.props.info
+    const { param } = this.props
+    
+    if ( id && (id !== prevState.id)) {
+      this.setState({ id })
+    }
 
-    if (id) {
-      if (id !== prevState.id) {
-        this.setState({ id })
-      }
-      const { param } = this.props
-
-      if (param !== prevProps.param) {
-
+    if (id && (param !== prevProps.param)) {
         this.setState({
           title: param.title,
           text: param.text,
           page: param.page,
-          image: param.img || null,
-          active: param.isActive,
+          img: param.img || null,
+          isActive: param.isActive,
           order: param.order
-        });
-      }
+        })
     }
 
     if(this.props.params_list_onpage !== prevProps.params_list_onpage){
@@ -91,26 +88,45 @@ export class FormParam extends Component {
 
   changeBody = text => {
     this.setState({ text });
-    // console.log(this.state.text);
     if (!this.state.blocked) {
       this.setState({ blocked: true });
     }
-  };
+  }
+
+  selectOrderCountList = () => {
+    
+    const {id, page, order_length, order} = this.state
+    const propsPage = this.props.param.page
+
+    const option = (value) => (<option value={value}>{value}</option>)
+
+    if(!order_length){
+      return
+    }
+
+    const count = order_length.length
+
+    return <Fragment> 
+      {order_length.map( (ord, index) => option(index+1) )}
+      {(!id || (page !== propsPage)) && option(count+1)}
+    </Fragment>
+
+  }
 
   submitForm = e => {
     e.preventDefault()
     window.scrollTo(0, 0)
     this.props.clearInfo()
 
-    const { title, text, page, id, image, order, active } = this.state
+    const { title, text, page, id, img, order, isActive } = this.state
 
     const Param = {
       title: title.trim(),
       text,
       page,
-      image,
+      img,
       order,
-      active
+      isActive
     }
 
     if (id) {
@@ -163,7 +179,7 @@ export class FormParam extends Component {
               </div>
               <div className="col form-group">
                 <label htmlFor="page-input">Страница</label>
-                <select onChange={this.changeInput} value={this.state.page} 
+                <select onChange={this.changeInput} value={this.state.page} disabled={this.state.id}
                 name="page" id="page-input" className="form-control">
                     <option defaultValue value="О кафедре">О кафедре</option>
                     <option value="Поступающему Магистратура">Абитуриенту - Магистратура</option>
@@ -180,25 +196,15 @@ export class FormParam extends Component {
                 <label htmlFor="order-input">Порядок на странице</label>
                 <select onChange={this.changeInput} value={this.state.order} 
                 name="order" id="order-input" className="form-control">
-                  {this.state.order_length && (this.state.id ? 
-                    this.state.order_length.map((ord,index)=>{
-                      return <option defaultValue={index===0} value={index+1}>{index+1}</option> 
-                    })
-                    : <Fragment>
-                      {this.state.order_length.map((ord,index)=>{
-                      return <option defaultValue={index===0} value={index+1}>{index+1}</option> 
-                    })} <option value={this.state.order_length.length+1}>{this.state.order_length.length +1}</option> 
-                    </Fragment>
-                  )}
-
+                  {this.selectOrderCountList()}
                 </select>
                 
               </div>
 
               <div className="col form-group">
-                <label htmlFor="image-input">Изображение</label>
-                <select onChange={this.changeInput} value={this.state.image} 
-                name="image" id="image-input" className="form-control">
+                <label htmlFor="img-input">Изображение</label>
+                <select onChange={this.changeInput} value={this.state.img} 
+                name="img" id="img-input" className="form-control">
                     <option defaultValue value="">Без изображения</option>
                     <option value="/svg/images_for_params/calendar.svg">Календарь</option>
                     <option value="/svg/images_for_params/files_and_folders.svg">Файлы и папки</option>
@@ -216,8 +222,8 @@ export class FormParam extends Component {
 
             <div className="d-flex justify-content-end align-items-center">
               <div className="form-check mr-3">
-                <input type="checkbox" id="activity" name="active" 
-                className="form-check-input" onChange={()=>this.setState({active: !this.state.active})} checked={this.state.active}/>
+                <input type="checkbox" id="activity" name="isActive" 
+                className="form-check-input" onChange={()=>this.setState({isActive: !this.state.isActive})} checked={this.state.isActive}/>
                 <label htmlFor="activity" className="form-check-label">Отобразить на странице</label>
               </div>
               <button className="btn btn-success" type="submit"
@@ -231,9 +237,9 @@ export class FormParam extends Component {
               param={{
                 title: this.state.title,
                 text: this.state.text,
-                img: this.state.image,
+                img: this.state.img,
               }}
-              index={this.state.order-1}
+              index={this.state.order}
             />
           </section>
 

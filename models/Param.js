@@ -41,7 +41,7 @@ const ParamSchema = new Schema({
     type: Number,
     required: true,
     default: 1,
-    min: 1
+    min: [1, "Минимальное значение порядка равно 1"]
   }
 
 }, { autoIndex: false, versionKey: false })

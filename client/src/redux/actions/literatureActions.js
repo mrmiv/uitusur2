@@ -24,15 +24,11 @@ export const GetLiteraturePerPage = (page = 1, perPage = 12, filter = null, sort
     })
 
 
-    // console.log(keywords_string);
-
     let query = `/api/literature?page=${page}&perpage=${perPage}&sort=${sort}${filter !== null ? `&filter=${filter}`: ''}&search=${search}`
-    // console.log(query);
 
     // get /literature/?page=1&?perPage=12?category=all&?sort=asc
     axios.get(query)
         .then(res => {
-            // console.log(res.data);
             dispatch({
                 type: GET_LITERATURE,
                 payload: {
@@ -118,7 +114,7 @@ export const postLiterature = Book => dispatch => {
         })
 }
 
-export const patchLiterature = (id, Book) => dispatch => {
+export const patchLiterature = (id, Book, oldDoc) => dispatch => {
 
     dispatch({
         type: LOADING_REQ
@@ -136,6 +132,7 @@ export const patchLiterature = (id, Book) => dispatch => {
     Object.keys(Book).map( key => {
         formdata.append (key, Book[key])
     })
+    formdata.append('oldDoc', oldDoc)
 
     axios.patch(`/api/literature/book/${id}`, formdata, config)
         .then(res => {

@@ -12,7 +12,7 @@ export class FormNewsLink extends PureComponent {
     id: null,
 
     name: "",
-    type: "",
+    type: "1",
     path: "",
 
     blocked: false,
@@ -122,7 +122,7 @@ export class FormNewsLink extends PureComponent {
                 <label htmlFor="type-input">Тип новостей</label>
                 <select id="grtypeoup-input" value={this.state.type} onChange={this.changeInput}
                   className="form-control" name="type"> 
-                  <option defaultValue value={1}>Объявления кафедры</option>
+                  <option selected value={1}>Объявления кафедры</option>
                   <option value={2}>Стипендии, конкурсы и гранты</option>
                   <option value={3}>Конференции</option>
                 </select>

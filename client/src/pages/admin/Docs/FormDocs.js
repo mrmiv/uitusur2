@@ -78,7 +78,7 @@ export class NewsForm extends Component {
     }
   };
 
-  handeFile = files => {
+  handleFile = files => {
 
     this.setState({doc: files[0], path: ""})
 
@@ -143,10 +143,11 @@ export class NewsForm extends Component {
           <form className="w-100 mt-3" onSubmit={this.submitForm}>
             <div className="form-row">
               <div className="col form-group">
-                <label htmlFor="title-input">Название документа</label>
+                <label htmlFor="title-input">Название документа *</label>
                 <input
                   onChange={this.changeInput}
                   type="text"
+                  required
                   className="form-control"
                   name="title"
                   id="title-input"
@@ -156,14 +157,15 @@ export class NewsForm extends Component {
               </div>
               <DateMaskInput id="date-input" name="date"
                 changeParentInput={this.changeInput}
-                value={this.state.date} label="Дата утверждени" col />
+                value={this.state.date} label="Дата утверждения" col />
             </div>
             <div className="form-row">
               <div className="col form-group">
-                <label htmlFor="category-input">Категория</label>
+                <label htmlFor="category-input">Категория *</label>
                 <input
                   onChange={this.changeInput}
                   type="text"
+                  required
                   className="form-control"
                   name="category"
                   id="category-input"
@@ -199,7 +201,7 @@ export class NewsForm extends Component {
               />
             </div>
 
-            <FileField handleParentFiles={this.handeFile} deleteOldFile={this.deleteOldFile} width="100%" 
+            <FileField handleParentFiles={this.handleFile} deleteOldFile={this.deleteOldFile} width="100%" 
               accept=".doc, .docx, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, .pdf"
               id="imageFileInput" files={this.state.oldDoc ? [this.state.oldDoc] : []} label="документ" 
               undefinedFileName={this.state.title} name="doc-input" multiple={false}/>

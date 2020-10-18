@@ -352,7 +352,7 @@ export class NewsForm extends PureComponent {
 						)}
 						<EditorArea value={this.state.body} changeParentBody={this.changeBody}/>
 
-						<FileField handleParentFiles={this.handeFile} deleteOldFile={this.deleteOldFile} 
+						<FileField handleParentFiles={this.handeFile} deleteOldFile={this.deleteOldFile} accept={"application/*, .doc, .docx, .xls, .xlsx, image/*"}
 						id="docs" files={this.state.oldDocs} label="вложения" name="docs-input" multiple={true}/>
 
 						<div className="mt-2 d-flex justify-content-end align-items-center">

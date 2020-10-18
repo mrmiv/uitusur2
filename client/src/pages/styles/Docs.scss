@@ -10,7 +10,7 @@
         }
     }
     h2{
-        color: default.$lblue; margin: 0.8rem 0;
+        color: default.$lblue;
         @media screen and (max-width: 540px){
             font-size: 1.5em
         }
@@ -110,7 +110,8 @@
     }
     .scroll-container{
         border-radius: 8px;
+        margin-top: 1em;
         padding: 4px;
-        transition: all 2s linear;
+        transition: all 1s ease-in-out;
     }
 }

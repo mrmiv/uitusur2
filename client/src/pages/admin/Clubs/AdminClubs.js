@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 
 import { Icon } from '@iconify/react';
 import plusCircle from '@iconify/icons-fa-solid/plus-circle';
-import cogIcon from '@iconify/icons-fa-solid/cog';
+import bxsEdit from '@iconify/icons-bx/bxs-edit';
 import trashAlt from '@iconify/icons-fa-solid/trash-alt';
 import { MessageAlert } from '../components/MessageAlert'
 
@@ -53,8 +53,8 @@ export class AdminClubs extends Component{
                 
                 <MessageAlert msg={msg} id={this.props.info.id}/>
 
-                <div className="row no-gutters align-items-center justify-content-between">
-                    <h1> <Link to="/admin" style={{fontSize: "1em"}}><Icon icon={cogIcon} /></Link> Внеучебная деятельность</h1>
+                <div className="d-flex align-items-center justify-content-between">
+                    <h1>Внеучебная деятельность</h1>
                     <Link className="add_admin_button" to="/admin/clubs/add">Добавить клуб <Icon icon={plusCircle} /></Link>
                 </div>
                 <table class="table table-sm table-bordered table-hover">
@@ -62,8 +62,9 @@ export class AdminClubs extends Component{
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Название</th>
+                            <th scope="col">Ссылка</th>
+                            <th scope="col" style={{width:"50px", textAlign: "center"}}><Icon icon={bxsEdit}/></th>
                             <th scope="col" style={{width:"50px", textAlign: "center"}}><Icon icon={trashAlt}/></th>
-                            {/* style={{width="50px"}} */}
                         </tr>
                     </thead>
                     <tbody>
@@ -72,9 +73,13 @@ export class AdminClubs extends Component{
                             return(
                                 <tr key={index}>
                                     <th scope="row">{index+1}</th>
-                                    <td name="title"><Link to={`/admin/clubs/edit/${item._id}`}>{item.name}</Link></td>
+                                    <td name="title">{item.name}</td>
+                                    <td name="path"><a href={item.path} target="_blank" ref="noopener norefferer">Ссылка</a></td>
+                                    <td name="edit">
+                                        <Link to={`/admin/clubs/edit/${item._id}`} className="btn text-center"><Icon icon={bxsEdit} color="green"/></Link>
+                                    </td>
                                     <td name="del">
-                                        <button type="button" className="btn text-center"  onClick={()=>this.delClub(item._id)}><Icon icon={trashAlt} color="red"/></button>
+                                        <button className="btn text-center"  onClick={()=>this.delClub(item._id)}><Icon icon={trashAlt} color="red"/></button>
                                     </td>
                                 </tr>
                             )

@@ -33,7 +33,7 @@ function LiteratureReducer(state = LiteratureState, action) {
         case LOADING_REQ:
             return {
                 ...state,
-                isLoading: true
+                isLoading: true,
             }
         case SET_LITERATURE_FILTER:
             return{ 
@@ -42,7 +42,8 @@ function LiteratureReducer(state = LiteratureState, action) {
                 page: action.payload.page,
                 perPage: action.payload.perPage,
                 sort: action.payload.sort,
-                search: action.payload.search
+                search: action.payload.search,
+                isLoading: true
             }
         case REQ_FAIL:
         case REQ_SUCCESS:
@@ -51,12 +52,12 @@ function LiteratureReducer(state = LiteratureState, action) {
                 isLoading: false
             }
         case GET_LITERATURE:
-            // console.log(state)
             return {
                 ...state,
                 total: action.payload.total,
                 LiteratureList: action.payload.LiteratureList,
                 categoryFields: action.payload.categoryFields,
+                isLoading: false
             }
         default:
             return { ...state, isLoading: false }

@@ -75,7 +75,7 @@ a, button{
     border-radius: 10px;
     border: none;
     display: inline-block;
-    margin-top: 15px;
+    margin-top: 1em;
     transition: all 0.4s cubic-bezier(0.1, 0.8, 0.3, 1.2);
     -o-transition: all 0.4s cubic-bezier(0.1, 0.8, 0.3, 1.2);
     -moz-transition: all 0.4s cubic-bezier(0.1, 0.8, 0.3, 1.2);
@@ -120,6 +120,11 @@ a, button{
         width: inherit;
     }
     table{
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        border: none !important;
         td, th{
             padding: 0.1em 0.2em;
         }
@@ -135,10 +140,10 @@ a, button{
 .modal_window{
     z-index: 1291;
     max-width: 90%;
-    width: -moz-max-content;
-    width: -webkit-max-content;
-    width: -o-max-content;
-    width: max-content;
+    width: -moz-fit-content;
+    width: -webkit-fit-content;
+    width: -o-fit-content;
+    width: auto;
     position: fixed;
     background: white;
     border-radius: 8px;

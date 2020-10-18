@@ -40,7 +40,7 @@ export class DegreeBach extends Component {
     return (
       <Fragment>
         <section id="title_main" className="for_degree degree_mag">
-          <div className="container-lg container-fluid bg_th" style={{ height: "inherit" }}>
+          <div className="container-md bg_th" style={{ height: "inherit" }}>
             <div className="row no-gutters justify-content-around align-items-center" style={{ height: "inherit" }}>
               <div className="title_text text-center w-100" style={{ color: "white", fontWeight: 500 }}>
                 <h1 className="title">Магистратура ФИТ</h1>

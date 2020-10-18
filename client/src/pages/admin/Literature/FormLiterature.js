@@ -127,7 +127,8 @@ export class LiteratureForm extends Component {
             image,
             path,
             doc,
-            id } = this.state
+            id,
+            oldDoc } = this.state
 
         const Book = {
             title,
@@ -142,7 +143,7 @@ export class LiteratureForm extends Component {
         }
 
         if (id) {
-            this.props.patchLiterature(id, Book)
+            this.props.patchLiterature(id, Book, oldDoc)
         } else {
             this.props.postLiterature(Book)
         }

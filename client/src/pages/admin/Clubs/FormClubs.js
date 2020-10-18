@@ -8,6 +8,7 @@ import { faArrowAltCircleLeft } from '@fortawesome/free-solid-svg-icons'
 import { Link, Prompt, withRouter } from 'react-router-dom'
 import cyrillicToTranslit from 'cyrillic-to-translit-js'
 import { MessageAlert } from '../components/MessageAlert'
+import { FileField } from '../components/FileField'
 
 export class ClubsForm extends Component {
 
@@ -16,6 +17,7 @@ export class ClubsForm extends Component {
 
         name: "",
         image: null,
+        oldImage: null,
         path: "",
 
         blocked: false,
@@ -37,23 +39,20 @@ export class ClubsForm extends Component {
     componentDidUpdate(prevProps, prevState) {
         const id = this.props.match.params.id
         const { msg } = this.props.info
-
-        if (id) {
-            console.log(this.props.Club);
-
-            if (id !== prevState.id) {
-                this.setState({ id })
-            }
-            const { Club } = this.props
-
-            if (Club !== prevProps.Club) {
-
-                this.setState({
-                    name: Club.name,
-                    path: Club.path
-                });
-            }
+        const { Club } = this.props
+        
+        if (id && (id !== prevState.id)) {
+            this.setState({ id })
         }
+
+        if (id && Club !== prevProps.Club) {
+            this.setState({
+                name: Club.name,
+                path: Club.path,
+                oldImage: Club.image
+            })
+        }
+
         if (msg !== prevProps.info.msg) {
             this.setState({ msg })
         }
@@ -67,15 +66,12 @@ export class ClubsForm extends Component {
         }
     }
 
-    handleFile = e => {
-        let file = e.target.files[0]
-        console.log(file);
+    handleFile = files => {
+        this.setState({ image: files[0], oldImage: null })
+    }
 
-        Object.defineProperty(file, 'name', {
-            writable: true,
-            value: cyrillicToTranslit().transform(file["name"], "-")
-        });
-        this.setState({ image: file })
+    deleteOldFile = () => {
+        this.setState({oldImage: null})
     }
 
     submitForm = e => {
@@ -92,8 +88,6 @@ export class ClubsForm extends Component {
             image
         }
 
-        // console.log(Club);
-
         if (id) {
             this.props.patchClub(id, Club)
         } else {
@@ -107,8 +101,11 @@ export class ClubsForm extends Component {
     }
 
     render() {
-        const { msg } = this.state
+        const { msg, name, image, oldImage, path } = this.state
         const { isLoading } = this.props
+
+        const buttonDisabled = isLoading || !(name && (image || oldImage) && path)
+
         return (
             <div className="container-md container-fluid">
                 <Prompt
@@ -120,33 +117,31 @@ export class ClubsForm extends Component {
                 
                 <MessageAlert msg={msg} id={this.props.info.id}/>
 
-                <div className="row no-gutters justify-content-between">
-                    <Link to="/admin/clubs"><Icon icon={faArrowAltCircleLeft} size="lg" /> Назад</Link>
-                    <form id="clubs_form" className="w-100 mt-3" onSubmit={this.submitForm}>
-                        <div className="form-group">
-                            <label htmlFor="name-input">Название</label>
+                <Link to="/admin/clubs"><Icon icon={faArrowAltCircleLeft} size="lg" /> Назад</Link>
+                <form id="clubs_form" className="mt-3" onSubmit={this.submitForm}>
+                    <div className="form-row">
+                        <div className="col form-group">
+                            <label htmlFor="name-input">Название *</label>
                             <input onChange={this.changeInput} type="text" className="form-control"
                                 name="name" id="name-input" placeholder="Танцевальный клуб" value={this.state.name} />
                         </div>
-                        <div className="form-row">
-                            <div className="col form-group">
-                                <label htmlFor="path-input">Ссылка</label>
-                                <input onChange={this.changeInput} type="text" className="form-control"
-                                    name="path" id="path-input" placeholder="http://..." value={this.state.path} />
-                            </div>
-                            <div className="col form-group">
-                                <label htmlFor="image-input">Изображение</label>
-                                <input onChange={this.handleFile} type="file" accept="image" className="form-control-file"
-                                    name="image" id="image-input" />
-                            </div>
+                        <div className="col form-group">
+                            <label htmlFor="path-input">Ссылка *</label>
+                            <input onChange={this.changeInput} type="text" className="form-control"
+                                name="path" id="path-input" placeholder="http://..." value={this.state.path} />
                         </div>
+                    </div>
 
-                        <div className="w-100 mt-2 text-right">
-                            <button className="btn btn-success mr-0" type="submit"
-                                disabled={isLoading}>{this.state.id ? "Обновить клуб" : "Добавить клуб"}</button>
-                        </div>
-                    </form>
-                </div>
+                    <FileField handleParentFiles={this.handleFile} deleteOldFile={this.deleteOldFile} width="100%" 
+                        accept="image/*"
+                        id="imageFileInput" files={this.state.oldImage ? [this.state.oldImage] : []} label="изображение" 
+                        undefinedFileName={this.state.title} name="image-input" multiple={false}/>
+
+                    <div className="d-flex justify-content-end mt-2">
+                        <button className="btn btn-success" type="submit"
+                            disabled={buttonDisabled}>{this.state.id ? "Обновить клуб" : "Добавить клуб"}</button>
+                    </div>
+                </form>
             </div>
         )
     }

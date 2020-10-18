@@ -55,17 +55,12 @@ export const getActiveParamsOnpage = page => dispatch => {
     });
 }
 
-// 
-// ONLY FOR ADMINS
-// 
-
 export const getAllParam = () => dispatch => {
 
   dispatch({
     type: LOADING_REQ
   })
 
-  // set token
   const config = {
     headers: {
       token: localStorage.getItem("token")
@@ -168,7 +163,7 @@ export const delParam = id => dispatch => {
     });
 }
 
-export const postParam = ({ title, page, text, image, order, active }) => dispatch => {
+export const postParam = Param => dispatch => {
 
   dispatch({
     type: LOADING_REQ
@@ -180,13 +175,7 @@ export const postParam = ({ title, page, text, image, order, active }) => dispat
     }
   }
 
-  const data = { title, page, text, order, active }
-
-  if(image){
-    data.image = image
-  }
-
-  axios.post(`/api/param`, data, config)
+  axios.post(`/api/param`, Param, config)
     .then((res) => {
       dispatch(returnInfo(res.data, res.status, "REQ_SUCCESS"));
       dispatch({
@@ -201,7 +190,7 @@ export const postParam = ({ title, page, text, image, order, active }) => dispat
     });
 }
 
-export const setActivityOrOrder = (id, active, page, onlyActive) => dispatch => {
+export const setActivityOrOrder = (id, isActive, page, onlyActive) => dispatch => {
   dispatch({
     type: LOADING_REQ
   })
@@ -212,7 +201,7 @@ export const setActivityOrOrder = (id, active, page, onlyActive) => dispatch => 
     }
   }
 
-  const data = { isActive: active }
+  const data = { isActive }
 
   axios.put(`/api/param/${id}`, data, config)
     .then((res) => {
@@ -245,7 +234,7 @@ export const setActivityOrOrder = (id, active, page, onlyActive) => dispatch => 
 
 }
 
-export const patchParam = (id, { title, page, text, image, order, active }) => dispatch => {
+export const patchParam = (id, Param) => dispatch => {
 
   dispatch({
     type: LOADING_REQ
@@ -257,9 +246,7 @@ export const patchParam = (id, { title, page, text, image, order, active }) => d
     }
   }
 
-  const data = { title, page, text, img: image, order, isActive: active }
-
-  axios.patch(`/api/param/${id}`, data, config)
+  axios.patch(`/api/param/${id}`, Param, config)
     .then((res) => {
       dispatch(returnInfo(res.data, res.status, "REQ_SUCCESS"));
       dispatch({

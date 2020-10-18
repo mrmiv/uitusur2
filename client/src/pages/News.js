@@ -6,6 +6,7 @@ import './styles/News.scss'
 
 import { Icon } from '@iconify/react';
 import linkIcon from '@iconify/icons-flat-color-icons/link';
+import { CSSTransition } from 'react-transition-group'
 
 import { closeNavbar } from '../redux/actions/navbarActions'
 import { GetNewsList, GetMoreNews } from '../redux/actions/newsActions'
@@ -132,20 +133,21 @@ export class NewsList extends PureComponent {
             <Fragment>
                 <section id="news">
                     <div className="container-md">
-                       <div className="d-flex justify-content-between align-items-end">
+                       <div className="d-flex justify-content-between align-items-start">
                             <div className="title-block-news">
-                                <h1 data-menu-visible={toggleMenuIsVisible}
-                                    onClick={()=>this.setState({toggleMenuIsVisible: !this.state.toggleMenuIsVisible})}>
-                                        {title}
+                                <h1 onClick={()=>this.setState({toggleMenuIsVisible: !this.state.toggleMenuIsVisible})}>
+                                    {title}
                                 </h1>
-                                <div id="toggle-news" data-visible={toggleMenuIsVisible}>
-                                    <ul className="d-sm-flex">
-                                        {type && <li><NavLink to='/news'>Все новости</NavLink></li>}
-                                        {type !== 1 && <li><NavLink to='/news/announcements'>Объявления кафедры</NavLink></li>}
-                                        {type !== 2 && <li><NavLink to='/news/grants'>Стипендии, конкурсы и гранты</NavLink></li>}
-                                        {type !== 3 && <li><NavLink to='/news/conference'>Конференции</NavLink></li>}
-                                    </ul>
-                                </div>
+                                <CSSTransition in={toggleMenuIsVisible} classNames="toggle-news-type" timeout={100}>
+                                    <div id="toggle-news" className="toggle-news-type">
+                                        <ul className="d-sm-flex">
+                                            {type && <li><NavLink to='/news'>Все новости</NavLink></li>}
+                                            {type !== 1 && <li><NavLink to='/news/announcements'>Объявления кафедры</NavLink></li>}
+                                            {type !== 2 && <li><NavLink to='/news/grants'>Стипендии, конкурсы и гранты</NavLink></li>}
+                                            {type !== 3 && <li><NavLink to='/news/conference'>Конференции</NavLink></li>}
+                                        </ul>
+                                    </div>
+                                </CSSTransition>
                             </div>
                             {this.renderNewsLinksButton()}
                        </div>

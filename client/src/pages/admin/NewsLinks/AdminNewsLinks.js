@@ -70,7 +70,7 @@ export class AdminNewsLinks extends PureComponent {
 
     if(type){
       const newsLinksListByType = newsLinks.filter(item => item.type === parseInt(type))
-      console.log(type, newsLinksListByType);
+      // console.log(type, newsLinksListByType);
       return newsLinksListByType.map((item, index) => this.renderRow(item, index))
     }
 
@@ -97,7 +97,7 @@ export class AdminNewsLinks extends PureComponent {
       <td name="name">{item.name}</td>
       <td name="type">{this.returnNewsType(item.type)}</td>
       <td name="link" style={{textAlign: "center" }}>
-        <a href={item.path} target="blank" ref="noopener norefferer">Ссылка</a>
+        <a href={item.path} target="_blank" rel="noopener noreferrer">Ссылка</a>
       </td>
       <td name="edit">
         <Link to={`/admin/news-links/edit/${item._id}`} className="btn"><Icon icon={bxsEdit} color="green"/></Link>
