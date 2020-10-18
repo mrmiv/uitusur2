@@ -79,7 +79,8 @@ export const postClub = ({ name, path, image }) => (dispatch) => {
 
 	const headers = {
 		"Content-type": "multipart/form-data",
-		token: localStorage.getItem("token"),
+		"filepath": "other/clubs",
+		"token": localStorage.getItem("token")
 	}
 
 	const formdata = new FormData()
@@ -115,8 +116,9 @@ export const patchClub = (id, Club) => (dispatch) => {
 
 	const headers = {
 		"Content-type": "application/json",
-		token: localStorage.getItem("token"),
-	};
+		"token": localStorage.getItem("token"),
+		"filepath": "other/clubs"
+	}
 
 	const {name, path, image} = Club
 
