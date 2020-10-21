@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import './styles/Footer.scss'
-import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
+import { Icon } from '@iconify/react'
 import { Link } from 'react-router-dom'
-import { faCogs } from '@fortawesome/free-solid-svg-icons'
+import cogs from '@iconify/icons-fa-solid/cogs'
 
 export default class Footer extends Component {
 
@@ -114,7 +114,7 @@ export default class Footer extends Component {
                   <br />
                   Выходные: суббота, воскресенье
                 </p>
-                <span className="cogs-info"><i><Icon icon={faCogs} size="md" /></i></span>
+                <span className="cogs-info"><Icon icon={cogs}/></span>
               </div>
             </div>
             <div className="other_info">

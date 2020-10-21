@@ -3,10 +3,7 @@ import { closeNavbar } from '../../../redux/actions/navbarActions'
 import { connect } from 'react-redux'
 import { getOneClub, postClub, patchClub } from '../../../redux/actions/data_actions/clubsAction'
 import { clearInfo } from '../../../redux/actions/infoActions'
-import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
-import { faArrowAltCircleLeft } from '@fortawesome/free-solid-svg-icons'
 import { Link, Prompt, withRouter } from 'react-router-dom'
-import cyrillicToTranslit from 'cyrillic-to-translit-js'
 import { MessageAlert } from '../components/MessageAlert'
 import { FileField } from '../components/FileField'
 
@@ -117,7 +114,7 @@ export class ClubsForm extends Component {
                 
                 <MessageAlert msg={msg} id={this.props.info.id}/>
 
-                <Link to="/admin/clubs"><Icon icon={faArrowAltCircleLeft} size="lg" /> Назад</Link>
+                <Link to="/admin/clubs"> Назад</Link>
                 <form id="clubs_form" className="mt-3" onSubmit={this.submitForm}>
                     <div className="form-row">
                         <div className="col form-group">

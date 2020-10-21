@@ -1,11 +1,10 @@
 import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Icon } from '@iconify/react'
 import pushpinIcon from '@iconify/icons-fxemoji/pushpin'
 import cityscapeIcon from '@iconify/icons-twemoji/cityscape';
 import alarmClock from '@iconify/icons-flat-color-icons/alarm-clock';
 import spiralCalendar from '@iconify/icons-twemoji/spiral-calendar';
-import { faUsers } from '@fortawesome/free-solid-svg-icons'
+import users from '@iconify/icons-fa-solid/users'
 import { Link } from 'react-router-dom'
 
 export function toDate(datetime, time = false, sym = ".") {
@@ -47,7 +46,7 @@ export function NewsInList(props) {
                     {props.users &&
                         <div className="col-auto">
                             <p className="prop-news">
-                                <FontAwesomeIcon icon={faUsers} style={{ fontSize: "18px" }} /> <span>Для кого:</span> {props.users}
+                                <Icon icon={users} style={{ fontSize: "18px" }} /> <span>Для кого:</span> {props.users}
                             </p>
                         </div>
                     }

@@ -4,11 +4,10 @@ import { withRouter } from 'react-router-dom'
 import { closeNavbar } from '../../redux/actions/navbarActions'
 import { ReadNews } from '../../redux/actions/newsActions'
 import { toDate } from './NewsList'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Icon, InlineIcon } from '@iconify/react'
 import '../styles/News.scss'
 
-import { faUsers } from '@fortawesome/free-solid-svg-icons'
+import users from '@iconify/icons-fa-solid/users'
 import pushpinIcon from '@iconify/icons-fxemoji/pushpin'
 import alarmClock from '@iconify/icons-flat-color-icons/alarm-clock';
 import documentAttach from '@iconify/icons-ion/document-attach';
@@ -25,7 +24,6 @@ export class FullNews extends Component {
         title: this.props.match.params.title
     }
 
-    // didmount and req for id
     componentDidMount() {
         const {title} = this.state
         this.props.ReadNews('translit_title', title)
@@ -37,8 +35,6 @@ export class FullNews extends Component {
 
     componentDidUpdate(prevProps) {
         const { News } = this.props.news
-        // console.log(this.props.news.isLoading + " props ");
-        // console.log(this.state.isLoading + " state");
 
         if (News !== prevProps.news.News) {
             this.setState({ News })
@@ -70,7 +66,7 @@ export class FullNews extends Component {
         <div className="row no-gutters">
             {/* для крнр */}
             {News.users && <NewsProps
-                icon={<FontAwesomeIcon icon={faUsers} />} name={"Для кого"} text={News.users} />}
+                icon={<Icon icon={users} />} name={"Для кого"} text={News.users} />}
             {/* крайний срок */}
             {News.deadline && <NewsProps
                 icon={<Icon icon={alarmClock} />} name={News.type === 1 ? "Крайний срок" : "Крайний срок подачи документов"} text={toDate(News.deadline)} />}

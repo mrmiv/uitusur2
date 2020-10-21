@@ -19,6 +19,7 @@ export class Quiz extends Component {
             <div className="container-md container-fluid">
                 <h1>Опросы для студентов</h1>
                 {!isLoading ? (this.props.quiz && <iframe
+                    title="Опрос для студентов"
                     src={`${this.props.quiz}`}
                     width="100%" height={window.innerHeight - 100} frameBorder="0" marginHeight="0" marginWidth="0" />) || <h2 className="w-100 mt-2 text-center">Опросов нет :)</h2> :
                     <p className="w-100 text-center">Загрузка</p>}

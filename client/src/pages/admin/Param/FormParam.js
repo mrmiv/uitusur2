@@ -4,11 +4,10 @@ import { connect } from 'react-redux'
 import { EditorArea } from '../components/Editor'
 import { getParam, patchParam, postParam, getPageParam } from '../../../redux/actions/data_actions/paramActions'
 import { clearInfo } from '../../../redux/actions/infoActions'
-import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
-import { faArrowAltCircleLeft } from '@fortawesome/free-solid-svg-icons'
 import { Link, Prompt, withRouter } from 'react-router-dom'
 // import { text } from '@fortawesome/fontawesome-svg-core'
 import { ParamComponent } from '../../components/ParamsList'
+import { MessageAlert } from '../components/MessageAlert'
 
 export class FormParam extends Component {
 
@@ -95,7 +94,7 @@ export class FormParam extends Component {
 
   selectOrderCountList = () => {
     
-    const {id, page, order_length, order} = this.state
+    const {id, page, order_length} = this.state
     const propsPage = this.props.param.page
 
     const option = (value) => (<option value={value}>{value}</option>)
@@ -156,32 +155,24 @@ export class FormParam extends Component {
             `Вы действительно хотите покинуть эту страницу?`
           }
         />
-        {msg ?
-          <div className={`alert 
-                ${this.props.info.id === "REQ_FAIL" ? 'alert-danger' : null}
-                ${this.props.info.id === "REQ_SUCCESS" ? 'alert-success' : null} alert-dismissible fade show`} role="alert">
-            {this.props.info.id === "REQ_FAIL" && <strong>Ошибка! </strong>}
-            {this.props.info.id === "REQ_SUCCESS" && <strong>Успех! </strong>}
-            {msg.message}.
-                <button type="button" className="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div> : null}
+
+        <MessageAlert msg={msg} id={this.props.info.id}/>
+        
         <div className="row no-gutters justify-content-between">
-          <Link to="/admin/param"><Icon icon={faArrowAltCircleLeft} size="lg" /> Назад</Link>
+          <Link to="/admin/param"> Назад</Link>
           <form id="param_form" className="w-100 mt-3" onSubmit={this.submitForm}>
 
             <div className="form-row">
               <div className="col form-group">
-                <label htmlFor="title-input">Заголовок</label>
+                <label htmlFor="title-input">Заголовок *</label>
                 <input onChange={this.changeInput} type="text" className="form-control"
                   name="title" id="title-input" placeholder="Правила подачи документов" value={this.state.title} />
               </div>
               <div className="col form-group">
-                <label htmlFor="page-input">Страница</label>
+                <label htmlFor="page-input">Страница *</label>
                 <select onChange={this.changeInput} value={this.state.page} disabled={this.state.id}
                 name="page" id="page-input" className="form-control">
-                    <option defaultValue value="О кафедре">О кафедре</option>
+                    <option selected value="О кафедре">О кафедре</option>
                     <option value="Поступающему Магистратура">Абитуриенту - Магистратура</option>
                     <option value="Абитуриенту">Абитуриенту - Бакалавриат</option>
                     <option value="Бакалавриат">Обучающимся - Бакалавриат</option>
@@ -232,7 +223,6 @@ export class FormParam extends Component {
           </form>
 
           <section id="preview-param">
-            <hr/>
             <ParamComponent
               param={{
                 title: this.state.title,
