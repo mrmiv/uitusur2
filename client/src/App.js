@@ -1,21 +1,17 @@
-// Основная разметка для стандартных страниц
-import React, { Component } from 'react'
-// import {Route, Switch, Redirect} from 'react-router-dom'
-import { connect } from 'react-redux';
+import React, { PureComponent } from 'react'
 import './App.scss'
 
 import UserRoutes from './routes/UserRoutes'
 import store from './store';
 import { loaduser } from './redux/actions/authActions';
-import { getAllParam } from './redux/actions/data_actions/paramActions';
+import { getActiveParams } from './redux/actions/data_actions/paramActions';
 import { SetDomainLocation } from './redux/actions/locationActions';
-// import AdminRoutes from './routes/AdminRoutes'
 
-export class App extends Component {
+export default class App extends PureComponent {
 
   componentDidMount() {
     store.dispatch(loaduser())
-    store.dispatch(getAllParam())
+    store.dispatch(getActiveParams())
     store.dispatch(SetDomainLocation(document.domain))
   }
 
@@ -23,8 +19,3 @@ export class App extends Component {
     return <UserRoutes />
   }
 }
-
-export default connect(
-  null,
-  null
-)(App)
