@@ -39,8 +39,8 @@ export class FormFiles extends Component {
     return (
       <div className="w-100 mt-3">
         <MessageAlert msg={msg} id={this.props.info.id}/>
-        <FileField handleParentFiles={this.handeFile} id="files" name="files-input" multiple={false}/>
-        <button disabled={disabled} className={`d-block mx-auto more-link ${disabled ? 'disabled' : ''}`}
+        <FileField handleParentFiles={this.handeFile} id="files" name="files-input" accept="application/*, .doc, .docx, .xls, .xlsx, image/*" multiple={false}/>
+        <button disabled={disabled} className='d-block mx-auto more-link'
           onClick={this.postfile}
           style={{backgroundColor: "green", color: "white"}}>
           Подтвердить загрузку файлов

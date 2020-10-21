@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { clearInfo } from '../../../redux/actions/infoActions'
-import { getfeedback, delfeedback } from '../../../redux/actions/data_actions/AboutActions'
+import { getfeedback, delfeedback, changeVisibility } from '../../../redux/actions/data_actions/AboutActions'
 
 import { Icon } from '@iconify/react';
 import plusCircle from '@iconify/icons-fa-solid/plus-circle';
@@ -34,13 +34,17 @@ export class AdminFeedback extends Component {
 
   delfeedback = id => {
     const areYouSure = window.confirm('Вы действительно хотите удалить этот элемент?')
-        if(areYouSure){
-            window.scrollTo(0, 0)
-            this.props.clearInfo()
-            this.props.delfeedback(id)
-        } else {
-            console.error('Элемент не удален')
-        }
+      if(areYouSure){
+        window.scrollTo(0, 0)
+        this.props.clearInfo()
+        this.props.delfeedback(id)
+      } else {
+        console.error('Элемент не удален')
+      }
+  }
+
+  changeVisibility = (id, visibility) => {
+    this.props.changeVisibility(id, !visibility)
   }
 
   render() {
@@ -60,11 +64,11 @@ export class AdminFeedback extends Component {
             <thead className="thead-dark">
               <tr>
                 <th scope="col">#</th>
+                <th scope="col" style={{ width: "50px", textAlign: "center" }}><Icon icon={eyeIcon}/></th>
                 <th scope="col">ФИО</th>
                 <th scope="col">Должность</th>
                 <th scope="col">Образование</th>
                 <th scope="col">Тип</th>
-                <th scope="col">Активен</th>
                 <th scope="col" style={{ width: "50px", textAlign: "center" }}> <Icon icon={bxsEdit} /> </th>
                 <th scope="col" style={{ width: "50px", textAlign: "center" }}><Icon icon={trashAlt} /></th>
               </tr>
@@ -75,11 +79,11 @@ export class AdminFeedback extends Component {
                   return (
                     <tr key={index}>
                       <th scope="row">{index + 1}</th>
+                      <td name="isActive"><button className="btn" onClick={() => this.changeVisibility(item._id, item.isActive)}><Icon icon={item.isActive ? eyeIcon : eyeSlash}/></button></td>
                       <td name="name">{item.name}</td>
                       <td name="post">{item.post}</td>
                       <td name="degree">{item.degree}</td>
                       <td name="type">{item.type === 1 ? "Отзыв" : "Цитата"}</td>
-                      <td name="isActive"><Icon icon={item.isActive ? eyeIcon : eyeSlash}/></td>
                       <td>
                         <Link title="Редактировать" className="btn" to={`/admin/feedback/edit/${item._id}`}><Icon icon={bxsEdit} color="green"/></Link>
                       </td>
@@ -108,6 +112,7 @@ export default withRouter(connect(
   {
     getfeedback,
     delfeedback,
-    clearInfo
+    clearInfo,
+    changeVisibility
   }
 )(AdminFeedback))

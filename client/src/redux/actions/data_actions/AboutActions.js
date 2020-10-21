@@ -1,11 +1,10 @@
 import axios from 'axios'
-import { GET_RPD, GET_FEEDBACK, GET_ONE_FEEDBACK } from './types'
+import { GET_RPD, GET_FEEDBACK, GET_ONE_FEEDBACK, CHANGE_VISIBILITY_BY_ID } from './types'
 import { LOADING_REQ, REQ_FAIL, REQ_SUCCESS } from '../types'
 import { returnInfo } from '../infoActions'
 
 export const GetDataAbout = () => dispatch => {
 
-    // debugger
     axios.get('/json/disciplines.json')
         .then(res => {
 
@@ -55,7 +54,6 @@ export const getfeedback = (isActive, type) => dispatch => {
             });
         });
 }
-
 
 export const get_onefeedback = id => dispatch => {
 
@@ -122,17 +120,17 @@ export const patchfeedback = (id, feedback) => dispatch => {
 
     axios.patch(`/api/feedback/${id}`, feedback, config)
         .then((res) => {
-            dispatch(returnInfo(res.data, res.status, "REQ_SUCCESS"));
+            dispatch(returnInfo(res.data, res.status, "REQ_SUCCESS"))
             dispatch({
                 type: REQ_SUCCESS,
-            });
+            })
         })
         .catch((err) => {
-            dispatch(returnInfo(err.response.data, err.response.status, "REQ_FAIL"));
+            dispatch(returnInfo(err.response.data, err.response.status, "REQ_FAIL"))
             dispatch({
                 type: REQ_FAIL,
-            });
-        });
+            })
+        })
 
 }
 
@@ -162,4 +160,35 @@ export const delfeedback = (id) => dispatch => {
             });
         });
 
+}
+
+export const changeVisibility = (id, visibility) => dispatch =>  {
+
+    const config = {
+        headers: {
+            token: localStorage.getItem("token")
+        }
+    }
+
+    const data = {visibility}
+
+    axios.put(`/api/feedback/setVisibility/${id}`, data, config)
+        .then((res) => {
+            dispatch(returnInfo(res.data, res.status, "REQ_SUCCESS"))
+            dispatch({
+                type: REQ_SUCCESS,
+            })
+        })
+        .then(() => {
+            dispatch({
+                type: CHANGE_VISIBILITY_BY_ID,
+                payload: {id}
+            })
+        })
+        .catch((err) => {
+            dispatch(returnInfo(err.response.data, err.response.status, "REQ_FAIL"))
+            dispatch({
+                type: REQ_FAIL,
+            })
+        })
 }

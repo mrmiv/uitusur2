@@ -2,7 +2,7 @@ import React, { PureComponent, Fragment, memo, useState } from 'react'
 import { connect } from 'react-redux'
 import store from '../store'
 import { closeNavbar } from '../redux/actions/navbarActions'
-import { GetLiteraturePerPage } from '../redux/actions/literatureActions'
+import { GetLiteraturePerPage, setLiteratureFilters } from '../redux/actions/literatureActions'
 import Pagination from "react-js-pagination";
 
 import "./styles/Literature.scss"
@@ -14,7 +14,7 @@ export class Literature extends PureComponent {
 
     state = {
         page: Number(this.props.match.params.page) || 1,
-        perPage: this.props.Literature.perPage ||12,
+        perPage: this.props.Literature.perPage || 12,
 
         sort: this.props.Literature.sort || "1",
         filter: this.props.Literature.filter || null,
@@ -29,11 +29,11 @@ export class Literature extends PureComponent {
 
         const {Literature} = this.props
 
-        if (Number(page) === 1 && this.props.location.pathname !== '/literature') {
+        if ((Number(page) === 1) && (this.props.location.pathname !== '/literature')) {
             this.props.history.push('/literature')
-        }
+        } 
 
-        if((Literature.LiteratureList && Literature.LiteratureList.length === 0) || page !== Literature.page){
+        if((Literature.LiteratureList && (!Literature.isLoading && Literature.LiteratureList.length === 0)) || (page !== Literature.page)){
             this.props.GetLiteraturePerPage(Number(page), Literature.perPage, Literature.filter, Literature.sort, Literature.search)
         }
 
@@ -48,6 +48,7 @@ export class Literature extends PureComponent {
             this.Paginate(1)
             this.props.GetLiteraturePerPage(1, perPage, filter, sort, search)
         }
+
     }
 
     componentWillUnmount(){
@@ -156,7 +157,7 @@ const mapStateToProps = state => ({
 
 export default withRouter(connect(
     mapStateToProps,
-    { GetLiteraturePerPage }
+    { GetLiteraturePerPage, setLiteratureFilters }
 )(Literature))
 
 const Book = memo(({ title, author, image, category, translit_title }) => {

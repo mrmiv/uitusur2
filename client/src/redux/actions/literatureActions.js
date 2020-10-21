@@ -45,8 +45,16 @@ export const GetLiteraturePerPage = (page = 1, perPage = 12, filter = null, sort
             })
         })
         .catch(err => {
-            console.error(err);
+            dispatch({type: REQ_FAIL})
+            dispatch(returnInfo(err.response.message, err.response.status, "REQ_FAIL"))
         })
+}
+
+export const setLiteratureFilters = (page=1, perPage = 12, filter=null, sort=1, search='') => dispatch => {
+    dispatch({
+        type:SET_LITERATURE_FILTER,
+        payload: {page, perPage, filter, sort, search}
+    })
 }
 
 export const GetCurrentBook = (field, value) => dispatch => {

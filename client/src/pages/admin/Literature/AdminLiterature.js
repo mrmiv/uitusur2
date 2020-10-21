@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from 'react'
+import React, {Fragment, PureComponent} from 'react'
 import { closeNavbar } from '../../../redux/actions/navbarActions'
 import { clearInfo } from '../../../redux/actions/infoActions'
 import { GetLiteraturePerPage, delLiterature } from '../../../redux/actions/literatureActions'
@@ -12,12 +12,11 @@ import bxsEdit from '@iconify/icons-bx/bxs-edit';
 import plusCircle from '@iconify/icons-fa-solid/plus-circle';
 import trashAlt from '@iconify/icons-fa-solid/trash-alt';
 
-export class AdminLiterature extends Component{
+export class AdminLiterature extends PureComponent{
     state={
         page: 1,
         perPage: 20,
         category: null,
-        total: this.props.Literature.total,
 
         msg: null
     }
@@ -43,7 +42,7 @@ export class AdminLiterature extends Component{
         this.props.clearInfo()
         window.scrollTo(0, 0);
         this.setState({page})
-        this.props.GetLiteraturePerPage(page,this.state.perPage)
+        this.props.GetLiteraturePerPage(page, this.state.perPage)
     }
 
     delLiterature=(id)=>{
@@ -60,8 +59,8 @@ export class AdminLiterature extends Component{
 
     render(){
         const {Literature} = this.props
-        const {LiteratureList, isLoading} = Literature
-        const {page, perPage, total, msg} = this.state
+        const {LiteratureList, isLoading, total} = Literature
+        const {page, perPage, msg} = this.state
         return(
             <div className="container-md container-fluid">
                 <MessageAlert msg={msg} id={this.props.info.id}/>

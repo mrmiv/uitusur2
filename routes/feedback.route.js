@@ -113,4 +113,26 @@ router.patch('/:id', auth, async (req, res) => {
   }
 })
 
+/**
+ * @url /api/feedback/setVisibility/:id
+ * @method PUT
+ * @description изменить активность отзыва
+ */
+router.put('/setVisibility/:id', auth, async (req, res) => {
+
+  const { id } = req.params
+  const { visibility } = req.body
+
+  try {
+
+    await Feedback.findByIdAndUpdate(id, {isActive: visibility})
+      .then(q => res.json({ message: `Отзыв от ${q.name} обновлен` }))
+      .catch(err => res.status(400).json({ message: err.message }))
+
+  } catch (error) {
+      res.status(500).json({ message: error.message })
+    }
+
+})
+
 module.exports = router

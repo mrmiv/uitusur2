@@ -130,13 +130,13 @@ export class Student extends Component {
                             <div className="year_choose w-75 text-center">
                                 {!StudyPlan 
                                     ?<img src={dashboard_img} alt="Учебный план" />
-                                    :<div className="table_plan mt-3">
+                                    :<div className="table_plan table-responsive mt-3">
                                         <table class="table table-sm table-bordered">
                                             <thead>
                                                 <tr>
                                                     {StudyPlan.slice(0, 1).map(sp => {
                                                         return (<Fragment>
-                                                            <th scope="col">Группа</th>
+                                                            <th scope="col" style={{minWidth: "80px", width: "80px"}}>Группа</th>
                                                             {(sp.exam && sp.exam.from && sp.exam.to) && <th scope="col">Экзамены</th>}
                                                             {sp.practic && sp.practic.type && sp.practic.from && sp.practic.to && <th scope="col">Практика</th>}
                                                             {sp.gia && sp.gia.from && sp.gia.to && <th scope="col">ГИА</th>}
@@ -148,7 +148,7 @@ export class Student extends Component {
                                             <tbody>
                                                 {StudyPlan.map((sp, index) => {
                                                     return (<tr key={index}>
-                                                        <td>{sp.group}</td>
+                                                        <td style={{minWidth: "80px", width: "80px"}}>{sp.group}</td>
                                                         {(sp.exam && sp.exam.from && sp.exam.to) &&
                                                             <td>
                                                                 <strong>c</strong> {toDate(sp.exam.from)}<br />

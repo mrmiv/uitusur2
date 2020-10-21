@@ -2,7 +2,8 @@ import {
     GET_RPD,
     GET_FEEDBACK,
     GET_ONE_FEEDBACK,
-    GET_CMK
+    GET_CMK,
+    CHANGE_VISIBILITY_BY_ID
 } from "../../actions/data_actions/types"
 import { LOADING_REQ } from "../../actions/types"
 
@@ -50,6 +51,17 @@ export function FeedbackReducer(state = FeedbackState, action) {
                 ...state,
                 Feedback: action.payload.Feedback,
                 isLoading: false
+            }
+        case CHANGE_VISIBILITY_BY_ID:
+            return {
+                ...state,
+                FeedbackList: state.FeedbackList.map( item => {
+                    if (item._id === action.payload.id){
+                        item.isActive = !item.isActive
+                        return item
+                    }
+                    return item
+                })
             }
         default:
             return { ...state, isLoading: false };

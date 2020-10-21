@@ -119,8 +119,21 @@ export class SPForm extends Component {
     }
 
     render() {
-        const { msg } = this.state
+        const { msg, practic_from, practic_to, practic_type, exam_from, exam_to, weekend_from, weekend_to, gia_from, gia_to, group, course } = this.state
         const { isLoading } = this.props
+
+        const practicIsFilled = practic_from || practic_to || practic_type
+        const examIsFilled = exam_from || exam_to
+        const weekendIsFilled = weekend_from || weekend_to
+        const giaIsFilled = gia_from || gia_to
+
+        const needToFillPractic = practicIsFilled && !(practic_from && practic_to && practic_type)
+        const needToFillExam = examIsFilled && !(exam_to && exam_from)
+        const needToFillWeekend = weekendIsFilled && !(weekend_from && weekend_to)
+        const needToFillGia = giaIsFilled && !(gia_from && gia_to)
+
+        const buttonDisabled = isLoading || !(group && course) || (needToFillExam || needToFillGia || needToFillPractic || needToFillWeekend)
+
         return (
             <div className="container-md container-fluid">
                 <Prompt
@@ -132,80 +145,78 @@ export class SPForm extends Component {
                 
                 <MessageAlert msg={msg} id={this.props.info.id}/>
 
-                <div className="row no-gutters justify-content-between">
-                    <Link to="/admin/studyplan">Назад</Link>
-                    <form id="SP_form" className="w-100 mt-3" onSubmit={this.submitForm}>
-                        <div className="form-row">
-                            <div className="col form-group">
-                                <label htmlFor="course-input">Курс</label>
-                                <select className="form-control" name="course" id="course-input" onChange={this.changeInput} value={this.state.course}>
-                                    <option value={1}>Бакалавриат - 1 курс</option>
-                                    <option value={2}>Бакалавриат - 2 курс</option>
-                                    <option value={3}>Бакалавриат - 3 курс</option>
-                                    <option value={4}>Бакалавриат - 4 курс</option>
-                                    <option value={5}>Магистратура - 1 курс</option>
-                                    <option value={6}>Магистратура - 2 курс</option>
-                                </select>
-                            </div>
-                            <div className="col form-group">
-                                <label htmlFor="group-input">Группа</label>
-                                <input onChange={this.changeInput} type="text" className="form-control"
-                                    name="group" id="group-input" placeholder="057" value={this.state.group} />
-                            </div>
+                <Link to="/admin/studyplan">Назад</Link>
+                <form id="SP_form" className="w-100 mt-3" onSubmit={this.submitForm}>
+                    <div className="form-row">
+                        <div className="col form-group">
+                            <label htmlFor="course-input">Курс *</label>
+                            <select className="form-control" name="course" id="course-input" onChange={this.changeInput} value={course}>
+                                <option value={1}>Бакалавриат - 1 курс</option>
+                                <option value={2}>Бакалавриат - 2 курс</option>
+                                <option value={3}>Бакалавриат - 3 курс</option>
+                                <option value={4}>Бакалавриат - 4 курс</option>
+                                <option value={5}>Магистратура - 1 курс</option>
+                                <option value={6}>Магистратура - 2 курс</option>
+                            </select>
                         </div>
-                        <label ><strong>Экзамены</strong></label>
-                        <div className="form-row">
-                            <DateMaskInput id="exam_from-input" name="exam_from"
-                                changeParentInput={this.changeInput}
-                                value={this.state.exam_from} label="С" col />
-                            <DateMaskInput id="exam_to-input" name="exam_to"
-                                changeParentInput={this.changeInput}
-                                value={this.state.exam_to} label="По" col />
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="practic_type-input"><strong>Практика</strong></label>
+                        <div className="col form-group">
+                            <label htmlFor="group-input">Группа *</label>
                             <input onChange={this.changeInput} type="text" className="form-control"
-                                name="practic_type" id="practic_type-input" placeholder="Производственная"
-                                value={this.state.practic_type} />
+                                name="group" id="group-input" placeholder="057" value={group} />
                         </div>
-                        <div className="form-row">
-                            <DateMaskInput id="practic_from-input" name="practic_from"
-                                changeParentInput={this.changeInput}
-                                value={this.state.practic_from} label="С" col />
-                            <DateMaskInput id="practic_to-input" name="practic_to"
-                                changeParentInput={this.changeInput}
-                                value={this.state.practic_to} label="ПО" col />
-                        </div>
+                    </div>
+                    <label ><strong>Экзамены</strong></label>
+                    <div className="form-row">
+                        <DateMaskInput id="exam_from-input" name="exam_from"
+                            changeParentInput={this.changeInput} required={examIsFilled}
+                            value={exam_from} label={`С ${examIsFilled && "*"}`} col />
+                        <DateMaskInput id="exam_to-input" name="exam_to"
+                            changeParentInput={this.changeInput} required={examIsFilled}
+                            value={exam_to} label={`ПО ${examIsFilled && "*"}`} col />
+                    </div>
 
-                        <label><strong>ГИА</strong></label>
-                        <div className="form-row">
-                            <DateMaskInput id="gia_from-input" name="gia_from"
-                                changeParentInput={this.changeInput}
-                                value={this.state.gia_from} label="С" col />
-                            <DateMaskInput id="gia_to-input" name="gia_to"
-                                changeParentInput={this.changeInput}
-                                value={this.state.gia_to} label="ПО" col />
-                        </div>
+                    <div className="form-group">
+                        <label htmlFor="practic_type-input"><strong>Практика {practicIsFilled && "*"}</strong></label>
+                        <input onChange={this.changeInput} type="text" className="form-control"
+                            name="practic_type" id="practic_type-input" placeholder="Производственная" required={practicIsFilled}
+                            value={practic_type} />
+                    </div>
+                    <div className="form-row">
+                        <DateMaskInput id="practic_from-input" name="practic_from"
+                            changeParentInput={this.changeInput}
+                            value={practic_from} required={practicIsFilled} label={`С ${practicIsFilled && "*"}`} col />
+                        <DateMaskInput id="practic_to-input" name="practic_to"
+                            changeParentInput={this.changeInput}
+                            value={practic_to} required={practicIsFilled} label={`ПО ${practicIsFilled && "*"}`} col />
+                    </div>
 
-                        <label><strong>Каникулы</strong></label>
-                        <div className="form-row">
+                    <label><strong>ГИА</strong></label>
+                    <div className="form-row">
+                        <DateMaskInput id="gia_from-input" name="gia_from"
+                            changeParentInput={this.changeInput} required={giaIsFilled}
+                            value={gia_from} label={`ПО ${giaIsFilled && '*'}`} col />
+                        <DateMaskInput id="gia_to-input" name="gia_to"
+                            changeParentInput={this.changeInput} required={giaIsFilled}
+                            value={gia_to} label={`ПО ${giaIsFilled && '*'}`} col />
+                    </div>
 
-                            <DateMaskInput id="weekend_from-input" name="weekend_from"
-                                changeParentInput={this.changeInput}
-                                value={this.state.weekend_from} label="С" col />
-                            <DateMaskInput id="weekend_to-input" name="weekend_to"
-                                changeParentInput={this.changeInput}
-                                value={this.state.weekend_to} label="ПО" col />
-                        </div>
+                    <label><strong>Каникулы</strong></label>
+                    <div className="form-row">
 
-                        <div className="w-100 mt-2 text-right">
-                            <button className="btn btn-success mr-0" type="submit"
-                                disabled={isLoading}>{this.state.id ? "Обновить учебный план" : "Добавить учебный план"}</button>
-                        </div>
+                        <DateMaskInput id="weekend_from-input" name="weekend_from"
+                            changeParentInput={this.changeInput} required={weekendIsFilled}
+                            value={weekend_from} label={`С ${weekendIsFilled && '*'}`} col />
+                        <DateMaskInput id="weekend_to-input" name="weekend_to"
+                            changeParentInput={this.changeInput}  required={weekendIsFilled}
+                            value={weekend_to} label={`ПО ${weekendIsFilled && '*'}`} col />
+                    </div>
 
-                    </form>
-                </div>
+                    <div className="d-flex justify-content-end mt-2">
+                        <button className="btn btn-success" type="submit"
+                            disabled={buttonDisabled}>{this.state.id ? "Обновить учебный план" : "Добавить учебный план"}</button>
+                    </div>
+
+                </form>
             </div >
         )
     }
