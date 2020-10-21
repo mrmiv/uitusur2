@@ -61,7 +61,7 @@ const NewsLinkElement = memo(({link})=>{
 
   const {name, path} = link
 
-  return <a className="news-link-element" target="_blank" ref="noopener noreferrer"href={path}>{name}</a>
+  return <a className="news-link-element" target="_blank" rel="noopener noreferrer"href={path}>{name}</a>
 })
 
 const mapStateToProps = state => ({
