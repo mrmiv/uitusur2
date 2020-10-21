@@ -5,8 +5,8 @@ import { connect } from 'react-redux'
 import { useLocation, Link, withRouter } from 'react-router-dom'
 
 import './styles/Student.scss'
-import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
-import { faHashtag } from '@fortawesome/free-solid-svg-icons'
+import { Icon } from '@iconify/react'
+import hashtag from '@iconify/icons-fa-solid/hashtag'
 import { toDate } from './components/NewsList'
 
 // import {Modal} from '../components/Modal'
@@ -292,7 +292,7 @@ function Curator({ curator }) {
             <td><Link to={{
                 pathname: `/staff/${curator.staff_url}`,
                 state: { background: location }
-            }}> <Icon style={{ color: "#354ED1", marginRight: "4px" }} icon={faHashtag} />
+            }}> <Icon style={{ color: "#354ED1", marginRight: "4px" }} icon={hashtag} />
                 {fullname}
                 </Link>
             </td>

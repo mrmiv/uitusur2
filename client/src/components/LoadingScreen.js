@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { CSSTransition } from 'react-transition-group';
 
 export class LoadingScreen extends Component {

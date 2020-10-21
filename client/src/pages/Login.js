@@ -4,9 +4,9 @@ import { closeNavbar } from '../redux/actions/navbarActions'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
 import { clearInfo } from '../redux/actions/infoActions'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Icon } from '@iconify/react'
 import { login } from '../redux/actions/authActions'
-import { faSignInAlt } from '@fortawesome/free-solid-svg-icons'
+import signInAlt from '@iconify/icons-fa-solid/sign-in-alt'
 
 export class Login extends Component {
 
@@ -126,7 +126,7 @@ export class Login extends Component {
                                     <div className="spinner-border spinner-border-sm" role="status">
                                         <span className="sr-only">Загрузка...</span>
                                     </div>
-                                    : <Fragment>Войти <FontAwesomeIcon icon={faSignInAlt} /></Fragment>}
+                                    : <Fragment>Войти <Icon icon={signInAlt} /></Fragment>}
                             </button>
                         </div>
                     </form>

@@ -4,8 +4,9 @@ import { GetStaffList } from '../redux/actions/staffActions'
 import { useLocation, useParams, Link, withRouter } from 'react-router-dom'
 import ParamsList from './components/ParamsList'
 
-import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
-import { faIdBadge, faQuoteRight } from '@fortawesome/free-solid-svg-icons'
+import { Icon } from '@iconify/react'
+import idBadge from '@iconify/icons-fa-solid/id-badge'
+import quoteRigth from '@iconify/icons-fa-solid/quote-right'
 
 import './styles/About.scss'
 
@@ -255,13 +256,13 @@ export const FeedbackComponent = memo(({feedback}) => {
             <div className="row no-gutters">
                 <div className="quote-staff">
                     <div className="quote-staff__info d-flex">
-                        <Icon className="quote-staff__info__img" style={{ color: color ? color : "#354ED1" }} icon={faIdBadge} />
+                        <Icon className="quote-staff__info__img" style={{ color: color ? color : "#354ED1" }} icon={idBadge} />
                         <p className="quote-staff__info__name">
                             <strong>{name}</strong>
                             {post && <Fragment><br/>{post}</Fragment> }
                             {degree && <Fragment><br/>{degree}</Fragment> }
                         </p>
-                        <Icon className="quote-staff__info__icon" style={{ color: color ? color : "#354ED1" }} icon={faQuoteRight} />
+                        <Icon className="quote-staff__info__icon" style={{ color: color ? color : "#354ED1" }} icon={quoteRigth} />
                     </div>
                     <div className="quote-staff__quote__block">
                         <div className="quote-staff__quote html-adaptive" dangerouslySetInnerHTML={{ __html: textExpand }} />
@@ -288,7 +289,7 @@ function Staff({staff}) {
                 pathname: `/staff/${fullname_url}`,
                 state: { background: location }
             }}>
-                <div className="staff__photo"><Icon icon={faIdBadge} /></div>
+                <div className="staff__photo"><Icon icon={idBadge} /></div>
                 <div className="staff__name align-self-center">
                     <p>
                         <span>{lastname}</span> <br />

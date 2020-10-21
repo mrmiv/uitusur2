@@ -216,7 +216,7 @@ export class SearchPage extends PureComponent {
 
         const color = "#2871DE"
 
-        const subcategories = [... new Set(docs.map(doc => doc.subcategory))]
+        const subcategories = [...new Set(docs.map(doc => doc.subcategory))]
         
         return <section id="documents_list">
             <h2 className="title-category-search">Регламентирующие документы</h2>
@@ -237,7 +237,7 @@ export class SearchPage extends PureComponent {
 
     render() {
         const { SearchIsLoading, result } = this.props
-        const { first_submited, query} = this.state
+        const { query} = this.state
         return (
             <Fragment>
                 <div className="container">
