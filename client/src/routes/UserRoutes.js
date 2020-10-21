@@ -35,6 +35,7 @@ const Docs = lazy(() => import('../pages/Docs'))
 const Login = lazy(() => import('../pages/Login'))
 
 const AdminRoutes = lazy(() => import('../routes/AdminRoutes'))
+const PodcastPage = lazy(() => import('../pages/podcast/index'))
 
 const Developing = lazy(() => import('../components/Dev'))
 const SearchPage = lazy(() => import('../pages/Search'))
@@ -183,7 +184,12 @@ function HomeRoutes({ auth }) {
             {
                 exact: true,
                 path: "/search",
-                component: <SearchPage title="Поиск - Кафедры управления инновациями"/>
+                component: <SearchPage title="Поиск - Кафедра управления инновациями"/>
+            },
+            {
+                exact: true,
+                path: "/podcast",
+                component: <PodcastPage title="Подкасты - Кафедра управления инновациями"/>
             },
             // admin
             {
