@@ -18,7 +18,6 @@ const Footer = lazy(() => import('../components/Footer'))
 const Home = lazy(() => import('../pages/Home'))
 const About = lazy(() => import('../pages/About'))
 const Student = lazy(() => import('../pages/Student'))
-const Quiz = lazy(() => import('../pages/Quiz'))
 
 const Literature = lazy(() => import('../pages/Literature'))
 
@@ -175,11 +174,6 @@ function HomeRoutes({ auth }) {
                 exact: true,
                 path: "/book/:translit_title",
                 component:<BookPage />
-            },
-            {
-                exact: true,
-                path: "/quiz",
-                component:<Quiz title="Опросы студентов - Кафедра управления инновациями" />
             },
             {
                 exact: true,

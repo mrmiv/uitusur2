@@ -24,7 +24,6 @@ app.use('/api/clubs', require('./routes/club.route')) //внеучебная д�
 app.use('/api/studyplan', require('./routes/studyplan.route')) //учебный план
 app.use('/api/param', require('./routes/param.route')) //тексты на страницах
 app.use('/api/curator', require('./routes/curators.route')) //кураторы
-app.use('/api/quiz', require('./routes/quiz.route')) //Опрос
 app.use('/api/feedback', require('./routes/feedback.route')) //Отзывы о кафедре
 app.use('/api/files', require('./routes/uploadfile.route')) //Файлы
 app.use('/api/search', require('./routes/search.route')) //Поиск

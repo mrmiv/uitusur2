@@ -61,9 +61,6 @@ export const GET_FILES = "GET_FILES"
 export const UPLOAD_FILE = "UPLOAD_FILE"
 export const DELETE_FILE = "DELETE_FILE"
 
-
-// Опрос
-export const GET_QUIZ = "GET_QUIZ"
 // Запросы
 export const LOADING_REQ = "LOADING_REQ"
 export const REQ_SUCCESS = "REQ_SUCCESS"

@@ -1,15 +1,13 @@
 import React, {PureComponent} from 'react'
 import './podcast.scss'
+
+import PodcastList from './components/PodcastList'
+import PodcastPlayer from './components/PodcastPlayer'
+
 import {Icon} from '@iconify/react'
-import podcastIcon from '@iconify/icons-fa-solid/podcast';
+import podcastIcon from '@iconify/icons-fa-solid/podcast'
 
 export default class PodcastPage extends PureComponent{
-
-  /**
-   * Список подкастов кафедры УИ
-   * Большой плеер
-   * Компонент в списке подкастов
-   */
 
   render(){
     return <section id="podcasts">
@@ -19,6 +17,8 @@ export default class PodcastPage extends PureComponent{
           <h1>Подкасты кафедры УИ</h1>
           <p>Описание страницы подкастов, что тут есть интересного или что может быть, почему стоит послушать</p>
         </div>
+        <PodcastList/>
+        <PodcastPlayer/>
       </div>
     </section>
   }
