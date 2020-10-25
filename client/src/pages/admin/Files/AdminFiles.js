@@ -30,13 +30,14 @@ export class AdminFiles extends Component {
   }
 
   copyPath = path => {
-    navigator.clipboard.writeText(path)
+    const {domain} = this.props
+    navigator.clipboard.writeText(`https://${domain}${path}`)
       .then(()=> alert("Ссылка скопирована"))
   }
 
   render() {
 
-    const { files } = this.props
+    const { files, domain } = this.props
 
     return (<Fragment>
       <table class="table table-hover table-bordered table-sm mt-3">
@@ -56,7 +57,7 @@ export class AdminFiles extends Component {
                 <tr key={index}>
                   <th scope="row">{index + 1}</th>
                   <td name="name">{item.name}</td>
-                  <td name="link"><a href={item.file} target="_blank" rel="noopener noreferrer">{item.file}</a></td>
+                  <td name="link"><a href={`https://${domain}${item.file}`} target="_blank" rel="noopener noreferrer">{item.file}</a></td>
                   <td name="copy"><button title="Копировать ссылку" className="btn" onClick={()=>this.copyPath(item.file)}><Icon icon={copyIcon} color="blue" /></button></td>
                   <td name="del">
                     <button title="Удалить" className="btn" onClick={() => this.delfile(item._id)}><Icon icon={trashAlt} color="red"/></button>
@@ -75,7 +76,8 @@ export class AdminFiles extends Component {
 const mapStateToProps = state => ({
   isLoading: state.api.files.isLoading,
   files: state.api.files.files,
-  info: state.info
+  info: state.info,
+  domain: state.location.domain
 })
 
 export default connect(
