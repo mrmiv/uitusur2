@@ -16,6 +16,7 @@ import universityIcon from '@iconify/icons-fa-solid/university';
 import documentAttach from '@iconify/icons-ion/document-attach';
 import booksIcon from '@iconify/icons-raphael/books';
 import podcastIcon from '@iconify/icons-fa-solid/podcast';
+import bookmarkIcon from '@iconify/icons-ion/bookmark';
 
 export class Navbar extends PureComponent {
 
@@ -139,6 +140,13 @@ export class Navbar extends PureComponent {
                 exact: true,
                 name: "Подкасты",
                 icon: podcastIcon
+            },
+            {
+                id: "knowledge",
+                to: "/knowledge",
+                exact: true,
+                name: "База знаний",
+                icon: bookmarkIcon
             }
         ]
         
