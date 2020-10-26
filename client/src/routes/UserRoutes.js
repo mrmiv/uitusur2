@@ -5,7 +5,6 @@ import { LoadingScreen } from '../components/LoadingScreen'
 
 import Header from '../components/Header'
 import Navbar from '../components/Navbar'
-// import Literature from '../pages/Literature'
 
 // modals
 import { StaffView, StaffModal } from '../pages/About'
@@ -18,7 +17,6 @@ const Footer = lazy(() => import('../components/Footer'))
 const Home = lazy(() => import('../pages/Home'))
 const About = lazy(() => import('../pages/About'))
 const Student = lazy(() => import('../pages/Student'))
-const Quiz = lazy(() => import('../pages/Quiz'))
 
 const Literature = lazy(() => import('../pages/Literature'))
 
@@ -35,6 +33,8 @@ const Docs = lazy(() => import('../pages/Docs'))
 const Login = lazy(() => import('../pages/Login'))
 
 const AdminRoutes = lazy(() => import('../routes/AdminRoutes'))
+const PodcastPage = lazy(() => import('../pages/podcast/index'))
+const KnowledgePage = lazy(() => import('../pages/knowledge/index'))
 
 const Developing = lazy(() => import('../components/Dev'))
 const SearchPage = lazy(() => import('../pages/Search'))
@@ -177,19 +177,24 @@ function HomeRoutes({ auth }) {
             },
             {
                 exact: true,
-                path: "/quiz",
-                component:<Quiz title="Опросы студентов - Кафедра управления инновациями" />
+                path: "/search",
+                component: <SearchPage title="Поиск - Кафедра управления инновациями"/>
             },
             {
                 exact: true,
-                path: "/search",
-                component: <SearchPage title="Поиск - Кафедры управления инновациями"/>
+                path: "/podcast",
+                component: <PodcastPage title="Подкасты - Кафедра управления инновациями"/>
+            },
+            {
+                exact: true,
+                path: "/knowledge",
+                component: <KnowledgePage title="База знаний - Кафедра управления инновациями"/>
             },
             // admin
             {
                 exact: true,
                 path: "/login",
-                component: auth ? <Redirect to="/admin" /> : <Login title="Авторизация - Кафедра управления инновациями" />
+                component: auth ? <Redirect statusCode={200} to="/admin" /> : <Login title="Авторизация - Кафедра управления инновациями" />
             },
         ]
         

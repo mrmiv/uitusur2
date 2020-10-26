@@ -2,12 +2,10 @@ import React, { Fragment, PureComponent } from 'react'
 import { closeNavbar } from '../../redux/actions/navbarActions'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import QuizForm from './QuizForm'
 
 import { Icon } from '@iconify/react'
 
 import googleanalyticsIcon from '@iconify/icons-simple-icons/googleanalytics'
-import uploadIcon from '@iconify/icons-fa-solid/upload';
 
 export class AdminHome extends PureComponent {
 
@@ -38,7 +36,6 @@ export class AdminHome extends PureComponent {
                             </div>
                         </a>
                     </div>
-                    <QuizForm />
                 </div>
             </div>
         </Fragment>

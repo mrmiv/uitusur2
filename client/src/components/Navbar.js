@@ -15,7 +15,8 @@ import schoolIcon from '@iconify/icons-ion/school';
 import universityIcon from '@iconify/icons-fa-solid/university';
 import documentAttach from '@iconify/icons-ion/document-attach';
 import booksIcon from '@iconify/icons-raphael/books';
-import questionCircle from '@iconify/icons-fa-solid/question-circle';
+import podcastIcon from '@iconify/icons-fa-solid/podcast';
+import bookmarkIcon from '@iconify/icons-ion/bookmark';
 
 export class Navbar extends PureComponent {
 
@@ -134,18 +135,25 @@ export class Navbar extends PureComponent {
                 icon: booksIcon
             },
             {
-                id: "quiz",
-                to: "/quiz",
+                id: "podcast",
+                to: "/podcast",
                 exact: true,
-                name: "Опросы для студентов",
-                icon: questionCircle
+                name: "Подкасты",
+                icon: podcastIcon
+            },
+            {
+                id: "knowledge",
+                to: "/knowledge",
+                exact: true,
+                name: "База знаний",
+                icon: bookmarkIcon
             }
         ]
         
         return linkList
     }
 
-    getLinkComponent = (link, index) => {
+    getLinkComponent = (link) => {
         
         const {id, name, to, exact, submenu} = link
 

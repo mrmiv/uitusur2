@@ -37,37 +37,39 @@ export class AdminFiles extends Component {
 
   render() {
 
-    const { files, domain } = this.props
+    const { files, domain, isLoading } = this.props
 
     return (<Fragment>
-      <table class="table table-hover table-bordered table-sm mt-3">
-        <thead class="thead-dark">
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Название</th>
-            <th scope="col">Ссылка</th>
-            <th scope="col" style={{ width: "50px", textAlign: "center" }}><Icon icon={copyIcon} /></th>
-            <th scope="col" style={{ width: "50px", textAlign: "center" }}><Icon icon={trashAlt} /></th>
-          </tr>
-        </thead>
-        <tbody>
-          {files ?
-            files.map((item, index) => {
-              return (
-                <tr key={index}>
-                  <th scope="row">{index + 1}</th>
-                  <td name="name">{item.name}</td>
-                  <td name="link"><a href={`https://${domain}${item.file}`} target="_blank" rel="noopener noreferrer">{item.file}</a></td>
-                  <td name="copy"><button title="Копировать ссылку" className="btn" onClick={()=>this.copyPath(item.file)}><Icon icon={copyIcon} color="blue" /></button></td>
-                  <td name="del">
-                    <button title="Удалить" className="btn" onClick={() => this.delfile(item._id)}><Icon icon={trashAlt} color="red"/></button>
-                  </td>
-                </tr>
-              )
-            })
-            : <p>Загрузка</p>}
-        </tbody>
-      </table>
+      {!isLoading ?
+        (files && files.length !== 0) ? 
+        <table class="table table-hover table-bordered table-sm mt-3">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Название</th>
+              <th scope="col">Ссылка</th>
+              <th scope="col" style={{ width: "50px", textAlign: "center" }}><Icon icon={copyIcon} /></th>
+              <th scope="col" style={{ width: "50px", textAlign: "center" }}><Icon icon={trashAlt} /></th>
+            </tr>
+          </thead>
+          <tbody>
+              {files.map((item, index) => {
+                return (
+                  <tr key={index}>
+                    <th scope="row">{index + 1}</th>
+                    <td name="name">{item.name}</td>
+                    <td name="link"><a href={`https://${domain}${item.file}`} target="_blank" rel="noopener noreferrer">{item.file}</a></td>
+                    <td name="copy"><button title="Копировать ссылку" className="btn" onClick={()=>this.copyPath(item.file)}><Icon icon={copyIcon} color="blue" /></button></td>
+                    <td name="del">
+                      <button title="Удалить" className="btn" onClick={() => this.delfile(item._id)}><Icon icon={trashAlt} color="red"/></button>
+                    </td>
+                  </tr>
+                )
+              })}
+          </tbody>
+        </table>
+        : <p>Нет загруженных файлов</p>
+      : <p>Загрузка</p>}
     </Fragment>
     )
   }

@@ -1,12 +1,5 @@
+@use './pages/styles/default.scss';
 @import '~bootstrap';
-
-$dblue: #080F36;
-$blue: #111D5E;
-$purple: #98248F;
-$pink: #B21F66;
-$orange: #DE7128;
-$lorange: #EE9A2F;
-$lgray: #c8d6e5;
 
 #content{
     margin-top: 60px;
@@ -29,7 +22,7 @@ $lgray: #c8d6e5;
     bottom: 0;
     left: 0;
     right: 0;
-    background: radial-gradient($pink, $purple);
+    background: radial-gradient(default.$pink, default.$purple);
     z-index: 1300;
     transition: all 0.3s ease;
     
@@ -88,5 +81,102 @@ $lgray: #c8d6e5;
     &.visible{
         visibility: visible;
         opacity: 1;
+    }
+}
+
+
+.html-adaptive{
+
+    word-wrap: break-word;
+    max-width: 100%;
+    
+    img{
+        max-width: 100%;
+        height: auto;
+        width: inherit;
+    }
+    table{
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        border: none !important;
+        td, th{
+            padding: 0.1em 0.2em;
+        }
+    }
+    iframe{
+        width: inherit;
+        height: auto;
+        max-width: 100%;
+    }
+}
+
+
+.modal_window{
+    z-index: 1291;
+    max-width: 90%;
+    width: -moz-fit-content;
+    width: -webkit-fit-content;
+    width: -o-fit-content;
+    width: auto;
+    position: fixed;
+    background: white;
+    border-radius: 8px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    -o-transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+    -moz-transform: translate(-50%,-50%);
+    height: fit-content;
+    height: auto;
+    max-height: 85%;
+    padding: 1em 1.75em;
+    overflow: auto;
+
+    .btn-close-modal{
+        padding: 0;
+        margin: 0;
+        color: red;
+        font-size: 2em;
+        position: absolute;
+        right: 0;
+        top: 0;
+        transition: 300ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        -o-transition: 300ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        -moz-transition: 300ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        -webkit-transition: 300ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+}
+
+.more-link{
+    font-weight: normal;
+    padding: 8px 20px;
+    color: white;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 10px;
+    border: none;
+    display: inline-block;
+    margin-top: 1em;
+
+    @extend .transform-scale;
+    @extend .transition-cubic;
+
+    &:hover{
+        text-decoration: none;
+        color:white
+    }
+
+    &[disabled]{
+        opacity: 0.35;
+        cursor: not-allowed;
+    }
+
+    &:focus{
+        outline: none
     }
 }

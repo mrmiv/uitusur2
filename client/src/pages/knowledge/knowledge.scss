@@ -1,0 +1,36 @@
+@use '../styles/default.scss';
+
+#knowledge{
+  padding-top: 20px;
+
+  .knowledge-marks-list{
+    .navigation-knowledge-link{
+      width: 32px;
+      height: 32px;
+      padding: 1em;
+      margin: 0 8px;
+      border-radius: 1em;
+      cursor: pointer
+    }
+  }
+
+  .navigation-knowledge-type{
+    margin: 0 0.5em;
+    @extend .bg-linear-gray;
+  }
+
+  .uk-mark{
+    background-color: default.$pink;
+  }
+  .i-mark{
+    background-color: default.$lblue;
+  }
+  .rt-mark{
+    background-color: default.$mint;
+  }
+  .all-mark{
+    background-color: default.$lorange;
+  }
+
+
+}

@@ -8,11 +8,85 @@ $lorange: #EE9A2F;
 $lgray: #c8d6e5;
 $mint: #1FB277;
 $dmint: #0F8455;
-$dark: rgb(49, 49, 49);
 $lgreen: #64D67D;
 $green: #30A150; 
 $llblue: #49CEE0;
+$dark: rgb(49, 49, 49);
 $shadow:#2a2a2a60;
+
+.transition-cubic{
+    transition: all 0.3s cubic-bezier(0.1, 0.8, 0.3, 1.2);
+    -o-transition: all 0.3s cubic-bezier(0.1, 0.8, 0.3, 1.2);
+    -moz-transition: all 0.3s cubic-bezier(0.1, 0.8, 0.3, 1.2);
+    -webkit-transition: all 0.3s cubic-bezier(0.1, 0.8, 0.3, 1.2);
+}
+
+.transition-ease{
+    transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+}
+
+.transform-scale{
+    &:hover{
+        transform: scale(1.03);
+        -o-transform: scale(1.03);
+        -ms-transform: scale(1.03);
+        -moz-transform: scale(1.03);
+        -webkit-transform: scale(1.03);
+    }
+
+    &:active{
+        transform: scale(0.97);
+        -o-transform: scale(0.97);
+        -ms-transform: scale(0.97);
+        -moz-transform: scale(0.97);
+        -webkit-transform: scale(0.97);
+        filter: brightness(0.85);
+        -o-filter: brightness(0.85);
+        -moz-filter: brightness(0.85);
+        -webkit-filter: brightness(0.85);
+    }
+}
+
+.transform-move-up{
+    &:hover{
+        transform: translateY(-8px);
+        -o-transform: translateY(-8px);
+        -moz-transform: translateY(-8px);
+        -webkit-transform: translateY(-8px);
+    }
+
+    &:active{
+        transform: scale(0.97);
+        -o-transform: scale(0.97);
+        -moz-transform: scale(0.97);
+        -webkit-transform: scale(0.97);
+        filter: brightness(0.85);
+        -o-filter: brightness(0.85);
+        -moz-filter: brightness(0.85);
+        -webkit-filter: brightness(0.85);
+    }
+}
+
+.transform-move-left{
+    transform: translateX(8px);
+    -ms-transform: translateX(8px);
+    -moz-transform: translateX(8px);
+    -o-transform: translateX(8px);
+    -webkit-transform: translateX(8px);
+}
+
+.bg-linear-gray{
+    color: black;
+    background: linear-gradient($lgray, white);
+    background: -moz-linear-gradient($lgray, white);
+    background: -o-linear-gradient($lgray, white);
+    background: -webkit-linear-gradient($lgray, white);
+    background: -ms-linear-gradient($lgray, white);
+}
+
 
 #title_main{
     margin: 10vh 0;
@@ -57,11 +131,7 @@ img.arrow_down{
     width: 50px;
     height: 50px;
     cursor: pointer;
-    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    -webkit-transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    -o-transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    -moz-transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    -ms-transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    @extend .transition-cubic;
     &:hover{
         transform:  translate(-50%,-50%) scale(1.15);
         -o-transform:  translate(-50%,-50%) scale(1.15);
@@ -97,7 +167,6 @@ img.arrow_down{
         }
     }
 }
-
 
 section.param-onpage{
     margin-top: 60px;
@@ -153,25 +222,16 @@ section.param-onpage{
             display: list-item;
             list-style: none;
             font-weight: 500;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            -o-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            -moz-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            -webkit-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            @extend .transition-cubic;
+            @extend .transform-move-left;
             &:after{
                 margin-left: 10px;
                 content: '\0279C';
                 opacity: 0.4;
-                transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-                -o-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-                -moz-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-                -webkit-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                @extend .transition-cubic;
+
             }
             &:hover{
-                transform: translateX(8px);
-                -ms-transform: translateX(8px);
-                -moz-transform: translateX(8px);
-                -o-transform: translateX(8px);
-                -webkit-transform: translateX(8px);
                 &:after{
                     opacity: 0.9;
                 }
