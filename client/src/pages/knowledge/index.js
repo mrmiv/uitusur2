@@ -6,6 +6,7 @@ import './knowledge.scss'
 import ReactTooltip from 'react-tooltip'
 import {Icon} from '@iconify/react'
 import bookmarkIcon from '@iconify/icons-ion/bookmark';
+import KnowledgePodcast from './components/KnowledgePodcast';
 
 export default class KnowledgePage extends PureComponent{
 
@@ -22,7 +23,47 @@ export default class KnowledgePage extends PureComponent{
       course:    true,
       audiobook: true,
       other:     true
-    }
+    },
+    knowledgeList: [
+      {
+        id: 1,
+        type: "podcast",
+        title: "Это интересный подкаст 1",
+        description: "Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает сосредоточиться. Lorem Ipsum используют потому, что тот обеспечивает более или менее стандартное заполнение шаблона, а также реальное распределение букв и пробелов в абзацах, которое не получается при простой дубликации Многие программы электронной вёрстки и редакторы HTML используют Lorem Ipsum в качестве текста по умолчанию, так что поиск по ключевым словам сразу показывает, как много веб-страниц всё ещё дожидаются своего настоящего рождения. За прошедшие годы текст Lorem Ipsum получил много версий. Некоторые версии появились по ошибке, некоторые - намеренно",
+        image: "",
+        links:[
+          {
+            place: "vk",
+            path: "..."
+          },
+          {
+            place: "soundcloud",
+            path: "..."
+          }
+        ],
+        marks: {
+          uk: true,
+          i: true
+        }
+      },
+      {
+        id: 2,
+        type: "podcast",
+        title: "Это интересный подкаст 2",
+        description: "Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает сосредоточиться. Lorem Ipsum используют потому, что тот обеспечивает более или менее стандартное заполнение шаблона, а также реальное распределение букв и пробелов в абзацах, которое не получается при простой дубликации Многие программы электронной вёрстки и редакторы HTML используют Lorem Ipsum в качестве текста по умолчанию, так что поиск по ключевым словам сразу показывает, как много веб-страниц всё ещё дожидаются своего настоящего рождения. За прошедшие годы текст Lorem Ipsum получил много версий. Некоторые версии появились по ошибке, некоторые - намеренно",
+        image: "",
+        links:[
+          {
+            place: "soundcloud",
+            path: "..."
+          }
+        ],
+        marks: {
+          all: true,
+          rt: true
+        }
+      }
+    ]
   }
 
   componentDidUpdate(prevProps, prevState){
@@ -107,6 +148,7 @@ export default class KnowledgePage extends PureComponent{
 
     const {uk, i, rt, all} = this.state.activeMarks
     const {podcast, app, course, audiobook, other} = this.state.activeTypes
+    const {knowledgeList} = this.state
 
     return <section id="knowledge">
       <div className="container">
@@ -135,6 +177,15 @@ export default class KnowledgePage extends PureComponent{
               <a  onClick={()=>this.setActiveTypes("other",other)} style={{opacity: other? 1: 0.35}} className=" more-link navigation-knowledge-type">Другое</a>
             </div>
           </div>
+          <div className="row no-gutters">
+          {knowledgeList.map( (podcast, index) => <KnowledgePodcast podcast={podcast} key={podcast.id} index={index}/>)}
+          </div>
+          <ReactTooltip
+            id="knowledge-description"
+            place="top"
+            effect="float"
+            multiline={true}
+          />
         </div>
       </div>
     </section>

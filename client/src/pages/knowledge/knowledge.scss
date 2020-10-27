@@ -32,5 +32,72 @@
     background-color: default.$lorange;
   }
 
+  .knowledge-item{
+    box-shadow: 0 2px 4px 0 default.$shadow;
+    padding: 0.25em 0.5em;
+    display: grid;
+    grid-template: 1fr / 100px 1fr;
+    grid-gap: 0.5em;
+    border-radius: 8px;
+    margin: 0.25em 0.5em;
+    @extend .transition-cubic;
+    .knowledge-item-title{
+      text-align: left;
+    }
+
+    .knowledge-item-image{
+      --size: 100px;
+      width: var(--size);
+      height: var(--size);
+      border-radius: 0.5em;
+      img{
+        background-color: #fff;
+        border-radius: 8px;
+        width: inherit;
+        height: inherit;
+        object-fit: fill;
+        object-position: center;
+        -o-object-fit: fill;
+        -o-object-position: center;
+      }
+    }
+
+    .knowledge-item-content{
+      display: grid;
+      grid-template: 1fr auto / 1fr auto;
+
+      .knowledge-item-title{
+        h5{
+          margin: 0;
+        }
+        .knowledge-item-type{
+          font-weight: 500;
+          font-size: 0.9em;
+          color: default.$lblue
+        }
+      }
+
+      .knowledge-item-description{
+
+      }
+  
+      .knowledge-item-marks{
+        align-self: end;
+        justify-self: end;
+        grid-row: 2;
+        grid-column: 2;
+        text-align: right;
+        .mark{
+          --size: 16px;
+          width: var(--size);
+          height: var(--size);
+          border-radius: 1em;
+          margin: 0 4px;
+        }
+      }
+
+    }
+    
+  }
 
 }
