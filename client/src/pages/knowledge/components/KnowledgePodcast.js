@@ -3,6 +3,8 @@ import React, {PureComponent} from 'react'
 // import AppOrPodcast from './components/PodcastList'
 // import Bookmark from './components/PodcastPlayer'
 import ReactTooltip from 'react-tooltip'
+import {CSSTransition} from 'react-transition-group'
+import KnowledgeLinks from './KnowledgeLinks'
 import KnowledgeMarks from './KnowledgeMarks'
 
 export default class KnowledgePodcast extends PureComponent{
@@ -16,7 +18,9 @@ export default class KnowledgePodcast extends PureComponent{
     description: "",
     image: "",
     links:[],
-    marks: {}
+    marks: {},
+
+    openInfo: false
   }
 
   componentDidMount(){
@@ -35,12 +39,24 @@ export default class KnowledgePodcast extends PureComponent{
     })
   }
 
+  switchInfo = () => {
+    this.setState(state => { return {openInfo: !state.openInfo}})
+  }
+
   render(){
 
-    const {key,index, title, description, image, marks, links, type} = this.state
+    const {key, index, openInfo, title, description, image, marks, links, type} = this.state
 
     return <div className="col-6">
-      <div id={`knowledge-podcast-${index}`} className="knowledge-item p-2 knowledge-podcast" data-for="knowledge-description" data-tip={description} key={key}>
+      <div id={`knowledge-podcast-${index}`} className="knowledge-item p-2 knowledge-podcast" key={key}>
+        <CSSTransition
+          in={openInfo}
+          timeout={300}
+          classNames="knowledge-item-description">
+          <div className="knowledge-item-description">
+            <p>{description}</p>
+          </div>
+        </CSSTransition>
         <div className="knowledge-item-image">
           <img src={image ? image : '/svg/FIT_LOGO_NAVBAR.svg'} alt={title}/>
         </div>
@@ -49,9 +65,8 @@ export default class KnowledgePodcast extends PureComponent{
             <h5>{title}</h5>
             <p className="knowledge-item-type">{type}</p>
           </div>
-          <div className="d-flex knowledge-item-links">
-
-          </div>
+          <div className="knowledge-info-button" onClick={()=> this.switchInfo()}/>
+          <KnowledgeLinks links={links}/>
           <KnowledgeMarks marks={marks}/>
         </div>
       </div>

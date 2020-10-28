@@ -34,6 +34,7 @@
 
   .knowledge-item{
     box-shadow: 0 2px 4px 0 default.$shadow;
+    position: relative;
     padding: 0.25em 0.5em;
     display: grid;
     grid-template: 1fr / 100px 1fr;
@@ -62,7 +63,41 @@
       }
     }
 
+    .knowledge-item-description{
+      z-index: 1;
+      border-radius: 8px;
+      padding: 4px 16px 4px 8px;
+      font-size: 0.9em;
+      background: white;
+      color: default.$dark;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      max-height: inherit;
+      overflow-y: auto;
+      text-align: left;
+      opacity: 0;
+      visibility: hidden;
+      transform: scale(0.95); 
+      @extend .transition-cubic;
+
+      &.knowledge-item-description-enter, &.knowledge-item-description-exit-active, &.knowledge-item-description-exit-done {
+        opacity: 0;
+        visibility: hidden;
+        transform: scale(0.95)
+    }
+    
+      &.knowledge-item-description-enter-active,  &.knowledge-item-description-exit, &.knowledge-item-description-enter-done {
+          opacity: 1;
+          visibility: visible;
+          transform: scale(1)
+      }
+    }
+
     .knowledge-item-content{
+      position: relative;
       display: grid;
       grid-template: 1fr auto / 1fr auto;
 
@@ -77,8 +112,17 @@
         }
       }
 
-      .knowledge-item-description{
-
+      .knowledge-info-button{
+        z-index: 2;
+        grid-column: 2;
+        grid-row: 1;
+        align-self: start;
+        justify-self: end;
+        cursor: pointer;
+        &:before{
+          content: url('https://api.iconify.design/jam:info-f.svg?color=orange&height=24');
+          vertical-align: -0.125em;
+        }
       }
   
       .knowledge-item-marks{
@@ -88,11 +132,68 @@
         grid-column: 2;
         text-align: right;
         .mark{
+          cursor: pointer;
           --size: 16px;
           width: var(--size);
           height: var(--size);
           border-radius: 1em;
           margin: 0 4px;
+        }
+      }
+
+      .knowledge-item-links{
+        grid-row: 2;
+        grid-column: 1;
+        .knowledge-icon{
+          cursor: pointer;
+          --size: 32px;
+          padding: 4px;
+          margin: 0 4px;
+          width: var(--size);
+          height: var(--size);
+          box-shadow: 0 1px 2px 0 #0004;
+          border-radius: 8px;
+
+          &.icon-yandex::before{
+            content: url('https://api.iconify.design/brandico:yandex.svg?height=24');
+            vertical-align: -0.125em;
+          }
+
+          &.icon-spotify::before{
+            content: url('https://api.iconify.design/bx:bxl-spotify.svg?height=24');
+            vertical-align: -0.125em;
+          }
+
+          &.icon-vk::before{
+            content: url('https://api.iconify.design/cib:vk.svg?height=24');
+            vertical-align: -0.125em;
+          }
+
+          &.icon-apple-podcast::before{
+            content: url('https://api.iconify.design/cib:apple-podcasts.svg?height=24');
+            vertical-align: -0.125em;
+          }
+
+          &.icon-app-store::before{
+            content: url('https://api.iconify.design/logos:apple-app-store.svg?height=24');
+            vertical-align: -0.125em;
+          }
+
+          &.icon-play-market::before{
+            content: url('https://api.iconify.design/logos:google-play-icon.svg?height=24');
+            vertical-align: -0.125em;
+          }
+
+          &.icon-other::before{
+            content: url('https://api.iconify.design/flat-color-icons:link.svg?height=24');
+            vertical-align: -0.125em;
+          }
+          
+          &.icon-soundcloud::before{
+            content: url('https://api.iconify.design/bx:bxl-soundcloud.svg?height=24');
+            vertical-align: -0.125em;
+          }
+
         }
       }
 
