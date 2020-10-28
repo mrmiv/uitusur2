@@ -44,7 +44,7 @@ export default class KnowledgeLinks extends PureComponent{
       <ReactTooltip
         id="knowledge-link-tooltip"
         place="bottom"
-        effect="float"
+        effect="solid"
         multiline={false}
       />
     </div>

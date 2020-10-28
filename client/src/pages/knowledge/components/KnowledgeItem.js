@@ -45,13 +45,13 @@ export default class KnowledgePodcast extends PureComponent{
 
   render(){
 
-    const {key, index, openInfo, title, description, image, marks, links, type} = this.state
+    const {key, openInfo, title, description, image, marks, links, type} = this.state
 
-    return <div className="col-6">
-      <div id={`knowledge-podcast-${index}`} className="knowledge-item p-2 knowledge-podcast" key={key}>
+    return <div className="col-md-6">
+      <div className="knowledge-item p-2" key={key}>
         <CSSTransition
           in={openInfo}
-          timeout={300}
+          timeout={50}
           classNames="knowledge-item-description">
           <div className="knowledge-item-description">
             <p>{description}</p>
@@ -63,7 +63,6 @@ export default class KnowledgePodcast extends PureComponent{
         <div className="knowledge-item-content">
           <div className="knowledge-item-title">
             <h5>{title}</h5>
-            <p className="knowledge-item-type">{type}</p>
           </div>
           <div className="knowledge-info-button" onClick={()=> this.switchInfo()}/>
           <KnowledgeLinks links={links}/>

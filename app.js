@@ -27,7 +27,7 @@ app.use('/api/curator', require('./routes/curators.route')) //кураторы
 app.use('/api/feedback', require('./routes/feedback.route')) //Отзывы о кафедре
 app.use('/api/files', require('./routes/uploadfile.route')) //Файлы
 app.use('/api/search', require('./routes/search.route')) //Поиск
-
+app.use('/api/knowledge', require('./routes/knowledge.route')) //База знаний
 
 if (process.env.NODE_ENV === 'production') {
     app.use('/', express.static(path.join(__dirname, "client", "build")))

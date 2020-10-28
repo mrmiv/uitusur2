@@ -10,6 +10,7 @@ export default class KnowledgeMarks extends PureComponent{
       if (marks[key] === true){
         return <div
           className={`mark ${key}-mark`}
+          // onClick={() => this.props.onMarkClick()}
           data-for="small-mark"
           data-tip={this.returnDataTip(key)} 
         />
@@ -38,7 +39,7 @@ export default class KnowledgeMarks extends PureComponent{
       <ReactTooltip
         id="small-mark"
         place="bottom"
-        effect="float"
+        effect="solid"
         multiline={true}
       />
     </div>
