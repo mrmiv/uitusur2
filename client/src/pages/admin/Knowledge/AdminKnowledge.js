@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { closeNavbar } from '../../../redux/actions/navbarActions'
-import { getKnowledgeList, deleteKnowledge } from '../../../redux/actions/knowledgeActions'
+import { getKnowledgeList, deleteKnowledge, setMarks } from '../../../redux/actions/knowledgeActions'
 import { clearInfo } from '../../../redux/actions/infoActions'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -151,5 +151,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    { closeNavbar, getKnowledgeList, deleteKnowledge, clearInfo }
+    { closeNavbar, getKnowledgeList, deleteKnowledge, setMarks, clearInfo }
 )(AdminKnowledge)

@@ -5,6 +5,7 @@ const KnowledgeSchema = new Schema({
 
   title: {
     type: String,
+    trim: true,
     maxlength: [64, "Максимальная длина названия 64 символов"],
     unique: true,
     minlength: [1, "Минимальная длина названия - 1 символ"],
@@ -19,6 +20,7 @@ const KnowledgeSchema = new Schema({
 
   description:{
     type: String,
+    trim: true,
     maxlength: [512, "Максимальная длина названия 512 символов"],
   },
 
