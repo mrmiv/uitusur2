@@ -18,6 +18,7 @@ const AdminDocsRoutes = lazy(() => import('../pages/admin/Docs'))
 const AdminSPRoutes = lazy(() => import('../pages/admin/StudyPlan'))
 const AdminFeedbackRoutes = lazy(() => import('../pages/admin/Feedback'))
 const AdminFilesRoutes = lazy(() => import('../pages/admin/Files'))
+const AdminKnowledgeRoutes = lazy(() => import('../pages/admin/Knowledge'))
 const AdminHome = lazy(() => import('../pages/admin'))
 
 export default class AdminRoutes extends PureComponent {
@@ -66,6 +67,10 @@ export default class AdminRoutes extends PureComponent {
             {
                 path: 'literature',
                 name: 'Литература'
+            },
+            {
+                path: 'knowledge',
+                name: 'База знаний'
             },
             {
                 path: 'clubs',
@@ -117,6 +122,7 @@ export default class AdminRoutes extends PureComponent {
                     <AdminFeedbackRoutes />
                     <AdminFilesRoutes />
                     <AdminNewsLinksRoutes/>
+                    <AdminKnowledgeRoutes/>
                 </section>
             </section>
         )

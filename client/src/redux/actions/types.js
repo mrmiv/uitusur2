@@ -61,6 +61,13 @@ export const GET_FILES = "GET_FILES"
 export const UPLOAD_FILE = "UPLOAD_FILE"
 export const DELETE_FILE = "DELETE_FILE"
 
+// База знаний
+export const SET_MARKS = "SET_MARKS"
+export const KNOWLEDGE_IS_LOADING = "KNOWLEDGE_IS_LOADING"
+export const GET_ALL_KNOWLEDGE = "GET_ALL_KNOWLEDGE"
+export const GET_KNOWLEDGE_BY_ID = "GET_KNOWLEDGE_BY_ID"
+export const DELETE_KNOWLEDGE = "DELETE_KNOWLEDGE"
+
 // Запросы
 export const LOADING_REQ = "LOADING_REQ"
 export const REQ_SUCCESS = "REQ_SUCCESS"

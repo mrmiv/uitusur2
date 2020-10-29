@@ -7,6 +7,8 @@ import LiteratureReducer from './api/literatureReducer'
 import newsReducer from './api/newsReducer'
 import docsReducer from './api/docsReducer'
 import filesReducer from './api/filesReducer'
+import knowledgeReducer from './api/knowledgeReducer'
+
 
 export default combineReducers({
     staff: staffReducer, // Сотрудники
@@ -20,5 +22,6 @@ export default combineReducers({
     literature: LiteratureReducer, // Литература кафедры + книга
     news: newsReducer, // Новости по типу + новость
     docs: docsReducer, // Регламентирующие документы + один док
-    files: filesReducer // Опрос
+    files: filesReducer, // Файлы
+    knowledge: knowledgeReducer //База знаний
 })
