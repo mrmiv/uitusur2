@@ -56,15 +56,16 @@ router.post('/', [auth, multipleFileUpload], async (req, res) => {
       title,
       type,
       description,
-      marks,
-      links
   } = req.body
 
   try {
-
     if(!title){return res.status(400).json({message: "Поле название является обязательным"})}
     if(!type){return res.status(400).json({message: "Поле тип является обязательным"})}
+
+    const marks = req.body.marks ? JSON.parse(req.body.marks) : null
     if(!marks){return res.status(400).json({message: "Поле метки является обязательным"})}
+
+    const links = req.body.links ? JSON.parse(req.body.links) : null
     if(!links || links.length === 0){return res.status(400).json({message: "Поле ссылки является обязательным и должно содержать хотя бы одну ссылку"})}
 
     const image = req.filesURLs[0]
@@ -74,7 +75,7 @@ router.post('/', [auth, multipleFileUpload], async (req, res) => {
     const exists = await Knowledge.findOne({title})
 
     if (exists){
-      return res.status(400).json({message: "Знания с такимы названием уже существует"})
+      return res.status(400).json({message: "Знания с таким названием уже существует"})
     }
 
     const knowledge = new Knowledge({
@@ -82,10 +83,9 @@ router.post('/', [auth, multipleFileUpload], async (req, res) => {
       description,
       links,
       marks,
-      type
+      type,
+      image: image.path
     })
-
-    knowledge.image = image.path
 
     await knowledge.save()
       .then(knowledge => res.json({message: `${knowledge.type} "${knowledge.title}" успешно добавлен`}) )

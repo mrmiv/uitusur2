@@ -9,11 +9,11 @@ import {
 
 const KnowledgeState = {
   knowledgeList: {
-    podcast: [],
-    audiobook: [],
-    course: [],
-    app: [],
-    other: []
+    "Подкаст": [],
+    "Курс": [],
+    "Приложение": [],
+    "Аудиокнига": [],
+    "Другое": []
   },
   knowledge: {},
   marks: {
@@ -37,11 +37,11 @@ export default function (state = KnowledgeState, action) {
       return {
         ...state,
         knowledgeList: {
-          podcast: action.payload.podcast,
-          audiobook: action.payload.audiobook,
-          course: action.payload.course,
-          app: action.payload.app,
-          other: action.payload.other
+          "Подкаст": action.payload["Подкаст"],
+          "Курс": action.payload["Курс"],
+          "Приложение": action.payload["Приложение"],
+          "Аудиокнига": action.payload["Аудиокнига"],
+          "Другое": action.payload["Другое"]
         },
         isLoading: false
       }

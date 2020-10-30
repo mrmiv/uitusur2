@@ -10,7 +10,8 @@ import { Icon } from '@iconify/react';
 import plusCircle from '@iconify/icons-fa-solid/plus-circle';
 import trashAlt from '@iconify/icons-fa-solid/trash-alt';
 import bxsEdit from '@iconify/icons-bx/bxs-edit';
-import { filterKnowledgeByMark } from '../../knowledge/middleware/filterKnowledgeByMarks'
+import { filterKnowledgeByMark, filterKnowledgeByType } from '../../knowledge/middleware/filterKnowledge'
+import KnowledgeMarks from '../../knowledge/components/KnowledgeMarks'
 
 export class AdminKnowledge extends Component {
 
@@ -22,18 +23,18 @@ export class AdminKnowledge extends Component {
       all:true 
     },
     types:{
-      podcast: true,
-      course: true,
-      app: true,
-      audiobook: true,
-      other: true
+      "Подкаст": true,
+      "Курс": true,
+      "Приложение": true,
+      "Аудиокнига": true,
+      "Другое": true
     },
     knowledgeList: {
-      podcast: [],
-      audiobook : [],
-      course: [],
-      app: [],
-      other: []
+      "Подкаст": [],
+      "Курс" : [],
+      "Приложение": [],
+      "Аудиокнига": [],
+      "Другое": []
     },
     msg: null
   }
@@ -56,43 +57,32 @@ export class AdminKnowledge extends Component {
 
   componentDidUpdate(prevProps) {
     const { msg } = this.props.info
-    const {knowledgeList} = this.state
+    const {knowledgeList} = this.props
     if (msg !== prevProps.info.msg) {
       this.setState({ msg })
     }
 
     if(knowledgeList !== prevProps.knowledgeList){
-      this.setState({knowledgeList: this.props.knowledgeList})
+      this.setState({knowledgeList})
     }
   }
 
-  delKnowledge = id => {
+  delKnowledge = (id, type) => {
     const areYouSure = window.confirm('Вы действительно хотите удалить этот элемент?')
     if(areYouSure){
       window.scrollTo(0, 0)
       this.props.clearInfo()
-      this.props.deleteKnowledge(id) // type
+      this.props.deleteKnowledge(id, type)
     } else {
       console.log('Элемент не удален')
     }
   }
 
-  returnMarks = (marks) => {
-    console.log(marks);
-  }
-
   render() {
     const { isLoading } = this.props
     const { knowledgeList, marks, types, msg } = this.state
-    const { podcast, course, app, audiobook, other } = knowledgeList 
 
-    let knowledgeListByTypes = []
-    types.podcast && (knowledgeListByTypes = [...knowledgeListByTypes, ...podcast])
-    types.course && (knowledgeListByTypes = [...knowledgeListByTypes, ...course])
-    types.app && (knowledgeListByTypes = [...knowledgeListByTypes, ...app])
-    types.audiobook && (knowledgeListByTypes = [...knowledgeListByTypes, ...audiobook])
-    types.other && (knowledgeListByTypes = [...knowledgeListByTypes, ...other])
-
+    const knowledgeListByTypes = filterKnowledgeByType(knowledgeList, types)
     const fullKnowledgeList = filterKnowledgeByMark(knowledgeListByTypes, marks)
 
     return (
@@ -109,10 +99,10 @@ export class AdminKnowledge extends Component {
         <table className="table table-sm table-bordered table-hover">
           <thead className="thead-dark">
             <tr>
-              <th scope="col">#</th>
+              <th scope="col" style={{width: "50px", textAlign: "center"}}>#</th>
               <th scope="col">Название</th>
-              <th scope="col">Тип</th>
-              <th scope="col">Метки</th>
+              <th scope="col" style={{width: "160px", textAlign: "center"}}>Тип</th>
+              <th scope="col" style={{width: "160px", textAlign: "center"}} >Метки</th>
               <th scope="col" style={{ width: "50px", textAlign: "center" }}> <Icon icon={bxsEdit} /> </th>
               <th scope="col" style={{ width: "50px", textAlign: "center" }}><Icon icon={trashAlt} /></th>
             </tr>
@@ -121,15 +111,15 @@ export class AdminKnowledge extends Component {
             {fullKnowledgeList.map((item, index) => {
               return (
                 <tr key={item._id}>
-                  <th scope="row">{index}</th>
+                  <th scope="row" >{index}</th>
                   <td name="title">{item.title}</td>
                   <td name="type">{item.type}</td>
-                  <td name="marks">{this.returnMarks(item.marks)}</td>
+                  <td name="marks" className="marks-column-admin"><KnowledgeMarks marks={item.marks}/></td>
                   <td name="edit">
                     <Link className="btn" title="Редактировать" to={`/admin/knowledge/edit/${item._id}`}> <Icon icon={bxsEdit} color="green" /></Link>
                   </td>
                   <td name="del">
-                    <button className="btn" onClick={() => this.delKnowledge(item._id)}><Icon icon={trashAlt} color="red" /></button>
+                    <button className="btn" onClick={() => this.delKnowledge(item._id, item.type)}><Icon icon={trashAlt} color="red" /></button>
                   </td>
                 </tr>
               )

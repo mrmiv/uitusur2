@@ -2,12 +2,11 @@ import React, {PureComponent} from 'react'
 
 // import AppOrPodcast from './components/PodcastList'
 // import Bookmark from './components/PodcastPlayer'
-import ReactTooltip from 'react-tooltip'
 import {CSSTransition} from 'react-transition-group'
 import KnowledgeLinks from './KnowledgeLinks'
 import KnowledgeMarks from './KnowledgeMarks'
 
-export default class KnowledgePodcast extends PureComponent{
+export default class KnowledgeItem extends PureComponent{
 
   state = {
     key: 0,
@@ -17,25 +16,27 @@ export default class KnowledgePodcast extends PureComponent{
     title: "",
     description: "",
     image: "",
-    links:[],
+    path:"",
+    link: [],
     marks: {},
 
     openInfo: false
   }
 
   componentDidMount(){
-    const {podcast, key, index} = this.props
+    const {item, key, index} = this.props
 
     this.setState({
       key:         key,
       index:       index,
-      type:        podcast.type,
-      id:          podcast.id,
-      title:       podcast.title,
-      description: podcast.description,
-      image:       podcast.image,
-      links:       podcast.links,
-      marks:       podcast.marks,
+      type:        item.type,
+      id:          item.id,
+      title:       item.title,
+      description: item.description,
+      image:       item.image,
+      path:        item.path,
+      links:       item.links,
+      marks:       item.marks,
     })
   }
 
@@ -48,7 +49,9 @@ export default class KnowledgePodcast extends PureComponent{
     const {key, openInfo, title, description, image, marks, links, type} = this.state
 
     return <div className="col-md-6">
-      <div className="knowledge-item p-2" key={key}>
+      <div className="knowledge-item p-2" style={{
+            borderRadius: openInfo ? "8px 8px 0 0" : "8px",
+            marginBottom: openInfo ? "140px" : ""}} key={key}>
         <CSSTransition
           in={openInfo}
           timeout={50}
@@ -65,8 +68,8 @@ export default class KnowledgePodcast extends PureComponent{
             <h5>{title}</h5>
           </div>
           <div className="knowledge-info-button" onClick={()=> this.switchInfo()}/>
-          <KnowledgeLinks links={links}/>
           <KnowledgeMarks marks={marks}/>
+          <KnowledgeLinks links={links}/>
         </div>
       </div>
     </div>

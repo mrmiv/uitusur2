@@ -79,3 +79,16 @@
         background: rgb(232, 198, 198);
     }
 }
+
+.marks-column-admin{
+    .knowledge-item-marks{
+        justify-content: center;
+        .mark{
+            --size: 24px;
+            width: var(--size);
+            height: var(--size);
+            margin: 0 4px;
+            border-radius: 1em;
+        }
+    }
+}

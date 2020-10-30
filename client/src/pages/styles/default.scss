@@ -247,6 +247,19 @@ section.param-onpage{
     }
 }
 
+.uk-mark{
+    background-color: $pink;
+}
+.i-mark{
+    background-color: $lblue;
+}
+.rt-mark{
+    background-color: $mint;
+}
+.all-mark{
+    background-color: $lorange;
+}
+
 @media screen and (max-width:768px){
     .triple_helix{
         display: none;

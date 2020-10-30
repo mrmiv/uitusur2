@@ -29,7 +29,7 @@ module.exports = (req, res, next) =>{
 
     const files = Object.values(req.files)
 
-    const filePaths = ["other", "other/clubs", "literature", "literature/images", "news", "docs"]
+    const filePaths = ["other", "other/clubs", "literature", "literature/images", "news", "docs", "knowledge"]
 
     if(!filePaths.find(path => path === filepath)){
       return res.status(400).json({message: "Некорректно указан путь файла. Попробуйте еще раз"})

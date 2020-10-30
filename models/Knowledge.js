@@ -32,7 +32,7 @@ const KnowledgeSchema = new Schema({
   marks:{
     all: {
       type: Boolean,
-      default: false,
+      default: true,
       index: false
     },
     rt: {
@@ -53,7 +53,10 @@ const KnowledgeSchema = new Schema({
   },
 
   links: {
-    type: [String],
+    type: [{
+      place: String,
+      path: String
+    }],
     required: [true, "Ссылки являются обязательными"]
   }
     

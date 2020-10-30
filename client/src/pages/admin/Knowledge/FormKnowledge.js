@@ -177,7 +177,6 @@ export class FormKnowledge extends Component {
     if (id) {
       this.props.patchKnowledge(id, Knowledge)
     } else {
-      console.log(Knowledge);
       this.props.postKnowledge(Knowledge)
     }
   }

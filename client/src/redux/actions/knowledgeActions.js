@@ -34,11 +34,11 @@ export const getKnowledgeList = () => dispatch => {
       dispatch({
         type: GET_ALL_KNOWLEDGE,
         payload: {
-          podcast: knowledgeList.filter( item => item.type === "Подкаст"),
-          audiobook: knowledgeList.filter( item => item.type === "Аудиокнига"),
-          course: knowledgeList.filter( item => item.type === "Курс"),
-          app: knowledgeList.filter( item => item.type === "Приложение"),
-          other: knowledgeList.filter( item => item.type === "Другое"),
+          "Подкаст": knowledgeList.filter( item => item.type === "Подкаст"),
+          "Аудиокнига": knowledgeList.filter( item => item.type === "Аудиокнига"),
+          "Курс": knowledgeList.filter( item => item.type === "Курс"),
+          "Приложение": knowledgeList.filter( item => item.type === "Приложение"),
+          "Другое": knowledgeList.filter( item => item.type === "Другое"),
         }
       })
     })
@@ -80,15 +80,17 @@ export const postKnowledge = (knowledge) => dispatch => {
     headers: {
       "token": localStorage.getItem("token"),
       "content-type": 'multipart/form-data',
-      "filepath": `knowledge/${knowledge.type}`
+      "filepath": `knowledge`
     }
   }
-  debugger
   const data = new FormData()
-  console.log(knowledge, Object.keys(knowledge));
-  Object.keys(knowledge).map( key => {
-    data.append(key, knowledge[key])        
-  })
+  const {title, description, links, marks, image, type} = knowledge
+  data.append("title", title)
+  data.append("marks", JSON.stringify(marks))
+  data.append("links", JSON.stringify(links))
+  data.append("description", description)
+  data.append("type", type)
+  data.append("image", image)
 
   let query = `/api/knowledge`
 
@@ -98,8 +100,7 @@ export const postKnowledge = (knowledge) => dispatch => {
       dispatch({type: REQ_SUCCESS})
     })
     .catch(err => {
-      console.log(err)
-      // dispatch(returnInfo(err.response.message, err.response.status, "REQ_FAIL"))
+      dispatch(returnInfo(err.response.message, err.response.status, "REQ_FAIL"))
       dispatch({type: REQ_FAIL})
     })
 }
@@ -114,7 +115,7 @@ export const patchKnowledge = (id, knowledge) => dispatch => {
     headers: {
       "token": localStorage.getItem("token"),
       "content-type": 'multipart/form-data',
-      "filepath": `knowledge/${knowledge.type}`
+      "filepath": `knowledge`
     }
   }
 
