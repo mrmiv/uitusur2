@@ -102,7 +102,6 @@ export const postLiterature = Book => dispatch => {
     }
 
     const formdata = new FormData()
-    // console.log(News);
     Object.keys(Book).map( key => {
         formdata.append (key, Book[key])        
     })

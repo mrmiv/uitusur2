@@ -79,13 +79,15 @@ export const postKnowledge = (knowledge) => dispatch => {
   const config = {
     headers: {
       "token": localStorage.getItem("token"),
-      "content-data": "multipart/form-data"
+      "content-type": 'multipart/form-data',
+      "filepath": `knowledge/${knowledge.type}`
     }
   }
-
+  debugger
   const data = new FormData()
+  console.log(knowledge, Object.keys(knowledge));
   Object.keys(knowledge).map( key => {
-    data.append (key, knowledge[key])        
+    data.append(key, knowledge[key])        
   })
 
   let query = `/api/knowledge`
@@ -96,7 +98,8 @@ export const postKnowledge = (knowledge) => dispatch => {
       dispatch({type: REQ_SUCCESS})
     })
     .catch(err => {
-      dispatch(returnInfo(err.response.message, err.response.status, "REQ_FAIL"))
+      console.log(err)
+      // dispatch(returnInfo(err.response.message, err.response.status, "REQ_FAIL"))
       dispatch({type: REQ_FAIL})
     })
 }
@@ -110,7 +113,8 @@ export const patchKnowledge = (id, knowledge) => dispatch => {
   const config = {
     headers: {
       "token": localStorage.getItem("token"),
-      "content-data": "multipart/form-data"
+      "content-type": 'multipart/form-data',
+      "filepath": `knowledge/${knowledge.type}`
     }
   }
 

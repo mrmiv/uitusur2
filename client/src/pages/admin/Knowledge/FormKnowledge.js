@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component, Fragment, useState } from 'react'
 import { closeNavbar } from '../../../redux/actions/navbarActions'
 import { connect } from 'react-redux'
 import { getKnowledgeById, postKnowledge, patchKnowledge } from '../../../redux/actions/knowledgeActions'
@@ -8,7 +8,9 @@ import { MessageAlert } from '../components/MessageAlert'
 import { FileField } from '../components/FileField'
 import { Icon } from '@iconify/react'
 import plusCircle from '@iconify/icons-fa-solid/plus-circle'
-
+import trashAlt from '@iconify/icons-fa-solid/trash-alt'
+import bxsEdit from '@iconify/icons-bx/bxs-edit'
+import bxsCheckCircle from '@iconify/icons-bx/bxs-check-circle';
 
 export class FormKnowledge extends Component {
 
@@ -117,9 +119,35 @@ export class FormKnowledge extends Component {
       link_path: ""
     })
   }
+
+  editLink = (i, place, path) => {
+    console.log(i, place, path);
+    this.setState(state => {return {
+      links: state.links.map( (link, index) => {
+        if (i === index){
+          link = {place, path}
+        }
+        return link
+      })
+    }})
+  }
+
+  deleteLink = i => {
+    console.log(i);
+    const {links} = this.state
+    this.setState({
+      links: links.filter((link, index) => index !== i)
+    })
+  }
   
   setMarks = e => {
-    console.log(e)
+    const {marks} = this.state
+    const field = e.target.name
+    const checked = e.target.checked
+    this.setState({ marks:{
+      ...marks,
+      [field]: checked
+    } })
   }
 
   submitForm = e => {
@@ -149,6 +177,7 @@ export class FormKnowledge extends Component {
     if (id) {
       this.props.patchKnowledge(id, Knowledge)
     } else {
+      console.log(Knowledge);
       this.props.postKnowledge(Knowledge)
     }
   }
@@ -156,6 +185,41 @@ export class FormKnowledge extends Component {
   render() {
     const { msg, blocked, title, description, links, marks, type, oldImage, image, link_place, link_path, id } = this.state
     const { isLoading } = this.props
+
+    const options = [
+      {
+        value: "other",
+        name: "Внешняя ссылка",
+      },
+      {
+        value: "vk",
+        name: "Вконтакте",
+      },{
+        value: "yandex",
+        name: "Яндекс",
+      },{
+        value: "soundcloud",
+        name: "Soundcloud",
+      },{
+        value: "google",
+        name: "Google подкасты",
+      },{
+        value: "spotify",
+        name: "Spotify",
+      },{
+        value: "castbox",
+        name: "Castbox",
+      },{
+        value: "app-store",
+        name: "App Store",
+      },{
+        value: "play-market",
+        name: "Play Market",
+      },{
+        value: "apple-podcast",
+        name: "Apple подкасты",
+      },
+    ]
 
     const buttonDisabled = isLoading || (!title || (links && links.length === 0) || !type || !Object.values(marks).find( item => item ) || !(oldImage || image) )
 
@@ -197,19 +261,19 @@ export class FormKnowledge extends Component {
               
               <div id="knowledge-marks">
                 <div className="form-check form-check-inline">
-                  <input onChange={this.setMarks} className="form-check-input uk-mark" name="uk" type="checkbox" id="uk-mark" value={marks.uk}/>
+                  <input onChange={this.setMarks} className="form-check-input uk-mark" name="uk" type="checkbox" id="uk-mark" checked={marks.uk}/>
                   <label className="form-check-label" htmlFor="uk-mark">Управление качеством</label>
                 </div>
                 <div className="form-check form-check-inline">
-                  <input onChange={this.setMarks} className="form-check-input i-mark" name="i" type="checkbox" id="i-mark" value={marks.i}/>
+                  <input onChange={this.setMarks} className="form-check-input i-mark" name="i" type="checkbox" id="i-mark" checked={marks.i}/>
                   <label className="form-check-label" htmlFor="i-mark">Инноватика</label>
                 </div>
                 <div className="form-check form-check-inline">
-                  <input onChange={this.setMarks} className="form-check-input rt-mark" name="rt" type="checkbox" id="rt-mark" value={marks.rt}/>
+                  <input onChange={this.setMarks} className="form-check-input rt-mark" name="rt" type="checkbox" id="rt-mark" checked={marks.rt}/>
                   <label className="form-check-label" htmlFor="rt-mark">Мехатроника и робототехника</label>
                 </div>
                 <div className="form-check form-check-inline">
-                  <input onChange={this.setMarks} className="form-check-input all-mark" name="all" type="checkbox" id="all-mark" value={marks.all}/>
+                  <input onChange={this.setMarks} className="form-check-input all-mark" name="all" type="checkbox" id="all-mark" checked={marks.all}/>
                   <label className="form-check-label" htmlFor="all-mark">Для общего знания</label>
                 </div>
               </div>
@@ -221,36 +285,19 @@ export class FormKnowledge extends Component {
                 className="form-control" name="description" type="text" />
             </div>
             
-            {(links && (links.length !== 0)) &&
-              links.map( (link, index ) => {
-                return <div className="row no-gutters row-cols-3 align-items-center justify-content-between" key={index} index={index}>
-                  <div className="col-5"><p className={`knowledge-icon icon-${link.place}`}>{link.place}</p></div>
-                  <div className="col-5"><a href={link.path} target="_blank" rel="noopener norefferer">Открыть ссылку</a></div>
-                  <div className="col-2"><a disabled>Редактировать ссылку</a> <a disabled>Удалить ссылку</a></div>
-                </div>
-                })
-            }
-
+            <LinksList links={links} onDelete={(index) => this.deleteLink(index)} updateLink={(index, place, path) => this.editLink(index, place, path)} options={options}/>
+            
             <div className="form-row">
               <div className="col-4 form-group">
                 <label htmlFor="knowledge-link-place">Ресурс</label>
                 <select id="knowledge-link-place" value={link_place} onChange={this.changeInput}
                   className="form-control" name="link_place">
-                  <option selected value="other">Внешняя ссылка</option>
-                  <option value="vk">Вконтакте</option>
-                  <option value="yandex">Яндекс</option>
-                  <option value="apple-podcast">Apple подкасты</option>
-                  <option value="spotify">Spotify</option>
-                  <option value="soundcloud">SoundCloud</option>
-                  <option value="google">Google подкасты</option>
-                  <option value="castbox">Castbox</option>
-                  <option value="app-store">App Store</option>
-                  <option value="play-market">Play Market</option>
+                  {options.map( (opt, index) => <option index={index} key={index} value={opt.value}>{opt.name}</option> )}
                 </select>
               </div>
               <div className="col-6 form-group">
                 <label htmlFor="knowledge-link-path">Ссылка</label>
-                <input id="knowledge-link-path" required maxLength={64} value={link_path} onChange={this.changeInput}
+                <input id="knowledge-link-path" value={link_path} onChange={this.changeInput}
                 className="form-control" name="link_path" placeholder="https://..." type="text" />
               </div>
               <button type="button" className="btn btn-info col-2" onClick={this.addLink}><Icon color="white" icon={plusCircle}/></button>
@@ -285,3 +332,51 @@ export default withRouter(connect(
     clearInfo
   }
 )(FormKnowledge))
+
+function LinksList({links, options, onDelete, updateLink}) {
+  
+  const [place, setPlace] = useState("")
+  const [path, setPath] = useState("")
+  const [i, setIndex] = useState(null)
+
+  if ((links && (links.length === 0))){
+    return <Fragment/>
+  }
+
+  return links.map( (link, index ) => {
+      const edited = i === index
+      return <div className="row link-row" key={index} index={index}>
+        <div className="col-4"> 
+          <select readOnly={!edited} className={`form-control${!edited ? '-plaintext' : ''} knowledge-icon icon-${edited ? place : link.place}`} 
+            value={edited? place : link.place} onChange={edited ? (e) => setPlace(e.target.value) : null} >
+            {options.map( (opt, j) => {
+              return <option key={j} index={j} value={opt.value}>{opt.name}</option>
+            }) }
+          </select>
+        </div>
+        <div className="col-6">
+          <input className={`form-control${!edited ? '-plaintext': ''}`} readOnly={!edited}
+            value={ edited ? path : link.path} onChange={edited ? (e) => setPath(e.target.value) : null} />
+        </div>
+        <div className="col-2">
+          <div className="d-flex justify-content-end">
+          {!edited ?
+            <Fragment>
+              <a className="btn" onClick={() => {
+                setPlace(link.place)
+                setPath(link.path)
+                setIndex(index)
+              }}><Icon color="green" icon={bxsEdit}/></a>
+              <a className="btn" onClick={() => onDelete(index)}><Icon color="red" icon={trashAlt}/></a>
+            </Fragment>
+            :<a className="btn" onClick={() => {
+              updateLink(index, place, path)
+              setIndex(null)
+            }}><Icon color="green" icon={bxsCheckCircle}/></a>
+          }
+          </div>
+        </div>
+      </div>
+  })
+
+}
